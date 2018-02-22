@@ -195,3 +195,87 @@
 
     In folder 
 66  [02/15/18 21:33] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+67  [02/17/18 20:09] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+68  [02/17/18 20:10] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+69  [02/17/18 20:11] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+70  [02/17/18 20:11] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+71  [02/17/18 20:12] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+72  [02/17/18 20:12] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr 
+
+    In folder 
+73  [02/17/18 20:12] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr 
+
+    In folder 
+74  [02/17/18 20:12] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr 
+
+    In folder 
+75  [02/17/18 20:12] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr 
+
+    In folder 
+76  [02/17/18 20:12] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+77  [02/17/18 20:15] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+78  [02/17/18 20:15] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr 
+
+    In folder 
+79  [02/17/18 20:15] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr 
+
+    In folder 
+80  [02/17/18 20:16] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr 
+
+    In folder 
+81  [02/17/18 20:16] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr 
+
+    In folder 
+82  [02/17/18 20:16] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+83  [02/17/18 20:17] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+84  [02/17/18 20:17] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr 
+
+    In folder 
+85  [02/17/18 20:17] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr 
+
+    In folder 
+86  [02/17/18 20:17] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr 
+
+    In folder 
+87  [02/17/18 20:17] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr 
+
+    In folder 
+88  [02/17/18 20:17] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+89  [02/17/18 20:19] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 
+
+    In folder 
+90  [02/17/18 20:19] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr 
+
+    In folder 
+91  [02/17/18 20:19] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr 
+
+    In folder 
+92  [02/17/18 20:19] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr 
+
+    In folder 
+93  [02/17/18 20:19] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr 
+
+    In folder 
+94  [02/17/18 20:19] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg_Threshold5.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr 

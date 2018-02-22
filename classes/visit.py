@@ -1,14 +1,17 @@
 import os, sys,inspect
 import subprocess
+import re
 #from pathlib import Path
 from ux import MsgUser
-from brain import Measurement,Brain
+import nibabel as nib
 
-                     
-                
+
+              
 class Visit:
-     #ReconComplete provides an indication if freesurfer recon-all has been run
+   
+        
     def __init__(self,path):
+       
         self.Id=os.path.basename(path)
         self.path=path
         
@@ -18,6 +21,11 @@ class Visit:
         else:
             self.ReconComplete=False
             
+        self.Segments = {"3002":"wm-lh-caudalanteriorcingulate ",
+                         "3003":"wm-lh-caudalmiddlefrontal",
+                         "3007":"wm-lh-fusiform"
+                        }
+
      
     def Render(self):
         #Lets Render as needed
@@ -30,7 +38,11 @@ class Visit:
         self.odf_tracker()
         self.track_transform()
         self.flirt()
+        
+    def Measure(self):
+    
         self.track_vis()
+        self.FA()
             
         
     def mgz2nifti(self):  
@@ -114,14 +126,14 @@ class Visit:
             
     def track_vis(self):
         #output: atlas.txt
-        if os.path.isfile("%s/atlas/atlas.txt" %(self.path)):        
-            MsgUser.skipped("atlas output exists")
+        if os.path.isfile("%s/atlas/tracts.txt" %(self.path)):        
+            MsgUser.skipped("track_vis output exists")
         else:
-            
-            B=Brain()
-
-            for segment,segmentName in B.Segments.iteritems():
-                for counterpart,counterpartName in B.Segments.iteritems():
+            if not os.path.exists("%s/atlas/" % (self.path)):
+                os.makedirs("%s/atlas/" % (self.path))
+ 
+            for segment,segmentName in self.Segments.iteritems():
+                for counterpart,counterpartName in self.Segments.iteritems():
                     
                     if (segment!=counterpart):
                         print("Rendering %s against %s" % (segment,counterpart))
@@ -130,17 +142,81 @@ class Visit:
                         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
                             trackvis = ["track_vis","%s/Tractography/DTI35_postReg_Threshold5.trk" %(self.path),"-roi_end","%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-roi_end2","%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr"]
                             proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE)
-                            output = proc.stdout.read()
-                            M=Measurement()
-                            M.NaturallyTerminate(output)
-
-                            print("\tNumber of tracks:%s"%(M.Number_of_Tracks))
-                            print("\tNumber of tracks to render:%s"%(M.Number_of_Tracks_to_Render))
-                            print("\tNumber of Segments to Render:%s"%(M.Number_of_Line_Segments_to_Render))
-                            print("\tMean Track Length:%s +/- %s"%(M.Mean_Track_Length,M.Mean_Track_Length_ErrBar))
-                            print("\tVolume Dimension:%s %s %s"%(M.Volume_Dimension_X,M.Volume_Dimension_Y,M.Volume_Dimension_Z))
-                            print("\tVoxel Size: %s %s %s"%(M.Voxel_Size_X,M.Voxel_Size_Y,M.Voxel_Size_Z))
-                            #print output
+                            data = proc.stdout.read()
+                            #print data
+                            with open("%s/atlas/tracts.txt" % (self.path), "w") as atlas_file:
+                                ############
+                                m = re.search(r'Number of tracks: (\d+)', data)
+                                if m:
+                                    NumTracts = m.group(1).strip()
+                                else:
+                                    NumTracts = 0
+                                atlas_file.write("%s:%s:roi_end:roi_end2:NumTracts:%s\n" % (segment,counterpart,NumTracts))
+                                ############
+                                m = re.search(r'Number of tracks to render: (\d+)', data)
+                                if m:
+                                    TractsToRender = m.group(1).strip()
+                                else:
+                                    TractsToRender = 0
+                                atlas_file.write("%s:%s:roi_end:roi_end2:TractsToRender:%s\n" % (segment,counterpart,TractsToRender))
+                                ############
+                                m = re.search(r'Number of line segments to render: (\d+)', data)
+                                if m:
+                                    LinesToRender = m.group(1).strip()
+                                else:
+                                    LinesToRender = 0
+                                atlas_file.write("%s:%s:roi_end:roi_end2:LinesToRender:%s\n" % (segment,counterpart,LinesToRender))
+                                ############
+                                m = re.search(r'Mean track length: (\d+.\d+) +/- (\d+.\d+)', data)
+                                if m:
+                                    MeanTractLen = m.group(1).strip()
+                                    MeanTractLen_StdDev = m.group(2).strip()
+                                else:
+                                    MeanTractLen = 0
+                                    MeanTractLen_StdDev = 0
+                                atlas_file.write("%s:%s:roi_end:roi_end2:MeanTractLen:%s\n" % (segment,counterpart,MeanTractLen))
+                                atlas_file.write("%s:%s:roi_end:roi_end2:MeanTractLen_StdDev:%s\n" % (segment,counterpart,MeanTractLen_StdDev))
+                                ############
+                               
+                                m = re.search(r'Voxel Size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
+                                if m:
+                                    VoxelSizeX = m.group(1).strip()
+                                    VoxelSizeY = m.group(2).strip()
+                                    VoxelSizeZ = m.group(3).strip()
+                                else:
+                                    VoxelSizeX = 0
+                                    VoxelSizeY = 0
+                                    VoxelSizeZ = 0
+                                    
+                                atlas_file.write("%s:%s:roi_end:roi_end2:VoxelSizeX:%s\n" % (segment,counterpart,VoxelSizeX))
+                                atlas_file.write("%s:%s:roi_end:roi_end2:VoxelSizeY:%s\n" % (segment,counterpart,VoxelSizeY))
+                                atlas_file.write("%s:%s:roi_end:roi_end2:VoxelSizeZ:%s\n" % (segment,counterpart,VoxelSizeZ))
+                            
+                            
                         else:
                             MsgUser.failed("Segment files missing (%s or %s)"%(segment,counterpart))
             MsgUser.ok("track_vis Completed")
+    def FA(self):
+        if os.path.isfile("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path)) == False:        
+            MsgUser.failure("%s/Tractography/DTI35_Reg2Brain_fa.nii is MISSING" %(self.path))
+        else:
+            print("%s/Tractography/wmparc3002.nii.gz" %(self.path))
+            wmparc = nib.load("%s/Tractography/wmparc3002.nii.gz" %(self.path))
+            wmparcData = wmparc.get_data()
+            
+            #output: atlas.txt
+            if os.path.isfile("%s/atlas/fa.txt" %(self.path)):        
+                MsgUser.skipped("fa output exists")
+            else:
+                with open("%s/atlas/fa.txt" % (self.path), "w") as atlas_file:
+                    atlas_file.write("X")            
+                
+            #print('wmparc data.shape (%d, %d, %d, %d)' % wmparcData.shape)
+            #print wmparc.get_data_shape()
+            #//print wmparcData
+            
+            img = nib.load("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path)) #Untouched
+            data = img.get_data()
+            print data
+            print img.affine.shape
+        return

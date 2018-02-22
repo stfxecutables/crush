@@ -20,6 +20,7 @@ for p in S.Patients:
             MsgUser.warning("\t%s recon incomplete" %(v.Id))
         else:
             v.Render()
+            v.Measure()
                 
           
 
