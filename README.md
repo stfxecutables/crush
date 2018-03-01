@@ -1,29 +1,18 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+It basically does this at the moment:
+* Iterate the patient samples and each patient visit.
+* Where it looks like something is incomplete, complete that part of the workflow above, otherwise skip – I know my tests for readiness are incomplete here
+* Take some measurements once completed
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+Running Tests:
 
-### Contribution guidelines ###
+Create a folder Patients and fill with samples 0001, 0002
 
-* Writing tests
-* Code review
-* Other guidelines
+`python atlas.py ~/Documents/Patients`
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact

@@ -4,6 +4,7 @@ import re
 #from pathlib import Path
 from ux import MsgUser
 import nibabel as nib
+import numpy as np
 
 
               
@@ -33,11 +34,13 @@ class Visit:
         
 
         self.mgz2nifti()
+        self.eddy_correct()
         self.hardi_mat()
         self.odf_recon()
         self.odf_tracker()
-        self.track_transform()
         self.flirt()
+        self.tract_transform()
+        self.dti_tracker()
         
     def Measure(self):
     
@@ -63,6 +66,19 @@ class Visit:
                     MsgUser.message("Create or replace %s.nii" % (mgz))
                     subprocess.call(['mri_convert','-rt','nearest','-nc','-ns','1',"%s/mri/%s.mgz" %(self.path,mgz),"%s/mri/%s.nii" % (self.path,mgz)])
 
+    def eddy_correct(self):
+        #eddy_correct ~/HealthyTractography/%s/%s/DTI35.nii ~/HealthyTractography/%s/%s/DTI35_eddy.nii 0
+        
+        if os.path.isfile("%s/Tractography/DTI35_eddy.nii.gz" %(self.path)):
+            MsgUser.skipped("eddy_correct output exists")
+        else:
+            
+            subprocess.call(["eddy_correct","%s/Tractography/DTI35.nii" % (self.path),"%s/Tractography/DTI35_eddy.nii.gz" % (self.path),"0"])
+            
+            MsgUser.ok("eddy_correct Completed")
+
+            
+        
     def hardi_mat(self):
         if os.path.isfile("%s/Tractography/temp_mat.dat" %(self.path)):
             MsgUser.skipped("hardi_mat output exists")
@@ -101,18 +117,6 @@ class Visit:
 
             MsgUser.ok("odf_tracker Completed")
             
-    def track_transform(self):
-        #output: DTI35_Recon_max.nii.gz
-        if os.path.isfile("%s/Tractography/DTI35_Recon_max.nii.gz" %(self.path)):#TODO Need correct filename
-            #odf_, max_, dwi_, b0 files should exist
-            MsgUser.skipped("track_transform output exists")
-        else:
-            #track_transform DTI35_preReg.trk DTI35_postReg.trk -src DTI35_Recon_dwi.nii.gz -ref brainmask.nii -reg RegTransform4D
-
-            subprocess.call(["track_transform","%s/DTI35_preReg.trk" %(self.path),"%s/DTI35_postReg.trk" %(self.path),"-src","%s/DTI35_Recon_dwi.nii.gz"%(self.path),"-ref", "%s/brainmask.nii" %(self.path),"-reg","%s/RegTransform4D"%(self.path)])
-
-            MsgUser.ok("track_transform Completed")
-            
     def flirt(self):
         #output: RegTransform4D
         if os.path.isfile("%s/Tractography/RegTransform4d" %(self.path)):        
@@ -124,6 +128,22 @@ class Visit:
 
             MsgUser.ok("flirt Completed")
             
+    def tract_transform(self):
+        #output: DTI35_Recon_max.nii.gz
+        if os.path.isfile("%s/Tractography/DTI35_Recon_max.nii.gz" %(self.path)):#TODO Need correct filename
+            #odf_, max_, dwi_, b0 files should exist
+            MsgUser.skipped("tract_transform output exists")
+        else:
+            #track_transform DTI35_preReg.trk DTI35_postReg.trk -src DTI35_Recon_dwi.nii.gz -ref brainmask.nii -reg RegTransform4D
+
+            subprocess.call(["track_transform","%s/DTI35_preReg.trk" %(self.path),"%s/DTI35_postReg.trk" %(self.path),"-src","%s/DTI35_Recon_dwi.nii.gz"%(self.path),"-ref", "%s/brainmask.nii" %(self.path),"-reg","%s/RegTransform4D"%(self.path)])
+
+            MsgUser.ok("tract_transform Completed")
+            
+    def dti_tracker(self):
+        MsgUser.skipped("dti_tracker TODO")
+        #dti_tracker DTI35_Reg2Brain DTI35_postRegDAVE.trk -m DTI35_Reg2Brain_fa.nii 0.15
+        
     def track_vis(self):
         #output: atlas.txt
         if os.path.isfile("%s/atlas/tracts.txt" %(self.path)):        
@@ -140,7 +160,7 @@ class Visit:
                         #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
                                   
                         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
-                            trackvis = ["track_vis","%s/Tractography/DTI35_postReg_Threshold5.trk" %(self.path),"-roi_end","%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-roi_end2","%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr"]
+                            trackvis = ["track_vis","%s/Tractography/DTI35_postReg.trk" %(self.path),"-roi_end","%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-roi_end2","%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr"]
                             proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE)
                             data = proc.stdout.read()
                             #print data
@@ -200,23 +220,54 @@ class Visit:
         if os.path.isfile("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path)) == False:        
             MsgUser.failure("%s/Tractography/DTI35_Reg2Brain_fa.nii is MISSING" %(self.path))
         else:
-            print("%s/Tractography/wmparc3002.nii.gz" %(self.path))
-            wmparc = nib.load("%s/Tractography/wmparc3002.nii.gz" %(self.path))
-            wmparcData = wmparc.get_data()
+       
+            #print("%s/Tractography/wmparc3002.nii.gz" %(self.path))
+            #wmparc = nib.load("%s/Tractography/wmparc3002.nii.gz" %(self.path))
+            #wmparcData = wmparc.get_data()
             
-            #output: atlas.txt
-            if os.path.isfile("%s/atlas/fa.txt" %(self.path)):        
-                MsgUser.skipped("fa output exists")
-            else:
-                with open("%s/atlas/fa.txt" % (self.path), "w") as atlas_file:
-                    atlas_file.write("X")            
+            ##output: atlas.txt
+            #if os.path.isfile("%s/atlas/fa.txt" %(self.path)):        
+            #    MsgUser.skipped("fa output exists")
+            #else:
+            #    with open("%s/atlas/fa.txt" % (self.path), "w") as atlas_file:
+            #        atlas_file.write("X")            
                 
-            #print('wmparc data.shape (%d, %d, %d, %d)' % wmparcData.shape)
-            #print wmparc.get_data_shape()
-            #//print wmparcData
+            ##print('wmparc data.shape (%d, %d, %d, %d)' % wmparcData.shape)
+            ##print wmparc.get_data_shape()
+            ##//print wmparcData
             
-            img = nib.load("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path)) #Untouched
+            imgFA = nib.load("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path)) #Untouched
+            dataFA = imgFA.get_data()
+
+            img = nib.load("%s/Tractography/1035-1034.nii"%(self.path))
             data = img.get_data()
-            print data
-            print img.affine.shape
+            
+            total=0
+            count=0
+            
+            roi=np.multiply(dataFA,data)
+            roiIndices =np.nonzero(roi)
+            
+            
+            
+            #print(meanThis.shape)
+            mean =np.mean(roi[roiIndices])
+            
+            #meanThis[meanThis == 0] = np.nan
+            #A(~A) = inf;  % Or A(A==0) = inf;
+            #meanThis(~meanThis) = np.nan; % Or meanThis(meanThis==0) = np.nan
+            #means = np.nanmean(meanThis[:, 1:], axis=1)
+            #print means
+            #mean=np.mean(means)
+            print(mean)
+            return
+            for i in range(169,255):
+                #print i
+                for j in range(0,255):
+                    for k in range(0,255):
+                        if data[i,j,k]==1:
+                            print("%d %d %d %d" %(i,j,k,1))
+                            count+=1
+                            total+=dataFA[i,j,k]
+            print("total: %d  count:%d  mean:%d"%(total,count,total/count))
         return
