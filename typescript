@@ -1,0 +1,24 @@
+Script started on Thu Mar  1 21:41:01 2018
+[?1034hbash-3.2$ python atlas.py ~/Documents/Patients
+Initializing Patients
+################## ATLAS ##################
+2 patients
+
+Patient:0001, 1 mri visit(s)
+Rendering /Users/dave/Documents/Patients/0001/01
+[95m[Skipped] [0mAll Nifti files exist
+[95m[Skipped] [0meddy_correct output exists
+[95m[Skipped] [0mhardi_mat output exists
+[95m[Skipped] [0modf_recon output exists
+[95m[Skipped] [0modf_tracker output exists
+[95m[Skipped] [0mflirt output exists
+[95m[Skipped] [0mtract_transform output exists
+[95m[Skipped] [0mdti_tracker TODO
+[95m[Skipped] [0mtrack_vis output exists
+
+Patient:0002, 0 mri visit(s)
+[92m[OK] [0mWe are done
+bash-3.2$ exit
+exit
+
+Script done on Thu Mar  1 21:42:08 2018

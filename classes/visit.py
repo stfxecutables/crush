@@ -22,11 +22,14 @@ class Visit:
         else:
             self.ReconComplete=False
             
-        self.Segments = {"3002":"wm-lh-caudalanteriorcingulate ",
+        self.Segments = {
+                         "3002":"wm-lh-caudalanteriorcingulate ",
                          "3003":"wm-lh-caudalmiddlefrontal",
-                         "3007":"wm-lh-fusiform"
+                         "3007":"wm-lh-fusiform",
+                         "1034":"ctx-lh-transversetemporal",
+                         "1035":"ctx-lh-insula"
                         }
-
+                    
      
     def Render(self):
         #Lets Render as needed
@@ -45,7 +48,7 @@ class Visit:
     def Measure(self):
     
         self.track_vis()
-        self.FA()
+        
             
         
     def mgz2nifti(self):  
@@ -160,11 +163,18 @@ class Visit:
                         #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
                                   
                         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
-                            trackvis = ["track_vis","%s/Tractography/DTI35_postReg.trk" %(self.path),"-roi_end","%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-roi_end2","%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr"]
-                            proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE)
-                            data = proc.stdout.read()
+                            if os.path.isfile("%s/atlas/%s-%s-roi_end_roi_end2.nii" %(self.path,segment,counterpart)) == False:
+                                trackvis = ["track_vis","%s/Tractography/DTI35_postReg.trk" %(self.path),"-roi_end","%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-roi_end2","%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/atlas/%s-%s-roi_end_roi_end2.nii" %(self.path,segment,counterpart)]
+                                proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE)
+                                data = proc.stdout.read()
+                                with open("%s/atlas/%s-%s-roi_end_roi_end2.nii.txt" %(self.path,segment,counterpart), "w") as track_vis_out:
+                                    track_vis_out.write(data)
                             #print data
-                            with open("%s/atlas/tracts.txt" % (self.path), "w") as atlas_file:
+                            else:
+                                with open ("%s/atlas/%s-%s-roi_end_roi_end2.nii.txt" %(self.path,segment,counterpart), "r") as myfile:
+                                    data=myfile.read()#.replace('\n', '')
+
+                            with open("%s/atlas/tracts.txt" % (self.path), "a") as atlas_file:
                                 ############
                                 m = re.search(r'Number of tracks: (\d+)', data)
                                 if m:
@@ -212,62 +222,29 @@ class Visit:
                                 atlas_file.write("%s:%s:roi_end:roi_end2:VoxelSizeY:%s\n" % (segment,counterpart,VoxelSizeY))
                                 atlas_file.write("%s:%s:roi_end:roi_end2:VoxelSizeZ:%s\n" % (segment,counterpart,VoxelSizeZ))
                             
-                            
+                                meanFA=self.FA("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/atlas/%s-%s-roi_end_roi_end2.nii" %(self.path,segment,counterpart))
+                                                          
+                                atlas_file.write("%s:%s:roi_end:roi_end2:meanFA:%s\n" % (segment,counterpart,meanFA))
+                                
                         else:
                             MsgUser.failed("Segment files missing (%s or %s)"%(segment,counterpart))
             MsgUser.ok("track_vis Completed")
-    def FA(self):
-        if os.path.isfile("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path)) == False:        
-            MsgUser.failure("%s/Tractography/DTI35_Reg2Brain_fa.nii is MISSING" %(self.path))
-        else:
-       
-            #print("%s/Tractography/wmparc3002.nii.gz" %(self.path))
-            #wmparc = nib.load("%s/Tractography/wmparc3002.nii.gz" %(self.path))
-            #wmparcData = wmparc.get_data()
-            
-            ##output: atlas.txt
-            #if os.path.isfile("%s/atlas/fa.txt" %(self.path)):        
-            #    MsgUser.skipped("fa output exists")
-            #else:
-            #    with open("%s/atlas/fa.txt" % (self.path), "w") as atlas_file:
-            #        atlas_file.write("X")            
-                
-            ##print('wmparc data.shape (%d, %d, %d, %d)' % wmparcData.shape)
-            ##print wmparc.get_data_shape()
-            ##//print wmparcData
-            
-            imgFA = nib.load("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path)) #Untouched
-            dataFA = imgFA.get_data()
-
-            img = nib.load("%s/Tractography/1035-1034.nii"%(self.path))
-            data = img.get_data()
-            
-            total=0
-            count=0
-            
-            roi=np.multiply(dataFA,data)
-            roiIndices =np.nonzero(roi)
-            
-            
-            
-            #print(meanThis.shape)
-            mean =np.mean(roi[roiIndices])
-            
-            #meanThis[meanThis == 0] = np.nan
-            #A(~A) = inf;  % Or A(A==0) = inf;
-            #meanThis(~meanThis) = np.nan; % Or meanThis(meanThis==0) = np.nan
-            #means = np.nanmean(meanThis[:, 1:], axis=1)
-            #print means
-            #mean=np.mean(means)
-            print(mean)
+    def FA(self,faFile,roiFile):
+        if os.path.isfile(faFile) == False:        
+            MsgUser.failure("%s is MISSING" %(faFile))
             return
-            for i in range(169,255):
-                #print i
-                for j in range(0,255):
-                    for k in range(0,255):
-                        if data[i,j,k]==1:
-                            print("%d %d %d %d" %(i,j,k,1))
-                            count+=1
-                            total+=dataFA[i,j,k]
-            print("total: %d  count:%d  mean:%d"%(total,count,total/count))
-        return
+        if os.path.isfile(roiFile) == False:        
+            MsgUser.failure("%s is MISSING" %(roiFile))
+            return
+
+        imgFA = nib.load(faFile) #Untouched
+        dataFA = imgFA.get_data()
+
+        img = nib.load(roiFile)
+        roiData = img.get_data()
+
+        indecesOfInterest = np.nonzero(roiData)
+        mean =np.mean(dataFA[indecesOfInterest])
+
+        return mean
+        

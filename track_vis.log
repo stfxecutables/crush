@@ -1,0 +1,152 @@
+    In folder 
+1   [03/01/18 19:59] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-1035-roi_end_roi_end2.nii 
+
+    In folder 
+2   [03/01/18 20:00] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-1035-roi_end_roi_end2.nii 
+
+    In folder 
+3   [03/01/18 20:00] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-1034-roi_end_roi_end2.nii 
+
+    In folder 
+4   [03/01/18 20:00] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-3003-roi_end_roi_end2.nii 
+
+    In folder 
+5   [03/01/18 20:00] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-3002-roi_end_roi_end2.nii 
+
+    In folder 
+6   [03/01/18 20:00] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-3007-roi_end_roi_end2.nii 
+
+    In folder 
+7   [03/01/18 20:00] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-1034-roi_end_roi_end2.nii 
+
+    In folder 
+8   [03/01/18 20:01] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-3003-roi_end_roi_end2.nii 
+
+    In folder 
+9   [03/01/18 20:01] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-3002-roi_end_roi_end2.nii 
+
+    In folder 
+10  [03/01/18 20:01] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-3007-roi_end_roi_end2.nii 
+
+    In folder 
+11  [03/01/18 20:01] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-1035-roi_end_roi_end2.nii 
+
+    In folder 
+12  [03/01/18 20:01] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-3003-roi_end_roi_end2.nii 
+
+    In folder 
+13  [03/01/18 20:01] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-3002-roi_end_roi_end2.nii 
+
+    In folder 
+14  [03/01/18 20:02] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3003-3007-roi_end_roi_end2.nii 
+
+    In folder 
+15  [03/01/18 20:02] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3003-1035-roi_end_roi_end2.nii 
+
+    In folder 
+16  [03/01/18 20:02] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3003-1034-roi_end_roi_end2.nii 
+
+    In folder 
+17  [03/01/18 20:02] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3003-3002-roi_end_roi_end2.nii 
+
+    In folder 
+18  [03/01/18 20:02] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3002-3007-roi_end_roi_end2.nii 
+
+    In folder 
+19  [03/01/18 20:02] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3002-1035-roi_end_roi_end2.nii 
+
+    In folder 
+20  [03/01/18 20:02] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3002-1034-roi_end_roi_end2.nii 
+
+    In folder 
+21  [03/01/18 20:03] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3002-3003-roi_end_roi_end2.nii 
+
+    In folder 
+22  [03/01/18 20:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-1034-roi_end_roi_end2.nii 
+
+    In folder 
+23  [03/01/18 20:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-1035-roi_end_roi_end2.nii 
+
+    In folder 
+24  [03/01/18 20:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-3007-roi_end_roi_end2.nii 
+
+    In folder 
+25  [03/01/18 20:09] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-1035-roi_end_roi_end2.nii 
+
+    In folder 
+26  [03/01/18 20:09] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-3007-roi_end_roi_end2.nii 
+
+    In folder 
+27  [03/01/18 20:09] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-1034-roi_end_roi_end2.nii 
+
+    In folder 
+28  [03/01/18 20:23] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-1035-roi_end_roi_end2.nii 
+
+    In folder 
+29  [03/01/18 20:23] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-1034-roi_end_roi_end2.nii 
+
+    In folder 
+30  [03/01/18 20:28] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-1035-roi_end_roi_end2.nii 
+
+    In folder 
+31  [03/01/18 20:39] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-1035-roi_end_roi_end2.nii 1>/Users/dave/Documents/Patients/0001/01/atlas/1034-1035-roi_end_roi_end2.nii.txt 
+
+    In folder 
+32  [03/01/18 20:42] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-1035-roi_end_roi_end2.nii 
+
+    In folder 
+33  [03/01/18 20:42] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-1034-roi_end_roi_end2.nii 
+
+    In folder 
+34  [03/01/18 21:07] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-1035-roi_end_roi_end2.nii 
+
+    In folder 
+35  [03/01/18 21:07] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-1034-roi_end_roi_end2.nii 
+
+    In folder 
+36  [03/01/18 21:07] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-3003-roi_end_roi_end2.nii 
+
+    In folder 
+37  [03/01/18 21:07] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3007-3002-roi_end_roi_end2.nii 
+
+    In folder 
+38  [03/01/18 21:07] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-3007-roi_end_roi_end2.nii 
+
+    In folder 
+39  [03/01/18 21:07] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-3003-roi_end_roi_end2.nii 
+
+    In folder 
+40  [03/01/18 21:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1035-3002-roi_end_roi_end2.nii 
+
+    In folder 
+41  [03/01/18 21:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-3007-roi_end_roi_end2.nii 
+
+    In folder 
+42  [03/01/18 21:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-3003-roi_end_roi_end2.nii 
+
+    In folder 
+43  [03/01/18 21:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/1034-3002-roi_end_roi_end2.nii 
+
+    In folder 
+44  [03/01/18 21:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3003-3007-roi_end_roi_end2.nii 
+
+    In folder 
+45  [03/01/18 21:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3003-1035-roi_end_roi_end2.nii 
+
+    In folder 
+46  [03/01/18 21:08] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3003-1034-roi_end_roi_end2.nii 
+
+    In folder 
+47  [03/01/18 21:09] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3003-3002-roi_end_roi_end2.nii 
+
+    In folder 
+48  [03/01/18 21:09] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3002-3007-roi_end_roi_end2.nii 
+
+    In folder 
+49  [03/01/18 21:09] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1035.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3002-1035-roi_end_roi_end2.nii 
+
+    In folder 
+50  [03/01/18 21:09] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc1034.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3002-1034-roi_end_roi_end2.nii 
+
+    In folder 
+51  [03/01/18 21:09] track_vis /Users/dave/Documents/Patients/0001/01/Tractography/DTI35_postReg.trk -roi_end /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /Users/dave/Documents/Patients/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /Users/dave/Documents/Patients/0001/01/atlas/3002-3003-roi_end_roi_end2.nii 
