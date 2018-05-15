@@ -76,6 +76,11 @@ class MsgUser(object):
             (shell_colours.rfg_kbg, "[FAILED] ", shell_colours.default, msg))
 
     @classmethod
+    def bold(cls,msg):
+        print "".join(
+            (shell_colours.bold,msg,shell_colours.default))
+        
+    @classmethod
     def warning(cls, msg):
         if cls.__quiet:
             return
