@@ -18,7 +18,7 @@ class Visit:
         self.rebuild=rebuild
         self.voi=voi
 
-        reconTest= "%s/mri/wmparc.mgz" % (path)
+        reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
         if os.path.isfile(reconTest):
             self.ReconComplete=True
         else:
@@ -26,7 +26,7 @@ class Visit:
             
         self.Segments = {
                         #"3002":"wm-lh-caudalanteriorcingulate ",
-                        # "3003":"wm-lh-caudalmiddlefrontal",
+                         "3003":"wm-lh-caudalmiddlefrontal",
                          "3007":"wm-lh-fusiform",
                         # "1034":"ctx-lh-transversetemporal",
                          "1035":"ctx-lh-insula"
@@ -57,7 +57,6 @@ class Visit:
     def Report(self):
         #MsgUser.bold("Reporting values of interest")
 
-        print(self.voi)
         if os.path.isfile("%s" %(self.voi)):
             #Determine my interests
             with open(self.voi) as f:
@@ -65,8 +64,10 @@ class Visit:
                 content = [x.strip() for x in content] #Remove Whitespace
             #Read the measures that have been pre-derived   
             measures={}
-            if os.path.isfile("%s/atlas/tracts.txt" %(self.path)):
-                with open("%s/atlas/tracts.txt" %(self.path)) as fMeasure:
+            
+            measures["PatientVisit"]=self.path
+            if os.path.isfile("%s/Tractography/atlas/tracts.txt" %(self.path)):
+                with open("%s/Tractography/atlas/tracts.txt" %(self.path)) as fMeasure:
                     for line in fMeasure:
                         nvp=line.split("=")
                         measures[nvp[0]]=nvp[1]
@@ -75,7 +76,10 @@ class Visit:
                 #Print results
                 row=[]
                 for cell in content:
-                    row.append(measures[cell].strip())
+                    if cell in measures:
+                        row.append(measures[cell].strip())
+                    else:
+                        row.append("")
 
                 print(",".join(row))
                     
@@ -83,7 +87,7 @@ class Visit:
         
     def mgz2nifti(self):  
         MsgUser.bold("mgz2nifti")
-        if self.rebuild!=True and os.path.isfile("%s/mri/brainmask.nii" % (self.path)):
+        if self.rebuild!=True and os.path.isfile("%s/Freesurfer/mri/brainmask.nii" % (self.path)):
             self.NiftiComplete=True
             MsgUser.skipped("All Nifti files exist")
         else:
@@ -92,12 +96,12 @@ class Visit:
             mgzFiles=['aseg','aparc+aseg', 'aparc.a2009s+aseg', 'lh.ribbon', 'rh.ribbon', 'nu', 'orig', 'ribbon', 'wm.asegedit', 'wm', 'wm.seg', 'brain', 'brainmask']
        
             for mgz in mgzFiles:
-                if os.path.isfile("%s/mri/%s.nii" % (self.path,mgz)) :
+                if os.path.isfile("%s/Freesurfer/mri/%s.nii" % (self.path,mgz)) :
                     MsgUser.skipped("\t%s.nii exists" % (mgz))
                 else:
                 
                     MsgUser.message("Create or replace %s.nii" % (mgz))
-                    subprocess.call(['mri_convert','-rt','nearest','-nc','-ns','1',"%s/mri/%s.mgz" %(self.path,mgz),"%s/mri/%s.nii" % (self.path,mgz)])
+                    subprocess.call(['mri_convert','-rt','nearest','-nc','-ns','1',"%s/Freesurfer/mri/%s.mgz" %(self.path,mgz),"%s/Freesurfer/mri/%s.nii" % (self.path,mgz)])
 
     def eddy_correct(self):
         MsgUser.bold("eddy_correct")
@@ -170,7 +174,7 @@ class Visit:
             MsgUser.skipped("flirt output exists")
         else:
             #flirt -in ./DTI35_eddy.nii.gz -ref ./brainmask.nii -omat ./RegTransform4D
-            cmdArray=["flirt","-in","%s/Tractography/DTI35_eddy.nii.gz" %(self.path),"-ref","%s/mri/brainmask.nii" %(self.path),"-omat","%s/Tractography/RegTransform4d" %(self.path)]
+            cmdArray=["flirt","-in","%s/Tractography/DTI35_eddy.nii.gz" %(self.path),"-ref","%s/Freesurfer/mri/brainmask.nii" %(self.path),"-omat","%s/Tractography/RegTransform4d" %(self.path)]
             print cmdArray
             subprocess.call(cmdArray)
 
@@ -185,7 +189,7 @@ class Visit:
         else:
             #track_transform DTI35_preReg.trk DTI35_postReg.trk -src DTI35_Recon_dwi.nii.gz -ref brainmask.nii -reg RegTransform4D
 
-            cmdArray=["track_transform","%s/Tractography/DTI35_preReg.trk" %(self.path),"%s/Tractography/atlas.trk" %(self.path),"-src","%s/Tractography/DTI35_Recon_dwi.nii.gz"%(self.path),"-ref", "%s/mri/brainmask.nii" %(self.path),"-reg","%s/Tractography/RegTransform4D"%(self.path)]
+            cmdArray=["track_transform","%s/Tractography/DTI35_preReg.trk" %(self.path),"%s/Tractography/atlas.trk" %(self.path),"-src","%s/Tractography/DTI35_Recon_dwi.nii.gz"%(self.path),"-ref", "%s/Freesurfer/mri/brainmask.nii" %(self.path),"-reg","%s/Tractography/RegTransform4D"%(self.path)]
             print cmdArray
             subprocess.call(cmdArray)
 
@@ -227,35 +231,35 @@ class Visit:
     def track_vis(self):
         MsgUser.bold("track_vis")
         #output: atlas.txt
-        if self.rebuild!=True  and os.path.isfile("%s/atlas/tracts.txt" %(self.path)):        
+        if self.rebuild!=True  and os.path.isfile("%s/Tractography/atlas/tracts.txt" %(self.path)):        
             MsgUser.skipped("track_vis output exists")
         else:
-            if not os.path.exists("%s/atlas/" % (self.path)):
-                os.makedirs("%s/atlas/" % (self.path))
+            if not os.path.exists("%s/Tractography/atlas/" % (self.path)):
+                os.makedirs("%s/Tractography/atlas/" % (self.path))
  
             for segment,segmentName in self.Segments.iteritems():
                 for counterpart,counterpartName in self.Segments.iteritems():
                     
-                    if (segment!=counterpart):
+                    if (segment!=counterpart and segment<counterpart):
                         methods = ["roi","roi_end"]
                         for method in methods:
                             print("Rendering %s against %s using method %s" % (segment,counterpart,method))
                             #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
 
                             if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
-                                if os.path.isfile("%s/atlas/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)) == False:
-                                    trackvis = ["track_vis","%s/Tractography/atlas.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
+                                if os.path.isfile("%s/Tractography/atlas/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)) == False:
+                                    trackvis = ["track_vis","%s/Tractography/atlas.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
                                     print trackvis
                                     proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE)
                                     data = proc.stdout.read()
-                                    with open("%s/atlas/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
+                                    with open("%s/Tractography/atlas/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
                                         track_vis_out.write(data)
                                 #print data
                                 else:
-                                    with open ("%s/atlas/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
+                                    with open ("%s/Tractography/atlas/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
                                         data=myfile.read()#.replace('\n', '')
 
-                                with open("%s/atlas/tracts.txt" % (self.path), "a") as atlas_file:
+                                with open("%s/Tractography/atlas/tracts.txt" % (self.path), "a") as atlas_file:
                                     ############
                                     m = re.search(r'Number of tracks: (\d+)', data)
                                     if m:
@@ -304,26 +308,26 @@ class Visit:
                                     atlas_file.write("%s-%s-%s-VoxelSizeZ=%s\n" % (segment,counterpart,method,VoxelSizeZ))
 
                                     #FA Mean
-                                    MsgUser.bold("FA Mean")
-                                    meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))             
+                                    #MsgUser.bold("FA Mean")
+                                    meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))             
                                     atlas_file.write("%s-%s-%s-meanFA=%s\n" % (segment,counterpart,method,meanFA))
                                     #FA Std Dev
-                                    MsgUser.bold("FA Standard Deviation")
-                                    stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
+                                    #MsgUser.bold("FA Standard Deviation")
+                                    stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
                                     atlas_file.write("%s-%s-%s-stddevFA=%s\n" % (segment,counterpart,method,stddevFA))
 
                                     #ADC Mean
-                                    MsgUser.bold("ADC Mean")
-                                    meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
+                                    #MsgUser.bold("ADC Mean")
+                                    meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
                                     atlas_file.write("%s-%s-%s-meanADC=%s\n" % (segment,counterpart,method,meanADC))
                                     #ADC Std Dev
-                                    MsgUser.bold("ADC Standard Deviation")
-                                    stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
-                                    atlas_file.write("%s-%s-%s-stddevADC=s  %s\n" % (segment,counterpart,method,stddevADC))
+                                    #MsgUser.bold("ADC Standard Deviation")
+                                    stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
+                                    atlas_file.write("%s-%s-%s-stddevADC=%s\n" % (segment,counterpart,method,stddevADC))
 
                                     ############# CLEANUP #################
-                                    if os.path.isfile("%s/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
-                                        os.remove("%s/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
+                                    if os.path.isfile("%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
+                                        os.remove("%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
                             else:
                                 MsgUser.failed("Segment files missing (%s or %s)"%(segment,counterpart))
             MsgUser.ok("track_vis Completed")
@@ -343,7 +347,7 @@ class Visit:
         roiData = img.get_data()
 
         indecesOfInterest = np.nonzero(roiData)
-        mean =np.mean(dataFA[indecesOfInterest])
+        mean =np.mean(dataFA[indecesOfInterest],dtype=np.float64)
 
         return mean
     def nonZeroStdDev(self,faFile,roiFile):
@@ -362,7 +366,7 @@ class Visit:
         roiData = img.get_data()
 
         indecesOfInterest = np.nonzero(roiData)
-        std =np.std(dataFA[indecesOfInterest])
+        std =np.std(dataFA[indecesOfInterest],dtype=np.float64)
 
         return std
     

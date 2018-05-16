@@ -19,7 +19,7 @@ class Samples:
                 visits = os.listdir(patient_dir)
                 for v in visits:
                     if(not os.path.islink("%s/%s" %(patient_dir,v))):
-                        mri_dir = "%s/%s/mri" % (patient_dir,v)
+                        mri_dir = "%s/%s/Freesurfer/mri" % (patient_dir,v)
                         if os.path.exists(mri_dir):
                             #print "%s/%s/mri" %(patient_dir,v)
                             #visit_dir = "%s/%s/01" % (rootDir,file)

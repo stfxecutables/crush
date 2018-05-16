@@ -17,7 +17,7 @@ class Patient:
         visits = os.listdir( path )
         
         for v in visits:
-            visitPathTest="%s/%s/mri" % (path,v)
+            visitPathTest="%s/%s/Freesurfer/mri" % (path,v)
             
             if os.path.exists(visitPathTest) and v!="fsaverage":
                 

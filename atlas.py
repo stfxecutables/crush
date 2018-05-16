@@ -36,6 +36,8 @@ if os.path.isfile("%s" %(args.voi)):
             content = f.readlines()
             content = [x.strip() for x in content] #Remove Whitespace
             print(",".join(content))
+            
+
     for p in S.Patients:
         if (args.patient is not None and args.patient != p.Id):
             continue
