@@ -66,8 +66,8 @@ class Visit:
             measures={}
             
             measures["PatientVisit"]=self.path
-            if os.path.isfile("%s/Tractography/atlas/tracts.txt" %(self.path)):
-                with open("%s/Tractography/atlas/tracts.txt" %(self.path)) as fMeasure:
+            if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
+                with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
                     for line in fMeasure:
                         nvp=line.split("=")
                         measures[nvp[0]]=nvp[1]
@@ -189,7 +189,7 @@ class Visit:
         else:
             #track_transform DTI35_preReg.trk DTI35_postReg.trk -src DTI35_Recon_dwi.nii.gz -ref brainmask.nii -reg RegTransform4D
 
-            cmdArray=["track_transform","%s/Tractography/DTI35_preReg.trk" %(self.path),"%s/Tractography/atlas.trk" %(self.path),"-src","%s/Tractography/DTI35_Recon_dwi.nii.gz"%(self.path),"-ref", "%s/Freesurfer/mri/brainmask.nii" %(self.path),"-reg","%s/Tractography/RegTransform4D"%(self.path)]
+            cmdArray=["track_transform","%s/Tractography/DTI35_preReg.trk" %(self.path),"%s/Tractography/crush.trk" %(self.path),"-src","%s/Tractography/DTI35_Recon_dwi.nii.gz"%(self.path),"-ref", "%s/Freesurfer/mri/brainmask.nii" %(self.path),"-reg","%s/Tractography/RegTransform4D"%(self.path)]
             print cmdArray
             subprocess.call(cmdArray)
 
@@ -216,12 +216,12 @@ class Visit:
     def dti_tracker(self):
         MsgUser.bold("dti_tracker")
 
-        if self.rebuild!=True  and os.path.isfile("%s/Tractography/atlas.trk" %(self.path)):
+        if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush.trk" %(self.path)):
             MsgUser.skipped("dti_tracker output exists")
         else:
             #dti_tracker DTI35_Reg2Brain DTI35_postReg.trk -m DTI35_Reg2Brain_fa.nii 0.15
 
-            cmdArray=["dti_tracker","%s/Tractography/DTI35_Reg2Brain" %(self.path),"%s/Tractography/atlas.trk" %(self.path),"-m","%s/Tractography/DTI35_Reg2Brain_fa.nii"%(self.path),"-at","35","-m","%s/Tractography/DTI35_Reg2Brain_dwi.nii" %(self.path),"-it","nii"]
+            cmdArray=["dti_tracker","%s/Tractography/DTI35_Reg2Brain" %(self.path),"%s/Tractography/crush.trk" %(self.path),"-m","%s/Tractography/DTI35_Reg2Brain_fa.nii"%(self.path),"-at","35","-m","%s/Tractography/DTI35_Reg2Brain_dwi.nii" %(self.path),"-it","nii"]
             print cmdArray
             subprocess.call(cmdArray)
 
@@ -230,12 +230,12 @@ class Visit:
         
     def track_vis(self):
         MsgUser.bold("track_vis")
-        #output: atlas.txt
-        if self.rebuild!=True  and os.path.isfile("%s/Tractography/atlas/tracts.txt" %(self.path)):        
+        #output: crush.txt
+        if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):        
             MsgUser.skipped("track_vis output exists")
         else:
-            if not os.path.exists("%s/Tractography/atlas/" % (self.path)):
-                os.makedirs("%s/Tractography/atlas/" % (self.path))
+            if not os.path.exists("%s/Tractography/crush/" % (self.path)):
+                os.makedirs("%s/Tractography/crush/" % (self.path))
  
             for segment,segmentName in self.Segments.iteritems():
                 for counterpart,counterpartName in self.Segments.iteritems():
@@ -247,40 +247,40 @@ class Visit:
                             #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
 
                             if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
-                                if os.path.isfile("%s/Tractography/atlas/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)) == False:
-                                    trackvis = ["track_vis","%s/Tractography/atlas.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
+                                if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)) == False:
+                                    trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
                                     print trackvis
                                     proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE)
                                     data = proc.stdout.read()
-                                    with open("%s/Tractography/atlas/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
+                                    with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
                                         track_vis_out.write(data)
                                 #print data
                                 else:
-                                    with open ("%s/Tractography/atlas/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
+                                    with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
                                         data=myfile.read()#.replace('\n', '')
 
-                                with open("%s/Tractography/atlas/tracts.txt" % (self.path), "a") as atlas_file:
+                                with open("%s/Tractography/crush/tracts.txt" % (self.path), "a") as crush_file:
                                     ############
                                     m = re.search(r'Number of tracks: (\d+)', data)
                                     if m:
                                         NumTracts = m.group(1).strip()
                                     else:
                                         NumTracts = 0
-                                    atlas_file.write("%s-%s-%s-NumTracts=%s\n" % (segment,counterpart,method,NumTracts))
+                                    crush_file.write("%s-%s-%s-NumTracts=%s\n" % (segment,counterpart,method,NumTracts))
                                     ############
                                     m = re.search(r'Number of tracks to render: (\d+)', data)
                                     if m:
                                         TractsToRender = m.group(1).strip()
                                     else:
                                         TractsToRender = 0
-                                    atlas_file.write("%s-%s-%s-TractsToRender=%s\n" % (segment,counterpart,method,TractsToRender))
+                                    crush_file.write("%s-%s-%s-TractsToRender=%s\n" % (segment,counterpart,method,TractsToRender))
                                     ############
                                     m = re.search(r'Number of line segments to render: (\d+)', data)
                                     if m:
                                         LinesToRender = m.group(1).strip()
                                     else:
                                         LinesToRender = 0
-                                    atlas_file.write("%s-%s-%s-LinesToRender=%s\n" % (segment,counterpart,method,LinesToRender))
+                                    crush_file.write("%s-%s-%s-LinesToRender=%s\n" % (segment,counterpart,method,LinesToRender))
                                     ############
                                     m = re.search(r'Mean track length: (\d+.\d+) +/- (\d+.\d+)', data)
                                     if m:
@@ -289,8 +289,8 @@ class Visit:
                                     else:
                                         MeanTractLen = 0
                                         MeanTractLen_StdDev = 0
-                                    atlas_file.write("%s-%s-%s-MeanTractLen=%s\n" % (segment,counterpart,method,MeanTractLen))
-                                    atlas_file.write("%s-%s-%s-MeanTractLen_StdDev=%s\n" % (segment,counterpart,method,MeanTractLen_StdDev))
+                                    crush_file.write("%s-%s-%s-MeanTractLen=%s\n" % (segment,counterpart,method,MeanTractLen))
+                                    crush_file.write("%s-%s-%s-MeanTractLen_StdDev=%s\n" % (segment,counterpart,method,MeanTractLen_StdDev))
                                     ############
 
                                     m = re.search(r'Voxel Size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
@@ -303,33 +303,33 @@ class Visit:
                                         VoxelSizeY = 0
                                         VoxelSizeZ = 0
 
-                                    atlas_file.write("%s-%s-%s-VoxelSizeX=%s\n" % (segment,counterpart,method,VoxelSizeX))
-                                    atlas_file.write("%s-%s-%s-VoxelSizeY=%s\n" % (segment,counterpart,method,VoxelSizeY))
-                                    atlas_file.write("%s-%s-%s-VoxelSizeZ=%s\n" % (segment,counterpart,method,VoxelSizeZ))
+                                    crush_file.write("%s-%s-%s-VoxelSizeX=%s\n" % (segment,counterpart,method,VoxelSizeX))
+                                    crush_file.write("%s-%s-%s-VoxelSizeY=%s\n" % (segment,counterpart,method,VoxelSizeY))
+                                    crush_file.write("%s-%s-%s-VoxelSizeZ=%s\n" % (segment,counterpart,method,VoxelSizeZ))
 
                                     #FA Mean
                                     #MsgUser.bold("FA Mean")
-                                    meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))             
-                                    atlas_file.write("%s-%s-%s-meanFA=%s\n" % (segment,counterpart,method,meanFA))
+                                    meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))             
+                                    crush_file.write("%s-%s-%s-meanFA=%s\n" % (segment,counterpart,method,meanFA))
                                     #FA Std Dev
                                     #MsgUser.bold("FA Standard Deviation")
-                                    stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
-                                    atlas_file.write("%s-%s-%s-stddevFA=%s\n" % (segment,counterpart,method,stddevFA))
+                                    stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
+                                    crush_file.write("%s-%s-%s-stddevFA=%s\n" % (segment,counterpart,method,stddevFA))
 
                                     #ADC Mean
                                     #MsgUser.bold("ADC Mean")
-                                    meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
-                                    atlas_file.write("%s-%s-%s-meanADC=%s\n" % (segment,counterpart,method,meanADC))
+                                    meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
+                                    crush_file.write("%s-%s-%s-meanADC=%s\n" % (segment,counterpart,method,meanADC))
                                     #ADC Std Dev
                                     #MsgUser.bold("ADC Standard Deviation")
-                                    stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
-                                    atlas_file.write("%s-%s-%s-stddevADC=%s\n" % (segment,counterpart,method,stddevADC))
+                                    stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
+                                    crush_file.write("%s-%s-%s-stddevADC=%s\n" % (segment,counterpart,method,stddevADC))
 
                                     ############# CLEANUP #################
-                                    if os.path.isfile("%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
-                                        os.remove("%s/Tractography/atlas/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
+                                    if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
+                                        os.remove("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
                             else:
-                                MsgUser.failed("Segment files missing (%s or %s)"%(segment,counterpart))
+                                MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
             MsgUser.ok("track_vis Completed")
     def nonZeroMean(self,faFile,roiFile):
         
