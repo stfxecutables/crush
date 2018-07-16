@@ -3,7 +3,7 @@ import subprocess
 import re
 #from pathlib import Path
 from ux import MsgUser
-import nibabel as nib
+#import nibabel as nib
 import numpy as np
 
 
