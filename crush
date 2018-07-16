@@ -21,6 +21,7 @@ ldir="."
 parser = argparse.ArgumentParser(description='Connectomics and Reporting User Shell is used to iterrogate samples, generate or extract measurements.')
 parser.add_argument('-samples', action=readable_dir,default=ldir,help="Path to patient samples")
 parser.add_argument('-recon',action='recon',help='Apply recon-all for any T1.mgz found beneath working folder')
+parser.add_argument('-norender',action='norender',default='n',help='If there are incomplete connectomes, ignore the outstanding work'
 parser.add_argument('-rebuild', action='store_true',
                     help='Recreate any intermediary files used for establishing measurements.  If this not specified, any intermetiate files found with the appriate file name will be left untouched.')
 parser.add_argument('-patient', action='store',
@@ -61,19 +62,54 @@ else:
         print("%i patients" % (len(S.Patients)))
     else:
         print("No patient samples found in path [%s].  Specify -samples for alternate path." %(args.samples))
-    #Take stock
-    for p in S.Patients:
-        if (args.patient is not None and args.patient != p.Id):
-            continue
 
-        print("\nPatient:%s, %s mri visit(s)" % (p.Id, len(p.Visits)))
-        for v in p.Visits:
+    
+	#STATUS REPORT ############################################################
+	if (args.status):
+		l_v=0
+		print("Sample size:%i" %(len(S.Patients)))
+		print(
+		for p in S.Patients:
+			if (args.patient is not None and args.patient != p.Id):
+				continue
+			l_v+=len(p.Visits))
+			
+		print(
+		for p in S.Patients:
+			if (args.patient is not None and args.patient != p.Id):
+				continue
+			for v in p.Visits:
+				
+				if v.ReconComplete != True:
+					l_reconall_message="Cortical Reconstruction Complete"
+				else 
+					l_reconall_message="Cortical Reconstruction INCOMPLETE"
+					
+				if v.ReconComplete != True:
+					l_parcellation_message="NOT Parcellated"
+				else 
+					l_parcellation_message="Parcellated"
+					
+				if v.MeasurementComplete != True:
+					l_measurement_message="NO Measurements"
+				else 
+					l_measurement_message="Measurement Complete"
 
-            if v.ReconComplete != True:
-                MsgUser.warning("\t%s recon incomplete" %(v.Id))
-            else:
-                v.Render()
-                v.Measure()
+			print("%s/%s %s, %s, %s" % (p.Id, len(p.Visits), l_reconall_message,l_parcellation_message,l_measurement_message))
+		
+	
+	#RENDER ANYTHING OUTSTANDING ##############################################
+	if (args.norender!='n'):
+		for p in S.Patients:
+			if (args.patient is not None and args.patient != p.Id):
+				continue
+			for v in p.Visits:
+
+				if v.ReconComplete != True:
+					MsgUser.warning("\t%s recon incomplete" %(v.Id))
+				else:
+					v.Render()
+					v.Measure()
 
 
 

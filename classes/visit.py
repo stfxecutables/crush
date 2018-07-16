@@ -17,7 +17,7 @@ class Visit:
         self.path=path
         self.rebuild=rebuild
         self.voi=voi
-
+		self.MeasurementComplete=False
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
         if os.path.isfile(reconTest):
             self.ReconComplete=True
@@ -230,7 +230,7 @@ class Visit:
         
     def track_vis(self):
         MsgUser.bold("track_vis")
-        #output: crush.txt
+        #output: crush.txt		
         if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):        
             MsgUser.skipped("track_vis output exists")
         else:
@@ -330,6 +330,7 @@ class Visit:
                                         os.remove("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
                             else:
                                 MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
+			self.MeasurementComplete=True
             MsgUser.ok("track_vis Completed")
     def nonZeroMean(self,faFile,roiFile):
         
