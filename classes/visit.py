@@ -17,7 +17,7 @@ class Visit:
         self.path=path
         self.rebuild=rebuild
         self.voi=voi
-		self.MeasurementComplete=False
+	self.MeasurementComplete=False
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
         if os.path.isfile(reconTest):
             self.ReconComplete=True

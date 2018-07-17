@@ -69,13 +69,11 @@ else:
 	if (args.status):
 		l_v=0
 		print("Sample size:%i" %(len(S.Patients)))
-		print(
 		for p in S.Patients:
 			if (args.patient is not None and args.patient != p.Id):
 				continue
-			l_v+=len(p.Visits))
+			l_v+=len(p.Visits)
 			
-		print(
 		for p in S.Patients:
 			if (args.patient is not None and args.patient != p.Id):
 				continue
@@ -83,17 +81,17 @@ else:
 				
 				if v.ReconComplete != True:
 					l_reconall_message="Cortical Reconstruction Complete"
-				else 
+				else:
 					l_reconall_message="Cortical Reconstruction INCOMPLETE"
 					
 				if v.ReconComplete != True:
 					l_parcellation_message="NOT Parcellated"
-				else 
+				else: 
 					l_parcellation_message="Parcellated"
 					
 				if v.MeasurementComplete != True:
 					l_measurement_message="NO Measurements"
-				else 
+				else: 
 					l_measurement_message="Measurement Complete"
 
 			print("%s/%s %s, %s, %s" % (p.Id, len(p.Visits), l_reconall_message,l_parcellation_message,l_measurement_message))
