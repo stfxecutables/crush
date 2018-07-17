@@ -20,6 +20,7 @@ class readable_dir(argparse.Action):
 ldir="."
 parser = argparse.ArgumentParser(description='Connectomics and Reporting User Shell is used to iterrogate samples, generate or extract measurements.')
 parser.add_argument('-samples', action=readable_dir,default=ldir,help="Path to patient samples")
+parser.add_argument('-status', action="status",help="Report back what is out there and what needs to be done")
 parser.add_argument('-recon',action='recon',help='Apply recon-all for any T1.mgz found beneath working folder')
 parser.add_argument('-norender',action='norender',default='n',help='If there are incomplete connectomes, ignore the outstanding work'
 parser.add_argument('-rebuild', action='store_true',
