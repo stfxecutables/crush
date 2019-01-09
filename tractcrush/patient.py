@@ -1,8 +1,8 @@
 import os, sys,inspect
 import subprocess
 #from pathlib import Path
-from ux import MsgUser
-from visit import Visit
+from tractcrush.ux import MsgUser
+from tractcrush.visit import Visit
 
     
 class Patient:

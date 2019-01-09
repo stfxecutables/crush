@@ -1,10 +1,11 @@
 import os, sys,inspect
 import subprocess
-import re
-#from pathlib import Path
-from ux import MsgUser
-#import nibabel as nib
 import numpy as np
+import re
+
+#from pathlib import Path
+from tractcrush.ux import MsgUser
+import nibabel as nib
 
 
               
@@ -17,7 +18,7 @@ class Visit:
         self.path=path
         self.rebuild=rebuild
         self.voi=voi
-	self.MeasurementComplete=False
+        self.MeasurementComplete=False
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
         if os.path.isfile(reconTest):
             self.ReconComplete=True
@@ -112,7 +113,7 @@ class Visit:
         else:
             
             cmdArray=["eddy_correct","%s/Tractography/DTI35.nii" % (self.path),"%s/Tractography/DTI35_eddy.nii.gz" % (self.path),"0"]
-            print cmdArray
+            print (cmdArray)
             subprocess.call(cmdArray)
             
             MsgUser.ok("eddy_correct Completed")
@@ -127,7 +128,7 @@ class Visit:
             defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"gradientMatrix.txt")
             
             cmdArray=["hardi_mat",defaultGradientMatrix,"%s/Tractography/temp_mat.dat" % (self.path), "-ref","%s/Tractography/DTI35_eddy.nii.gz" % (self.path),"-oc"]
-            print cmdArray
+            print(cmdArray)
             subprocess.call(cmdArray)
             
             MsgUser.ok("HARDIReconstruction Completed")
@@ -142,7 +143,7 @@ class Visit:
         else:
             
             cmdArray=["odf_recon","%s/Tractography/DTI35_eddy.nii.gz" %(self.path),"31","181","%s/Tractography/DTI35_Recon" %(self.path),"-b0", "5","-mat","%s/Tractography/temp_mat.dat" %(self.path),"-p","3","-sn", "1", "-ot", "nii.gz"]
-            print cmdArray
+            print(cmdArray)
             subprocess.call(cmdArray)
 
             MsgUser.ok("odf_recon Completed")
@@ -160,7 +161,7 @@ class Visit:
             MsgUser.skipped("odf_tracker output exists")
         else:
             cmdArray=["odf_tracker","%s/Tractography/DTI35_Recon" %(self.path),"%s/Tractography/DTI35_preReg.trk" %(self.path),"-at","45","-m", "%s/Tractography/DTI35_Recon_dwi.nii.gz" %(self.path),"-it","nii.gz"]
-            print cmdArray
+            print(cmdArray)
             subprocess.call(cmdArray)
 
             MsgUser.ok("odf_tracker Completed")
@@ -175,7 +176,7 @@ class Visit:
         else:
             #flirt -in ./DTI35_eddy.nii.gz -ref ./brainmask.nii -omat ./RegTransform4D
             cmdArray=["flirt","-in","%s/Tractography/DTI35_eddy.nii.gz" %(self.path),"-ref","%s/Freesurfer/mri/brainmask.nii" %(self.path),"-omat","%s/Tractography/RegTransform4d" %(self.path)]
-            print cmdArray
+            print(cmdArray)
             subprocess.call(cmdArray)
 
             MsgUser.ok("flirt Completed")
@@ -190,7 +191,7 @@ class Visit:
             #track_transform DTI35_preReg.trk DTI35_postReg.trk -src DTI35_Recon_dwi.nii.gz -ref brainmask.nii -reg RegTransform4D
 
             cmdArray=["track_transform","%s/Tractography/DTI35_preReg.trk" %(self.path),"%s/Tractography/crush.trk" %(self.path),"-src","%s/Tractography/DTI35_Recon_dwi.nii.gz"%(self.path),"-ref", "%s/Freesurfer/mri/brainmask.nii" %(self.path),"-reg","%s/Tractography/RegTransform4D"%(self.path)]
-            print cmdArray
+            print(cmdArray)
             subprocess.call(cmdArray)
 
             MsgUser.ok("tract_transform Completed")
@@ -207,7 +208,7 @@ class Visit:
             #dti_recon "%s/Tractography/DTI35_eddy.nii.gz" %(self.path) "%s/Tractography/dave/DTI35_Reg2Brain" %(self.path) -gm "%s" %(defaultGradientMatrix) -b 1000 -b0 5 -p 3 -sn 1 -ot nii 
 
             cmdArray=["dti_recon","%s/Tractography/DTI35_eddy.nii.gz" %(self.path),"%s/Tractography/DTI35_Reg2Brain" %(self.path),"-gm",defaultGradientMatrix,"-b", "1000","-b0","5","-p","3","-sn","1","-ot","nii"]
-            print cmdArray
+            print(cmdArray)
             subprocess.call(cmdArray)
 
             MsgUser.ok("dti_recon Completed")
@@ -222,7 +223,7 @@ class Visit:
             #dti_tracker DTI35_Reg2Brain DTI35_postReg.trk -m DTI35_Reg2Brain_fa.nii 0.15
 
             cmdArray=["dti_tracker","%s/Tractography/DTI35_Reg2Brain" %(self.path),"%s/Tractography/crush.trk" %(self.path),"-m","%s/Tractography/DTI35_Reg2Brain_fa.nii"%(self.path),"-at","35","-m","%s/Tractography/DTI35_Reg2Brain_dwi.nii" %(self.path),"-it","nii"]
-            print cmdArray
+            print(cmdArray)
             subprocess.call(cmdArray)
 
             MsgUser.ok("dti_tracker Completed")
@@ -237,8 +238,8 @@ class Visit:
             if not os.path.exists("%s/Tractography/crush/" % (self.path)):
                 os.makedirs("%s/Tractography/crush/" % (self.path))
  
-            for segment,segmentName in self.Segments.iteritems():
-                for counterpart,counterpartName in self.Segments.iteritems():
+            for segment,segmentName in self.Segments.items():
+                for counterpart,counterpartName in self.Segments.items():
                     
                     if (segment!=counterpart and segment<counterpart):
                         methods = ["roi","roi_end"]
@@ -249,9 +250,9 @@ class Visit:
                             if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
                                 if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)) == False:
                                     trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
-                                    print trackvis
+                                    print(trackvis)
                                     proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE)
-                                    data = proc.stdout.read()
+                                    data = str(proc.stdout.read())
                                     with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
                                         track_vis_out.write(data)
                                 #print data
@@ -330,8 +331,10 @@ class Visit:
                                         os.remove("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
                             else:
                                 MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
-			self.MeasurementComplete=True
+
+            self.MeasurementComplete=True
             MsgUser.ok("track_vis Completed")
+
     def nonZeroMean(self,faFile,roiFile):
         
         if os.path.isfile(faFile) == False:        

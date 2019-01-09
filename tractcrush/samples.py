@@ -1,6 +1,6 @@
 import os, sys
 #from pathlib import Path
-from patient import Patient
+from tractcrush.patient import Patient
 
 class Samples:
     Count=0

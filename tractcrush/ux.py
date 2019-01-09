@@ -1,3 +1,4 @@
+import sys
 
 class shell_colours(object):
     default = '\033[0m'
@@ -50,45 +51,45 @@ class MsgUser(object):
     def message(cls, msg):
         if cls.__quiet:
             return
-        print msg
+        print(msg)
 
     @classmethod
     def question(cls, msg):
-        print msg,
+        print(msg)
 
     @classmethod
     def skipped(cls, msg):
         if cls.__quiet:
             return
-        print "".join(
-            (shell_colours.mfg_kbg, "[Skipped] ", shell_colours.default, msg))
+        print ("".join(
+            (shell_colours.mfg_kbg, "[Skipped] ", shell_colours.default, msg)))
 
     @classmethod
     def ok(cls, msg):
         if cls.__quiet:
             return
-        print "".join(
-            (shell_colours.gfg_kbg, "[OK] ", shell_colours.default, msg))
+        print ("".join(
+            (shell_colours.gfg_kbg, "[OK] ", shell_colours.default, msg)))
 
     @classmethod
     def failed(cls, msg):
-        print "".join(
-            (shell_colours.rfg_kbg, "[FAILED] ", shell_colours.default, msg))
+        print ("".join(
+            (shell_colours.rfg_kbg, "[FAILED] ", shell_colours.default, msg)))
 
     @classmethod
     def bold(cls,msg):
-        print "".join(
-            (shell_colours.bold,msg,shell_colours.default))
+        print ("".join(
+            (shell_colours.bold,msg,shell_colours.default)))
         
     @classmethod
     def warning(cls, msg):
         if cls.__quiet:
             return
-        print "".join(
+        print ("".join(
             (shell_colours.bfg_kbg,
              shell_colours.bold,
              "[Warning]",
-             shell_colours.default, " ", msg))
+             shell_colours.default, " ", msg)))
 
 
 class Progress_bar(object):

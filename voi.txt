@@ -1,0 +1,4 @@
+1035-3003-roi-meanFA
+1035-3003-roi-meanADC
+1035-3003-roi-stddevFA
+1035-3003-roi-stddevADC

@@ -16,3 +16,10 @@ Create a folder Patients and fill with samples 0001, 0002
 
 `python atlas.py ~/Documents/Patients`
 
+#Virtual Environment
+`python3 -m venv ~/projects/environmens/crush`
+`source ~/projects/environments/crush/bin/activate`
+
+#Executions
+./crush -samples /media/dmattie/GENERAL/CRUSHDATA -status
+./crush -samples /media/dmattie/GENERAL/CRUSHDATA 

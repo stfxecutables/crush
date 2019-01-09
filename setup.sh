@@ -1,1 +1,3 @@
-pip install numpy
+#!/bin/bash
+
+source ~/projects/environments/crush/bin/activate
