@@ -23,3 +23,7 @@ Create a folder Patients and fill with samples 0001, 0002
 #Executions
 ./crush -samples /media/dmattie/GENERAL/CRUSHDATA -status
 ./crush -samples /media/dmattie/GENERAL/CRUSHDATA 
+
+#Issues with old python 3 libss
+try:
+sudo pip3 install -U nibabel

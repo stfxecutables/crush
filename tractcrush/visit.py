@@ -14,7 +14,7 @@ class Visit:
         
     def __init__(self,path,rebuild,voi):
        
-        self.Id=os.path.basename(path)
+        self.VisitId=os.path.basename(path)
         self.path=path
         self.rebuild=rebuild
         self.voi=voi
@@ -76,13 +76,15 @@ class Visit:
 
                 #Print results
                 row=[]
+                row.append(os.path.split(os.path.dirname(self.path))[1])
+                row.append(self.VisitId)
                 for cell in content:
                     if cell in measures:
                         row.append(measures[cell].strip())
                     else:
-                        row.append("")
-
+                        row.append("")                              
                 print(",".join(row))
+                
                     
             
         

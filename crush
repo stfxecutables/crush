@@ -44,12 +44,12 @@ def StatusReport(args,S):
     l_v = 0
     print("Sample size:%i" % (len(S.Patients)))
     for p in S.Patients:
-        if (args.patient is not None and args.patient != p.Id):
+        if (args.patient is not None and args.patient != p.PatientId):
             continue
         l_v += len(p.Visits)
 
     for p in S.Patients:
-        if (args.patient is not None and args.patient != p.Id):
+        if (args.patient is not None and args.patient != p.PatientId):
             continue
         for v in p.Visits:
 
@@ -69,17 +69,17 @@ def StatusReport(args,S):
                 l_measurement_message = "Measurement Complete"
 
         print("%s/%s %s, %s, %s" % (
-            p.Id, len(p.Visits), l_reconall_message, l_parcellation_message, l_measurement_message))
+            p.PatientId, len(p.Visits), l_reconall_message, l_parcellation_message, l_measurement_message))
 
 def ProcessSamples(args,S):
     print("no render")
     for p in S.Patients:
-        if (args.patient is not None and args.patient != p.Id):
+        if (args.patient is not None and args.patient != p.PatientId):
             continue
         for v in p.Visits:
 
             if v.ReconComplete != True:
-                MsgUser.warning("\t%s recon incomplete" % (v.Id))
+                MsgUser.warning("\t%s recon incomplete" % (v.VisitId))
             else:
                 v.Render()
                 v.Measure()
@@ -114,7 +114,7 @@ def main():
                 print(",".join(content))
 
             for p in S.Patients:
-                if (args.patient is not None and args.patient != p.Id):
+                if (args.patient is not None and args.patient != p.PatientId):
                     continue
                 # Print values from each patient visit
                 for v in p.Visits:

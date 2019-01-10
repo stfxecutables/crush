@@ -8,7 +8,7 @@ from tractcrush.visit import Visit
 class Patient:
 
     def __init__(self,path,rebuild,voi):
-        self.Id=os.path.basename(path)
+        self.PatientId=os.path.basename(path)
         self.rebuild=rebuild
         self.voi=voi
         
