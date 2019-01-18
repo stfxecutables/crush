@@ -99,9 +99,11 @@ def main():
                         help='Specify patient ID of interest if focusing on a single patient')
     parser.add_argument('-voi', action='store',
                         help='Values of Interest - Path to text file that lists values of interest to extract.  One column per line.  Look at any patient sample tractography\\crush\\tracts.txt file for measures.')
+    parser.add_argument('-recrush',action='store_true',
+                        help='Ignore anything previosly crushed and re-extract tract information')
     args = parser.parse_args()
 
-    S = Samples(args.samples, args.rebuild, args.voi)
+    S = Samples(args.samples, args.rebuild, args.voi, args.recrush)
 
     # Read VOI into array
     if (args.voi):

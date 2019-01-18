@@ -22,13 +22,14 @@ import warnings
 class Visit:
    
         
-    def __init__(self,path,rebuild,voi):
+    def __init__(self,path,rebuild,voi,recrush):
        
         self.VisitId=os.path.basename(path)
         self.path=path
         self.rebuild=rebuild
         self.voi=voi
         self.MeasurementComplete=False
+        self.recrush=recrush
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
         if os.path.isfile(reconTest):
             self.ReconComplete=True
@@ -367,38 +368,52 @@ class Visit:
     def track_vis(self):
         MsgUser.bold("track_vis")
         #output: crush.txt		
-        x=1
+        
         no_of_procs = multiprocessing.cpu_count() 
 
         print("Multiprocessing across %s async procs" %(no_of_procs))
         
         
         pool = Pool(no_of_procs)
-        if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):        
-            MsgUser.skipped("track_vis output exists")
-        else:
-            if not os.path.exists("%s/Tractography/crush/" % (self.path)):
-                os.makedirs("%s/Tractography/crush/" % (self.path))
- 
-            
-            for segment,segmentName in self.Segments.items():
-                for counterpart,counterpartName in self.Segments.items():                    
-                    if (segment!=counterpart and segment<counterpart):                        
-                        methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
-                        methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
-                        with open(methodFile) as fin:
-                            reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
-                            p = re.compile('^ *#')   # if not commented          
-                            for row in reader:
-                                if(not p.match(row[0])):                    
-                                    methods.append(row[0])                    
-                        for method in methods:
-                            pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
-            
-            pool.join()
-            
-            self.MeasurementComplete=True
-            MsgUser.ok("track_vis Completed")
+        if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):   
+            print(self.recrush)
+            if(self.recrush):
+                print("Deleting previous crush output")
+                
+                folder = '%s/Tractography/crush' %(self.path)
+                for the_file in os.listdir(folder):
+                    file_path = os.path.join(folder, the_file)
+                    try:
+                        if os.path.isfile(file_path):
+                            os.unlink(file_path)        
+                    except Exception as e:
+                        print(e)
+            else:
+                MsgUser.skipped("track_vis output exists")
+                exit()
+        
+        if not os.path.exists("%s/Tractography/crush/" % (self.path)):
+            os.makedirs("%s/Tractography/crush/" % (self.path))
+
+        
+        for segment,segmentName in self.Segments.items():
+            for counterpart,counterpartName in self.Segments.items():                    
+                if (segment!=counterpart and segment<counterpart):                        
+                    methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
+                    methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
+                    with open(methodFile) as fin:
+                        reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+                        p = re.compile('^ *#')   # if not commented          
+                        for row in reader:
+                            if(not p.match(row[0])):                    
+                                methods.append(row[0])                    
+                    for method in methods:
+                        pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
+        
+        pool.join()
+        
+        self.MeasurementComplete=True
+        MsgUser.ok("track_vis Completed")
 
     
     def nonZeroMean(self,faFile,roiFile):

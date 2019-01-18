@@ -7,10 +7,11 @@ from tractcrush.visit import Visit
     
 class Patient:
 
-    def __init__(self,path,rebuild,voi):
+    def __init__(self,path,rebuild,voi,recrush):
         self.PatientId=os.path.basename(path)
         self.rebuild=rebuild
         self.voi=voi
+        self.recrush=recrush
         
         self.Visits=[]
         
@@ -22,6 +23,6 @@ class Patient:
             if os.path.exists(visitPathTest) and v!="fsaverage":
                 
                 visitPath="%s/%s" %(path,v)
-                thisVisit = Visit(visitPath,self.rebuild,voi)
+                thisVisit = Visit(visitPath,self.rebuild,voi,recrush)
                 self.Visits.append(thisVisit)
     
