@@ -177,3 +177,489 @@
 
     In folder 
 60  [01/09/19 10:22] track_vis /media/dmattie/GENERAL/CRUSHDATA/0010/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0010/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0010/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0010/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+61  [01/16/19 16:24] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+62  [01/16/19 16:24] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+61  [01/16/19 16:24] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+62  [01/16/19 16:24] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+61  [01/16/19 16:24] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+62  [01/16/19 16:24] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+63  [01/16/19 16:31] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+64  [01/16/19 16:32] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+65  [01/16/19 16:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+66  [01/16/19 16:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+67  [01/16/19 16:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+68  [01/16/19 16:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+69  [01/16/19 16:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+70  [01/16/19 16:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+71  [01/16/19 16:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+72  [01/16/19 21:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+73  [01/16/19 21:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+74  [01/16/19 21:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+75  [01/16/19 21:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+76  [01/16/19 21:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+77  [01/16/19 21:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+78  [01/16/19 21:26] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+79  [01/16/19 21:26] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+80  [01/16/19 21:26] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+81  [01/16/19 21:26] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+82  [01/16/19 21:26] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+83  [01/16/19 21:26] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+84  [01/16/19 21:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+85  [01/16/19 21:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+86  [01/16/19 21:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+87  [01/16/19 21:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+88  [01/16/19 21:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+89  [01/16/19 21:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+90  [01/16/19 21:32] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+90  [01/16/19 21:32] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+90  [01/16/19 21:32] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+90  [01/16/19 21:32] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+91  [01/16/19 21:32] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+92  [01/16/19 21:32] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+93  [01/16/19 21:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+94  [01/16/19 21:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+95  [01/16/19 21:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+96  [01/16/19 21:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+97  [01/16/19 21:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+98  [01/16/19 21:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+99  [01/16/19 22:13] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.35228487-3c11-4ecd-bcf2-ac0c5caea93a.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+100 [01/16/19 22:13] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.63340723-1a58-43ce-825d-eeeecaf58fa7.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+101 [01/16/19 22:13] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.d6d6300d-7748-493b-9f63-e492e3b4be4d.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+102 [01/16/19 22:14] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.ed0a7024-c5ad-401d-af1d-c147db639db7.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+103 [01/16/19 22:14] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.c9052622-f096-41bd-9322-b25efee4bccf.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+104 [01/16/19 22:14] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.032b4bf2-4146-4c37-9389-38c99bab4bb6.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+105 [01/17/19 10:14] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.20b201b5-de0d-4691-8cfc-524aa72dc9db.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+106 [01/17/19 10:16] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+107 [01/17/19 10:18] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+108 [01/17/19 10:19] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+109 [01/17/19 10:19] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+110 [01/17/19 10:19] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+111 [01/17/19 10:19] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+112 [01/17/19 10:19] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+113 [01/17/19 10:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+114 [01/17/19 10:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+115 [01/17/19 10:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+116 [01/17/19 10:20] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+117 [01/17/19 10:21] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+118 [01/17/19 10:21] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+119 [01/17/19 10:22] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.e3891a05-52bd-4c98-996a-f6ba6d127855.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+120 [01/17/19 10:23] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.ba890d95-e454-4908-aff8-f3715038547c.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+121 [01/17/19 10:23] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.1da10bf1-1e44-405d-8e63-7c56abd696d7.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+122 [01/17/19 10:23] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.ee284080-0744-46fa-b24b-694d4bbbc99c.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+123 [01/17/19 10:24] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.3bcd311d-2fec-41c3-a86c-49b3a04878f3.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+124 [01/17/19 10:24] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.ed77dce3-48a6-4dd7-9bb0-952251d36a5b.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+125 [01/17/19 10:26] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+126 [01/17/19 10:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+127 [01/17/19 10:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+128 [01/17/19 10:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+129 [01/17/19 10:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+130 [01/17/19 10:27] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+131 [01/17/19 10:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+132 [01/17/19 10:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+133 [01/17/19 10:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+134 [01/17/19 10:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+135 [01/17/19 10:31] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+136 [01/17/19 10:31] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+137 [01/17/19 10:31] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+138 [01/17/19 10:31] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+139 [01/17/19 10:44] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+140 [01/17/19 10:44] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+141 [01/17/19 10:44] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+142 [01/17/19 10:44] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+143 [01/17/19 10:44] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+144 [01/17/19 10:45] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+145 [01/17/19 10:45] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+146 [01/17/19 10:45] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+147 [01/17/19 10:45] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+148 [01/17/19 10:45] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+149 [01/17/19 10:46] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+150 [01/17/19 10:46] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+151 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3003-roi.nii 
+
+    In folder 
+152 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3003-roi_end.nii 
+
+    In folder 
+153 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi.nii 
+
+    In folder 
+154 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3002-3007-roi_end.nii 
+
+    In folder 
+155 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3003.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3003-3007-roi_end.nii 
+
+    In folder 
+156 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi_end.nii 
+
+    In folder 
+157 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3003-roi_end.nii 
+
+    In folder 
+158 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi_end.nii 
+
+    In folder 
+159 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3003.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3003-roi.nii 
+
+    In folder 
+160 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3003.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3003-3007-roi.nii 
+
+    In folder 
+161 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3002.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3002-roi.nii 
+
+    In folder 
+162 [01/17/19 10:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc1035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3007.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/1035-3007-roi.nii 
+
+    In folder 
+163 [01/18/19 09:28] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+163 [01/18/19 09:28] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-3035-roi_end.nii 
+
+    In folder 
+163 [01/18/19 09:28] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3035-4035-roi.nii 
+
+    In folder 
+164 [01/18/19 09:28] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-3035-roi.nii 
+
+    In folder 
+165 [01/18/19 09:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-3035-roi.nii 
+
+    In folder 
+166 [01/18/19 09:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-4035-roi.nii 
+
+    In folder 
+167 [01/18/19 09:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-4035-roi.nii 
+
+    In folder 
+168 [01/18/19 09:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi.nii 
+
+    In folder 
+169 [01/18/19 09:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-3035-roi_end.nii 
+
+    In folder 
+170 [01/18/19 09:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-4035-roi_end.nii 
+
+    In folder 
+171 [01/18/19 09:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+172 [01/18/19 09:30] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-4035-roi_end.nii 
+
+    In folder 
+173 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+174 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/3035-4035-roi.nii 
+
+    In folder 
+175 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-3035-roi_end.nii 
+
+    In folder 
+176 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-3035-roi.nii 
+
+    In folder 
+177 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-3035-roi.nii 
+
+    In folder 
+178 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-4035-roi.nii 
+
+    In folder 
+179 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-4035-roi.nii 
+
+    In folder 
+180 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi.nii 
+
+    In folder 
+181 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-3035-roi_end.nii 
+
+    In folder 
+182 [01/18/19 09:33] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-4035-roi_end.nii 
+
+    In folder 
+183 [01/18/19 09:34] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+184 [01/18/19 09:34] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc4035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-4035-roi_end.nii 
+
+    In folder 
+185 [01/18/19 09:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-3035-roi_end.nii 
+
+    In folder 
+185 [01/18/19 09:35] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-3035-roi.nii 
+
+    In folder 
+186 [01/18/19 09:36] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-3035-roi.nii 
+
+    In folder 
+187 [01/18/19 09:36] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-3035-roi_end.nii 
+
+    In folder 
+188 [01/18/19 09:36] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-3035-roi.nii 
+
+    In folder 
+189 [01/18/19 09:36] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-3035-roi_end.nii 
+
+    In folder 
+190 [01/18/19 09:36] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi.nii 
+
+    In folder 
+191 [01/18/19 09:36] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+192 [01/18/19 09:37] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+192 [01/18/19 09:37] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi.nii 
+
+    In folder 
+193 [01/18/19 09:42] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi.nii 
+
+    In folder 
+194 [01/18/19 09:42] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+195 [01/18/19 09:43] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+196 [01/18/19 09:45] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+197 [01/18/19 09:46] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+198 [01/18/19 09:47] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+199 [01/18/19 09:49] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+200 [01/18/19 09:49] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+201 [01/18/19 09:50] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+202 [01/18/19 09:50] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+203 [01/18/19 09:51] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+204 [01/18/19 09:52] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+205 [01/18/19 09:54] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+206 [01/18/19 09:59] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+207 [01/18/19 10:00] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+208 [01/18/19 10:01] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+209 [01/18/19 10:02] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+210 [01/18/19 10:03] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi.nii 
+
+    In folder 
+211 [01/18/19 10:03] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi_end /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0012.nii.gz -roi_end2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0012-0051-roi_end.nii 

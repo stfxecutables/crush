@@ -1,12 +1,22 @@
 import os, sys,inspect
+from gevent import monkey
+
+monkey.patch_all()
+from gevent.pool import Pool
 import subprocess
 import numpy as np
 import re
+import time
+from threading import Thread
+import uuid
 
 #from pathlib import Path
 from tractcrush.ux import MsgUser
 import nibabel as nib
-
+from shutil import copyfile
+import multiprocessing
+import csv
+import warnings
 
               
 class Visit:
@@ -25,195 +35,16 @@ class Visit:
         else:
             self.ReconComplete=False
             
-        self.Segments = {
-                        #"3002":"wm-lh-caudalanteriorcingulate ",
-                        # "3003":"wm-lh-caudalmiddlefrontal",
-                        # "3007":"wm-lh-fusiform",
-                        # "1034":"ctx-lh-transversetemporal",
-                        # "1035":"ctx-lh-insula"
-                        "0002":"TBD",
-                        "0004":"TBD",
-                        "0005":"TBD",
-                        "0007":"TBD",
-                        "0008":"TBD",
-                        "0010":"TBD",
-                        "0011":"TBD",
-                        "0012":"TBD",
-                        "0013":"TBD",
-                        "0014":"TBD",
-                        "0015":"TBD",
-                        "0016":"TBD",
-                        "0017":"TBD",
-                        "0018":"TBD",
-                        "0024":"TBD",
-                        "0026":"TBD",
-                        "0028":"TBD",
-                        "0030":"TBD",
-                        "0031":"TBD",
-                        "0041":"TBD",
-                        "0043":"TBD",
-                        "0044":"TBD",
-                        "0046":"TBD",
-                        "0047":"TBD",
-                        "0049":"TBD",
-                        "0050":"TBD",
-                        "0051":"TBD",
-                        "0052":"TBD",
-                        "0053":"TBD",
-                        "0054":"TBD",
-                        "0058":"TBD",
-                        "0060":"TBD",
-                        "0062":"TBD",
-                        "0063":"TBD",
-                        "0077":"TBD",
-                        "0085":"TBD",
-                        "0251":"TBD",
-                        "0252":"TBD",
-                        "0253":"TBD",
-                        "0254":"TBD",
-                        "0255":"TBD",
-                        "1000":"TBD",
-                        "1001":"TBD",
-                        "1002":"TBD",
-                        "1003":"TBD",
-                        "1005":"TBD",
-                        "1006":"TBD",
-                        "1007":"TBD",
-                        "1008":"TBD",
-                        "1009":"TBD",
-                        "1010":"TBD",
-                        "1011":"TBD",
-                        "1012":"TBD",
-                        "1013":"TBD",
-                        "1014":"TBD",
-                        "1015":"TBD",
-                        "1016":"TBD",
-                        "1017":"TBD",
-                        "1018":"TBD",
-                        "1019":"TBD",
-                        "1020":"TBD",
-                        "1021":"TBD",
-                        "1022":"TBD",
-                        "1023":"TBD",
-                        "1024":"TBD",
-                        "1025":"TBD",
-                        "1026":"TBD",
-                        "1027":"TBD",
-                        "1028":"TBD",
-                        "1029":"TBD",
-                        "1030":"TBD",
-                        "1031":"TBD",
-                        "1032":"TBD",
-                        "1033":"TBD",
-                        "1034":"TBD",
-                        "1035":"TBD",
-                        "2000":"TBD",
-                        "2001":"TBD",
-                        "2002":"TBD",
-                        "2003":"TBD",
-                        "2005":"TBD",
-                        "2006":"TBD",
-                        "2007":"TBD",
-                        "2008":"TBD",
-                        "2009":"TBD",
-                        "2010":"TBD",
-                        "2011":"TBD",
-                        "2012":"TBD",
-                        "2013":"TBD",
-                        "2014":"TBD",
-                        "2015":"TBD",
-                        "2016":"TBD",
-                        "2017":"TBD",
-                        "2018":"TBD",
-                        "2019":"TBD",
-                        "2020":"TBD",
-                        "2021":"TBD",
-                        "2022":"TBD",
-                        "2023":"TBD",
-                        "2024":"TBD",
-                        "2025":"TBD",
-                        "2026":"TBD",
-                        "2027":"TBD",
-                        "2028":"TBD",
-                        "2029":"TBD",
-                        "2030":"TBD",
-                        "2031":"TBD",
-                        "2032":"TBD",
-                        "2033":"TBD",
-                        "2034":"TBD",
-                        "2035":"TBD",
-                        "3001":"TBD",
-                        "3002":"TBD",
-                        "3003":"TBD",
-                        "3005":"TBD",
-                        "3006":"TBD",
-                        "3007":"TBD",
-                        "3008":"TBD",
-                        "3009":"TBD",
-                        "3010":"TBD",
-                        "3011":"TBD",
-                        "3012":"TBD",
-                        "3013":"TBD",
-                        "3014":"TBD",
-                        "3015":"TBD",
-                        "3016":"TBD",
-                        "3017":"TBD",
-                        "3018":"TBD",
-                        "3019":"TBD",
-                        "3020":"TBD",
-                        "3021":"TBD",
-                        "3022":"TBD",
-                        "3023":"TBD",
-                        "3024":"TBD",
-                        "3025":"TBD",
-                        "3026":"TBD",
-                        "3027":"TBD",
-                        "3028":"TBD",
-                        "3029":"TBD",
-                        "3030":"TBD",
-                        "3031":"TBD",
-                        "3032":"TBD",
-                        "3033":"TBD",
-                        "3034":"TBD",
-                        "3035":"TBD",
-                        "4001":"TBD",
-                        "4002":"TBD",
-                        "4003":"TBD",
-                        "4005":"TBD",
-                        "4006":"TBD",
-                        "4007":"TBD",
-                        "4008":"TBD",
-                        "4009":"TBD",
-                        "4010":"TBD",
-                        "4011":"TBD",
-                        "4012":"TBD",
-                        "4013":"TBD",
-                        "4014":"TBD",
-                        "4015":"TBD",
-                        "4016":"TBD",
-                        "4017":"TBD",
-                        "4018":"TBD",
-                        "4019":"TBD",
-                        "4020":"TBD",
-                        "4021":"TBD",
-                        "4022":"TBD",
-                        "4023":"TBD",
-                        "4024":"TBD",
-                        "4025":"TBD",
-                        "4026":"TBD",
-                        "4027":"TBD",
-                        "4028":"TBD",
-                        "4029":"TBD",
-                        "4030":"TBD",
-                        "4031":"TBD",
-                        "4032":"TBD",
-                        "4033":"TBD",
-                        "4034":"TBD",
-                        "4035":"TBD",
-                        "5001":"TBD",
-                        "5002":"TBD"
-                        }
-                    
+        self.Segments = {}
+
+        segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
+        with open(segmentMap) as fin:
+            reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+            p = re.compile('^ *#')   # if not commented          
+            for row in reader:
+                if(not p.match(row[0])):                    
+                    self.Segments[row[0]]=row[1:]                        
+                            
      
     def Render(self):
         #Lets Render as needed
@@ -411,113 +242,165 @@ class Visit:
 
             MsgUser.ok("dti_tracker Completed")
             
+    def trackvis_worker(self,segment,counterpart,method):
+        print("Rendering %s against %s using method %s" % (segment,counterpart,method))
+        #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
         
+        if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
+            if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)) == False:
+                
+                #tmpFile=str(uuid.uuid4())
+                #print(tmpFile)
+                #copyfile("%s/Tractography/crush.trk" %(self.path),"%s/Tractography/crush.%s.trk" %(self.path,tmpFile))
+
+                #trackvis = ["track_vis","%s/Tractography/crush.%s.trk" %(self.path,tmpFile),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
+                trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
+                #print(trackvis)
+                #exit()
+                with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
+                    proc = subprocess.Popen(trackvis, stdout=track_vis_out)
+                    proc.communicate()
+                #    os.remove("%s/Tractography/crush.%s.trk" %(self.path,tmpFile)) 
+                with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
+                    data=myfile.read()
+                                
+                ##proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+                
+                #out,err = proc.communicate()
+
+                #data = str(proc.stdout.read())
+                ##data = str(proc.stdout.read())
+                ##dataerr = str(proc.stderr.read())
+                #data=str(out.read())
+                #dataerr=str(err.read())
+
+                
+                ##with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
+                ##    track_vis_out.write(data)
+                
+                ##with open("%s/Tractography/crush/%s-%s-%s.nii.err" %(self.path,segment,counterpart,method), "w") as track_vis_err:
+                ##    track_vis_err.write(dataerr)                    
+            #print data
+            else:
+                with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
+                    data=myfile.read()#.replace('\n', '')
+
+            with open("%s/Tractography/crush/tracts.txt" % (self.path), "a") as crush_file:
+                ############
+                
+                m = re.search(r'Number of tracks: (\d+)', data)
+                if m:
+                    NumTracts = m.group(1).strip()
+                else:
+                    NumTracts = 0
+                crush_file.write("%s-%s-%s-NumTracts=%s\n" % (segment,counterpart,method,NumTracts))                
+                ############
+                
+                m = re.search(r'Number of tracks to render: (\d+)', data)
+                if m:
+                    TractsToRender = m.group(1).strip()
+                else:
+                    TractsToRender = 0
+                crush_file.write("%s-%s-%s-TractsToRender=%s\n" % (segment,counterpart,method,TractsToRender))
+                ############
+                
+                m = re.search(r'Number of line segments to render: (\d+)', data)
+                if m:
+                    LinesToRender = m.group(1).strip()
+                else:
+                    LinesToRender = 0
+                crush_file.write("%s-%s-%s-LinesToRender=%s\n" % (segment,counterpart,method,LinesToRender))
+                ############
+                
+                m = re.search(r'Mean track length: (\d+.\d+) +/- (\d+.\d+)', data)
+                if m:
+                    MeanTractLen = m.group(1).strip()
+                    MeanTractLen_StdDev = m.group(2).strip()
+                else:
+                    MeanTractLen = 0
+                    MeanTractLen_StdDev = 0
+                crush_file.write("%s-%s-%s-MeanTractLen=%s\n" % (segment,counterpart,method,MeanTractLen))
+                crush_file.write("%s-%s-%s-MeanTractLen_StdDev=%s\n" % (segment,counterpart,method,MeanTractLen_StdDev))
+                ############
+                
+                m = re.search(r'Voxel Size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
+                if m:
+                    VoxelSizeX = m.group(1).strip()
+                    VoxelSizeY = m.group(2).strip()
+                    VoxelSizeZ = m.group(3).strip()
+                else:
+                    VoxelSizeX = 0
+                    VoxelSizeY = 0
+                    VoxelSizeZ = 0
+
+                crush_file.write("%s-%s-%s-VoxelSizeX=%s\n" % (segment,counterpart,method,VoxelSizeX))
+                crush_file.write("%s-%s-%s-VoxelSizeY=%s\n" % (segment,counterpart,method,VoxelSizeY))
+                crush_file.write("%s-%s-%s-VoxelSizeZ=%s\n" % (segment,counterpart,method,VoxelSizeZ))
+                
+                #FA Mean
+                #MsgUser.bold("FA Mean")
+                meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))             
+                crush_file.write("%s-%s-%s-meanFA=%s\n" % (segment,counterpart,method,meanFA))
+                #FA Std Dev
+                #MsgUser.bold("FA Standard Deviation")
+                
+                stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
+                crush_file.write("%s-%s-%s-stddevFA=%s\n" % (segment,counterpart,method,stddevFA))
+
+                #ADC Mean
+                #MsgUser.bold("ADC Mean")
+                
+                meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
+                crush_file.write("%s-%s-%s-meanADC=%s\n" % (segment,counterpart,method,meanADC))
+                #ADC Std Dev
+                #MsgUser.bold("ADC Standard Deviation")
+                
+                stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
+                crush_file.write("%s-%s-%s-stddevADC=%s\n" % (segment,counterpart,method,stddevADC))
+                
+                ############# CLEANUP #################
+                if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
+                    os.remove("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
+        else:
+            MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
+
     def track_vis(self):
         MsgUser.bold("track_vis")
         #output: crush.txt		
+        x=1
+        no_of_procs = multiprocessing.cpu_count() 
+
+        print("Multiprocessing across %s async procs" %(no_of_procs))
+        
+        
+        pool = Pool(no_of_procs)
         if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):        
             MsgUser.skipped("track_vis output exists")
         else:
             if not os.path.exists("%s/Tractography/crush/" % (self.path)):
                 os.makedirs("%s/Tractography/crush/" % (self.path))
  
+            
             for segment,segmentName in self.Segments.items():
-                for counterpart,counterpartName in self.Segments.items():
-                    
-                    if (segment!=counterpart and segment<counterpart):
-                        methods = ["roi","roi_end"]
+                for counterpart,counterpartName in self.Segments.items():                    
+                    if (segment!=counterpart and segment<counterpart):                        
+                        methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
+                        methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
+                        with open(methodFile) as fin:
+                            reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+                            p = re.compile('^ *#')   # if not commented          
+                            for row in reader:
+                                if(not p.match(row[0])):                    
+                                    methods.append(row[0])                    
                         for method in methods:
-                            print("Rendering %s against %s using method %s" % (segment,counterpart,method))
-                            #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
-
-                            if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
-                                if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)) == False:
-                                    trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
-                                    print(trackvis)
-                                    proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE)
-                                    data = str(proc.stdout.read())
-                                    with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
-                                        track_vis_out.write(data)
-                                #print data
-                                else:
-                                    with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
-                                        data=myfile.read()#.replace('\n', '')
-
-                                with open("%s/Tractography/crush/tracts.txt" % (self.path), "a") as crush_file:
-                                    ############
-                                    m = re.search(r'Number of tracks: (\d+)', data)
-                                    if m:
-                                        NumTracts = m.group(1).strip()
-                                    else:
-                                        NumTracts = 0
-                                    crush_file.write("%s-%s-%s-NumTracts=%s\n" % (segment,counterpart,method,NumTracts))
-                                    ############
-                                    m = re.search(r'Number of tracks to render: (\d+)', data)
-                                    if m:
-                                        TractsToRender = m.group(1).strip()
-                                    else:
-                                        TractsToRender = 0
-                                    crush_file.write("%s-%s-%s-TractsToRender=%s\n" % (segment,counterpart,method,TractsToRender))
-                                    ############
-                                    m = re.search(r'Number of line segments to render: (\d+)', data)
-                                    if m:
-                                        LinesToRender = m.group(1).strip()
-                                    else:
-                                        LinesToRender = 0
-                                    crush_file.write("%s-%s-%s-LinesToRender=%s\n" % (segment,counterpart,method,LinesToRender))
-                                    ############
-                                    m = re.search(r'Mean track length: (\d+.\d+) +/- (\d+.\d+)', data)
-                                    if m:
-                                        MeanTractLen = m.group(1).strip()
-                                        MeanTractLen_StdDev = m.group(2).strip()
-                                    else:
-                                        MeanTractLen = 0
-                                        MeanTractLen_StdDev = 0
-                                    crush_file.write("%s-%s-%s-MeanTractLen=%s\n" % (segment,counterpart,method,MeanTractLen))
-                                    crush_file.write("%s-%s-%s-MeanTractLen_StdDev=%s\n" % (segment,counterpart,method,MeanTractLen_StdDev))
-                                    ############
-
-                                    m = re.search(r'Voxel Size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
-                                    if m:
-                                        VoxelSizeX = m.group(1).strip()
-                                        VoxelSizeY = m.group(2).strip()
-                                        VoxelSizeZ = m.group(3).strip()
-                                    else:
-                                        VoxelSizeX = 0
-                                        VoxelSizeY = 0
-                                        VoxelSizeZ = 0
-
-                                    crush_file.write("%s-%s-%s-VoxelSizeX=%s\n" % (segment,counterpart,method,VoxelSizeX))
-                                    crush_file.write("%s-%s-%s-VoxelSizeY=%s\n" % (segment,counterpart,method,VoxelSizeY))
-                                    crush_file.write("%s-%s-%s-VoxelSizeZ=%s\n" % (segment,counterpart,method,VoxelSizeZ))
-
-                                    #FA Mean
-                                    #MsgUser.bold("FA Mean")
-                                    meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))             
-                                    crush_file.write("%s-%s-%s-meanFA=%s\n" % (segment,counterpart,method,meanFA))
-                                    #FA Std Dev
-                                    #MsgUser.bold("FA Standard Deviation")
-                                    stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
-                                    crush_file.write("%s-%s-%s-stddevFA=%s\n" % (segment,counterpart,method,stddevFA))
-
-                                    #ADC Mean
-                                    #MsgUser.bold("ADC Mean")
-                                    meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
-                                    crush_file.write("%s-%s-%s-meanADC=%s\n" % (segment,counterpart,method,meanADC))
-                                    #ADC Std Dev
-                                    #MsgUser.bold("ADC Standard Deviation")
-                                    stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
-                                    crush_file.write("%s-%s-%s-stddevADC=%s\n" % (segment,counterpart,method,stddevADC))
-
-                                    ############# CLEANUP #################
-                                    if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
-                                        os.remove("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
-                            else:
-                                MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
-
+                            pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
+            
+            pool.join()
+            
             self.MeasurementComplete=True
             MsgUser.ok("track_vis Completed")
 
+    
     def nonZeroMean(self,faFile,roiFile):
         
         if os.path.isfile(faFile) == False:        
@@ -529,12 +412,16 @@ class Visit:
 
         imgFA = nib.load(faFile) #Untouched
         dataFA = imgFA.get_data()
-
+        
         img = nib.load(roiFile)
         roiData = img.get_data()
 
         indecesOfInterest = np.nonzero(roiData)
-        mean =np.mean(dataFA[indecesOfInterest],dtype=np.float64)
+
+        #I expect to see runtime warnings in this block, e.g. divide by zero
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=RuntimeWarning)            
+            mean =np.mean(dataFA[indecesOfInterest],dtype=np.float64)
 
         return mean
     def nonZeroStdDev(self,faFile,roiFile):
@@ -553,7 +440,11 @@ class Visit:
         roiData = img.get_data()
 
         indecesOfInterest = np.nonzero(roiData)
-        std =np.std(dataFA[indecesOfInterest],dtype=np.float64)
+
+        #I expect to see runtime warnings in this block, e.g. Degrees of freedom <= 0 for slice
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=RuntimeWarning)            
+            std =np.std(dataFA[indecesOfInterest],dtype=np.float64)
 
         return std
     
