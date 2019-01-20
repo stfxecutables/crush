@@ -1,13 +1,12 @@
 #ParcellationId,Label,asymetry counterpart
-#3035,wm-lh-insula,4035
-#4035,wm-rh-insula,3035
+3035,wm-lh-insula,4035
+4035,wm-rh-insula,3035
 0051,Right Putamen,0012
 0012,Left Putamen,
 #3002:wm-lh-caudalanteriorcingulate 
 #3003:wm-lh-caudalmiddlefrontal
 #3007:wm-lh-fusiform
 # 1034:ctx-lh-transversetemporal
-#1035:ctx-lh-insula
 # 0002:TBD
 # 0004:TBD
 # 0005:TBD
