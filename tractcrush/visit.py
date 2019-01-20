@@ -17,6 +17,7 @@ from shutil import copyfile
 import multiprocessing
 import csv
 import warnings
+from collections import defaultdict
 
               
 class Visit:
@@ -30,6 +31,8 @@ class Visit:
         self.voi=voi
         self.MeasurementComplete=False
         self.recrush=recrush
+        self.data = defaultdict(list)#{}
+        self.PatientId=os.path.split(os.path.dirname(self.path))[1]
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
         if os.path.isfile(reconTest):
             self.ReconComplete=True
@@ -38,15 +41,29 @@ class Visit:
             
         self.Segments = {}
 
+        i=1
         segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
         with open(segmentMap) as fin:
             reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
             p = re.compile('^ *#')   # if not commented          
             for row in reader:
-                if(not p.match(row[0])):                    
-                    self.Segments[row[0]]=row[1:]                        
+                #print("%s,%s" %(i,row))
+                if(not p.match(row[0])): 
+                    self.Segments[i]={} 
+                    self.Segments[i]['roi']=row[0]
+                    self.Segments[i]['roiname']=row[1]
+                    self.Segments[i]['asymmetry']=row[2]
+                i=i+1
+                    #self.Segments[row[0]]=row[1:] 
+        # segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
+        # with open(segmentMap) as fin:
+        #     reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+        #     p = re.compile('^ *#')   # if not commented          
+        #     for row in reader:
+        #         if(not p.match(row[0])):                    
+        #             self.Segments[row[0]]=row[1:]                        
                             
-     
+        #print(self.Segments)
     def Render(self):
         #Lets Render as needed
         MsgUser.message("Rendering %s" % self.path)
@@ -67,7 +84,68 @@ class Visit:
         self.track_vis()
         
             
-        
+    def Report2(self):
+        #MsgUser.bold("Reporting values of interest")
+
+        if os.path.isfile("%s" %(self.voi)):
+            #Determine my interests
+            with open(self.voi) as f:
+                voi_interests = f.readlines()
+                voi_interests = [x.strip() for x in voi_interests] #Remove Whitespace
+            #Get everything
+            self.data[self.PatientId]={}
+            self.data[self.PatientId][self.VisitId]={}
+
+            if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
+                with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
+                    for line in fMeasure:
+                        nvp=line.split("=")   
+                        self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
+            
+            ## Add derived measures here
+            print("Deriving")
+            for s in self.Segments:                
+                if self.Segments[s]['asymmetry']:
+                    asymRoi=self.Segments[s]['asymmetry'] # We want to calc asymmetry for anything related to this roi
+                    roi=self.Segments[s]['roi']
+
+                    for p in self.data:
+                        for v in self.data[p]: 
+                            for m in self.data[p][v]:
+                                #For all measures                                                                                      
+                                searchEx="%s-%s" %(roi,r'(\d+)')
+                                roiGrp = re.search(searchEx, m)
+                                if roiGrp:
+                                    ma=m.replace(roi,asymRoi)
+                                    if float(self.data[p][v][ma]) != 0:
+                                        asymIdx=float(self.data[p][v][m]) / float(self.data[p][v][ma])
+                                    else:
+                                        asymIdx=0
+                                    print("%s [%s] has aymmetry with %s [%s].  ASYM IDX=[%s]" %(m,self.data[p][v][m],ma,self.data[p][v][ma],asymIdx))
+                                    #if m in self.data[p][v] and m_asym not in self.data[p][v]:
+                                    #We haven't derived this asymIdx yet
+                                    
+                                    #    print(asymRoi,m_asym)
+                                    #row.append(self.data[p][v][m])
+                                    #print("%s-%s-%s" %(self.Segments[s]['roi'],self.Segments[s]['asymmetry'],self.Segments[s]['roiname']))
+                                    #print("%s-%s-%s" %(self.Segments[s]['asymmetry'],self.Segments[s]['roi'],self.Segments[s]['roiname']))
+                                    #print(self.Segments[s]['asymmetry'])
+            print("End Deriving")        
+            ## End of derived measures
+
+            #Print report
+            for p in self.data:
+                for v in self.data[p]:
+                    row=[]
+                    row.append(p)
+                    row.append(v)
+                    for m in voi_interests:
+                        if m in self.data[p][v]:
+                            row.append(self.data[p][v][m])
+                        else:
+                            row.append("")
+            print(",".join(row))                        
+       
     def Report(self):
         #MsgUser.bold("Reporting values of interest")
 
@@ -79,21 +157,28 @@ class Visit:
             #Read the measures that have been pre-derived   
             measures={}
             
-            measures["PatientVisit"]=self.path
+            measures["PatientVisit"]=self.path           
+            
             if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
                 with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
                     for line in fMeasure:
-                        nvp=line.split("=")
+                        nvp=line.split("=")                        
                         measures[nvp[0]]=nvp[1]
 
 
-                #Print results
+
+                
                 row=[]
                 row.append(os.path.split(os.path.dirname(self.path))[1])
                 row.append(self.VisitId)
+
+                #self.data['key'].append
+                
                 for cell in content:
                     if cell in measures:
                         row.append(measures[cell].strip())
+                        
+                 #       self.data[(os.path.split(os.path.dirname(self.path))[1])][self.VisitId][cell]=measures[cell].strip()
                     else:
                         row.append("")                              
                 print(",".join(row))

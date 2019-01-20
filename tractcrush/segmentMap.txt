@@ -2,7 +2,7 @@
 #3035,wm-lh-insula,4035
 #4035,wm-rh-insula,3035
 0051,Right Putamen,0012
-0012,Left Putamen,0051
+0012,Left Putamen,
 #3002:wm-lh-caudalanteriorcingulate 
 #3003:wm-lh-caudalmiddlefrontal
 #3007:wm-lh-fusiform

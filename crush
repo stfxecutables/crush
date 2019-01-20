@@ -84,7 +84,7 @@ def ProcessSamples(args,S):
                 v.Render()
                 v.Measure()
 def main():                
-    VersionCheck()
+    
     ldir = "."
     parser = argparse.ArgumentParser(
         description='Connectomics and Reporting User Shell is used to iterrogate samples, generate or extract measurements.')
@@ -110,23 +110,29 @@ def main():
 
         if os.path.isfile("%s" % (args.voi)):
             # Print Header
+            row=[]
+            row.append("PatientID")
+            row.append("VisitID")
             with open(args.voi) as f:
                 content = f.readlines()
                 content = [x.strip() for x in content]  # Remove Whitespace
-                print(",".join(content))
+                for c in content:
+                    row.append(c)
+                print(",".join(row))
 
             for p in S.Patients:
                 if (args.patient is not None and args.patient != p.PatientId):
                     continue
                 # Print values from each patient visit
                 for v in p.Visits:
-                    v.Report()
+                    v.Report2()  
+                    #print(v.data)                  
         else:
             print("voi file not found (%s)" % (args.voi))
 
 
     else:
-
+        VersionCheck()
         print("\n################## CRUSH ##################")
         print("#  Connectomics and Reporting User Shell  #")
         print("###########################################\n")
