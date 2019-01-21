@@ -39,7 +39,7 @@ class Visit:
         else:
             self.ReconComplete=False
             
-        self.Segments = {}
+        self.Segments = []#{}
 
         i=1
         segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
@@ -49,10 +49,11 @@ class Visit:
             for row in reader:
                 #print("%s,%s" %(i,row))
                 if(not p.match(row[0])): 
-                    self.Segments[i]={} 
-                    self.Segments[i]['roi']=row[0]
-                    self.Segments[i]['roiname']=row[1]
-                    self.Segments[i]['asymmetry']=row[2]
+                    self.Segments.append({'roi':row[0],'roiname':row[1],'asymmetry':row[2]})
+                    #self.Segments[i]={} 
+                    #self.Segments[i]['roi']=row[0]
+                    #self.Segments[i]['roiname']=row[1]
+                    #self.Segments[i]['asymmetry']=row[2]
                 i=i+1
                     #self.Segments[row[0]]=row[1:] 
         # segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
@@ -103,12 +104,11 @@ class Visit:
                         self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
             
             ## Add derived measures here
-            print("Deriving")
-            for s in self.Segments:                
-                if self.Segments[s]['asymmetry']:
-                    asymRoi=self.Segments[s]['asymmetry'] # We want to calc asymmetry for anything related to this roi
-                    roi=self.Segments[s]['roi']
-
+            print("Deriving Asymmetry Indexes")
+            for s in self.Segments:  
+                roi=s['roi']                             
+                asymmetry=s['asymmetry']
+                if asymmetry:
                     for p in self.data:
                         for v in self.data[p]: 
                             for m in self.data[p][v]:
@@ -116,21 +116,14 @@ class Visit:
                                 searchEx="%s-%s" %(roi,r'(\d+)')
                                 roiGrp = re.search(searchEx, m)
                                 if roiGrp:
-                                    ma=m.replace(roi,asymRoi)
+                                    ma=m.replace(roi,asymmetry)
                                     if float(self.data[p][v][ma]) != 0:
                                         asymIdx=float(self.data[p][v][m]) / float(self.data[p][v][ma])
                                     else:
                                         asymIdx=0
                                     print("%s [%s] has aymmetry with %s [%s].  ASYM IDX=[%s]" %(m,self.data[p][v][m],ma,self.data[p][v][ma],asymIdx))
-                                    #if m in self.data[p][v] and m_asym not in self.data[p][v]:
-                                    #We haven't derived this asymIdx yet
-                                    
-                                    #    print(asymRoi,m_asym)
-                                    #row.append(self.data[p][v][m])
-                                    #print("%s-%s-%s" %(self.Segments[s]['roi'],self.Segments[s]['asymmetry'],self.Segments[s]['roiname']))
-                                    #print("%s-%s-%s" %(self.Segments[s]['asymmetry'],self.Segments[s]['roi'],self.Segments[s]['roiname']))
-                                    #print(self.Segments[s]['asymmetry'])
-            print("End Deriving")        
+
+                   
             ## End of derived measures
 
             #Print report
@@ -480,9 +473,13 @@ class Visit:
         if not os.path.exists("%s/Tractography/crush/" % (self.path)):
             os.makedirs("%s/Tractography/crush/" % (self.path))
 
-        
-        for segment,segmentName in self.Segments.items():
-            for counterpart,counterpartName in self.Segments.items():                    
+        #print(self.Segments)
+        for s in self.Segments:
+            segment=s['roi']
+            segmentName=s['roiname']                                            
+            for c in self.Segments:
+                counterpart=c['roi']
+                counterpartName=c['roiname']                               
                 if (segment!=counterpart and segment<counterpart):                        
                     methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
                     methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
@@ -493,8 +490,8 @@ class Visit:
                             if(not p.match(row[0])):                    
                                 methods.append(row[0])                    
                     for method in methods:
-                        pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
-        
+                        #print("Rendering segment %s counterpart %s method %s" %(segment, counterpart, method))
+                        pool.apply_async(self.trackvis_worker,(segment,counterpart,method))                                    
         pool.join()
         
         self.MeasurementComplete=True
