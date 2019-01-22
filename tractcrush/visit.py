@@ -28,17 +28,25 @@ class Visit:
         self.VisitId=os.path.basename(path)
         self.path=path
         self.rebuild=rebuild
-        self.voi=voi
-        self.MeasurementComplete=False
+        self.voi=voi        
         self.recrush=recrush
         self.data = defaultdict(list)#{}
         self.PatientId=os.path.split(os.path.dirname(self.path))[1]
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
+        
         if os.path.isfile(reconTest):
-            self.ReconComplete=True
+            self.ReconComplete=True            
         else:
             self.ReconComplete=False
-            
+
+        measurementTest = "%s/Tractography/crush/tracts.txt" % (path)
+        print(measurementTest)
+        if os.path.isfile(measurementTest):
+            self.MeasurementComplete=True    
+        else: 
+            self.MeasurementComplete=False
+
+
         self.Segments = []#{}
 
         i=1

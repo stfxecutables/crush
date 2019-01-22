@@ -51,19 +51,18 @@ def StatusReport(args,S):
     for p in S.Patients:
         if (args.patient is not None and args.patient != p.PatientId):
             continue
-        for v in p.Visits:
-
-            if v.ReconComplete != True:
+        for v in p.Visits:            
+            if v.ReconComplete:
                 l_reconall_message = "Cortical Reconstruction Complete"
-            else:
+            else:                
                 l_reconall_message = "Cortical Reconstruction INCOMPLETE"
 
-            if v.ReconComplete != True:
+            if not v.ReconComplete:
                 l_parcellation_message = "NOT Parcellated"
             else:
                 l_parcellation_message = "Parcellated"
 
-            if v.MeasurementComplete != True:
+            if not v.MeasurementComplete:
                 l_measurement_message = "NO Measurements"
             else:
                 l_measurement_message = "Measurement Complete"
