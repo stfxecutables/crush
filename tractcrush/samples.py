@@ -2,6 +2,7 @@ import os, sys,inspect,re
 #from pathlib import Path
 from tractcrush.patient import Patient
 import csv
+import math
 
 class Samples:
     Count=0
@@ -91,17 +92,42 @@ class Samples:
         row.append('White or Grey')
         row.append('Common Name')
         row.append('Method')
-        row.append('Measure Name')
 
-        row.append("Feature")
-        row.append("Measure")
+        measureNames = ['NumTracts',
+        'TractsToRender',
+        'LinesToRender',
+        'MeanTractLen',
+        'MeanTractLen_StdDev',
+        'VoxelSizeX',
+        'VoxelSizeY',
+        'VoxelSizeZ',
+        'meanFA',
+        'stddevFA',
+        'meanADC',
+        'stddevADC']
+
+        for mn in measureNames:            
+            row.append(mn)
+        #row.append('Measure Name')
+        #row.append("Feature")
+        #row.append("Measure")
         print(",".join(row))
 
         #Print CSV Data
         for p in self.Patients:
             for v in p.Visits:
-                measurements = v.GetMeasurements()      
-                for m in measurements:                  
+                measurements = v.GetMeasurements()   
+                measurementRoots = []
+                for m in measurements:
+                    m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
+                    if m0:
+                        r=m0.group(1)+"-"+m0.group(2)+"-"+m0.group(3)
+                        if r not in measurementRoots:                              
+                            measurementRoots.append(r)
+                        
+
+                            
+                for m in measurementRoots:                  
                     row=[]                
                     row.append(p.PatientId)            
                     row.append(v.VisitId)
@@ -114,7 +140,7 @@ class Samples:
                             row.append("")
 
                     #What do we know about this ROI?
-                    m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
+                    m0 = re.match("^(\w+)-(\w+)-(\w+)",m)
                     if m0 and m0.group(1) in Features:                         
                         roi=Features[m0.group(1)]['ROI']
                         roiLabel=Features[m0.group(1)]['ROI Label']
@@ -123,7 +149,7 @@ class Samples:
                         wg=Features[m0.group(1)]['White or Grey']                       
                         cn=Features[m0.group(1)]['Common Name']
                         method=m0.group(3)
-                        measure=m0.group(4)
+                        #measure=m0.group(4)
                     else:
                         roi=m0.group(1)
                         roiLabel=""
@@ -132,7 +158,7 @@ class Samples:
                         wg=""
                         cn=""
                         method=m0.group(3)
-                        measure=m0.group(4)
+                        #measure=m0.group(4)
 
                     row.append(roi)
                     row.append(roiLabel)
@@ -141,11 +167,66 @@ class Samples:
                     row.append(wg)
                     row.append(cn)
                     row.append(method)
-                    row.append(measure)
+                    #row.append(measure)
 
-                    row.append(m)
-                    row.append(measurements[m])
+                    for mn in measureNames:    
+                        x = float(measurements[m+'-'+mn]) 
+                        if math.isnan(x):
+                            row.append("")
+                        else:
+                            row.append(measurements[m+'-'+mn])
+
+                    #row.append(measurements[m])
                     print(",".join(row))
             
+
+
+                # for m in measurements:                  
+                #     row=[]                
+                #     row.append(p.PatientId)            
+                #     row.append(v.VisitId)
+
+                #     for meta_i in range(2,len(metaHeader)):
+                #         meta=metaHeader[meta_i]
+                #         if p.PatientId in Metadata and v.VisitId in Metadata[p.PatientId] and meta in Metadata[p.PatientId][v.VisitId] :
+                #             row.append(Metadata[p.PatientId][v.VisitId][meta])
+                #         else:
+                #             row.append("")
+
+                #     #What do we know about this ROI?
+                #     m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
+                #     if m0 and m0.group(1) in Features:                         
+                #         roi=Features[m0.group(1)]['ROI']
+                #         roiLabel=Features[m0.group(1)]['ROI Label']
+                #         asymIdx=Features[m0.group(1)]['Asymmetry Counterpart']
+                #         lw=Features[m0.group(1)]['Left or Right']
+                #         wg=Features[m0.group(1)]['White or Grey']                       
+                #         cn=Features[m0.group(1)]['Common Name']
+                #         method=m0.group(3)
+                #         measure=m0.group(4)
+                #     else:
+                #         roi=m0.group(1)
+                #         roiLabel=""
+                #         asymIdx=""
+                #         lw=""
+                #         wg=""
+                #         cn=""
+                #         method=m0.group(3)
+                #         measure=m0.group(4)
+
+                #     row.append(roi)
+                #     row.append(roiLabel)
+                #     row.append(asymIdx)
+                #     row.append(lw)
+                #     row.append(wg)
+                #     row.append(cn)
+                #     row.append(method)
+                #     row.append(measure)
+
+                #     row.append(m)
+                #     row.append(measurements[m])
+                #     print(",".join(row))
+            
+
 
 

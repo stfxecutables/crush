@@ -91,16 +91,8 @@ class Visit:
     def Measure(self):
     
         self.track_vis()
-        
-    def GetMeasurements(self):
-        #MsgUser.bold("Reporting values of interest")
 
-        # if os.path.isfile("%s" %(self.voi)):
-        #     #Determine my interests
-        #     with open(self.voi) as f:
-        #         voi_interests = f.readlines()
-        #         voi_interests = [x.strip() for x in voi_interests] #Remove Whitespace
-            #Get everything
+    def GetMeasurements(self):
 
         Measurements={}
 
@@ -160,7 +152,7 @@ class Visit:
                     else:
                         row.append("")
             #print(",".join(row))   
-
+        
 
     def Report2(self):
         #MsgUser.bold("Reporting values of interest")
