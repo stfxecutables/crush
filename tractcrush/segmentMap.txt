@@ -1,8 +1,8 @@
-#ParcellationId,Label,asymetry counterpart
-3035,wm-lh-insula,4035
-4035,wm-rh-insula,3035
-0051,Right Putamen,0012
-0012,Left Putamen,
+#ParcellationId,Label,asymetry counterpart,Left or Right,White or Grey,Common Name
+3035,wm-lh-insula,4035,Left,White Matter,Insula
+4035,wm-rh-insula,3035,Right,White Matter,Insula
+0051,Right Putamen,0012,Right,White Matter,Putamen
+0012,Left Putamen,0051,Left,White Matter,Putamen
 #3002:wm-lh-caudalanteriorcingulate 
 #3003:wm-lh-caudalmiddlefrontal
 #3007:wm-lh-fusiform

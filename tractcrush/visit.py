@@ -40,7 +40,7 @@ class Visit:
             self.ReconComplete=False
 
         measurementTest = "%s/Tractography/crush/tracts.txt" % (path)
-        print(measurementTest)
+        #print(measurementTest)
         if os.path.isfile(measurementTest):
             self.MeasurementComplete=True    
         else: 
@@ -92,7 +92,76 @@ class Visit:
     
         self.track_vis()
         
-            
+    def GetMeasurements(self):
+        #MsgUser.bold("Reporting values of interest")
+
+        # if os.path.isfile("%s" %(self.voi)):
+        #     #Determine my interests
+        #     with open(self.voi) as f:
+        #         voi_interests = f.readlines()
+        #         voi_interests = [x.strip() for x in voi_interests] #Remove Whitespace
+            #Get everything
+
+        Measurements={}
+
+        self.data[self.PatientId]={}
+        self.data[self.PatientId][self.VisitId]={}
+
+        if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
+            with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
+                for line in fMeasure:
+                    nvp=line.split("=")   
+                    self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
+                    Measurements[nvp[0]]=nvp[1].strip()
+        
+        ## Add derived measures here
+        #print("Deriving Asymmetry Indexes")
+        for s in self.Segments:  
+            roi=s['roi']                             
+            asymmetry=s['asymmetry']
+            if asymmetry:
+                for p in self.data:
+                    for v in self.data[p]: 
+                        asymMeasuresToAdd = {}
+                        for m in self.data[p][v]:
+                            #For all measures                                                                                      
+                            searchEx="%s-%s" %(roi,r'(\d+)')
+                            roiGrp = re.search(searchEx, m)
+                            if roiGrp:
+                                ma=m.replace(roi,asymmetry)
+                                if ma in self.data[p][v] and float(self.data[p][v][ma]) != 0:
+                                    asymIdx=float(self.data[p][v][m]) / float(self.data[p][v][ma])
+                                else:
+                                    asymIdx=0
+                                #self.data[self.PatientId][self.VisitId][ma]=asymIdx
+                                
+                                asymMeasuresToAdd["%s-asymidx" %(ma)]=asymIdx
+                                #print("%s [%s] has aymmetry with %s [%s].  ASYM IDX=[%s]" %(m,self.data[p][v][m],ma,self.data[p][v][ma],asymIdx))
+                                #print("%s is %s" %(ma,asymIdx))
+                        for ma in asymMeasuresToAdd:                                                                
+                            #print("XX-%s" %(ma))
+                            self.data[p][v][ma] = str(asymMeasuresToAdd[ma])
+
+                
+        ## End of derived measures
+        
+        return Measurements
+        #Print report
+        for p in self.data:            
+            for v in self.data[p]:
+                row=[]
+                row.append(p)
+                row.append(v)
+                for m in voi_interests:
+                    if m in self.data[p][v]:
+                        row.append(self.data[p][v][m])
+                        if "%s-asymidx" %(m) in self.data[p][v]:
+                            row.append(self.data[p][v]["%s-asymidx" %(m)])
+                    else:
+                        row.append("")
+            #print(",".join(row))   
+
+
     def Report2(self):
         #MsgUser.bold("Reporting values of interest")
 
