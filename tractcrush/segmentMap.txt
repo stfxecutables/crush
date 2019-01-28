@@ -1,190 +1,182 @@
 #ParcellationId,Label,asymetry counterpart,Left or Right,White or Grey,Common Name
-3035,wm-lh-insula,4035,Left,White Matter,Insula
-4035,wm-rh-insula,3035,Right,White Matter,Insula
-0051,Right Putamen,0012,Right,White Matter,Putamen
+0002,x1,x2,x3,x4,x5
+0004,x1,x2,x3,x4,x5
+0005,x1,x2,x3,x4,x5
+0007,x1,x2,x3,x4,x5
+0008,x1,x2,x3,x4,x5
+0010,x1,x2,x3,x4,x5
+0011,x1,x2,x3,x4,x5
 0012,Left Putamen,0051,Left,White Matter,Putamen
-#3002:wm-lh-caudalanteriorcingulate 
-#3003:wm-lh-caudalmiddlefrontal
-#3007:wm-lh-fusiform
-# 1034:ctx-lh-transversetemporal
-# 0002:TBD
-# 0004:TBD
-# 0005:TBD
-# 0007:TBD
-# 0008:TBD
-# 0010:TBD
-# 0011:TBD
-# 0012:TBD
-# 0013:TBD
-# 0014:TBD
-# 0015:TBD
-# 0016:TBD
-# 0017:TBD
-# 0018:TBD
-# 0024:TBD
-# 0026:TBD
-# 0028:TBD
-# 0030:TBD
-# 0031:TBD
-# 0041:TBD
-# 0043:TBD
-# 0044:TBD
-# 0046:TBD
-# 0047:TBD
-# 0049:TBD
-# 0050:TBD
-# 0051:TBD
-# 0052:TBD
-# 0053:TBD
-# 0054:TBD
-# 0058:TBD
-# 0060:TBD
-# 0062:TBD
-# 0063:TBD
-# 0077:TBD
-# 0085:TBD
-# 0251:TBD
-# 0252:TBD
-# 0253:TBD
-# 0254:TBD
-# 0255:TBD
-# 1000:TBD
-# 1001:TBD
-# 1002:TBD
-# 1003:TBD
-# 1005:TBD
-# 1006:TBD
-# 1007:TBD
-# 1008:TBD
-# 1009:TBD
-# 1010:TBD
-# 1011:TBD
-# 1012:TBD
-# 1013:TBD
-# 1014:TBD
-# 1015:TBD
-# 1016:TBD
-# 1017:TBD
-# 1018:TBD
-# 1019:TBD
-# 1020:TBD
-# 1021:TBD
-# 1022:TBD
-# 1023:TBD
-# 1024:TBD
-# 1025:TBD
-# 1026:TBD
-# 1027:TBD
-# 1028:TBD
-# 1029:TBD
-# 1030:TBD
-# 1031:TBD
-# 1032:TBD
-# 1033:TBD
-# 1034:TBD
-# 1035:TBD
-# 2000:TBD
-# 2001:TBD
-# 2002:TBD
-# 2003:TBD
-# 2005:TBD
-# 2006:TBD
-# 2007:TBD
-# 2008:TBD
-# 2009:TBD
-# 2010:TBD
-# 2011:TBD
-# 2012:TBD
-# 2013:TBD
-# 2014:TBD
-# 2015:TBD
-# 2016:TBD
-# 2017:TBD
-# 2018:TBD
-# 2019:TBD
-# 2020:TBD
-# 2021:TBD
-# 2022:TBD
-# 2023:TBD
-# 2024:TBD
-# 2025:TBD
-# 2026:TBD
-# 2027:TBD
-# 2028:TBD
-# 2029:TBD
-# 2030:TBD
-# 2031:TBD
-# 2032:TBD
-# 2033:TBD
-# 2034:TBD
-# 2035:TBD
-# 3001:TBD
-# 3002:TBD
-# 3003:TBD
-# 3005:TBD
-# 3006:TBD
-# 3007:TBD
-# 3008:TBD
-# 3009:TBD
-# 3010:TBD
-# 3011:TBD
-# 3012:TBD
-# 3013:TBD
-# 3014:TBD
-# 3015:TBD
-# 3016:TBD
-# 3017:TBD
-# 3018:TBD
-# 3019:TBD
-# 3020:TBD
-# 3021:TBD
-# 3022:TBD
-# 3023:TBD
-# 3024:TBD
-# 3025:TBD
-# 3026:TBD
-# 3027:TBD
-# 3028:TBD
-# 3029:TBD
-# 3030:TBD
-# 3031:TBD
-# 3032:TBD
-# 3033:TBD
-# 3034:TBD
-# 3035:TBD
-# 4001:TBD
-# 4002:TBD
-# 4003:TBD
-# 4005:TBD
-# 4006:TBD
-# 4007:TBD
-# 4008:TBD
-# 4009:TBD
-# 4010:TBD
-# 4011:TBD
-# 4012:TBD
-# 4013:TBD
-# 4014:TBD
-# 4015:TBD
-# 4016:TBD
-# 4017:TBD
-# 4018:TBD
-# 4019:TBD
-# 4020:TBD
-# 4021:TBD
-# 4022:TBD
-# 4023:TBD
-# 4024:TBD
-# 4025:TBD
-# 4026:TBD
-# 4027:TBD
-# 4028:TBD
-# 4029:TBD
-# 4030:TBD
-# 4031:TBD
-# 4032:TBD
-# 4033:TBD
-# 4034:TBD
-# 4035:TBD
-# 5001:TBD
-# 5002:TBD
+0013,x1,x2,x3,x4,x5
+0014,x1,x2,x3,x4,x5
+0015,x1,x2,x3,x4,x5
+0016,x1,x2,x3,x4,x5
+0017,x1,x2,x3,x4,x5
+0018,x1,x2,x3,x4,x5
+0024,x1,x2,x3,x4,x5
+0026,x1,x2,x3,x4,x5
+0028,x1,x2,x3,x4,x5
+0030,x1,x2,x3,x4,x5
+0031,x1,x2,x3,x4,x5
+0041,x1,x2,x3,x4,x5
+0043,x1,x2,x3,x4,x5
+0044,x1,x2,x3,x4,x5
+0046,x1,x2,x3,x4,x5
+0047,x1,x2,x3,x4,x5
+0049,x1,x2,x3,x4,x5
+0050,x1,x2,x3,x4,x5
+0051,Right Putamen,0012,Right,White Matter,Putamen
+0052,x1,x2,x3,x4,x5
+0053,x1,x2,x3,x4,x5
+0054,x1,x2,x3,x4,x5
+0058,x1,x2,x3,x4,x5
+0060,x1,x2,x3,x4,x5
+0062,x1,x2,x3,x4,x5
+0063,x1,x2,x3,x4,x5
+0077,x1,x2,x3,x4,x5
+0085,x1,x2,x3,x4,x5
+0251,x1,x2,x3,x4,x5
+0252,x1,x2,x3,x4,x5
+0253,x1,x2,x3,x4,x5
+0254,x1,x2,x3,x4,x5
+0255,x1,x2,x3,x4,x5
+1000,x1,x2,x3,x4,x5
+1001,x1,x2,x3,x4,x5
+1002,x1,x2,x3,x4,x5
+1003,x1,x2,x3,x4,x5
+1005,x1,x2,x3,x4,x5
+1006,x1,x2,x3,x4,x5
+1007,x1,x2,x3,x4,x5
+1008,x1,x2,x3,x4,x5
+1009,x1,x2,x3,x4,x5
+1010,x1,x2,x3,x4,x5
+1011,x1,x2,x3,x4,x5
+1012,x1,x2,x3,x4,x5
+1013,x1,x2,x3,x4,x5
+1014,x1,x2,x3,x4,x5
+1015,x1,x2,x3,x4,x5
+1016,x1,x2,x3,x4,x5
+1017,x1,x2,x3,x4,x5
+1018,x1,x2,x3,x4,x5
+1019,x1,x2,x3,x4,x5
+1020,x1,x2,x3,x4,x5
+1021,x1,x2,x3,x4,x5
+1022,x1,x2,x3,x4,x5
+1023,x1,x2,x3,x4,x5
+1024,x1,x2,x3,x4,x5
+1025,x1,x2,x3,x4,x5
+1026,x1,x2,x3,x4,x5
+1027,x1,x2,x3,x4,x5
+1028,x1,x2,x3,x4,x5
+1029,x1,x2,x3,x4,x5
+1030,x1,x2,x3,x4,x5
+1031,x1,x2,x3,x4,x5
+1032,x1,x2,x3,x4,x5
+1033,x1,x2,x3,x4,x5
+1034,ctx-lh-transversetemporal,x2,x3,x4,x5
+1035,x1,x2,x3,x4,x5
+2000,x1,x2,x3,x4,x5
+2001,x1,x2,x3,x4,x5
+2002,x1,x2,x3,x4,x5
+2003,x1,x2,x3,x4,x5
+2005,x1,x2,x3,x4,x5
+2006,x1,x2,x3,x4,x5
+2007,x1,x2,x3,x4,x5
+2008,x1,x2,x3,x4,x5
+2009,x1,x2,x3,x4,x5
+2010,x1,x2,x3,x4,x5
+2011,x1,x2,x3,x4,x5
+2012,x1,x2,x3,x4,x5
+2013,x1,x2,x3,x4,x5
+2014,x1,x2,x3,x4,x5
+2015,x1,x2,x3,x4,x5
+2016,x1,x2,x3,x4,x5
+2017,x1,x2,x3,x4,x5
+2018,x1,x2,x3,x4,x5
+2019,x1,x2,x3,x4,x5
+2020,x1,x2,x3,x4,x5
+2021,x1,x2,x3,x4,x5
+2022,x1,x2,x3,x4,x5
+2023,x1,x2,x3,x4,x5
+2024,x1,x2,x3,x4,x5
+2025,x1,x2,x3,x4,x5
+2026,x1,x2,x3,x4,x5
+2027,x1,x2,x3,x4,x5
+2028,x1,x2,x3,x4,x5
+2029,x1,x2,x3,x4,x5
+2030,x1,x2,x3,x4,x5
+2031,x1,x2,x3,x4,x5
+2032,x1,x2,x3,x4,x5
+2033,x1,x2,x3,x4,x5
+2034,x1,x2,x3,x4,x5
+2035,x1,x2,x3,x4,x5
+3001,x1,x2,x3,x4,x5
+3002,wm-lh-caudalanteriorcingulate,x2,x3,x4,x5
+3003,wm-lh-caudalmiddlefrontal,x2,x3,x4,x5
+3005,x1,x2,x3,x4,x5
+3006,x1,x2,x3,x4,x5
+3007,wm-lh-fusiform,x2,x3,x4,x4,x5
+3008,x1,x2,x3,x4,x5
+3009,x1,x2,x3,x4,x5
+3010,x1,x2,x3,x4,x5
+3011,x1,x2,x3,x4,x5
+3012,x1,x2,x3,x4,x5
+3013,x1,x2,x3,x4,x5
+3014,x1,x2,x3,x4,x5
+3015,x1,x2,x3,x4,x5
+3016,x1,x2,x3,x4,x5
+3017,x1,x2,x3,x4,x5
+3018,x1,x2,x3,x4,x5
+3019,x1,x2,x3,x4,x5
+3020,x1,x2,x3,x4,x5
+3021,x1,x2,x3,x4,x5
+3022,x1,x2,x3,x4,x5
+3023,x1,x2,x3,x4,x5
+3024,x1,x2,x3,x4,x5
+3025,x1,x2,x3,x4,x5
+3026,x1,x2,x3,x4,x5
+3027,x1,x2,x3,x4,x5
+3028,x1,x2,x3,x4,x5
+3029,x1,x2,x3,x4,x5
+3030,x1,x2,x3,x4,x5
+3031,x1,x2,x3,x4,x5
+3032,x1,x2,x3,x4,x5
+3033,x1,x2,x3,x4,x5
+3034,x1,x2,x3,x4,x5
+3035,wm-lh-insula,4035,Left,White Matter,Insula
+4001,x1,x2,x3,x4,x5
+4002,x1,x2,x3,x4,x5
+4003,x1,x2,x3,x4,x5
+4005,x1,x2,x3,x4,x5
+4006,x1,x2,x3,x4,x5
+4007,x1,x2,x3,x4,x5
+4008,x1,x2,x3,x4,x5
+4009,x1,x2,x3,x4,x5
+4010,x1,x2,x3,x4,x5
+4011,x1,x2,x3,x4,x5
+4012,x1,x2,x3,x4,x5
+4013,x1,x2,x3,x4,x5
+4014,x1,x2,x3,x4,x5
+4015,x1,x2,x3,x4,x5
+4016,x1,x2,x3,x4,x5
+4017,x1,x2,x3,x4,x5
+4018,x1,x2,x3,x4,x5
+4019,x1,x2,x3,x4,x5
+4020,x1,x2,x3,x4,x5
+4021,x1,x2,x3,x4,x5
+4022,x1,x2,x3,x4,x5
+4023,x1,x2,x3,x4,x5
+4024,x1,x2,x3,x4,x5
+4025,x1,x2,x3,x4,x5
+4026,x1,x2,x3,x4,x5
+4027,x1,x2,x3,x4,x5
+4028,x1,x2,x3,x4,x5
+4029,x1,x2,x3,x4,x5
+4030,x1,x2,x3,x4,x5
+4031,x1,x2,x3,x4,x5
+4032,x1,x2,x3,x4,x5
+4033,x1,x2,x3,x4,x5
+4034,x1,x2,x3,x4,x5
+4035,wm-rh-insula,3035,Right,White Matter,Insula
+5001,x1,x2,x3,x4,x5
+5002,x1,x2,x3,x4,x5

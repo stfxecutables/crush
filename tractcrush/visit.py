@@ -23,13 +23,14 @@ from collections import defaultdict
 class Visit:
    
         
-    def __init__(self,path,rebuild,voi,recrush):
+    def __init__(self,path,rebuild,voi,recrush,fixmissing):
        
         self.VisitId=os.path.basename(path)
         self.path=path
         self.rebuild=rebuild
         self.voi=voi        
         self.recrush=recrush
+        self.fixmissing=fixmissing
         self.data = defaultdict(list)#{}
         self.PatientId=os.path.split(os.path.dirname(self.path))[1]
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
@@ -407,38 +408,16 @@ class Visit:
         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
             if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)) == False:
                 
-                #tmpFile=str(uuid.uuid4())
-                #print(tmpFile)
-                #copyfile("%s/Tractography/crush.trk" %(self.path),"%s/Tractography/crush.%s.trk" %(self.path,tmpFile))
-
                 #trackvis = ["track_vis","%s/Tractography/crush.%s.trk" %(self.path,tmpFile),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
                 trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
-                #print(trackvis)
-                #exit()
+
                 with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
                     proc = subprocess.Popen(trackvis, stdout=track_vis_out)
                     proc.communicate()
                 #    os.remove("%s/Tractography/crush.%s.trk" %(self.path,tmpFile)) 
                 with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
                     data=myfile.read()
-                                
-                ##proc = subprocess.Popen(trackvis, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-                
-                #out,err = proc.communicate()
-
-                #data = str(proc.stdout.read())
-                ##data = str(proc.stdout.read())
-                ##dataerr = str(proc.stderr.read())
-                #data=str(out.read())
-                #dataerr=str(err.read())
-
-                
-                ##with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
-                ##    track_vis_out.write(data)
-                
-                ##with open("%s/Tractography/crush/%s-%s-%s.nii.err" %(self.path,segment,counterpart,method), "w") as track_vis_err:
-                ##    track_vis_err.write(dataerr)                    
-            #print data
+                                                
             else:
                 with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
                     data=myfile.read()#.replace('\n', '')
@@ -533,22 +512,25 @@ class Visit:
         
         pool = Pool(no_of_procs)
         if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):   
-            print(self.recrush)
-            if(self.recrush):
-                print("Deleting previous crush output")
-                
-                folder = '%s/Tractography/crush' %(self.path)
-                for the_file in os.listdir(folder):
-                    file_path = os.path.join(folder, the_file)
-                    try:
-                        if os.path.isfile(file_path):
-                            os.unlink(file_path)        
-                    except Exception as e:
-                        print(e)
+            
+            if(self.fixmissing!=True):
+                if(self.recrush):
+                    print("Deleting previous crush output")
+                    
+                    folder = '%s/Tractography/crush' %(self.path)
+                    for the_file in os.listdir(folder):
+                        file_path = os.path.join(folder, the_file)
+                        try:
+                            if os.path.isfile(file_path):
+                                os.unlink(file_path)        
+                        except Exception as e:
+                            print(e)
+                else:
+                    MsgUser.skipped("track_vis output exists")
+                    return
             else:
-                MsgUser.skipped("track_vis output exists")
-                return
-        
+                MsgUser.skipped("some track_vis output exists, I will crush anything missing")
+                
         if not os.path.exists("%s/Tractography/crush/" % (self.path)):
             os.makedirs("%s/Tractography/crush/" % (self.path))
 

@@ -100,13 +100,15 @@ def main():
                         help='Values of Interest - Path to text file that lists values of interest to extract.  One column per line.  Look at any patient sample tractography\\crush\\tracts.txt file for measures.')
     parser.add_argument('-recrush',action='store_true',
                         help='Ignore anything previosly crushed and re-extract tract information')
+    parser.add_argument('-fixmissing',action='store_true',
+                        help='Ignore anything previosly crushed and extract only tract information that has not been rendered yet')                        
     parser.add_argument('-report',action='store_true',
                         help='Extract a table for analysis')   
     parser.add_argument('-metadata',action='store',
                         help='Path to metadata file about patient.  The metadata file should have the CSV format Patient,Visit,Attr1..AttrN')
     args = parser.parse_args()
 
-    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata)
+    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing)
 
     if (args.report):
         S.Report()        
