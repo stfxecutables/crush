@@ -1,20 +1,20 @@
 import os, sys,inspect
-from gevent import monkey
+#from gevent import monkey
 
-monkey.patch_all()
-from gevent.pool import Pool
+#monkey.patch_all()
+#from gevent.pool import Pool
 import subprocess
 import numpy as np
 import re
 import time
-from threading import Thread
+#from threading import Thread
 import uuid
 
 #from pathlib import Path
 from tractcrush.ux import MsgUser
 import nibabel as nib
 from shutil import copyfile
-import multiprocessing
+from multiprocessing import Pool,cpu_count
 import csv
 import warnings
 from collections import defaultdict
@@ -23,8 +23,7 @@ from collections import defaultdict
 class Visit:
    
         
-    def __init__(self,path,rebuild,voi,recrush,fixmissing):
-       
+    def __init__(self,path,rebuild,voi,recrush,fixmissing):        
         self.VisitId=os.path.basename(path)
         self.path=path
         self.rebuild=rebuild
@@ -74,6 +73,13 @@ class Visit:
         #             self.Segments[row[0]]=row[1:]                        
                             
         #print(self.Segments)
+    def is_number(self,s):
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+            
     def Render(self):
         #Lets Render as needed
         MsgUser.message("Rendering %s" % self.path)
@@ -103,12 +109,14 @@ class Visit:
         if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
             with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
                 for line in fMeasure:
-                    nvp=line.split("=")   
-                    self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
-                    Measurements[nvp[0]]=nvp[1].strip()
-        
+                    if line.strip() != "":
+                        nvp=line.split("=")  
+                        self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
+                        Measurements[nvp[0]]=nvp[1].strip()
+            
         ## Add derived measures here
         #print("Deriving Asymmetry Indexes")
+        
         for s in self.Segments:  
             roi=s['roi']                             
             asymmetry=s['asymmetry']
@@ -121,14 +129,17 @@ class Visit:
                             searchEx="%s-%s" %(roi,r'(\d+)')
                             roiGrp = re.search(searchEx, m)
                             if roiGrp:
-                                ma=m.replace(roi,asymmetry)
-                                if ma in self.data[p][v] and float(self.data[p][v][ma]) != 0:
-                                    asymIdx=float(self.data[p][v][m]) / float(self.data[p][v][ma])
+                                ma=m.replace(roi,asymmetry)                                
+                                if ma in self.data[p][v] and self.data[p][v][ma]:
+                                    if self.is_number(self.data[p][v][ma]) and float(self.data[p][v][ma]) != 0:
+                                        asymIdx=float(self.data[p][v][m]) / float(self.data[p][v][ma])
+                                    else:
+                                        asymIdx=0
                                 else:
                                     asymIdx=0
                                 #self.data[self.PatientId][self.VisitId][ma]=asymIdx
-                                
-                                asymMeasuresToAdd["%s-asymidx" %(ma)]=asymIdx
+                                if(ma in self.data[p][v] and ma[-8] != "-asymidx"):
+                                    asymMeasuresToAdd["%s-asymidx" %(ma)]=asymIdx
                                 #print("%s [%s] has aymmetry with %s [%s].  ASYM IDX=[%s]" %(m,self.data[p][v][m],ma,self.data[p][v][ma],asymIdx))
                                 #print("%s is %s" %(ma,asymIdx))
                         for ma in asymMeasuresToAdd:                                                                
@@ -400,117 +411,218 @@ class Visit:
             subprocess.call(cmdArray)
 
             MsgUser.ok("dti_tracker Completed")
+
+    def trackvis_create_nii(self,segment,counterpart,method):
+        if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
+                            #trackvis = ["track_vis","%s/Tractography/crush.%s.trk" %(self.path,tmpFile),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
             
-    def trackvis_worker(self,segment,counterpart,method):
+            trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
+
+            if not os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)):
+                with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
+                    proc = subprocess.Popen(trackvis, stdout=track_vis_out)
+                    proc.communicate()
+            #    os.remove("%s/Tractography/crush.%s.trk" %(self.path,tmpFile)) 
+            with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
+                data=myfile.read()   
+            print(data)
+            return data
+        else:
+            return ""
+                                                        
+
+    def trackvis_worker(self,parr):#segment,counterpart,method):
+        segment=parr[0]
+        counterpart=parr[1]
+        method=parr[2]
+
+        calcs={}
         print("Rendering %s against %s using method %s" % (segment,counterpart,method))
         #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
         
         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
-            if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)) == False:
-                
-                #trackvis = ["track_vis","%s/Tractography/crush.%s.trk" %(self.path,tmpFile),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
-                trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
 
-                with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
-                    proc = subprocess.Popen(trackvis, stdout=track_vis_out)
-                    proc.communicate()
-                #    os.remove("%s/Tractography/crush.%s.trk" %(self.path,tmpFile)) 
-                with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
-                    data=myfile.read()
-                                                
+            render = True
+
+            if self.fixmissing:
+                
+                l_NumTracts = False
+                l_TractsToRender = False
+                l_LinesToRender = False
+                l_MeanTractLen = False
+                l_MeanTractLen_StdDev = False
+                l_VoxelSizeX = False
+                l_VoxelSizeY = False
+                l_VoxelSizeZ = False
+                l_meanFA = False
+                l_stddevFA = False
+                l_meanADC = False
+                l_stddevADC = False
+
+                p = "%s-%s-%s-NumTracts" %(segment,counterpart,method)  
+                             
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_NumTracts=True
+                    #MsgUser.ok("NumTracts ok" + self.data[self.PatientId][self.VisitId][p])
+                    calcs[p]= self.data[self.PatientId][self.VisitId][p]
+                else:
+                    MsgUser.failed("NumTracts missing")
+
+                p = "%s-%s-%s-TractsToRender" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_TractsToRender=True     
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                p = "%s-%s-%s-LinesToRender" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_LinesToRender=True                        
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+                    
+                p = "%s-%s-%s-MeanTractLen" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_MeanTractLen=True     
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                p = r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_MeanTractLen_StdDev=True                                                
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                p = "%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_VoxelSizeX=True                        
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                p = "%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_VoxelSizeY=True                        
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                p = "%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_VoxelSizeZ=True                        
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                p = "%s-%s-%s-meanFA" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_meanFA=True                        
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                p = "%s-%s-%s-stddevFA" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_stddevFA=True                        
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                p = "%s-%s-%s-meanADC" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_meanADC=True                        
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                p = "%s-%s-%s-stddevADC" %(segment,counterpart,method)                    
+                if(p in self.data[self.PatientId][self.VisitId]):
+                    l_stddevADC=True     
+                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                if(l_NumTracts and l_TractsToRender and l_LinesToRender and l_MeanTractLen
+                    and l_MeanTractLen_StdDev and l_VoxelSizeX and l_VoxelSizeY and l_VoxelSizeZ
+                    and l_meanFA and l_stddevFA and l_meanADC and l_stddevADC):
+
+                    MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
+                    return calcs
+                else:
+                    MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
+
+                        
+ 
+            ##End check if -fixmissing
+            
+            data = self.trackvis_create_nii(segment,counterpart,method)
+ 
+           
+             
+            m = re.search(r'Number of tracks: (\d+)', data)
+            if m:
+                NumTracts = m.group(1).strip()
             else:
-                with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
-                    data=myfile.read()#.replace('\n', '')
+                NumTracts = 0
+            calcs["%s-%s-%s-NumTracts" %(segment,counterpart,method)]=NumTracts
+            
+            ############
+            
+            m = re.search(r'Number of tracks to render: (\d+)', data)
+            if m:
+                TractsToRender = m.group(1).strip()
+            else:
+                TractsToRender = 0
+            calcs["%s-%s-%s-TractsToRender" %(segment,counterpart,method)]=TractsToRender
+            
+            ############
+            
+            m = re.search(r'Number of line segments to render: (\d+)', data)
+            if m:
+                LinesToRender = m.group(1).strip()
+            else:
+                LinesToRender = 0
+            calcs["%s-%s-%s-LinesToRender" %(segment,counterpart,method)]=LinesToRender
+            ############
+            
+            m = re.search(r'Mean track length: (\d+.\d+) +/- (\d+.\d+)', data)
+            if m:
+                MeanTractLen = m.group(1).strip()
+                MeanTractLen_StdDev = m.group(2).strip()
+            else:
+                MeanTractLen = 0
+                MeanTractLen_StdDev = 0
+            
+            calcs["%s-%s-%s-MeanTractLen" %(segment,counterpart,method)]=MeanTractLen
+            calcs["%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)]=MeanTractLen_StdDev
+            ############
+            
+            m = re.search(r'Voxel Size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
+            if m:
+                VoxelSizeX = m.group(1).strip()
+                VoxelSizeY = m.group(2).strip()
+                VoxelSizeZ = m.group(3).strip()
+            else:
+                VoxelSizeX = 0
+                VoxelSizeY = 0
+                VoxelSizeZ = 0
 
-            with open("%s/Tractography/crush/tracts.txt" % (self.path), "a") as crush_file:
-                ############
-                
-                m = re.search(r'Number of tracks: (\d+)', data)
-                if m:
-                    NumTracts = m.group(1).strip()
-                else:
-                    NumTracts = 0
-                crush_file.write("%s-%s-%s-NumTracts=%s\n" % (segment,counterpart,method,NumTracts))                
-                ############
-                
-                m = re.search(r'Number of tracks to render: (\d+)', data)
-                if m:
-                    TractsToRender = m.group(1).strip()
-                else:
-                    TractsToRender = 0
-                crush_file.write("%s-%s-%s-TractsToRender=%s\n" % (segment,counterpart,method,TractsToRender))
-                ############
-                
-                m = re.search(r'Number of line segments to render: (\d+)', data)
-                if m:
-                    LinesToRender = m.group(1).strip()
-                else:
-                    LinesToRender = 0
-                crush_file.write("%s-%s-%s-LinesToRender=%s\n" % (segment,counterpart,method,LinesToRender))
-                ############
-                
-                m = re.search(r'Mean track length: (\d+.\d+) +/- (\d+.\d+)', data)
-                if m:
-                    MeanTractLen = m.group(1).strip()
-                    MeanTractLen_StdDev = m.group(2).strip()
-                else:
-                    MeanTractLen = 0
-                    MeanTractLen_StdDev = 0
-                crush_file.write("%s-%s-%s-MeanTractLen=%s\n" % (segment,counterpart,method,MeanTractLen))
-                crush_file.write("%s-%s-%s-MeanTractLen_StdDev=%s\n" % (segment,counterpart,method,MeanTractLen_StdDev))
-                ############
-                
-                m = re.search(r'Voxel Size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
-                if m:
-                    VoxelSizeX = m.group(1).strip()
-                    VoxelSizeY = m.group(2).strip()
-                    VoxelSizeZ = m.group(3).strip()
-                else:
-                    VoxelSizeX = 0
-                    VoxelSizeY = 0
-                    VoxelSizeZ = 0
+            calcs["%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)]=VoxelSizeX
+            calcs["%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)]=VoxelSizeY
+            calcs["%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)]=VoxelSizeZ
 
-                crush_file.write("%s-%s-%s-VoxelSizeX=%s\n" % (segment,counterpart,method,VoxelSizeX))
-                crush_file.write("%s-%s-%s-VoxelSizeY=%s\n" % (segment,counterpart,method,VoxelSizeY))
-                crush_file.write("%s-%s-%s-VoxelSizeZ=%s\n" % (segment,counterpart,method,VoxelSizeZ))
-                
-                #FA Mean
-                #MsgUser.bold("FA Mean")
-                meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))             
-                crush_file.write("%s-%s-%s-meanFA=%s\n" % (segment,counterpart,method,meanFA))
-                #FA Std Dev
-                #MsgUser.bold("FA Standard Deviation")
-                
-                stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
-                crush_file.write("%s-%s-%s-stddevFA=%s\n" % (segment,counterpart,method,stddevFA))
-
-                #ADC Mean
-                #MsgUser.bold("ADC Mean")
-                
-                meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
-                crush_file.write("%s-%s-%s-meanADC=%s\n" % (segment,counterpart,method,meanADC))
-                #ADC Std Dev
-                #MsgUser.bold("ADC Standard Deviation")
-                
-                stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
-                crush_file.write("%s-%s-%s-stddevADC=%s\n" % (segment,counterpart,method,stddevADC))
-                
-                ############# CLEANUP #################
-                if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
-                    os.remove("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
+            
+            #FA Mean
+            meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))             
+            calcs["%s-%s-%s-meanFA" %(segment,counterpart,method)]=meanFA
+            
+            #FA Std Dev
+            stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
+            calcs["%s-%s-%s-stddevFA" %(segment,counterpart,method)]=stddevFA            
+            
+            #ADC Mean
+            meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))         
+            calcs["%s-%s-%s-meanADC" %(segment,counterpart,method)]=meanADC
+            
+            #ADC Std Dev
+            stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
+            calcs["%s-%s-%s-stddevADC" %(segment,counterpart,method)]=stddevADC
+            
+            ############# CLEANUP #################
+            #if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
+            #    os.remove("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
         else:
             MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
+        
+        return calcs
 
     def track_vis(self):
         MsgUser.bold("track_vis")
         #output: crush.txt		
-        
-        no_of_procs = multiprocessing.cpu_count() 
+            
+        self.GetMeasurements()
 
-        print("Multiprocessing across %s async procs" %(no_of_procs))
-        
-        
-        pool = Pool(no_of_procs)
         if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):   
             
             if(self.fixmissing!=True):
@@ -534,7 +646,9 @@ class Visit:
         if not os.path.exists("%s/Tractography/crush/" % (self.path)):
             os.makedirs("%s/Tractography/crush/" % (self.path))
 
-        #print(self.Segments)
+        
+        tasks = []
+
         for s in self.Segments:
             segment=s['roi']
             segmentName=s['roiname']                                            
@@ -552,8 +666,31 @@ class Visit:
                                 methods.append(row[0])                    
                     for method in methods:
                         #print("Rendering segment %s counterpart %s method %s" %(segment, counterpart, method))
-                        pool.apply_async(self.trackvis_worker,(segment,counterpart,method))                                    
+                        if segment != counterpart:
+                            MsgUser.ok("Setting up %s %s %s" %(segment,counterpart,method))
+                            #pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
+                            t = [segment,counterpart,method] 
+                            tasks.append(t)
+            
+        no_of_procs = cpu_count() 
+        print("Multiprocessing across %s async procs" %(no_of_procs))
+
+        calcs=[]
+        pool = Pool(no_of_procs)
+        for t in tasks:
+            r = pool.apply_async(self.trackvis_worker, (t,))
+            calcs.append(r)
+
+        pool.close()
         pool.join()
+        
+        for intersection in calcs:  
+            for m in intersection[0]:     
+                self.data[self.PatientId][self.VisitId][m]=intersection[0][m]
+
+        with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
+            for m in self.data[self.PatientId][self.VisitId]: 
+                crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
         
         self.MeasurementComplete=True
         MsgUser.ok("track_vis Completed")
