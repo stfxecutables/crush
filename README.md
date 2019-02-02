@@ -27,3 +27,19 @@ Create a folder Patients and fill with samples 0001, 0002
 #Issues with old python 3 libss
 try:
 sudo pip3 install -U nibabel
+
+
+#libgsl.so.0
+
+whereis libgsl.so.0
+GSL is provided by the "gsl" module. However in your case you have a precompiled application. You'd either need to compile it from source or try this which would be easier:
+
+module load gsl/1.16
+setrpaths.sh --path ~/projects/def-jlevman/dmattie/bin/dtk --add_path=$EBROOTGSL/lib
+
+this modifies the binaries in that folder to look in $EBROOTGSL/lib which contains libgsl.so.0.
+
+#GLobus
+    ./globusconnect -start
+
+    55167189

@@ -15,7 +15,7 @@ class Samples:
         self.recrush=recrush
         self.metadata=metadata
         self.fixmissing=fixmissing
-        
+        self.rootDir=rootDir
 
         dirs = os.listdir( rootDir )
         
@@ -34,6 +34,7 @@ class Samples:
                             self.Count+=1
                             patient=Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing)
                             self.Patients.append(patient)
+                                   
     def Report(self):
 
         #Check for any patient metadata so we can augment output

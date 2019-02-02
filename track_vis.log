@@ -8349,3 +8349,243 @@
 
     In folder 
 2761[01/25/19 16:29] track_vis /media/dmattie/GENERAL/CRUSHDATA/0005/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0005/01/Tractography/wmparc0051.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0005/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0005/01/Tractography/crush/0051-3035-roi.nii 
+
+    In folder 
+2762[02/01/19 16:15] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-3035-roi.nii 
+
+    In folder 
+2763[02/01/19 16:15] track_vis /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush.trk -roi /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc0051.nii.gz -roi2 /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/wmparc3035.nii.gz -nr -ov /media/dmattie/GENERAL/CRUSHDATA/0001/01/Tractography/crush/0051-3035-roi.nii 
+
+    In folder 
+2764[02/01/19 19:12] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2765[02/01/19 19:13] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2766[02/01/19 19:16] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2767[02/01/19 19:18] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2768[02/01/19 19:18] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2769[02/01/19 19:20] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2770[02/01/19 19:22] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2771[02/01/19 19:23] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2772[02/01/19 19:24] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2773[02/01/19 19:25] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2774[02/01/19 19:27] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2775[02/01/19 19:27] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2776[02/01/19 19:29] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2777[02/01/19 19:31] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2778[02/01/19 19:31] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2779[02/01/19 19:32] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2780[02/01/19 19:33] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2781[02/01/19 19:33] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2782[02/01/19 19:34] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi_end.nii 
+
+    In folder 
+2783[02/01/19 19:47] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0051.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0012-0051-roi.nii 
+
+    In folder 
+2784[02/01/19 19:47] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0051.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0012-0051-roi_end.nii 
+
+    In folder 
+2785[02/01/19 19:47] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0012-3035-roi.nii 
+
+    In folder 
+2786[02/01/19 19:47] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0012-3035-roi_end.nii 
+
+    In folder 
+2787[02/01/19 19:47] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0012-4035-roi.nii 
+
+    In folder 
+2788[02/01/19 19:47] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0012-4035-roi_end.nii 
+
+    In folder 
+2789[02/01/19 19:47] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0051.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0051-3035-roi.nii 
+
+    In folder 
+2790[02/01/19 19:48] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0051.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0051-3035-roi_end.nii 
+
+    In folder 
+2791[02/01/19 19:48] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0051.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0051-4035-roi.nii 
+
+    In folder 
+2792[02/01/19 19:48] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0051.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0051-4035-roi_end.nii 
+
+    In folder 
+2793[02/01/19 19:48] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/3035-4035-roi.nii 
+
+    In folder 
+2794[02/01/19 20:35] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc1034.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0012-1034-roi.nii 
+
+    In folder 
+2795[02/01/19 20:35] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc1034.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0012-1034-roi_end.nii 
+
+    In folder 
+2796[02/01/19 20:35] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0051.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc1034.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0051-1034-roi.nii 
+
+    In folder 
+2797[02/01/19 20:35] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0051.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc1034.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0051-1034-roi_end.nii 
+
+    In folder 
+2798[02/01/19 20:36] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc1034.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/1034-3035-roi.nii 
+
+    In folder 
+2799[02/01/19 20:36] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc1034.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc3035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/1034-3035-roi_end.nii 
+
+    In folder 
+2800[02/01/19 20:38] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc1034.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/1034-4035-roi.nii 
+
+    In folder 
+2801[02/01/19 20:38] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc1034.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc4035.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/1034-4035-roi_end.nii 
+
+    In folder 
+2802[02/01/19 20:41] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0004.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0004-roi.nii 
+
+    In folder 
+2803[02/01/19 20:41] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0004.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0004-roi_end.nii 
+
+    In folder 
+2804[02/01/19 20:41] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0005.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0005-roi.nii 
+
+    In folder 
+2805[02/01/19 20:41] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0005.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0005-roi_end.nii 
+
+    In folder 
+2806[02/01/19 20:41] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0007.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0007-roi.nii 
+
+    In folder 
+2807[02/01/19 20:41] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0007.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0007-roi_end.nii 
+
+    In folder 
+2808[02/01/19 20:41] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0008.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0008-roi.nii 
+
+    In folder 
+2809[02/01/19 20:42] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0008.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0008-roi_end.nii 
+
+    In folder 
+2810[02/01/19 20:42] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0010.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0010-roi.nii 
+
+    In folder 
+2811[02/01/19 20:43] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0010.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0010-roi.nii 
+
+    In folder 
+2812[02/01/19 20:43] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0010.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0010-roi_end.nii 
+
+    In folder 
+2813[02/01/19 20:43] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0011.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0011-roi.nii 
+
+    In folder 
+2814[02/01/19 20:43] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0011.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0011-roi_end.nii 
+
+    In folder 
+2815[02/01/19 20:43] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0012-roi.nii 
+
+    In folder 
+2816[02/01/19 20:43] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0012.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0012-roi_end.nii 
+
+    In folder 
+2817[02/01/19 20:44] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0013.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0013-roi.nii 
+
+    In folder 
+2818[02/01/19 20:44] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0013.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0013-roi_end.nii 
+
+    In folder 
+2819[02/01/19 20:44] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0014.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0014-roi.nii 
+
+    In folder 
+2820[02/01/19 20:44] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0014.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0014-roi_end.nii 
+
+    In folder 
+2821[02/01/19 20:45] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0014.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0014-roi_end.nii 
+
+    In folder 
+2822[02/01/19 20:45] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0015.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0015-roi.nii 
+
+    In folder 
+2823[02/01/19 20:45] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0015.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0015-roi_end.nii 
+
+    In folder 
+2824[02/01/19 20:45] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0016.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0016-roi.nii 
+
+    In folder 
+2825[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0016.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0016-roi_end.nii 
+
+    In folder 
+2826[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0017.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0017-roi.nii 
+
+    In folder 
+2827[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0017.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0017-roi_end.nii 
+
+    In folder 
+2828[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0018.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0018-roi.nii 
+
+    In folder 
+2829[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0018.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0018-roi_end.nii 
+
+    In folder 
+2830[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0024.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0024-roi.nii 
+
+    In folder 
+2831[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0024.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0024-roi_end.nii 
+
+    In folder 
+2832[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0026.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0026-roi.nii 
+
+    In folder 
+2833[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0026.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0026-roi_end.nii 
+
+    In folder 
+2834[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0028.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0028-roi.nii 
+
+    In folder 
+2835[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0028.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0028-roi_end.nii 
+
+    In folder 
+2836[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0031.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0031-roi.nii 
+
+    In folder 
+2837[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0031.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0031-roi_end.nii 
+
+    In folder 
+2838[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0041.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0041-roi.nii 
+
+    In folder 
+2839[02/01/19 20:46] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0041.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0041-roi_end.nii 
+
+    In folder 
+2840[02/01/19 20:47] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0043.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0043-roi.nii 
+
+    In folder 
+2841[02/01/19 20:47] track_vis /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush.trk -roi_end /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0002.nii.gz -roi_end2 /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/wmparc0043.nii.gz -nr -ov /home/dmattie/projects/CRUSHDATA/0002/01/Tractography/crush/0002-0043-roi_end.nii 

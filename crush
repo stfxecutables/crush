@@ -5,6 +5,7 @@ from tractcrush.samples import Samples
 from tractcrush.ux import MsgUser
 import numpy
 
+
 class readable_dir(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         prospective_dir = values
@@ -83,7 +84,7 @@ def ProcessSamples(args,S):
                 v.Render()
                 v.Measure()
 def main():                
-    
+
     ldir = "."
     parser = argparse.ArgumentParser(
         description='Connectomics and Reporting User Shell is used to iterrogate samples, generate or extract measurements.')
