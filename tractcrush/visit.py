@@ -165,6 +165,133 @@ class Visit:
                         row.append("")
             #print(",".join(row))   
         
+    def MeasurementAudit(self):
+
+        tasks = []
+
+        for s in self.Segments:
+            segment=s['roi']
+            segmentName=s['roiname']                                            
+            for c in self.Segments:
+                counterpart=c['roi']
+                counterpartName=c['roiname']                               
+                if (segment!=counterpart and segment<counterpart):                        
+                    methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
+                    methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
+                    with open(methodFile) as fin:
+                        reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+                        p = re.compile('^ *#')   # if not commented          
+                        for row in reader:
+                            if(not p.match(row[0])):                    
+                                methods.append(row[0])                    
+                    for method in methods:
+                        #print("Rendering segment %s counterpart %s method %s" %(segment, counterpart, method))
+                        if segment != counterpart:
+                            completeInd = self.MeasurementAudit_worker(segment,counterpart,method)
+                            if completeInd:
+                                MsgUser.ok("Measurement complete: %s %s %s" %(segment,counterpart,method))
+                                
+                            else:                                
+                                MsgUser.failed("Measurement incomplete: %s %s %s" %(segment,counterpart,method))
+                            tasks.append(completeInd)
+        l=len(tasks)    
+        positives = 0    
+        for t in tasks:
+            if t:
+                positives += 1
+
+        print("%s/%s is %s percent complete.  %s positives" %(self.PatientId, self.VisitId,positives/l,positives))
+        return completeInd
+
+    def MeasurementAudit_worker(self,segment,counterpart,method):
+
+        calcs={}
+        l_NumTracts = False
+        l_TractsToRender = False
+        l_LinesToRender = False
+        l_MeanTractLen = False
+        l_MeanTractLen_StdDev = False
+        l_VoxelSizeX = False
+        l_VoxelSizeY = False
+        l_VoxelSizeZ = False
+        l_meanFA = False
+        l_stddevFA = False
+        l_meanADC = False
+        l_stddevADC = False
+
+        p = "%s-%s-%s-NumTracts" %(segment,counterpart,method)                          
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_NumTracts=True
+            #MsgUser.ok("NumTracts ok" + self.data[self.PatientId][self.VisitId][p])
+            calcs[p]= self.data[self.PatientId][self.VisitId][p]
+        #else:
+        #    MsgUser.failed("NumTracts missing")
+
+        p = "%s-%s-%s-TractsToRender" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_TractsToRender=True     
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-LinesToRender" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_LinesToRender=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+            
+        p = "%s-%s-%s-MeanTractLen" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_MeanTractLen=True     
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_MeanTractLen_StdDev=True                                                
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_VoxelSizeX=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_VoxelSizeY=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_VoxelSizeZ=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-meanFA" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_meanFA=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-stddevFA" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_stddevFA=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-meanADC" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_meanADC=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-stddevADC" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_stddevADC=True     
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        if(l_NumTracts and l_TractsToRender and l_LinesToRender and l_MeanTractLen
+            and l_MeanTractLen_StdDev and l_VoxelSizeX and l_VoxelSizeY and l_VoxelSizeZ
+            and l_meanFA and l_stddevFA and l_meanADC and l_stddevADC):
+
+            
+            return True
+        else:
+            return False
+
+
 
     def Report2(self):
         #MsgUser.bold("Reporting values of interest")
@@ -430,7 +557,7 @@ class Visit:
         else:
             return ""
                                                         
-
+    
     def trackvis_worker(self,parr):#segment,counterpart,method):
         segment=parr[0]
         counterpart=parr[1]
@@ -445,92 +572,98 @@ class Visit:
             render = True
 
             if self.fixmissing:
-                
-                l_NumTracts = False
-                l_TractsToRender = False
-                l_LinesToRender = False
-                l_MeanTractLen = False
-                l_MeanTractLen_StdDev = False
-                l_VoxelSizeX = False
-                l_VoxelSizeY = False
-                l_VoxelSizeZ = False
-                l_meanFA = False
-                l_stddevFA = False
-                l_meanADC = False
-                l_stddevADC = False
-
-                p = "%s-%s-%s-NumTracts" %(segment,counterpart,method)  
-                             
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_NumTracts=True
-                    #MsgUser.ok("NumTracts ok" + self.data[self.PatientId][self.VisitId][p])
-                    calcs[p]= self.data[self.PatientId][self.VisitId][p]
-                else:
-                    MsgUser.failed("NumTracts missing")
-
-                p = "%s-%s-%s-TractsToRender" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_TractsToRender=True     
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-LinesToRender" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_LinesToRender=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-                    
-                p = "%s-%s-%s-MeanTractLen" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_MeanTractLen=True     
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_MeanTractLen_StdDev=True                                                
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_VoxelSizeX=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_VoxelSizeY=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_VoxelSizeZ=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-meanFA" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_meanFA=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-stddevFA" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_stddevFA=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-meanADC" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_meanADC=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-stddevADC" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_stddevADC=True     
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                if(l_NumTracts and l_TractsToRender and l_LinesToRender and l_MeanTractLen
-                    and l_MeanTractLen_StdDev and l_VoxelSizeX and l_VoxelSizeY and l_VoxelSizeZ
-                    and l_meanFA and l_stddevFA and l_meanADC and l_stddevADC):
-
+                if MeasurementAudit_worker(segment,counterpart,method):
                     MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
                     return calcs
                 else:
                     MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
+
+
+                # l_NumTracts = False
+                # l_TractsToRender = False
+                # l_LinesToRender = False
+                # l_MeanTractLen = False
+                # l_MeanTractLen_StdDev = False
+                # l_VoxelSizeX = False
+                # l_VoxelSizeY = False
+                # l_VoxelSizeZ = False
+                # l_meanFA = False
+                # l_stddevFA = False
+                # l_meanADC = False
+                # l_stddevADC = False
+
+                # p = "%s-%s-%s-NumTracts" %(segment,counterpart,method)  
+                             
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_NumTracts=True
+                #     #MsgUser.ok("NumTracts ok" + self.data[self.PatientId][self.VisitId][p])
+                #     calcs[p]= self.data[self.PatientId][self.VisitId][p]
+                # else:
+                #     MsgUser.failed("NumTracts missing")
+
+                # p = "%s-%s-%s-TractsToRender" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_TractsToRender=True     
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # p = "%s-%s-%s-LinesToRender" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_LinesToRender=True                        
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+                    
+                # p = "%s-%s-%s-MeanTractLen" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_MeanTractLen=True     
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # p = r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_MeanTractLen_StdDev=True                                                
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # p = "%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_VoxelSizeX=True                        
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # p = "%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_VoxelSizeY=True                        
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # p = "%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_VoxelSizeZ=True                        
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # p = "%s-%s-%s-meanFA" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_meanFA=True                        
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # p = "%s-%s-%s-stddevFA" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_stddevFA=True                        
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # p = "%s-%s-%s-meanADC" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_meanADC=True                        
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # p = "%s-%s-%s-stddevADC" %(segment,counterpart,method)                    
+                # if(p in self.data[self.PatientId][self.VisitId]):
+                #     l_stddevADC=True     
+                #     calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+                # if(l_NumTracts and l_TractsToRender and l_LinesToRender and l_MeanTractLen
+                #     and l_MeanTractLen_StdDev and l_VoxelSizeX and l_VoxelSizeY and l_VoxelSizeZ
+                #     and l_meanFA and l_stddevFA and l_meanADC and l_stddevADC):
+
+                #     MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
+                #     return calcs
+                # else:
+                #     MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
 
                         
  
@@ -622,6 +755,7 @@ class Visit:
         #output: crush.txt		
             
         self.GetMeasurements()
+        
 
         if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):   
             
@@ -647,6 +781,10 @@ class Visit:
             os.makedirs("%s/Tractography/crush/" % (self.path))
 
         
+        self.MeasurementAudit()
+        print(self.data)
+        return
+
         tasks = []
 
         for s in self.Segments:
@@ -671,7 +809,7 @@ class Visit:
                             #pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
                             t = [segment,counterpart,method] 
                             tasks.append(t)
-            
+
         no_of_procs = cpu_count() 
         print("Multiprocessing across %s async procs" %(no_of_procs))
 
@@ -683,10 +821,13 @@ class Visit:
 
         pool.close()
         pool.join()
-        
+        print(calcs)
         for intersection in calcs:  
-            for m in intersection[0]:     
-                self.data[self.PatientId][self.VisitId][m]=intersection[0][m]
+            for m in intersection[0]:   
+                if m not in  self.data[self.PatientId][self.VisitId]:
+                    MsgUser.failed("Error Writing Tract for measure:%s" %(m))
+                else:
+                    self.data[self.PatientId][self.VisitId][m]=intersection[0][m]
 
         with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
