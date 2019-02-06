@@ -18,6 +18,7 @@ from multiprocessing import Pool,cpu_count
 import csv
 import warnings
 from collections import defaultdict
+import json
 
               
 class Visit:
@@ -131,7 +132,7 @@ class Visit:
                             if roiGrp:
                                 ma=m.replace(roi,asymmetry)                                
                                 if ma in self.data[p][v] and self.data[p][v][ma]:
-                                    if self.is_number(self.data[p][v][ma]) and float(self.data[p][v][ma]) != 0:
+                                    if self.is_number(self.data[p][v][ma]) and self.is_number(self.data[p][v][m]) and float(self.data[p][v][ma]) != 0:
                                         asymIdx=float(self.data[p][v][m]) / float(self.data[p][v][ma])
                                     else:
                                         asymIdx=0
@@ -139,6 +140,7 @@ class Visit:
                                     asymIdx=0
                                 #self.data[self.PatientId][self.VisitId][ma]=asymIdx
                                 if(ma in self.data[p][v] and ma[-8] != "-asymidx"):
+                                    #print("ASYM: %s" %(ma))
                                     asymMeasuresToAdd["%s-asymidx" %(ma)]=asymIdx
                                 #print("%s [%s] has aymmetry with %s [%s].  ASYM IDX=[%s]" %(m,self.data[p][v][m],ma,self.data[p][v][ma],asymIdx))
                                 #print("%s is %s" %(ma,asymIdx))
@@ -165,6 +167,139 @@ class Visit:
                         row.append("")
             #print(",".join(row))   
         
+    def MeasurementAudit(self):
+
+        tasks = []
+
+        for s in self.Segments:
+            segment=s['roi']
+            segmentName=s['roiname']                                            
+            for c in self.Segments:
+                counterpart=c['roi']
+                counterpartName=c['roiname']                               
+                if (segment!=counterpart and segment<counterpart):                        
+                    methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
+                    methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
+                    with open(methodFile) as fin:
+                        reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+                        p = re.compile('^ *#')   # if not commented          
+                        for row in reader:
+                            if(not p.match(row[0])):                    
+                                methods.append(row[0])                    
+                    for method in methods:
+                        #print("Rendering segment %s counterpart %s method %s" %(segment, counterpart, method))
+                        if segment != counterpart:
+                            completeInd = self.MeasurementAudit_worker(segment,counterpart,method)
+                            if completeInd:
+                                MsgUser.ok("Measurement complete: %s %s %s" %(segment,counterpart,method))
+                                
+                            else:                                
+                                MsgUser.failed("Measurement incomplete: %s %s %s" %(segment,counterpart,method))
+                            tasks.append(completeInd)
+        l=len(tasks)    
+        positives = 0    
+        for t in tasks:
+            if t:
+                positives += 1
+
+        print("%s/%s is %s percent complete.  %s positives" %(self.PatientId, self.VisitId,positives/l,positives))
+        return completeInd
+
+    def MeasurementAudit_worker(self,segment,counterpart,method):
+
+        calcs={}
+        l_NumTracts = False
+        l_TractsToRender = False
+        l_LinesToRender = False
+        l_MeanTractLen = False
+        l_MeanTractLen_StdDev = False
+        l_VoxelSizeX = False
+        l_VoxelSizeY = False
+        l_VoxelSizeZ = False
+        l_meanFA = False
+        l_stddevFA = False
+        l_meanADC = False
+        l_stddevADC = False
+
+        p = "%s-%s-%s-NumTracts" %(segment,counterpart,method)                          
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_NumTracts=True            
+            calcs[p]= self.data[self.PatientId][self.VisitId][p]
+
+        p = "%s-%s-%s-TractsToRender" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_TractsToRender=True     
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-LinesToRender" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_LinesToRender=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+            
+        p = "%s-%s-%s-MeanTractLen" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_MeanTractLen=True     
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_MeanTractLen_StdDev=True                                                
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_VoxelSizeX=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_VoxelSizeY=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_VoxelSizeZ=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-meanFA" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_meanFA=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-stddevFA" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_stddevFA=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-meanADC" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_meanADC=True                        
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        p = "%s-%s-%s-stddevADC" %(segment,counterpart,method)                    
+        if(p in self.data[self.PatientId][self.VisitId]):
+            l_stddevADC=True     
+            calcs[p] = self.data[self.PatientId][self.VisitId][p]          
+
+        if(l_NumTracts and l_TractsToRender and l_LinesToRender and l_MeanTractLen
+            and l_MeanTractLen_StdDev and l_VoxelSizeX and l_VoxelSizeY and l_VoxelSizeZ
+            and l_meanFA and l_stddevFA and l_meanADC and l_stddevADC):
+
+            #We have everything in the tract file
+            return calcs
+        else:
+            #We don't have everything we need from the tract file
+            #Lets see if we cached it the last time we processed this sample
+            calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+            if os.path.isfile(calcsJson):
+                with open(calcsJson, 'r') as f:
+                    calcs = json.loads(f.read())
+                    return calcs
+            else:
+                #Can't find any residue - looks like this is a new calc
+                return {}
+
+
 
     def Report2(self):
         #MsgUser.bold("Reporting values of interest")
@@ -430,13 +565,14 @@ class Visit:
         else:
             return ""
                                                         
-
+    
     def trackvis_worker(self,parr):#segment,counterpart,method):
         segment=parr[0]
         counterpart=parr[1]
         method=parr[2]
 
         calcs={}
+        
         print("Rendering %s against %s using method %s" % (segment,counterpart,method))
         #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
         
@@ -445,97 +581,14 @@ class Visit:
             render = True
 
             if self.fixmissing:
-                
-                l_NumTracts = False
-                l_TractsToRender = False
-                l_LinesToRender = False
-                l_MeanTractLen = False
-                l_MeanTractLen_StdDev = False
-                l_VoxelSizeX = False
-                l_VoxelSizeY = False
-                l_VoxelSizeZ = False
-                l_meanFA = False
-                l_stddevFA = False
-                l_meanADC = False
-                l_stddevADC = False
-
-                p = "%s-%s-%s-NumTracts" %(segment,counterpart,method)  
-                             
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_NumTracts=True
-                    #MsgUser.ok("NumTracts ok" + self.data[self.PatientId][self.VisitId][p])
-                    calcs[p]= self.data[self.PatientId][self.VisitId][p]
-                else:
-                    MsgUser.failed("NumTracts missing")
-
-                p = "%s-%s-%s-TractsToRender" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_TractsToRender=True     
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-LinesToRender" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_LinesToRender=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-                    
-                p = "%s-%s-%s-MeanTractLen" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_MeanTractLen=True     
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_MeanTractLen_StdDev=True                                                
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_VoxelSizeX=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_VoxelSizeY=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_VoxelSizeZ=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-meanFA" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_meanFA=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-stddevFA" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_stddevFA=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-meanADC" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_meanADC=True                        
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                p = "%s-%s-%s-stddevADC" %(segment,counterpart,method)                    
-                if(p in self.data[self.PatientId][self.VisitId]):
-                    l_stddevADC=True     
-                    calcs[p] = self.data[self.PatientId][self.VisitId][p]          
-
-                if(l_NumTracts and l_TractsToRender and l_LinesToRender and l_MeanTractLen
-                    and l_MeanTractLen_StdDev and l_VoxelSizeX and l_VoxelSizeY and l_VoxelSizeZ
-                    and l_meanFA and l_stddevFA and l_meanADC and l_stddevADC):
-
+                calcs = self.MeasurementAudit_worker(segment,counterpart,method)
+                if len(calcs)>0:
                     MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
                     return calcs
                 else:
                     MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
+    
 
-                        
- 
-            ##End check if -fixmissing
-            
             data = self.trackvis_create_nii(segment,counterpart,method)
  
            
@@ -615,6 +668,11 @@ class Visit:
         else:
             MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
         
+        # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
+        calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+        with open(calcsJson, "w") as calcs_file:
+            json.dump(calcs,calcs_file)
+
         return calcs
 
     def track_vis(self):
@@ -622,6 +680,7 @@ class Visit:
         #output: crush.txt		
             
         self.GetMeasurements()
+        
 
         if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):   
             
@@ -647,6 +706,10 @@ class Visit:
             os.makedirs("%s/Tractography/crush/" % (self.path))
 
         
+        #self.MeasurementAudit()
+        #print(self.data)
+        #return
+
         tasks = []
 
         for s in self.Segments:
@@ -671,26 +734,38 @@ class Visit:
                             #pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
                             t = [segment,counterpart,method] 
                             tasks.append(t)
-            
+
         no_of_procs = cpu_count() 
         print("Multiprocessing across %s async procs" %(no_of_procs))
 
         calcs=[]
         pool = Pool(no_of_procs)
         for t in tasks:
-            r = pool.apply_async(self.trackvis_worker, (t,))
+            r = pool.map_async(self.trackvis_worker, (t,))
             calcs.append(r)
 
         pool.close()
         pool.join()
         
-        for intersection in calcs:  
-            for m in intersection[0]:     
-                self.data[self.PatientId][self.VisitId][m]=intersection[0][m]
+        MsgUser.ok("@@@@  LETS JOIN IT ALL TOGETHER @@@@  ")
+
+        #calcsPath = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+        calcsPath = "%s/Tractography/crush" % (self.path)
+
+        #onlycalcfiles = [f for f in os.listdir(calcsPath) if f[-5:] == ".json" ]
+        for f in os.listdir(calcsPath):
+            if f[-5:] == ".json":
+                #read and add  file_path = os.path.join(folder, the_file)
+                with open(os.path.join(calcsPath,f), "r") as calcs_file:
+                    calcs = json.loads(calcs_file.read())
+                    for m in calcs:
+                        self.data[self.PatientId][self.VisitId][m] = calcs[m]
+                        #print("%s=%s" %(m,self.data[self.PatientId][self.VisitId][m]))
 
         with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
-                crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
+                if m[-8:] !="-asymidx":
+                    crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
         
         self.MeasurementComplete=True
         MsgUser.ok("track_vis Completed")
