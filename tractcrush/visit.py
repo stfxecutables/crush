@@ -208,6 +208,13 @@ class Visit:
     def MeasurementAudit_worker(self,segment,counterpart,method):
 
         calcs={}
+
+        calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+        if os.path.isfile(calcsJson):
+            with open(calcsJson, 'r') as f:
+                calcs = json.loads(f.read())
+                return calcs
+
         l_NumTracts = False
         l_TractsToRender = False
         l_LinesToRender = False
@@ -290,14 +297,11 @@ class Visit:
         else:
             #We don't have everything we need from the tract file
             #Lets see if we cached it the last time we processed this sample
-            calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
-            if os.path.isfile(calcsJson):
-                with open(calcsJson, 'r') as f:
-                    calcs = json.loads(f.read())
-                    return calcs
-            else:
+            
+            
+            #else:
                 #Can't find any residue - looks like this is a new calc
-                return {}
+            return {}
 
 
 
@@ -559,11 +563,21 @@ class Visit:
                     proc.communicate()
             #    os.remove("%s/Tractography/crush.%s.trk" %(self.path,tmpFile)) 
             with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
-                data=myfile.read()   
-            print(data)
+                data=myfile.read()               
             return data
         else:
             return ""
+
+    def trackvis_cleanup_nii(self,segment,counterpart,method):
+
+            nii = "%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)
+            datafile = "%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)
+            if os.path.isfile(nii):
+                os.unlink(nii) 
+
+            if os.path.isfile(datafile):
+                os.unlink(dateafile) 
+
                                                         
     
     def trackvis_worker(self,parr):#segment,counterpart,method):
@@ -572,8 +586,7 @@ class Visit:
         method=parr[2]
 
         calcs={}
-        
-        print("Rendering %s against %s using method %s" % (segment,counterpart,method))
+                
         #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
         
         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
@@ -583,7 +596,7 @@ class Visit:
             if self.fixmissing:
                 calcs = self.MeasurementAudit_worker(segment,counterpart,method)
                 if len(calcs)>0:
-                    MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
+                    #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
                     return calcs
                 else:
                     MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
@@ -662,9 +675,8 @@ class Visit:
             stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
             calcs["%s-%s-%s-stddevADC" %(segment,counterpart,method)]=stddevADC
             
-            ############# CLEANUP #################
-            #if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
-            #    os.remove("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
+            
+
         else:
             MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
         
@@ -672,6 +684,9 @@ class Visit:
         calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
         with open(calcsJson, "w") as calcs_file:
             json.dump(calcs,calcs_file)
+            ############# CLEANUP #################
+            self.trackvis_cleanup_nii(segment,counterpart,method)
+
 
         return calcs
 
@@ -733,16 +748,16 @@ class Visit:
                             MsgUser.ok("Setting up %s %s %s" %(segment,counterpart,method))
                             #pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
                             t = [segment,counterpart,method] 
+                            print("Rendering %s against %s using method %s" % (segment,counterpart,method))
                             tasks.append(t)
 
         no_of_procs = cpu_count() 
         print("Multiprocessing across %s async procs" %(no_of_procs))
 
-        calcs=[]
+        
         pool = Pool(no_of_procs)
         for t in tasks:
-            r = pool.map_async(self.trackvis_worker, (t,))
-            calcs.append(r)
+            pool.apply_async(self.trackvis_worker, (t,))            
 
         pool.close()
         pool.join()
@@ -751,7 +766,7 @@ class Visit:
 
         #calcsPath = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
         calcsPath = "%s/Tractography/crush" % (self.path)
-
+        calcs=[]
         #onlycalcfiles = [f for f in os.listdir(calcsPath) if f[-5:] == ".json" ]
         for f in os.listdir(calcsPath):
             if f[-5:] == ".json":
