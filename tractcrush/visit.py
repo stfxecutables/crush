@@ -559,11 +559,21 @@ class Visit:
                     proc.communicate()
             #    os.remove("%s/Tractography/crush.%s.trk" %(self.path,tmpFile)) 
             with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "r") as myfile:
-                data=myfile.read()   
-            print(data)
+                data=myfile.read()               
             return data
         else:
             return ""
+
+    def trackvis_cleanup_nii(self,segment,counterpart,method):
+
+            nii = "%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)
+            datafile = "%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)
+            if os.path.isfile(nii):
+                os.unlink(nii) 
+
+            if os.path.isfile(datafile):
+                os.unlink(dateafile) 
+
                                                         
     
     def trackvis_worker(self,parr):#segment,counterpart,method):
@@ -662,9 +672,8 @@ class Visit:
             stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))       
             calcs["%s-%s-%s-stddevADC" %(segment,counterpart,method)]=stddevADC
             
-            ############# CLEANUP #################
-            #if os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)) == True:
-            #    os.remove("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method))
+            
+
         else:
             MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
         
@@ -672,6 +681,9 @@ class Visit:
         calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
         with open(calcsJson, "w") as calcs_file:
             json.dump(calcs,calcs_file)
+            ############# CLEANUP #################
+            self.trackvis_cleanup_nii(segment,counterpart,method)
+
 
         return calcs
 
