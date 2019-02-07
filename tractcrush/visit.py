@@ -596,6 +596,9 @@ class Visit:
             if self.fixmissing:
                 calcs = self.MeasurementAudit_worker(segment,counterpart,method)
                 if len(calcs)>0:
+                    calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+                    with open(calcsJson, "w") as calcs_file:
+                        json.dump(calcs,calcs_file)
                     #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
                     return calcs
                 else:
