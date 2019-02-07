@@ -208,6 +208,13 @@ class Visit:
     def MeasurementAudit_worker(self,segment,counterpart,method):
 
         calcs={}
+
+        calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+        if os.path.isfile(calcsJson):
+            with open(calcsJson, 'r') as f:
+                calcs = json.loads(f.read())
+                return calcs
+
         l_NumTracts = False
         l_TractsToRender = False
         l_LinesToRender = False
@@ -290,14 +297,11 @@ class Visit:
         else:
             #We don't have everything we need from the tract file
             #Lets see if we cached it the last time we processed this sample
-            calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
-            if os.path.isfile(calcsJson):
-                with open(calcsJson, 'r') as f:
-                    calcs = json.loads(f.read())
-                    return calcs
-            else:
+            
+            
+            #else:
                 #Can't find any residue - looks like this is a new calc
-                return {}
+            return {}
 
 
 
