@@ -754,11 +754,10 @@ class Visit:
         no_of_procs = cpu_count() 
         print("Multiprocessing across %s async procs" %(no_of_procs))
 
-        calcs=[]
+        
         pool = Pool(no_of_procs)
         for t in tasks:
-            r = pool.map_async(self.trackvis_worker, (t,))
-            calcs.append(r)
+            pool.apply_async(self.trackvis_worker, (t,))            
 
         pool.close()
         pool.join()
@@ -767,7 +766,7 @@ class Visit:
 
         #calcsPath = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
         calcsPath = "%s/Tractography/crush" % (self.path)
-
+        calcs=[]
         #onlycalcfiles = [f for f in os.listdir(calcsPath) if f[-5:] == ".json" ]
         for f in os.listdir(calcsPath):
             if f[-5:] == ".json":
