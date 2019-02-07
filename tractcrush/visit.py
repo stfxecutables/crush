@@ -586,8 +586,7 @@ class Visit:
         method=parr[2]
 
         calcs={}
-        
-        print("Rendering %s against %s using method %s" % (segment,counterpart,method))
+                
         #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
         
         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
@@ -597,7 +596,7 @@ class Visit:
             if self.fixmissing:
                 calcs = self.MeasurementAudit_worker(segment,counterpart,method)
                 if len(calcs)>0:
-                    MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
+                    #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
                     return calcs
                 else:
                     MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
@@ -749,6 +748,7 @@ class Visit:
                             MsgUser.ok("Setting up %s %s %s" %(segment,counterpart,method))
                             #pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
                             t = [segment,counterpart,method] 
+                            print("Rendering %s against %s using method %s" % (segment,counterpart,method))
                             tasks.append(t)
 
         no_of_procs = cpu_count() 
