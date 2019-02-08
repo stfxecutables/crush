@@ -103,69 +103,55 @@ class Visit:
     def GetMeasurements(self):
 
         Measurements={}
-
+        #print(self.Segments)
         self.data[self.PatientId]={}
-        self.data[self.PatientId][self.VisitId]={}
-
+        self.data[self.PatientId][self.VisitId]={}        
         if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
             with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
                 for line in fMeasure:
                     if line.strip() != "":
                         nvp=line.split("=")  
                         self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
-                        Measurements[nvp[0]]=nvp[1].strip()
+                        if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
+                            Measurements[nvp[0]]=nvp[1].strip()
             
         ## Add derived measures here
         #print("Deriving Asymmetry Indexes")
         
-        for s in self.Segments:  
-            roi=s['roi']                             
-            asymmetry=s['asymmetry']
-            if asymmetry:
-                for p in self.data:
-                    for v in self.data[p]: 
-                        asymMeasuresToAdd = {}
-                        for m in self.data[p][v]:
-                            #For all measures                                                                                      
-                            searchEx="%s-%s" %(roi,r'(\d+)')
-                            roiGrp = re.search(searchEx, m)
-                            if roiGrp:
-                                ma=m.replace(roi,asymmetry)                                
-                                if ma in self.data[p][v] and self.data[p][v][ma]:
-                                    if self.is_number(self.data[p][v][ma]) and self.is_number(self.data[p][v][m]) and float(self.data[p][v][ma]) != 0:
-                                        asymIdx=float(self.data[p][v][m]) / float(self.data[p][v][ma])
-                                    else:
-                                        asymIdx=0
-                                else:
-                                    asymIdx=0
-                                #self.data[self.PatientId][self.VisitId][ma]=asymIdx
-                                if(ma in self.data[p][v] and ma[-8] != "-asymidx"):
-                                    #print("ASYM: %s" %(ma))
-                                    asymMeasuresToAdd["%s-asymidx" %(ma)]=asymIdx
-                                #print("%s [%s] has aymmetry with %s [%s].  ASYM IDX=[%s]" %(m,self.data[p][v][m],ma,self.data[p][v][ma],asymIdx))
-                                #print("%s is %s" %(ma,asymIdx))
-                        for ma in asymMeasuresToAdd:                                                                
-                            #print("XX-%s" %(ma))
-                            self.data[p][v][ma] = str(asymMeasuresToAdd[ma])
-
+        asymMeasuresToAdd = {}
+        for m in self.data[self.PatientId][self.VisitId]:
+            if m[-8] != "-asymidx":
+                m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
                 
+                if m0:
+                    l_roi = m0.group(1)
+                    l_roiE = m0.group(2)
+                    l_method = m0.group(3)
+                    l_measure = m0.group(4)
+
+                    l_roiC=""
+                    l_roiEC=""
+
+                    #print("%s, %s" %(l_roi,l_roiE))
+                    for s in self.Segments:                        
+                        if s['roi']==l_roi:                            
+                            l_roiC = s['asymmetry']
+                        if s['roi']==l_roiE:
+                            l_roiEC = s['asymmetry']
+
+                    asymCounterpart = "%s-%s-%s-%s" %(l_roiC,l_roiEC,l_method,l_measure)                    
+                    if asymCounterpart in self.data[self.PatientId][self.VisitId]:
+                        if self.is_number(self.data[self.PatientId][self.VisitId][m]) and self.is_number(self.data[self.PatientId][self.VisitId][asymCounterpart]) and float(self.data[self.PatientId][self.VisitId][asymCounterpart]) != 0:
+                            asymIdx=float(self.data[self.PatientId][self.VisitId][m]) / float(self.data[self.PatientId][self.VisitId][asymCounterpart])                            
+                            asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
+        for newm in asymMeasuresToAdd:
+            if self.is_number(str(asymMeasuresToAdd[newm])):
+                Measurements[newm]=str(asymMeasuresToAdd[newm])
+         
         ## End of derived measures
         
         return Measurements
-        #Print report
-        for p in self.data:            
-            for v in self.data[p]:
-                row=[]
-                row.append(p)
-                row.append(v)
-                for m in voi_interests:
-                    if m in self.data[p][v]:
-                        row.append(self.data[p][v][m])
-                        if "%s-asymidx" %(m) in self.data[p][v]:
-                            row.append(self.data[p][v]["%s-asymidx" %(m)])
-                    else:
-                        row.append("")
-            #print(",".join(row))   
+        
         
     def MeasurementAudit(self):
 

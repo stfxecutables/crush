@@ -89,10 +89,12 @@ class Samples:
 
         row.append('ROI')
         row.append('ROI Label')
-        row.append('Asymmetry Counterpart')
+        #row.append('Asymmetry Counterpart')
         row.append('Left or Right')
         row.append('White or Grey')
         row.append('Common Name')
+        row.append('ROI END')
+        row.append('ROI END Label')        
         row.append('Method')
 
         measureNames = ['NumTracts',
@@ -106,10 +108,23 @@ class Samples:
         'meanFA',
         'stddevFA',
         'meanADC',
-        'stddevADC']
+        'stddevADC',
+        'NumTracts-asymidx',
+        'TractsToRender-asymidx',
+        'LinesToRender-asymidx',
+        'MeanTractLen-asymidx',
+        'MeanTractLen_StdDev-asymidx',
+        'VoxelSizeX-asymidx',
+        'VoxelSizeY-asymidx',
+        'VoxelSizeZ-asymidx',
+        'meanFA-asymidx',
+        'stddevFA-asymidx',
+        'meanADC-asymidx',        
+        'stddevADC-asymidx']
 
         for mn in measureNames:            
             row.append(mn)
+            #row.append(mn+" Asymmetry Index")
         #row.append('Measure Name')
         #row.append("Feature")
         #row.append("Measure")
@@ -119,17 +134,15 @@ class Samples:
         for p in self.Patients:
             for v in p.Visits:
                 measurements = v.GetMeasurements()   
+                #print(measurements)
                 measurementRoots = []
                 for m in measurements:
                     m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
                     if m0:
                         r=m0.group(1)+"-"+m0.group(2)+"-"+m0.group(3)
-                        if r not in measurementRoots:                              
-                            measurementRoots.append(r)
-                        
-
-                            
-                for m in measurementRoots:                  
+                        if r.strip() not in measurementRoots:                              
+                            measurementRoots.append(r.strip())                
+                for m in measurementRoots:                                  
                     row=[]                
                     row.append(p.PatientId)            
                     row.append(v.VisitId)
@@ -146,7 +159,9 @@ class Samples:
                     if m0 and m0.group(1) in Features:                         
                         roi=Features[m0.group(1)]['ROI']
                         roiLabel=Features[m0.group(1)]['ROI Label']
-                        asymIdx=Features[m0.group(1)]['Asymmetry Counterpart']
+                        roiEnd=Features[m0.group(2)]['ROI']
+                        roiEndLabel=Features[m0.group(2)]['ROI Label']
+                        #asymIdx=Features[m0.group(1)]['Asymmetry Counterpart']
                         lw=Features[m0.group(1)]['Left or Right']
                         wg=Features[m0.group(1)]['White or Grey']                       
                         cn=Features[m0.group(1)]['Common Name']
@@ -155,6 +170,8 @@ class Samples:
                     else:
                         roi=m0.group(1)
                         roiLabel=""
+                        roiEnd=m0.group(2)
+                        roiEndLabel=""
                         asymIdx=""
                         lw=""
                         wg=""
@@ -164,28 +181,35 @@ class Samples:
 
                     row.append(roi)
                     row.append(roiLabel)
-                    row.append(asymIdx)
+                    #row.append(asymIdx)
                     row.append(lw)
                     row.append(wg)
                     row.append(cn)
+                    row.append(roiEnd)
+                    row.append(roiEndLabel)                    
                     row.append(method)
                     #row.append(measure)
 
+
                     for mn in measureNames:
                         try:
-                            x = float(measurements[m+'-'+mn])
-                            if math.isnan(x):
-                                row.append("")
+                            #print("##"+m+'-'+mn)
+                            #x = float(measurements[m+'-'+mn])
+                            #if math.isnan(x):
+                            #    row.append("")                                
+                            #else:
+                            if m + '-' + mn in measurements:
+                                row.append(measurements[m + '-' + mn ])
                             else:
-                                row.append(measurements[m + '-' + mn])
+                                row.append("")
                         except:
-                            row.append("")
+                            row.append("Exception") #original                            
 
                         
 
-                    #row.append(measurements[m])
+                    #row.append(measurements[m])                    
                     print(",".join(row))
-            
+                #print("---"+str(measurements))
 
 
                 # for m in measurements:                  
