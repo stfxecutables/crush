@@ -59,21 +59,8 @@ class Visit:
                 #print("%s,%s" %(i,row))
                 if(not p.match(row[0])): 
                     self.Segments.append({'roi':row[0],'roiname':row[1],'asymmetry':row[2]})
-                    #self.Segments[i]={} 
-                    #self.Segments[i]['roi']=row[0]
-                    #self.Segments[i]['roiname']=row[1]
-                    #self.Segments[i]['asymmetry']=row[2]
                 i=i+1
-                    #self.Segments[row[0]]=row[1:] 
-        # segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
-        # with open(segmentMap) as fin:
-        #     reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
-        #     p = re.compile('^ *#')   # if not commented          
-        #     for row in reader:
-        #         if(not p.match(row[0])):                    
-        #             self.Segments[row[0]]=row[1:]                        
-                            
-        #print(self.Segments)
+
     def is_number(self,s):
         try:
             float(s)
@@ -195,11 +182,21 @@ class Visit:
 
         calcs={}
 
-        calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+        calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.path,segment,segment,counterpart,method)
         if os.path.isfile(calcsJson):
             with open(calcsJson, 'r') as f:
                 calcs = json.loads(f.read())
                 return calcs
+        else:
+            #Check for and Fix legacy structure and put JSON in segment folders
+            calcsOldJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+            if os.path.isfile(calcsOldJson):
+                with open(calcsOldJson, 'r') as f:
+                    calcs = json.loads(f.read())
+                    if not os.path.isdir("%s/Tractography/crush/%s" % (self.path,segment)):
+                        os.mkdir("%s/Tractography/crush/%s" % (self.path,segment))
+                    os.rename(calcsJson,calcsOldJson)
+                    return calcs
 
         l_NumTracts = False
         l_TractsToRender = False
@@ -560,9 +557,10 @@ class Visit:
             datafile = "%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)
             if os.path.isfile(nii):
                 os.unlink(nii) 
-
+            
             if os.path.isfile(datafile):
-                os.unlink(dateafile) 
+                print("Cleanup %s" %(datafile))
+                os.unlink(datafile) 
 
                                                         
     
@@ -582,9 +580,11 @@ class Visit:
             if self.fixmissing:
                 calcs = self.MeasurementAudit_worker(segment,counterpart,method)
                 if len(calcs)>0:
-                    calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+                    MsgUser.ok("Previous calculations detected for %s,%s,%s" %(segment,counterpart,method))
+                    calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.path,segment,segment,counterpart,method)
                     with open(calcsJson, "w") as calcs_file:
                         json.dump(calcs,calcs_file)
+                        self.trackvis_cleanup_nii(segment,counterpart,method)
                     #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
                     return calcs
                 else:
@@ -670,7 +670,11 @@ class Visit:
             MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
         
         # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
-        calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+        
+        if not os.path.isdir("%s/Tractography/crush/%s" % (self.path,segment)):
+            os.mkdir("%s/Tractography/crush/%s" % (self.path,segment))
+
+        calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.path,segment,segment,counterpart,method)
         with open(calcsJson, "w") as calcs_file:
             json.dump(calcs,calcs_file)
             ############# CLEANUP #################
@@ -722,7 +726,7 @@ class Visit:
             for c in self.Segments:
                 counterpart=c['roi']
                 counterpartName=c['roiname']                               
-                if (segment!=counterpart and segment<counterpart):                        
+                if (segment!=counterpart):                        
                     methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
                     methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
                     with open(methodFile) as fin:

@@ -106,7 +106,7 @@ def main():
     parser.add_argument('-report',action='store_true',
                         help='Extract a table for analysis')   
     parser.add_argument('-metadata',action='store',
-                        help='Path to metadata file about patient.  The metadata file should have the CSV format Patient,Visit,Attr1..AttrN')
+                        help='Path to metadata file about patient.  The metadata file should have the CSV format Patient,Visit,Attr1..AttrN')                                               
     args = parser.parse_args()
 
     S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing)
