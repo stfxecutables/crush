@@ -59,21 +59,8 @@ class Visit:
                 #print("%s,%s" %(i,row))
                 if(not p.match(row[0])): 
                     self.Segments.append({'roi':row[0],'roiname':row[1],'asymmetry':row[2]})
-                    #self.Segments[i]={} 
-                    #self.Segments[i]['roi']=row[0]
-                    #self.Segments[i]['roiname']=row[1]
-                    #self.Segments[i]['asymmetry']=row[2]
                 i=i+1
-                    #self.Segments[row[0]]=row[1:] 
-        # segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
-        # with open(segmentMap) as fin:
-        #     reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
-        #     p = re.compile('^ *#')   # if not commented          
-        #     for row in reader:
-        #         if(not p.match(row[0])):                    
-        #             self.Segments[row[0]]=row[1:]                        
-                            
-        #print(self.Segments)
+
     def is_number(self,s):
         try:
             float(s)
@@ -103,69 +90,55 @@ class Visit:
     def GetMeasurements(self):
 
         Measurements={}
-
+        #print(self.Segments)
         self.data[self.PatientId]={}
-        self.data[self.PatientId][self.VisitId]={}
-
+        self.data[self.PatientId][self.VisitId]={}        
         if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
             with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
                 for line in fMeasure:
                     if line.strip() != "":
                         nvp=line.split("=")  
                         self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
-                        Measurements[nvp[0]]=nvp[1].strip()
+                        if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
+                            Measurements[nvp[0]]=nvp[1].strip()
             
         ## Add derived measures here
         #print("Deriving Asymmetry Indexes")
         
-        for s in self.Segments:  
-            roi=s['roi']                             
-            asymmetry=s['asymmetry']
-            if asymmetry:
-                for p in self.data:
-                    for v in self.data[p]: 
-                        asymMeasuresToAdd = {}
-                        for m in self.data[p][v]:
-                            #For all measures                                                                                      
-                            searchEx="%s-%s" %(roi,r'(\d+)')
-                            roiGrp = re.search(searchEx, m)
-                            if roiGrp:
-                                ma=m.replace(roi,asymmetry)                                
-                                if ma in self.data[p][v] and self.data[p][v][ma]:
-                                    if self.is_number(self.data[p][v][ma]) and self.is_number(self.data[p][v][m]) and float(self.data[p][v][ma]) != 0:
-                                        asymIdx=float(self.data[p][v][m]) / float(self.data[p][v][ma])
-                                    else:
-                                        asymIdx=0
-                                else:
-                                    asymIdx=0
-                                #self.data[self.PatientId][self.VisitId][ma]=asymIdx
-                                if(ma in self.data[p][v] and ma[-8] != "-asymidx"):
-                                    #print("ASYM: %s" %(ma))
-                                    asymMeasuresToAdd["%s-asymidx" %(ma)]=asymIdx
-                                #print("%s [%s] has aymmetry with %s [%s].  ASYM IDX=[%s]" %(m,self.data[p][v][m],ma,self.data[p][v][ma],asymIdx))
-                                #print("%s is %s" %(ma,asymIdx))
-                        for ma in asymMeasuresToAdd:                                                                
-                            #print("XX-%s" %(ma))
-                            self.data[p][v][ma] = str(asymMeasuresToAdd[ma])
-
+        asymMeasuresToAdd = {}
+        for m in self.data[self.PatientId][self.VisitId]:
+            if m[-8] != "-asymidx":
+                m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
                 
+                if m0:
+                    l_roi = m0.group(1)
+                    l_roiE = m0.group(2)
+                    l_method = m0.group(3)
+                    l_measure = m0.group(4)
+
+                    l_roiC=""
+                    l_roiEC=""
+
+                    #print("%s, %s" %(l_roi,l_roiE))
+                    for s in self.Segments:                        
+                        if s['roi']==l_roi:                            
+                            l_roiC = s['asymmetry']
+                        if s['roi']==l_roiE:
+                            l_roiEC = s['asymmetry']
+
+                    asymCounterpart = "%s-%s-%s-%s" %(l_roiC,l_roiEC,l_method,l_measure)                    
+                    if asymCounterpart in self.data[self.PatientId][self.VisitId]:
+                        if self.is_number(self.data[self.PatientId][self.VisitId][m]) and self.is_number(self.data[self.PatientId][self.VisitId][asymCounterpart]) and float(self.data[self.PatientId][self.VisitId][asymCounterpart]) != 0:
+                            asymIdx=float(self.data[self.PatientId][self.VisitId][m]) / float(self.data[self.PatientId][self.VisitId][asymCounterpart])                            
+                            asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
+        for newm in asymMeasuresToAdd:
+            if self.is_number(str(asymMeasuresToAdd[newm])):
+                Measurements[newm]=str(asymMeasuresToAdd[newm])
+         
         ## End of derived measures
         
         return Measurements
-        #Print report
-        for p in self.data:            
-            for v in self.data[p]:
-                row=[]
-                row.append(p)
-                row.append(v)
-                for m in voi_interests:
-                    if m in self.data[p][v]:
-                        row.append(self.data[p][v][m])
-                        if "%s-asymidx" %(m) in self.data[p][v]:
-                            row.append(self.data[p][v]["%s-asymidx" %(m)])
-                    else:
-                        row.append("")
-            #print(",".join(row))   
+        
         
     def MeasurementAudit(self):
 
@@ -209,11 +182,21 @@ class Visit:
 
         calcs={}
 
-        calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+        calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.path,segment,segment,counterpart,method)
         if os.path.isfile(calcsJson):
             with open(calcsJson, 'r') as f:
                 calcs = json.loads(f.read())
                 return calcs
+        else:
+            #Check for and Fix legacy structure and put JSON in segment folders
+            calcsOldJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+            if os.path.isfile(calcsOldJson):
+                with open(calcsOldJson, 'r') as f:
+                    calcs = json.loads(f.read())
+                    if not os.path.isdir("%s/Tractography/crush/%s" % (self.path,segment)):
+                        os.mkdir("%s/Tractography/crush/%s" % (self.path,segment))
+                    os.rename(calcsJson,calcsOldJson)
+                    return calcs
 
         l_NumTracts = False
         l_TractsToRender = False
@@ -574,9 +557,10 @@ class Visit:
             datafile = "%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)
             if os.path.isfile(nii):
                 os.unlink(nii) 
-
+            
             if os.path.isfile(datafile):
-                os.unlink(dateafile) 
+                print("Cleanup %s" %(datafile))
+                os.unlink(datafile) 
 
                                                         
     
@@ -596,9 +580,11 @@ class Visit:
             if self.fixmissing:
                 calcs = self.MeasurementAudit_worker(segment,counterpart,method)
                 if len(calcs)>0:
-                    calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+                    MsgUser.ok("Previous calculations detected for %s,%s,%s" %(segment,counterpart,method))
+                    calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.path,segment,segment,counterpart,method)
                     with open(calcsJson, "w") as calcs_file:
                         json.dump(calcs,calcs_file)
+                        self.trackvis_cleanup_nii(segment,counterpart,method)
                     #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
                     return calcs
                 else:
@@ -684,7 +670,11 @@ class Visit:
             MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
         
         # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
-        calcsJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+        
+        if not os.path.isdir("%s/Tractography/crush/%s" % (self.path,segment)):
+            os.mkdir("%s/Tractography/crush/%s" % (self.path,segment))
+
+        calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.path,segment,segment,counterpart,method)
         with open(calcsJson, "w") as calcs_file:
             json.dump(calcs,calcs_file)
             ############# CLEANUP #################
@@ -736,7 +726,7 @@ class Visit:
             for c in self.Segments:
                 counterpart=c['roi']
                 counterpartName=c['roiname']                               
-                if (segment!=counterpart and segment<counterpart):                        
+                if (segment!=counterpart):                        
                     methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
                     methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
                     with open(methodFile) as fin:

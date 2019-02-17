@@ -43,3 +43,15 @@ this modifies the binaries in that folder to look in $EBROOTGSL/lib which contai
     ./globusconnect -start
 
     55167189
+
+
+find . -name *.json -print > ~/allgjson.txt
+
+tar -cvf allgjson.tar -T ~/allgjson.txt
+
+
+find . -name *.out -print | tar -zcvf outs.tar.gz -T 
+
+find /scratch/dmattie/crushdata -name *.json -print  | xargs tar -czvf ~/projects/dmattie/json.tar.gz 
+
+
