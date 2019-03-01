@@ -582,9 +582,12 @@ class Visit:
                 if len(calcs)>0:
                     MsgUser.ok("Previous calculations detected for %s,%s,%s" %(segment,counterpart,method))
                     calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.path,segment,segment,counterpart,method)
+
+                    if not os.path.isdir("%s/Tractography/crush/%s" % (self.path,segment)):
+                        os.mkdir("%s/Tractography/crush/%s" % (self.path,segment))
+
                     with open(calcsJson, "w") as calcs_file:
-                        json.dump(calcs,calcs_file)
-                        print("JSON written: %s" %(calcs_file))
+                        json.dump(calcs,calcs_file)                        
                         self.trackvis_cleanup_nii(segment,counterpart,method)
                     #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
                     return calcs
