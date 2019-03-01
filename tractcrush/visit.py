@@ -584,6 +584,7 @@ class Visit:
                     calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.path,segment,segment,counterpart,method)
                     with open(calcsJson, "w") as calcs_file:
                         json.dump(calcs,calcs_file)
+                        print("JSON written: %s",%(calcs_file))
                         self.trackvis_cleanup_nii(segment,counterpart,method)
                     #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
                     return calcs
