@@ -195,7 +195,7 @@ class Visit:
                     calcs = json.loads(f.read())
                     if not os.path.isdir("%s/Tractography/crush/%s" % (self.path,segment)):
                         os.mkdir("%s/Tractography/crush/%s" % (self.path,segment))
-                    os.rename(calcsJson,calcsOldJson)
+                    os.rename(calcsOldJson,calcsJson)
                     return calcs
 
         l_NumTracts = False
@@ -553,14 +553,14 @@ class Visit:
 
     def trackvis_cleanup_nii(self,segment,counterpart,method):
 
-            nii = "%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)
-            datafile = "%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)
-            if os.path.isfile(nii):
-                os.unlink(nii) 
-            
-            if os.path.isfile(datafile):
-                print("Cleanup %s" %(datafile))
-                os.unlink(datafile) 
+        nii = "%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)
+        datafile = "%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)
+        if os.path.isfile(nii):
+            os.unlink(nii) 
+        
+        if os.path.isfile(datafile):
+            print("Cleanup %s" %(datafile))
+            os.unlink(datafile) 
 
                                                         
     
@@ -720,33 +720,32 @@ class Visit:
 
         tasks = []
 
+        methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
+        methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
+        with open(methodFile) as fin:
+            reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+            p = re.compile('^ *#')   # if not commented          
+            for row in reader:
+                if(not p.match(row[0])):                    
+                    methods.append(row[0])   
+
         for s in self.Segments:
             segment=s['roi']
             segmentName=s['roiname']                                            
             for c in self.Segments:
                 counterpart=c['roi']
                 counterpartName=c['roiname']                               
-                if (segment!=counterpart):                        
-                    methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
-                    methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
-                    with open(methodFile) as fin:
-                        reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
-                        p = re.compile('^ *#')   # if not commented          
-                        for row in reader:
-                            if(not p.match(row[0])):                    
-                                methods.append(row[0])                    
+                if (segment!=counterpart):                                         
                     for method in methods:
                         #print("Rendering segment %s counterpart %s method %s" %(segment, counterpart, method))
                         if segment != counterpart:
-                            MsgUser.ok("Setting up %s %s %s" %(segment,counterpart,method))
-                            #pool.apply_async(self.trackvis_worker,(segment,counterpart,method))
+                            MsgUser.ok("Setting up %s %s %s" %(segment,counterpart,method))                            
                             t = [segment,counterpart,method] 
                             print("Rendering %s against %s using method %s" % (segment,counterpart,method))
                             tasks.append(t)
 
         no_of_procs = cpu_count() 
         print("Multiprocessing across %s async procs" %(no_of_procs))
-
         
         pool = Pool(no_of_procs)
         for t in tasks:
