@@ -164,6 +164,10 @@ class Visit:
                         if segment != counterpart:
                             completeInd = self.MeasurementAudit_worker(segment,counterpart,method)
                             if completeInd:
+                                #Get into global data array
+                                for m in completeInd:
+                                    self.data[self.PatientId][self.VisitId][m] = completeInd[m]
+
                                 MsgUser.ok("Measurement complete: %s %s %s" %(segment,counterpart,method))
                                 
                             else:                                
@@ -774,6 +778,7 @@ class Visit:
         #                 self.data[self.PatientId][self.VisitId][m] = calcs[m]
         #                 #print("%s=%s" %(m,self.data[self.PatientId][self.VisitId][m]))
         # print(self.data[self.PatientId][self.VisitId].)
+        print("Patient measure count: %s" %(len(self.data[self.PatientId][self.VisitId])))
         with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
                 if m[-8:] !="-asymidx":
