@@ -175,7 +175,7 @@ class Visit:
             if t:
                 positives += 1
 
-        print("%s/%s is %s percent complete.  %s positives" %(self.PatientId, self.VisitId,positives/l,positives))
+        print("%s/%s is %s percent complete.  %s positives" %(self.PatientId, self.VisitId,positives/l*100,positives))
         return completeInd
 
     def MeasurementAudit_worker(self,segment,counterpart,method):
@@ -760,19 +760,20 @@ class Visit:
         
         MsgUser.ok("@@@@  LETS JOIN IT ALL TOGETHER @@@@  ")
 
-        #calcsPath = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
-        calcsPath = "%s/Tractography/crush" % (self.path)
-        calcs=[]
-        #onlycalcfiles = [f for f in os.listdir(calcsPath) if f[-5:] == ".json" ]
-        for f in os.listdir(calcsPath):
-            if f[-5:] == ".json":
-                #read and add  file_path = os.path.join(folder, the_file)
-                with open(os.path.join(calcsPath,f), "r") as calcs_file:
-                    calcs = json.loads(calcs_file.read())
-                    for m in calcs:
-                        self.data[self.PatientId][self.VisitId][m] = calcs[m]
-                        #print("%s=%s" %(m,self.data[self.PatientId][self.VisitId][m]))
-
+        self.MeasurementAudit()
+        # #calcsPath = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.path,segment,counterpart,method)
+        # calcsPath = "%s/Tractography/crush" % (self.path)
+        # calcs=[]
+        # #onlycalcfiles = [f for f in os.listdir(calcsPath) if f[-5:] == ".json" ]
+        # for f in os.listdir(calcsPath):
+        #     if f[-5:] == ".json":
+        #         #read and add  file_path = os.path.join(folder, the_file)
+        #         with open(os.path.join(calcsPath,f), "r") as calcs_file:
+        #             calcs = json.loads(calcs_file.read())
+        #             for m in calcs:
+        #                 self.data[self.PatientId][self.VisitId][m] = calcs[m]
+        #                 #print("%s=%s" %(m,self.data[self.PatientId][self.VisitId][m]))
+        # print(self.data[self.PatientId][self.VisitId].)
         with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
                 if m[-8:] !="-asymidx":
