@@ -23,7 +23,11 @@ import json
               
 class Visit:
    
-        
+    def unicode_csv_reader(utf8_data, dialect=csv.excel, **kwargs):
+        csv_reader = csv.reader(utf8_data, dialect=dialect, **kwargs)
+        for row in csv_reader:
+            yield [unicode(cell, 'utf-8') for cell in row]
+                    
     def __init__(self,path,rebuild,voi,recrush,fixmissing):        
         self.VisitId=os.path.basename(path)
         self.path=path
@@ -559,12 +563,18 @@ class Visit:
 
         nii = "%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)
         datafile = "%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method)
+        oldcalcsfile = "%s/Tractography/crush/calcs-%s-%s-%s.json" %(self.path,segment,counterpart,method)
+        
         if os.path.isfile(nii):
             os.unlink(nii) 
         
         if os.path.isfile(datafile):
             print("Cleanup %s" %(datafile))
             os.unlink(datafile) 
+
+        if os.path.isfile(oldcalcsfile):
+            print("Cleanup %s" %(oldcalcsfile))
+            os.unlink(oldcalcsfile)             
 
                                                         
     
