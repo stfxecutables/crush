@@ -110,7 +110,7 @@
 2033,ctx-rh-temporalpole,4033,Right,Grey,right temporal pole grey matter
 2034,ctx-rh-transversetemporal,4034,Right,Grey,right transverse temporal grey matter
 2035,ctx-rh-insula,4035,Right,Grey,right insula grey matter
-3001,wm-lh-bankssts,1001,Left,White,left banks of superior temporal sulcus white matter
+3001,wm-lh-bankssts,1001,Left,White,left banks of superior temporal sulcus white matter
 3002,wm-lh-caudalanteriorcingulate,1002,Left,White,left caudal anterior cingulate white matter
 3003,wm-lh-caudalmiddlefrontal,1003,Left,White,left caudal middle frontal white matter
 3005,wm-lh-cuneus,1005,Left,White,left cuneus white matter
@@ -144,7 +144,7 @@
 3033,wm-lh-temporalpole,1033,Left,White,left temporal pole white matter
 3034,wm-lh-transversetemporal,1034,Left,White,left transverse temporal white matter
 3035,wm-lh-insula,1035,Left,White,left insula white matter
-4001,wm-rh-bankssts,2001,Right,White,right banks of superior temporal sulcus white matter
+4001,wm-rh-bankssts,2001,Right,White,right banks of superior temporal sulcus white matter
 4002,wm-rh-caudalanteriorcingulate,2002,Right,White,right caudal anterior cingulate white matter
 4003,wm-rh-caudalmiddlefrontal,2003,Right,White,right caudal middle frontal white matter
 4005,wm-rh-cuneus,2005,Right,White,right cuneus white matter
