@@ -144,8 +144,7 @@ class Visit:
         return Measurements
         
         
-    def MeasurementAudit(self):
-
+    def MeasurementAudit(self):        
         tasks = []
 
         for s in self.Segments:
@@ -592,7 +591,12 @@ class Visit:
             render = True
 
             if self.fixmissing:
+                start_time = int(round(time.time() * 1000))
                 calcs = self.MeasurementAudit_worker(segment,counterpart,method)
+                time_diff = current_milli_time() — start_time 
+                print("MeasurementAudit time: %s" %(time_diff))
+
+                start_time = int(round(time.time() * 1000))
                 if len(calcs)>0:
                     MsgUser.ok("Previous calculations detected for %s,%s,%s" %(segment,counterpart,method))
                     calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.path,segment,segment,counterpart,method)
@@ -604,6 +608,8 @@ class Visit:
                         json.dump(calcs,calcs_file)                        
                         self.trackvis_cleanup_nii(segment,counterpart,method)
                     #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
+                    time_diff = current_milli_time() — start_time 
+                    print("Cleanup time: %s" %(time_diff))
                     return calcs
                 else:
                     MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
