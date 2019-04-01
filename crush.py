@@ -1,5 +1,3 @@
-#!python3
-
 import os, sys, argparse,re
 from tractcrush.samples import Samples
 from tractcrush.ux import MsgUser
@@ -104,7 +102,9 @@ def main():
     parser.add_argument('-fixmissing',action='store_true',
                         help='Ignore anything previosly crushed and extract only tract information that has not been rendered yet')                        
     parser.add_argument('-report',action='store_true',
-                        help='Extract a table for analysis')   
+                        help='Extract a row-based table for analysis, 1 row per measure')  
+    parser.add_argument('-columnar',action='store_true',
+                        help='Extract a column-based table for analysis, 1 row per patient')                         
     parser.add_argument('-metadata',action='store',
                         help='Path to metadata file about patient.  The metadata file should have the CSV format Patient,Visit,Attr1..AttrN')                                               
     args = parser.parse_args()
@@ -114,6 +114,9 @@ def main():
     if (args.report):
         S.Report()        
         exit()
+    if (args.columnar):
+        S.Columnar()
+        exit()        
     # Read VOI into array
     if (args.voi):
 

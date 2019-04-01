@@ -259,5 +259,68 @@ class Samples:
                 #     print(",".join(row))
             
 
+    def Columnar(self):
 
 
+        #Check for any patient metadata so we can augment output
+        #The metadata file should have the format Patient,Visit,Attr1..AttrN
+        Metadata = {} 
+        if self.metadata and os.path.isfile(self.metadata):      
+            with open(self.metadata, newline='') as f:
+                reader = csv.reader(f)
+                metaHeader = next(reader)
+                for row in reader:   #iterate the metadata rows, add to dicitonary                    
+                    for i in range(2,len(metaHeader)):    #iterate the cells of the row  
+                        if row[0] not in Metadata:
+                            Metadata[row[0]] = {}                        
+                        if row[1] not in Metadata[row[0]]:
+                            Metadata[row[0]][row[1]] = {}
+                        
+                        Metadata[row[0]][row[1]][metaHeader[i]]=row[i]
+        #--------------------------HEADER-----------------------------------
+        #Pring CSV Header using first patient measurement keys as columns.
+        #If first patient isn't fully rendered, all keys will not appear
+     
+        header=[]
+        header.append("PatientID")
+        header.append("VisitId")
+        #Add extra patient metadata if exists
+        if self.metadata:
+            for meta_i in range(2,len(metaHeader)):
+                header.append(metaHeader[meta_i])  
+                
+
+        for p in self.Patients:            
+            for v in p.Visits:                                
+                measurements = v.GetMeasurements()
+
+                for k in sorted(measurements.keys()):
+                    header.append(k)
+                break
+                        
+        print(",".join(header))
+                
+
+                
+        #Print CSV Data ------------BODY------------------------------------
+        for p in self.Patients:
+            for v in p.Visits:
+
+                row=[]                
+                row.append(p.PatientId)            
+                row.append(v.VisitId)
+
+                for meta_i in range(2,len(metaHeader)):
+                    meta=metaHeader[meta_i]
+                    if p.PatientId in Metadata and v.VisitId in Metadata[p.PatientId] and meta in Metadata[p.PatientId][v.VisitId] :
+                        row.append(Metadata[p.PatientId][v.VisitId][meta])
+                    else:
+                        row.append("")
+                
+
+                measurements = v.GetMeasurements()
+                for k in sorted(measurements.keys()):
+                    row.append(measurements[k])
+                    
+                  
+                print(",".join(row))

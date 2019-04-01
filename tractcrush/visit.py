@@ -357,8 +357,8 @@ class Visit:
                                 row.append(self.data[p][v]["%s-asymidx" %(m)])
                         else:
                             row.append("")
-            print(",".join(row))                        
-       
+            print(",".join(row))                                               
+
     def Report(self):
         #MsgUser.bold("Reporting values of interest")
 
