@@ -106,7 +106,7 @@ class Visit:
                         if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
                             Measurements[nvp[0]]=nvp[1].strip()
                         else:
-                            Measurements[nvp[0]]=0 #convert nan to zero
+                            Measurements[nvp[0]]="" #convert nan to missing value
             
         ## Add derived measures here
         #print("Deriving Asymmetry Indexes")
