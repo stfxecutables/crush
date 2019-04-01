@@ -300,11 +300,11 @@ class Samples:
                 break
             break
         
-                        
-        print(",".join(header))
+        print(len(header))                
+        #print(",".join(header))
                 
 
-                
+        return        
         #Print CSV Data ------------BODY------------------------------------
         for p in self.Patients:
             for v in p.Visits:
