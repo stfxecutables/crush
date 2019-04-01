@@ -294,9 +294,12 @@ class Samples:
             for v in p.Visits:                                
                 measurements = v.GetMeasurements()
 
-                for k in sorted(measurements.keys()):
+                measurementKeys = sorted(measurements.keys())
+                for k in measurementKeys:
                     header.append(k)
                 break
+            break
+        break
                         
         print(",".join(header))
                 
@@ -319,8 +322,11 @@ class Samples:
                 
 
                 measurements = v.GetMeasurements()
-                for k in sorted(measurements.keys()):
-                    row.append(measurements[k])
+                for k in measurementKeys:
+                    if measurements[k]:
+                        row.append(measurements[k])
+                    else   
+                        row.append("")
                     
                   
                 print(",".join(row))
