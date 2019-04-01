@@ -325,7 +325,7 @@ class Samples:
                 for k in measurementKeys:
                     if measurements[k]:
                         row.append(measurements[k])
-                    else   
+                    else:   
                         row.append("")
                     
                   
