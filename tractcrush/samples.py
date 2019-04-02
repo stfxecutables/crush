@@ -288,27 +288,87 @@ class Samples:
         if self.metadata:
             for meta_i in range(2,len(metaHeader)):
                 header.append(metaHeader[meta_i])  
-                
 
-        for p in self.Patients:            
-            for v in p.Visits:                                
-                measurements = v.GetMeasurements()
 
-                measurementKeys = sorted(measurements.keys())
-                for k in measurementKeys:
-                    header.append(k)
-                break
-            break
-        
-        print(len(header))                
-        #print(",".join(header))
-                
+        self.Segments = []#{}
 
-        return        
+        i=1
+        segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
+        with open(segmentMap) as fin:
+            reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+            p = re.compile('^ *#')   # if not commented          
+            for row in reader:
+                #print("%s,%s" %(i,row))
+                if(not p.match(row[0])): 
+                    self.Segments.append({'roi':row[0],'roiname':row[1],'asymmetry':row[2]})
+                i=i+1
+
+        measurementKeys = []
+
+        for s in self.Segments:
+            segment=s['roi']
+            segmentName=s['roiname']                                            
+            for c in self.Segments:
+                counterpart=c['roi']
+                counterpartName=c['roiname']                               
+                if (segment!=counterpart and segment<counterpart):                        
+                    methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
+                    methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
+                    with open(methodFile) as fin:
+                        reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+                        p = re.compile('^ *#')   # if not commented          
+                        for row in reader:
+                            if(not p.match(row[0])):                    
+                                methods.append(row[0])                    
+                    for method in methods:
+                        #print("Rendering segment %s counterpart %s method %s" %(segment, counterpart, method))
+                        if segment != counterpart:
+                            measurementKeys.append("%s-%s-%s-Tractlength" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-NumTracts" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-TractsToRender" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-LinesToRender" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-MeanTractLen" %(segment,counterpart,method))
+                            measurementKeys.append(r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-VoxelSizeX" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-VoxelSizeY" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-meanFA" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-stddevFA" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-meanADC" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-stddevADC" %(segment,counterpart,method))
+
+                            measurementKeys.append("%s-%s-%s-Tractlength-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-NumTracts-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-TractsToRender-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-LinesToRender-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-MeanTractLen-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append(r"%s-%s-%s-MeanTractLen_StdDev-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-VoxelSizeX-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-VoxelSizeY-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-VoxelSizeZ-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-meanFA-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-stddevFA-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-meanADC-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("%s-%s-%s-stddevADC-asymidx" %(segment,counterpart,method))
+                            
+
+        for k in measurementKeys:
+            header.append(k)
+        # for p in self.Patients:            
+        #     for v in p.Visits:                                
+        #         measurements = v.GetMeasurements()
+
+        #         measurementKeys = sorted(measurements.keys())
+        #         for k in measurementKeys:
+        #             header.append(k)
+        #         break
+        #     break
+                               
+        print(",".join(header))
+                        
         #Print CSV Data ------------BODY------------------------------------
         for p in self.Patients:
-            for v in p.Visits:
-
+            for v in p.Visits:            
                 row=[]                
                 row.append(p.PatientId)            
                 row.append(v.VisitId)
@@ -318,15 +378,11 @@ class Samples:
                     if p.PatientId in Metadata and v.VisitId in Metadata[p.PatientId] and meta in Metadata[p.PatientId][v.VisitId] :
                         row.append(Metadata[p.PatientId][v.VisitId][meta])
                     else:
-                        row.append("")
-                
-
+                        row.append("")                
                 measurements = v.GetMeasurements()
                 for k in measurementKeys:
-                    if measurements[k]:
+                    if k in measurements:
                         row.append(measurements[k])
                     else:   
-                        row.append("")
-                    
-                  
+                        row.append("")                                      
                 print(",".join(row))
