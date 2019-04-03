@@ -8,9 +8,18 @@ import sklearn
 import argparse
 import csv
 import mglearn
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.decomposition import PCA
 
 
-from sklearn.datasets import load_iris
+from sklearn.datasets import fetch_lfw_people
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.model_selection import train_test_split
+import mglearn
+from sklearn.decomposition import PCA
+
 
 #from np import genfromtxt
 
