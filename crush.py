@@ -110,11 +110,11 @@ def main():
                         help='Path to metadata file about patient.  The metadata file should have the CSV format Patient,Visit,Attr1..AttrN')                                               
     parser.add_argument('-maxcores',action='store',type=int,
                         help='Maximum number of cores to use while deriving measurements.  Use this if you want to leave a little CPU room left for other processing.  By default, all cores will be used (%s cores on this machine).' %(cpu_count()))                                               
-    parser.add_argument('-logpath',action='store',
-                        help='Path to write log files such as track_vis.log.  If path is missing or not specified, current path is assumed.')
+    parser.add_argument('-disable_log',action='store_true',
+                        help='If specified, disable track_vis.log')
     args = parser.parse_args()
 
-    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.logpath)
+    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.disable_log)
 
     if (args.report):
         S.Report()        
