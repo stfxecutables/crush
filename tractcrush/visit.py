@@ -28,16 +28,22 @@ class Visit:
         for row in csv_reader:
             yield [unicode(cell, 'utf-8') for cell in row]
                     
-    def __init__(self,path,rebuild,voi,recrush,fixmissing):        
+    def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,logpath):        
         self.VisitId=os.path.basename(path)
         self.path=path
         self.rebuild=rebuild
         self.voi=voi        
         self.recrush=recrush
         self.fixmissing=fixmissing
+        self.maxcores=maxcores
         self.data = defaultdict(list)#{}
         self.PatientId=os.path.split(os.path.dirname(self.path))[1]
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
+
+        if os.path.isdir(logpath):
+            self.logpath=logpath
+        else:
+            self.logpath="."
         
         if os.path.isfile(reconTest):
             self.ReconComplete=True            
@@ -547,7 +553,7 @@ class Visit:
         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
                             #trackvis = ["track_vis","%s/Tractography/crush.%s.trk" %(self.path,tmpFile),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
             
-            trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
+            trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method),"-log","%s/%s" %(self.logpath)]
 
             if not os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)):
                 with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.path,segment,counterpart,method), "w") as track_vis_out:
@@ -764,6 +770,9 @@ class Visit:
                             tasks.append(t)
 
         no_of_procs = cpu_count() 
+        if(no_of_procs>self.maxcores):
+            no_of_procs = self.maxcores
+            
         print("Multiprocessing across %s async procs" %(no_of_procs))
         
         pool = Pool(no_of_procs)

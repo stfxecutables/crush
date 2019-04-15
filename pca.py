@@ -28,7 +28,56 @@ def main():
                         type=lambda x: is_valid_file(parser,x))
 
     args = parser.parse_args()   
-    pcaMethod(args)
+    #pcaMethod(args)
+    genderDifferences(args)
+
+def peak_to_peak(arr):
+    return arr.max() - arr.min()
+
+def genderDifferences(args):
+
+        
+    df = pd.read_csv(args.file.name).replace(np.nan, 0, regex=True) #nrows=30
+    target = df[['Gender']]
+    features = df.iloc[:,3:]    
+    asymidxKeys =[]
+    assymmetry = {}
+    for column in features:
+        if "-asymidx" in column:
+            asymidxKeys.append(column)        
+    
+   # asymDF = df['Gender',index=asymidxKeys]
+    print(pd.Index(asymidxKeys))
+    #asymDF = df[['Gender','0002-2001-roi_end-LinesToRender-asymidx']]
+    #print(asymDF.mean(axis='columns'))
+    #grouped = asymDF.groupby('Gender')
+    #print(grouped.mean())
+
+    #print( df[['0002-2001-roi_end-LinesToRender-asymidx']].mean())
+    #return
+
+
+
+
+    #This works but not sorted
+    asyms = {}
+    for key in asymidxKeys:
+            
+        if(df[key].mean()!=0):                       #If there is something in the asym index
+            asymDF = df[['Gender',key]]              #Get a dataframe with cols: gender, key
+            grouped = asymDF.groupby('Gender')       #Group df by gender
+            for gender,group in grouped:             #For each key
+                columnName = grouped.obj.columns[1]  #
+                if not columnName in asyms:          #
+                    asyms[columnName]={}             # Add key to dictionary, with Female and male means as sub dict
+                asyms[columnName][gender] = group[columnName].mean()
+    
+
+    for k in asyms:                                  # For all the keys, print delta between mean FEMALE and mean MALE
+        if 'Female' in asyms[k] and 'Male' in asyms[k]:
+            print("%s,%s" %(k,asyms[k]['Female'] - asyms[k]['Male']))
+
+
 
 
 def knnMethod(args):

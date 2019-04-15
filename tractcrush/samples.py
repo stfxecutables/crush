@@ -8,7 +8,7 @@ class Samples:
     Count=0
     
     
-    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing):
+    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing,maxcores,logpath):
         self.Patients=[]
         self.force=force
         self.voi=voi
@@ -16,6 +16,8 @@ class Samples:
         self.metadata=metadata
         self.fixmissing=fixmissing
         self.rootDir=rootDir
+        self.maxcores=maxcores
+        self.logpath=logpath
 
         dirs = os.listdir( rootDir )
         
@@ -32,7 +34,7 @@ class Samples:
                             #visit_dir = "%s/%s/01" % (rootDir,file)
                             #if os.path.exists(visit_dir): #assume if at least one visit then patient
                             self.Count+=1
-                            patient=Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing)
+                            patient=Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.logpath)
                             self.Patients.append(patient)
                                    
     def Report(self):

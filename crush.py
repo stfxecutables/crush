@@ -2,6 +2,7 @@ import os, sys, argparse,re
 from tractcrush.samples import Samples
 from tractcrush.ux import MsgUser
 import numpy
+from multiprocessing import cpu_count
 
 
 class readable_dir(argparse.Action):
@@ -107,9 +108,13 @@ def main():
                         help='Extract a column-based table for analysis, 1 row per patient')                         
     parser.add_argument('-metadata',action='store',
                         help='Path to metadata file about patient.  The metadata file should have the CSV format Patient,Visit,Attr1..AttrN')                                               
+    parser.add_argument('-maxcores',action='store',type=int,
+                        help='Maximum number of cores to use while deriving measurements.  Use this if you want to leave a little CPU room left for other processing.  By default, all cores will be used (%s cores on this machine).' %(cpu_count()))                                               
+    parser.add_argument('-logpath',action='store',
+                        help='Path to write log files such as track_vis.log.  If path is missing or not specified, current path is assumed.')
     args = parser.parse_args()
 
-    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing)
+    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.logpath)
 
     if (args.report):
         S.Report()        
