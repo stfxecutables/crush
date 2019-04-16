@@ -34,8 +34,11 @@ class Visit:
         self.rebuild=rebuild
         self.voi=voi        
         self.recrush=recrush
-        self.fixmissing=fixmissing
-        self.maxcores=maxcores
+        self.fixmissing=fixmissing        
+        if maxcores:
+            self.maxcores=maxcores 
+        else:
+            self.maxcores=9999
         self.data = defaultdict(list)#{}
         self.PatientId=os.path.split(os.path.dirname(self.path))[1]
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
