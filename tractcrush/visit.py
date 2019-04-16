@@ -550,7 +550,6 @@ class Visit:
 
     def trackvis_create_nii(self,segment,counterpart,method):
         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart)):
-                            #trackvis = ["track_vis","%s/Tractography/crush.%s.trk" %(self.path,tmpFile),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method)]
             if self.disable_log:
                 trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.path,segment,counterpart,method),"-disable_log"]
             else:
@@ -659,7 +658,7 @@ class Visit:
             calcs["%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)]=MeanTractLen_StdDev
             ############
             
-            m = re.search(r'Voxel Size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
+            m = re.search(r'Voxel size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
             if m:
                 VoxelSizeX = m.group(1).strip()
                 VoxelSizeY = m.group(2).strip()
