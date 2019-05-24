@@ -45,9 +45,9 @@ def genderDifferences(args):
     for column in features:
         if "-asymidx" in column:
             asymidxKeys.append(column)        
-    
-   # asymDF = df['Gender',index=asymidxKeys]
     print(pd.Index(asymidxKeys))
+   # asymDF = df['Gender',index=asymidxKeys]
+    
     #asymDF = df[['Gender','0002-2001-roi_end-LinesToRender-asymidx']]
     #print(asymDF.mean(axis='columns'))
     #grouped = asymDF.groupby('Gender')
