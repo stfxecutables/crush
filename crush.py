@@ -1,6 +1,6 @@
 import os, sys, argparse,re
-from tractcrush.samples import Samples
-from tractcrush.ux import MsgUser
+from basecrush import Samples
+from basecrush.ux import MsgUser
 import numpy
 from multiprocessing import cpu_count
 
@@ -71,8 +71,9 @@ def StatusReport(args,S):
             p.PatientId, len(p.Visits), l_reconall_message, l_parcellation_message, l_measurement_message))
 
 def ProcessSamples(args,S):
-    print("no render")
+    
     for p in S.Patients:
+        
         if (args.patient is not None and args.patient != p.PatientId):
             continue
         for v in p.Visits:
@@ -163,7 +164,7 @@ def main():
                 
             
             # RENDER ANYTHING OUTSTANDING ##############################################
-            if ((args.status is None or args.status==False) and (args.norender is None or args.norender != 'y')):
+            if ((args.status is None or args.status==False) and (args.norender is None or args.norender != 'y')):                
                 ProcessSamples(args,S)
 
         MsgUser.ok("We are done")

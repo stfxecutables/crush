@@ -1,6 +1,5 @@
 import os, sys,inspect,re
-#from pathlib import Path
-from tractcrush.patient import Patient
+import basecrush.Patient
 import csv
 import math
 
@@ -34,7 +33,7 @@ class Samples:
                             #visit_dir = "%s/%s/01" % (rootDir,file)
                             #if os.path.exists(visit_dir): #assume if at least one visit then patient
                             self.Count+=1
-                            patient=Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log)
+                            patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log)
                             self.Patients.append(patient)
                                    
     def Report(self):

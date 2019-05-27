@@ -1,12 +1,12 @@
 import os, sys,inspect
 import subprocess
 #from pathlib import Path
-from tractcrush.ux import MsgUser
-from tractcrush.visit import Visit
+from basecrush.ux import MsgUser
+from basecrush.visit import Visit
 
     
 class Patient:
-
+    
     def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log):        
         self.PatientId=os.path.basename(path)
         self.rebuild=rebuild

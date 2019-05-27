@@ -1,17 +1,10 @@
 import os, sys,inspect
-#from gevent import monkey
-
-#monkey.patch_all()
-#from gevent.pool import Pool
 import subprocess
 import numpy as np
 import re
 import time
-#from threading import Thread
 import uuid
-
-#from pathlib import Path
-from tractcrush.ux import MsgUser
+from basecrush.ux import MsgUser
 import nibabel as nib
 from shutil import copyfile
 from multiprocessing import Pool,cpu_count
@@ -20,69 +13,37 @@ import warnings
 from collections import defaultdict
 import json
 
-              
-class Visit:
+
+def run(visit):
+       
+    P = Pipeline(visit)
+    P.run()
+
+class Pipeline:
    
-    def unicode_csv_reader(utf8_data, dialect=csv.excel, **kwargs):
-        csv_reader = csv.reader(utf8_data, dialect=dialect, **kwargs)
-        for row in csv_reader:
-            yield [unicode(cell, 'utf-8') for cell in row]
-                    
-    def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log):        
-        self.VisitId=os.path.basename(path)
-        self.path=path
-        self.rebuild=rebuild
-        self.voi=voi        
-        self.recrush=recrush
-        self.fixmissing=fixmissing        
-        if maxcores:
-            self.maxcores=maxcores 
-        else:
-            self.maxcores=9999
-        self.data = defaultdict(list)#{}
-        self.PatientId=os.path.split(os.path.dirname(self.path))[1]
-        reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
-        self.disable_log=disable_log
+    def __init__(self,object): 
         
-        if os.path.isfile(reconTest):
-            self.ReconComplete=True            
-        else:
-            self.ReconComplete=False
-
-        measurementTest = "%s/Tractography/crush/tracts.txt" % (path)
-        #print(measurementTest)
-        if os.path.isfile(measurementTest):
-            self.MeasurementComplete=True    
-        else: 
-            self.MeasurementComplete=False
-
-
-        self.Segments = []#{}
-
-        i=1
-        segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
-        with open(segmentMap) as fin:
-            reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
-            p = re.compile('^ *#')   # if not commented          
-            for row in reader:
-                #print("%s,%s" %(i,row))
-                if(not p.match(row[0])): 
-                    self.Segments.append({'roi':row[0],'roiname':row[1],'asymmetry':row[2]})
-                i=i+1
-
-    def is_number(self,s):
-        try:
-            float(s)
-            return True
-        except ValueError:
-            return False
+        self.VisitId=object.VisitId
+        self.path=object.path
+        self.rebuild=object.rebuild
+        self.voi=object.voi        
+        self.recrush=object.recrush
+        self.fixmissing=object.fixmissing        
+        self.maxcores=object.maxcores 
+        self.data = object.data
+        self.PatientId=object.PatientId        
+        self.disable_log=object.disable_log
+        self.ReconComplete=object.ReconComplete
+        self.MeasurementComplete=object.MeasurementComplete   
+        self.Segments = object.Segments   
+        MsgUser.message("##############################################...")
+        MsgUser.message("Levman pipeline initialized for patient visit: "+ object.path)
+        MsgUser.message("##############################################...")
             
-    def Render(self):
-        #Lets Render as needed
-        MsgUser.message("Rendering %s" % self.path)
+    def run(self):
         
-
-        self.mgz2nifti()
+        
+        self.mgz2nifti()        
         self.eddy_correct()
         self.hardi_mat()
         self.odf_recon()
@@ -91,66 +52,16 @@ class Visit:
         self.tract_transform()
         self.dti_recon()
         self.dti_tracker()
-        
-    def Measure(self):
-    
+
         self.track_vis()
 
-    def GetMeasurements(self):
 
-        Measurements={}
-        #print(self.Segments)
-        self.data[self.PatientId]={}
-        self.data[self.PatientId][self.VisitId]={}        
-        if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
-            with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
-                for line in fMeasure:
-                    if line.strip() != "":
-                        nvp=line.split("=")  
-                        self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
-                        if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
-                            Measurements[nvp[0]]=nvp[1].strip()
-                        else:
-                            Measurements[nvp[0]]="" #convert nan to missing value
-            
-        ## Add derived measures here
-        #print("Deriving Asymmetry Indexes")
-        
-        asymMeasuresToAdd = {}
-        for m in self.data[self.PatientId][self.VisitId]:
-            if m[-8] != "-asymidx":
-                m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
-                
-                if m0:
-                    l_roi = m0.group(1)
-                    l_roiE = m0.group(2)
-                    l_method = m0.group(3)
-                    l_measure = m0.group(4)
+    def unicode_csv_reader(utf8_data, dialect=csv.excel, **kwargs):
+            csv_reader = csv.reader(utf8_data, dialect=dialect, **kwargs)
+            for row in csv_reader:
+                yield [unicode(cell, 'utf-8') for cell in row]
 
-                    l_roiC=""
-                    l_roiEC=""
 
-                    #print("%s, %s" %(l_roi,l_roiE))
-                    for s in self.Segments:                        
-                        if s['roi']==l_roi:                            
-                            l_roiC = s['asymmetry']
-                        if s['roi']==l_roiE:
-                            l_roiEC = s['asymmetry']
-
-                    asymCounterpart = "%s-%s-%s-%s" %(l_roiC,l_roiEC,l_method,l_measure)                    
-                    if asymCounterpart in self.data[self.PatientId][self.VisitId]:
-                        if self.is_number(self.data[self.PatientId][self.VisitId][m]) and self.is_number(self.data[self.PatientId][self.VisitId][asymCounterpart]) and float(self.data[self.PatientId][self.VisitId][asymCounterpart]) != 0:
-                            asymIdx=float(self.data[self.PatientId][self.VisitId][m]) / float(self.data[self.PatientId][self.VisitId][asymCounterpart])                            
-                            asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
-        for newm in asymMeasuresToAdd:
-            if self.is_number(str(asymMeasuresToAdd[newm])):
-                Measurements[newm]=str(asymMeasuresToAdd[newm])
-         
-        ## End of derived measures
-        
-        return Measurements
-        
-        
     def MeasurementAudit(self):        
         tasks = []
 
@@ -348,7 +259,7 @@ class Visit:
                                 #print("XX-%s" %(ma))
                                 self.data[p][v][ma] = str(asymMeasuresToAdd[ma])
 
-                   
+                    
             ## End of derived measures
 
             #Print report
@@ -398,7 +309,7 @@ class Visit:
                     if cell in measures:
                         row.append(measures[cell].strip())
                         
-                 #       self.data[(os.path.split(os.path.dirname(self.path))[1])][self.VisitId][cell]=measures[cell].strip()
+                    #       self.data[(os.path.split(os.path.dirname(self.path))[1])][self.VisitId][cell]=measures[cell].strip()
                     else:
                         row.append("")                              
                 print(",".join(row))
@@ -413,9 +324,9 @@ class Visit:
             MsgUser.skipped("All Nifti files exist")
         else:
             MsgUser.warning("\tNifti Incomplete, rendering nii files...")
-                 
+                    
             mgzFiles=['aseg','aparc+aseg', 'aparc.a2009s+aseg', 'lh.ribbon', 'rh.ribbon', 'nu', 'orig', 'ribbon', 'wm.asegedit', 'wm', 'wm.seg', 'brain', 'brainmask']
-       
+        
             for mgz in mgzFiles:
                 if os.path.isfile("%s/Freesurfer/mri/%s.nii" % (self.path,mgz)) :
                     MsgUser.skipped("\t%s.nii exists" % (mgz))
@@ -533,7 +444,7 @@ class Visit:
 
             MsgUser.ok("dti_recon Completed")
             
-       
+        
     def dti_tracker(self):
         MsgUser.bold("dti_tracker")
 
@@ -584,7 +495,7 @@ class Visit:
             os.unlink(oldcalcsfile)             
 
                                                         
-    
+
     def trackvis_worker(self,parr):#segment,counterpart,method):
         segment=parr[0]
         counterpart=parr[1]
@@ -614,12 +525,12 @@ class Visit:
                     return calcs
                 else:
                     MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
-    
+
 
             data = self.trackvis_create_nii(segment,counterpart,method)
- 
-           
-             
+
+            
+                
             m = re.search(r'Number of tracks: (\d+)', data)
             if m:
                 NumTracts = m.group(1).strip()
@@ -712,7 +623,7 @@ class Visit:
         MsgUser.bold("track_vis")
         #output: crush.txt		
             
-        self.GetMeasurements()
+        #self.GetMeasurements()
         
 
         if self.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):   
@@ -799,15 +710,20 @@ class Visit:
         #                 #print("%s=%s" %(m,self.data[self.PatientId][self.VisitId][m]))
         # print(self.data[self.PatientId][self.VisitId].)
         print("Patient measure count: %s" %(len(self.data[self.PatientId][self.VisitId])))
+        
+        visit.data = self.data
+        visit.Commit()
+        '''
         with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
                 if m[-8:] !="-asymidx":
                     crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
+        '''
         
         self.MeasurementComplete=True
         MsgUser.ok("track_vis Completed")
 
-    
+
     def nonZeroMean(self,faFile,roiFile):
         
         if os.path.isfile(faFile) == False:        
@@ -854,4 +770,4 @@ class Visit:
             std =np.std(dataFA[indecesOfInterest],dtype=np.float64)
 
         return std
-    
+
