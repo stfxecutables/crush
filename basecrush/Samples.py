@@ -1,13 +1,15 @@
 import os, sys,inspect,re
 import basecrush.Patient
+from basecrush.pluginloader import pluginloader
 import csv
 import math
+from basecrush.ux import MsgUser
 
 class Samples:
     Count=0
     
     
-    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing,maxcores,disable_log):
+    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing,maxcores,disable_log,pipeline,csv):
         self.Patients=[]
         self.force=force
         self.voi=voi
@@ -17,6 +19,8 @@ class Samples:
         self.rootDir=rootDir
         self.maxcores=maxcores
         self.disable_log=disable_log
+        self.pipeline=pipeline
+        self.csv_flag=csv
 
         dirs = os.listdir( rootDir )
         
@@ -33,9 +37,57 @@ class Samples:
                             #visit_dir = "%s/%s/01" % (rootDir,file)
                             #if os.path.exists(visit_dir): #assume if at least one visit then patient
                             self.Count+=1
-                            patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log)
+                            patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log,self.pipeline)
                             self.Patients.append(patient)
                                    
+    def csv(self):
+
+        #Check for any patient metadata so we can augment output
+        #The metadata file should have the format Patient,Visit,Attr1..AttrN
+        #Metadata = {'Header':['Patient','Visit','Gender','Age']
+        #            'Rows': {
+        #                       '0001': {'01': {'Gender': 'Male', 'Age': '23.4759077245053'}},
+        #                       '0002': {'01': {'Gender': 'Male', 'Age': '13.4354577245053'}},
+        #           }
+
+        Metadata = {} 
+        if self.metadata and os.path.isfile(self.metadata):      
+            with open(self.metadata, newline='') as f:
+                reader = csv.reader(f)
+                metaHeader = next(reader)
+                Metadata['Header']=metaHeader
+                
+                rows={}
+
+                for row in reader:   #iterate the metadata rows, add to dicitonary                    
+                    for i in range(2,len(metaHeader)):    #iterate the cells of the row  
+                        if row[0] not in rows:
+                            rows[row[0]] = {}                        
+                        if row[1] not in rows[row[0]]:
+                            rows[row[0]][row[1]] = {}
+                        
+                        rows[row[0]][row[1]][metaHeader[i]]=row[i]
+                
+                Metadata['Rows']=rows
+               
+
+        if self.pipeline == None:
+            MsgUser.warning("Pipeline plugin must be specified when extracting CSV")              
+        else:
+            for i in pluginloader.getPlugins():
+                        
+                if(self.pipeline==None or i["name"]==self.pipeline):                
+                    plugin = pluginloader.loadPlugin(i)  
+                    #try:
+                    if(Metadata):
+                        plugin.csv(self.Patients,metadata=Metadata)
+                    else:
+                        plugin.csv(self.Patients)
+                    #except Exception:
+                    #    print(Exception)
+            
+     
+
     def Report(self):
 
         #Check for any patient metadata so we can augment output
@@ -205,63 +257,11 @@ class Samples:
                                 row.append("")
                         except:
                             row.append("Exception") #original                            
-
-                        
-
-                    #row.append(measurements[m])                    
+ 
                     print(",".join(row))
-                #print("---"+str(measurements))
-
-
-                # for m in measurements:                  
-                #     row=[]                
-                #     row.append(p.PatientId)            
-                #     row.append(v.VisitId)
-
-                #     for meta_i in range(2,len(metaHeader)):
-                #         meta=metaHeader[meta_i]
-                #         if p.PatientId in Metadata and v.VisitId in Metadata[p.PatientId] and meta in Metadata[p.PatientId][v.VisitId] :
-                #             row.append(Metadata[p.PatientId][v.VisitId][meta])
-                #         else:
-                #             row.append("")
-
-                #     #What do we know about this ROI?
-                #     m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
-                #     if m0 and m0.group(1) in Features:                         
-                #         roi=Features[m0.group(1)]['ROI']
-                #         roiLabel=Features[m0.group(1)]['ROI Label']
-                #         asymIdx=Features[m0.group(1)]['Asymmetry Counterpart']
-                #         lw=Features[m0.group(1)]['Left or Right']
-                #         wg=Features[m0.group(1)]['White or Grey']                       
-                #         cn=Features[m0.group(1)]['Common Name']
-                #         method=m0.group(3)
-                #         measure=m0.group(4)
-                #     else:
-                #         roi=m0.group(1)
-                #         roiLabel=""
-                #         asymIdx=""
-                #         lw=""
-                #         wg=""
-                #         cn=""
-                #         method=m0.group(3)
-                #         measure=m0.group(4)
-
-                #     row.append(roi)
-                #     row.append(roiLabel)
-                #     row.append(asymIdx)
-                #     row.append(lw)
-                #     row.append(wg)
-                #     row.append(cn)
-                #     row.append(method)
-                #     row.append(measure)
-
-                #     row.append(m)
-                #     row.append(measurements[m])
-                #     print(",".join(row))
-            
+       
 
     def Columnar(self):
-
 
         #Check for any patient metadata so we can augment output
         #The metadata file should have the format Patient,Visit,Attr1..AttrN
@@ -355,15 +355,6 @@ class Samples:
 
         for k in measurementKeys:
             header.append(k)
-        # for p in self.Patients:            
-        #     for v in p.Visits:                                
-        #         measurements = v.GetMeasurements()
-
-        #         measurementKeys = sorted(measurements.keys())
-        #         for k in measurementKeys:
-        #             header.append(k)
-        #         break
-        #     break
                                
         print(",".join(header))
                         

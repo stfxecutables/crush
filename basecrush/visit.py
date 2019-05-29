@@ -21,7 +21,7 @@ class Visit:
    
     
                     
-    def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log):        
+    def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log,pipeline):        
         self.VisitId=os.path.basename(path)
         self.path=path
         self.rebuild=rebuild
@@ -41,27 +41,15 @@ class Visit:
             self.ReconComplete=True            
         else:
             self.ReconComplete=False
+        self.pipeline=pipeline
 
         measurementTest = "%s/Tractography/crush/tracts.txt" % (path)
-        #print(measurementTest)
+        
         if os.path.isfile(measurementTest):
             self.MeasurementComplete=True    
         else: 
             self.MeasurementComplete=False
-
-
-        self.Segments = []#{}
-
-        i=1
-        segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
-        with open(segmentMap) as fin:
-            reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
-            p = re.compile('^ *#')   # if not commented          
-            for row in reader:
-                #print("%s,%s" %(i,row))
-                if(not p.match(row[0])): 
-                    self.Segments.append({'roi':row[0],'roiname':row[1],'asymmetry':row[2]})
-                i=i+1
+        
         self.GetMeasurements()
 
     def Render(self):
@@ -69,20 +57,17 @@ class Visit:
         MsgUser.message("Rendering %s" % self.path)
         
         for i in pluginloader.getPlugins():
-            MsgUser.message("Invoking plugin " + i["name"])
-            plugin = pluginloader.loadPlugin(i)
-            plugin.run(self)
+                      
+            if(self.pipeline==None or i["name"]==self.pipeline):
+                MsgUser.message("Invoking plugin " + i["name"])
+                plugin = pluginloader.loadPlugin(i)                
+                plugin.run(self)
 
-    def Measure(self):
+    def SetValue(self,pipelineId,name,value):        
+        self.data[self.PatientId][self.VisitId]["%s/%s" %(pipelineId,name)]=value
 
-        '''
-        self.track_vis()
-        '''
-    def SetValue(self,name,value):
-        self.data[self.PatientId][self.VisitId][name]=value
-
-    def GetValue(self,name):
-        return self.data[self.PatientId][self.VisitId][name]
+    def GetValue(self,pipelineId,name):
+        return self.data[self.PatientId][self.VisitId]["%s/%s" %(pipelineId,name)]
 
     def Commit(self):
         with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
@@ -100,7 +85,7 @@ class Visit:
             with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
                 for line in fMeasure:
                     if line.strip() != "":
-                        nvp=line.split("=")  
+                        nvp=line.split("=")                          
                         self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
                         if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
                             Measurements[nvp[0]]=nvp[1].strip()
@@ -110,37 +95,7 @@ class Visit:
         ## Add derived measures here
         #print("Deriving Asymmetry Indexes")
         
-        asymMeasuresToAdd = {}
-        for m in self.data[self.PatientId][self.VisitId]:
-            if len(m)>8 and m[-8] != "-asymidx":
-                m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
-                
-                if m0:
-                    l_roi = m0.group(1)
-                    l_roiE = m0.group(2)
-                    l_method = m0.group(3)
-                    l_measure = m0.group(4)
-
-                    l_roiC=""
-                    l_roiEC=""
-
-                    #print("%s, %s" %(l_roi,l_roiE))
-                    for s in self.Segments:                        
-                        if s['roi']==l_roi:                            
-                            l_roiC = s['asymmetry']
-                        if s['roi']==l_roiE:
-                            l_roiEC = s['asymmetry']
-
-                    asymCounterpart = "%s-%s-%s-%s" %(l_roiC,l_roiEC,l_method,l_measure)                    
-                    if asymCounterpart in self.data[self.PatientId][self.VisitId]:
-                        if self.is_number(self.data[self.PatientId][self.VisitId][m]) and self.is_number(self.data[self.PatientId][self.VisitId][asymCounterpart]) and float(self.data[self.PatientId][self.VisitId][asymCounterpart]) != 0:
-                            asymIdx=float(self.data[self.PatientId][self.VisitId][m]) / float(self.data[self.PatientId][self.VisitId][asymCounterpart])                            
-                            asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
-        for newm in asymMeasuresToAdd:
-            if self.is_number(str(asymMeasuresToAdd[newm])):
-                Measurements[newm]=str(asymMeasuresToAdd[newm])
-            
-        ## End of derived measures
+        
         
         return Measurements
     def is_number(self,s):
@@ -149,4 +104,105 @@ class Visit:
             return True
         except ValueError:
             return False
+
+    def Report2(self):
+        #MsgUser.bold("Reporting values of interest")
+
+        if os.path.isfile("%s" %(self.voi)):
+            #Determine my interests
+            with open(self.voi) as f:
+                voi_interests = f.readlines()
+                voi_interests = [x.strip() for x in voi_interests] #Remove Whitespace
+            #Get everything
+            self.data[self.PatientId]={}
+            self.data[self.PatientId][self.VisitId]={}
+
+            if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
+                with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
+                    for line in fMeasure:
+                        nvp=line.split("=")   
+                        self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
+            
+            ## Add derived measures here
+            #print("Deriving Asymmetry Indexes")
+            for s in self.Segments:  
+                roi=s['roi']                             
+                asymmetry=s['asymmetry']
+                if asymmetry:
+                    for p in self.data:
+                        for v in self.data[p]: 
+                            asymMeasuresToAdd = {}
+                            for m in self.data[p][v]:
+                                #For all measures                                                                                      
+                                searchEx="%s-%s" %(roi,r'(\d+)')
+                                roiGrp = re.search(searchEx, m)
+                                if roiGrp:
+                                    ma=m.replace(roi,asymmetry)
+                                    if ma in self.data[p][v] and float(self.data[p][v][ma]) != 0:
+                                        asymIdx=float(self.data[p][v][m]) / float(self.data[p][v][ma])
+                                    else:
+                                        asymIdx=0
+                                    #self.data[self.PatientId][self.VisitId][ma]=asymIdx
+                                    
+                                    asymMeasuresToAdd["%s-asymidx" %(ma)]=asymIdx
+                                    #print("%s [%s] has aymmetry with %s [%s].  ASYM IDX=[%s]" %(m,self.data[p][v][m],ma,self.data[p][v][ma],asymIdx))
+                                    #print("%s is %s" %(ma,asymIdx))
+                            for ma in asymMeasuresToAdd:                                                                
+                                #print("XX-%s" %(ma))
+                                self.data[p][v][ma] = str(asymMeasuresToAdd[ma])
+
+                    
+            ## End of derived measures
+
+            #Print report
+            for p in self.data:
+                for v in self.data[p]:
+                    row=[]
+                    row.append(p)
+                    row.append(v)
+                    for m in voi_interests:
+                        if m in self.data[p][v]:
+                            row.append(self.data[p][v][m])
+                            if "%s-asymidx" %(m) in self.data[p][v]:
+                                row.append(self.data[p][v]["%s-asymidx" %(m)])
+                        else:
+                            row.append("")
+            print(",".join(row))                                               
+
+    def Report(self):
+        #MsgUser.bold("Reporting values of interest")
+
+        if os.path.isfile("%s" %(self.voi)):
+            #Determine my interests
+            with open(self.voi) as f:
+                content = f.readlines()
+                content = [x.strip() for x in content] #Remove Whitespace
+            #Read the measures that have been pre-derived   
+            measures={}
+            
+            measures["PatientVisit"]=self.path           
+            
+            if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
+                with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
+                    for line in fMeasure:
+                        nvp=line.split("=")                        
+                        measures[nvp[0]]=nvp[1]
+
+
+
+                
+                row=[]
+                row.append(os.path.split(os.path.dirname(self.path))[1])
+                row.append(self.VisitId)
+
+                #self.data['key'].append
+                
+                for cell in content:
+                    if cell in measures:
+                        row.append(measures[cell].strip())
+                        
+                    #       self.data[(os.path.split(os.path.dirname(self.path))[1])][self.VisitId][cell]=measures[cell].strip()
+                    else:
+                        row.append("")                              
+                print(",".join(row))
     

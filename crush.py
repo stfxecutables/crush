@@ -65,7 +65,7 @@ def StatusReport(args,S):
             if not v.MeasurementComplete:
                 l_measurement_message = "NO Measurements"
             else:
-                l_measurement_message = "Measurement Complete"
+                l_measurement_message = "Measurements exist"
 
         print("%s/%s %s, %s, %s" % (
             p.PatientId, len(p.Visits), l_reconall_message, l_parcellation_message, l_measurement_message))
@@ -82,41 +82,52 @@ def ProcessSamples(args,S):
                 MsgUser.warning("\t%s recon incomplete" % (v.VisitId))
             else:
                 v.Render()
-                v.Measure()
+                #v.Measure()
 def main():                
 
     ldir = "."
     parser = argparse.ArgumentParser(
         description='Connectomics and Reporting User Shell is used to iterrogate samples, generate or extract measurements.')
-    parser.add_argument('-samples', action=readable_dir, default=ldir, help="Path to patient samples")
-    parser.add_argument('-status', action="store_true", help="Report back what is out there and what needs to be done")
-    parser.add_argument('-recon', action='store_true', help='Apply recon-all for any T1.mgz found beneath working folder')
-    parser.add_argument('-norender', action='store_true', default='n',
-                        help='If there are incomplete connectomes, ignore the outstanding work')
-    parser.add_argument('-rebuild', action='store_true',
-                        help='Recreate any intermediary files used for establishing measurements.  If this not specified, any intermetiate files found with the appriate file name will be left untouched.')
-    parser.add_argument('-patient', action='store',
-                        help='Specify patient ID of interest if focusing on a single patient')
-    parser.add_argument('-voi', action='store',
-                        help='Values of Interest - Path to text file that lists values of interest to extract.  One column per line.  Look at any patient sample tractography\\crush\\tracts.txt file for measures.')
-    parser.add_argument('-recrush',action='store_true',
-                        help='Ignore anything previosly crushed and re-extract tract information')
-    parser.add_argument('-fixmissing',action='store_true',
-                        help='Ignore anything previosly crushed and extract only tract information that has not been rendered yet')                        
-    parser.add_argument('-report',action='store_true',
-                        help='Extract a row-based table for analysis, 1 row per measure')  
     parser.add_argument('-columnar',action='store_true',
-                        help='Extract a column-based table for analysis, 1 row per patient')                         
-    parser.add_argument('-metadata',action='store',
-                        help='Path to metadata file about patient.  The metadata file should have the CSV format Patient,Visit,Attr1..AttrN')                                               
+                        help='Extract a column-based table for analysis, 1 row per patient')    
+    parser.add_argument('-csv',action='store_true',
+                        help='Extract a CSV for analysis if specified plugin supports it')                           
+    parser.add_argument('-disable_log',action='store_true',
+                        help='If specified, disable track_vis.log')    
+    parser.add_argument('-fixmissing',action='store_true',
+                        help='Ignore anything previosly crushed and extract only tract information that has not been rendered yet')                                                
     parser.add_argument('-maxcores',action='store',type=int,
                         help='Maximum number of cores to use while deriving measurements.  Use this if you want to leave a little CPU room left for other processing.  By default, all cores will be used (%s cores on this machine).' %(cpu_count()))                                               
-    parser.add_argument('-disable_log',action='store_true',
-                        help='If specified, disable track_vis.log')
+    parser.add_argument('-metadata',action='store',
+                        help='Path to metadata file about patient.  The metadata file should have the CSV format Patient,Visit,Attr1..AttrN')                                               
+    parser.add_argument('-norender', action='store_true', default='n',
+                        help='If there are incomplete connectomes, ignore the outstanding work')
+    parser.add_argument('-patient', action='store',
+                        help='Specify patient ID of interest if focusing on a single patient')
+    parser.add_argument('-pipeline', action='store',
+                        help='Specify pipeline to process.  If unspecified, all pipelines are rendered.  This is the name of the directory under ./plugins ')
+    parser.add_argument('-rebuild', action='store_true',
+                        help='Recreate any intermediary files used for establishing measurements.  If this not specified, any intermetiate files found with the appriate file name will be left untouched.')
+    parser.add_argument('-recon', action='store_true', help='Apply recon-all for any T1.mgz found beneath working folder')
+    parser.add_argument('-recrush',action='store_true',
+                        help='Ignore anything previosly crushed and re-extract tract information')
+    parser.add_argument('-report',action='store_true',
+                        help='Extract a row-based table for analysis, 1 row per measure')  
+    parser.add_argument('-samples', action=readable_dir, default=ldir, help="Path to patient samples")                        
+    parser.add_argument('-status', action="store_true", help="Report back what is out there and what needs to be done")
+    parser.add_argument('-voi', action='store',
+                        help='Values of Interest - Path to text file that lists values of interest to extract.  One column per line.  Look at any patient sample tractography\\crush\\tracts.txt file for measures.')
+    
+                                                
+
     args = parser.parse_args()
 
-    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.disable_log)
+    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.disable_log,args.pipeline,args.csv)
 
+    if(args.csv):
+        S.csv()
+        exit()
+        
     if (args.report):
         S.Report()        
         exit()
