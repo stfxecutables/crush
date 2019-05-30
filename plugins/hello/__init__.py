@@ -24,7 +24,6 @@ def csv(Patients,**kwargs):
 
     measureNames = ['x1','x2'] 
 
-
     if ('metadata' in kwargs):
         Metadata = kwargs['metadata']
         headerNames = Metadata['Header']
