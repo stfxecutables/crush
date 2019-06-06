@@ -26,33 +26,15 @@
           <SSIS:Property SSIS:Name="CreatorComputerName">STFX2460</SSIS:Property>
           <SSIS:Property SSIS:Name="Description">
           </SSIS:Property>
-          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAOLx6tFhmXUCmGgLcGOnyDAAAAAACAAAAAAADZgAAwAAAABAAAADevFtLvGcQrqX0Ijha2VXWAAAAAASAAACgAAAAEAAAAINn4hzUTaha3aK6sb+4wHeIAAAAcg31gvEpQsvhRVxsertv/sFaLejxealTxIBLawyyMtaTrj0w/4PFREjeyTlc6F9Nv1Xh0WKS5NSCzl6C2u4ocLVkOWAnIP+rPeY5aglFXaAXFXsV117JlH97Phsxr3XoTileQm7pOP8cYECS5CAEJZm2Q1VdJaYQN+HQYsXEZG2dXQK7++AJ2xQAAAClPlIV2xGQByNHVmIMIRL9woFEgA==</SSIS:Property>
+          <SSIS:Property SSIS:Name="PasswordVerifier" SSIS:Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAwz/8UDxxAU6reVU5CxfL2AAAAAACAAAAAAADZgAAwAAAABAAAACj9gv5yNNmLaUudyN2od8rAAAAAASAAACgAAAAEAAAAH/p87ZEg+YV7HhlKlHpao6IAAAAbKoOy7cKy9DmCXNvYBxGewBuWBxeJVDNJbbFF/OXYLXsmcdv+/+g/nJNwvyUk0tbdjLpO5W90ki2YtP/N3C5+p3cMQgyMvJ3aS1IDgsNIwl8gZo0GaFqaehoD0qtn0FYlXgfoQzoKneEh1R5wPtEqaNvAi8KV25o6/dNeothndogr3NpeOC/rhQAAADF8maQN/A+JuBchYfDj0DtdoOICA==</SSIS:Property>
           <SSIS:Property SSIS:Name="FormatVersion">1</SSIS:Property>
         </SSIS:Properties>
         <SSIS:Packages>
           <SSIS:Package SSIS:Name="Package.dtsx" SSIS:EntryPoint="1" />
         </SSIS:Packages>
-        <SSIS:ConnectionManagers>
-          <SSIS:ConnectionManager SSIS:Name="2019-04-12-tall.csv.conmgr" />
-        </SSIS:ConnectionManagers>
+        <SSIS:ConnectionManagers />
         <SSIS:DeploymentInfo>
-          <SSIS:ProjectConnectionParameters>
-            <SSIS:Parameter SSIS:Name="CM.2019-04-12-tall.csv.ConnectionString">
-              <SSIS:Properties>
-                <SSIS:Property SSIS:Name="ID">
-                </SSIS:Property>
-                <SSIS:Property SSIS:Name="CreationName">
-                </SSIS:Property>
-                <SSIS:Property SSIS:Name="Description">
-                </SSIS:Property>
-                <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="Value">E:\2019-04-12-tall.csv</SSIS:Property>
-                <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
-              </SSIS:Properties>
-            </SSIS:Parameter>
-          </SSIS:ProjectConnectionParameters>
+          <SSIS:ProjectConnectionParameters />
           <SSIS:PackageInfo>
             <SSIS:PackageMetaData SSIS:Name="Package.dtsx">
               <SSIS:Properties>
@@ -60,10 +42,10 @@
                 <SSIS:Property SSIS:Name="Name">Package</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMajor">1</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionMinor">0</SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionBuild">33</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionBuild">34</SSIS:Property>
                 <SSIS:Property SSIS:Name="VersionComments">
                 </SSIS:Property>
-                <SSIS:Property SSIS:Name="VersionGUID">{90520441-A10F-4F07-A8AE-8FBD5EFAEF6E}</SSIS:Property>
+                <SSIS:Property SSIS:Name="VersionGUID">{80BAD4DA-3CD4-445D-982D-A5FFD78FD72F}</SSIS:Property>
                 <SSIS:Property SSIS:Name="PackageFormatVersion">8</SSIS:Property>
                 <SSIS:Property SSIS:Name="Description">
                 </SSIS:Property>
@@ -214,7 +196,7 @@
                     <SSIS:Property SSIS:Name="IncludeInDebugDump">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Required">0</SSIS:Property>
                     <SSIS:Property SSIS:Name="Sensitive">0</SSIS:Property>
-                    <SSIS:Property SSIS:Name="Value">E:\2019-04-12-tall.csv</SSIS:Property>
+                    <SSIS:Property SSIS:Name="Value">Z:\PROJECTS\2019-06-06.csv</SSIS:Property>
                     <SSIS:Property SSIS:Name="DataType">18</SSIS:Property>
                   </SSIS:Properties>
                 </SSIS:Parameter>
