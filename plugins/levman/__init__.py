@@ -36,7 +36,7 @@ def csv(Patients,**kwargs):
     #Use hashtag to comment a line
     Features = {}
     i=1
-    segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
+    segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.csv")
     with open(segmentMap) as fin:
         reader=csvModule.reader(fin, skipinitialspace=True, quotechar="'")
         p = re.compile('^ *#')   # if not commented          
@@ -49,11 +49,12 @@ def csv(Patients,**kwargs):
                     Features[row[0]]['ROI']=row[0]
                     Features[row[0]]['ROI Label']=row[1]
                     Features[row[0]]['Asymmetry Counterpart']=row[2]
-                    Features[row[0]]['Left or Right']=row[3]
-                    Features[row[0]]['White or Grey']=row[4]
-                    Features[row[0]]['Common Name']=row[5]                    
+                    Features[row[0]]['White Grey Counterpart']=row[3]
+                    Features[row[0]]['Left or Right']=row[4]
+                    Features[row[0]]['White or Grey']=row[5]
+                    Features[row[0]]['Common Name']=row[6]                    
                 except:
-                    print("Potentially malformed segmentMap.txt on line %s of %s" %(i, segmentMap))
+                    print("Potentially malformed segmentMap.csv on line %s of %s" %(i, segmentMap))
                     exit()
             i=i+1
     #Print CSV Header
@@ -119,7 +120,7 @@ def csv(Patients,**kwargs):
                 methods.append(row[0])  
 
     i=1
-    segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
+    segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.csv")
     with open(segmentMap) as fin:
         reader=csvModule.reader(fin, skipinitialspace=True, quotechar="'")
         p = re.compile('^ *#')   # if not commented          
@@ -268,7 +269,7 @@ class Pipeline:
         self.Segments = []#{}
 
         i=1
-        segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
+        segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.csv")
         with open(segmentMap) as fin:
             reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
             p = re.compile('^ *#')   # if not commented          
