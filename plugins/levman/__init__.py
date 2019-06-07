@@ -22,9 +22,7 @@ def run(visit):
     P.run()
 
    
-def csv(Patients,**kwargs):
-
-    measureNames = ['x1','x2'] 
+def csv(Patients,**kwargs):  
 
     if ('metadata' in kwargs):
         Metadata = kwargs['metadata']
@@ -135,7 +133,7 @@ def csv(Patients,**kwargs):
         for v in p.Visits:
             
             measurements = v.GetMeasurements()  
-
+                        
             #=====================================================
             asymMeasuresToAdd = {}
             for m in measurements:
@@ -164,7 +162,8 @@ def csv(Patients,**kwargs):
                                 asymIdx=float(measurements[m]) / float(measurements[asymCounterpart])                            
                                 asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
 
-
+            #print(asymMeasuresToAdd)
+            #return
             for newm in asymMeasuresToAdd:
                 if v.is_number(str(asymMeasuresToAdd[newm])):
                     measurements[newm]=str(asymMeasuresToAdd[newm])

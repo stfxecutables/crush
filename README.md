@@ -55,3 +55,6 @@ find . -name *.out -print | tar -zcvf outs.tar.gz -T
 find /scratch/dmattie/crushdata -name *.json -print  | xargs tar -czvf ~/projects/dmattie/json.tar.gz 
 
 
+
+sed -i -e 's/^/levman\//' tracts.txt
+find . -name 'tracts.txt' -exec sed -i 's/^/levman\//' {} +
