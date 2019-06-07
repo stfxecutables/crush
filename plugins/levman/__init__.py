@@ -270,7 +270,7 @@ class Pipeline:
         i=1
         segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.csv")
         with open(segmentMap) as fin:
-            reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+            reader=csvModule.reader(fin, skipinitialspace=True, quotechar="'")
             p = re.compile('^ *#')   # if not commented          
             for row in reader:
                 #print("%s,%s" %(i,row))
@@ -326,17 +326,17 @@ class Pipeline:
         '''   
         tasks = []
 
-        for s in self.visit.Segments:
+        for s in self.Segments:
             segment=s['roi']
             segmentName=s['roiname']                                            
-            for c in self.visit.Segments:
+            for c in self.Segments:
                 counterpart=c['roi']
                 counterpartName=c['roiname']                               
                 if (segment!=counterpart and segment<counterpart):                        
                     methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
                     methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
                     with open(methodFile) as fin:
-                        reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+                        reader=csvModule.reader(fin, skipinitialspace=True, quotechar="'")
                         p = re.compile('^ *#')   # if not commented          
                         for row in reader:
                             if(not p.match(row[0])):                    
@@ -399,7 +399,7 @@ class Pipeline:
         l_stddevADC = False
 
         p = "%s-%s-%s-NumTracts" %(segment,counterpart,method)                          
-        if(p in self.data[self.visit.PatientId][self.visit.VisitId]):
+        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_NumTracts=True            
             calcs[p]= self.visit.GetValue(self.PipelineId,p)
             #self.visit.data[self.visit.PatientId][self.visit.VisitId][p]
@@ -827,16 +827,16 @@ class Pipeline:
         methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
         methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
         with open(methodFile) as fin:
-            reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
+            reader=csvModule.reader(fin, skipinitialspace=True, quotechar="'")
             p = re.compile('^ *#')   # if not commented          
             for row in reader:
                 if(not p.match(row[0])):                    
                     methods.append(row[0])   
 
-        for s in self.visit.Segments:
+        for s in self.Segments:
             segment=s['roi']
             segmentName=s['roiname']                                            
-            for c in self.visit.Segments:
+            for c in self.Segments:
                 counterpart=c['roi']
                 counterpartName=c['roiname']                               
                 if (segment!=counterpart):                                         
