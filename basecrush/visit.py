@@ -63,8 +63,8 @@ class Visit:
                 plugin = pluginloader.loadPlugin(i)                
                 plugin.run(self)
 
-    def SetValue(self,pipelineId,name,value):        
-        self.data[self.PatientId][self.VisitId]["%s/%s" %(pipelineId,name)]=value
+    def SetValue(self,pipelineId,name,value):            
+        self.data[self.PatientId][self.VisitId]["%s/%s" %(pipelineId,name)]=value        
 
     def GetValue(self,pipelineId,name):
         return self.data[self.PatientId][self.VisitId]["%s/%s" %(pipelineId,name)]

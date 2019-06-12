@@ -3,6 +3,7 @@ import subprocess
 import numpy as np
 import re
 import time
+from datetime import datetime
 import uuid
 from basecrush.ux import MsgUser
 import nibabel as nib
@@ -298,17 +299,18 @@ class Pipeline:
             
     def run(self):      
         
-        self.mgz2nifti()        
-        self.eddy_correct()
-        self.hardi_mat()
-        self.odf_recon()
-        self.odf_tracker()
-        self.flirt()
-        self.tract_transform()
-        self.dti_recon()
-        self.dti_tracker()
-
+        #self.mgz2nifti()        
+        #self.eddy_correct()
+        #self.hardi_mat()
+        #self.odf_recon()
+        #self.odf_tracker()
+        #self.flirt()
+        #self.tract_transform()
+        #self.dti_recon()
+        #self.dti_tracker()
+        now = datetime.now()
         self.track_vis()
+        print (datetime.now()-now, "seconds process time")
 
 
     def unicode_csv_reader(utf8_data, dialect=csvModule.excel, **kwargs):
@@ -332,7 +334,7 @@ class Pipeline:
             for c in self.Segments:
                 counterpart=c['roi']
                 counterpartName=c['roiname']                               
-                if (segment!=counterpart and segment<counterpart):                        
+                if (segment!=counterpart ):                        
                     methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
                     methodFile="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"methods.txt")
                     with open(methodFile) as fin:
@@ -370,120 +372,12 @@ class Pipeline:
         calcs={}
 
         calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.visit.path,segment,segment,counterpart,method)
+        
         if os.path.isfile(calcsJson):
             with open(calcsJson, 'r') as f:
-                calcs = json.loads(f.read())
+                calcs = json.loads(f.read())                
                 return calcs
-        else:
-            #Check for and Fix legacy structure and put JSON in segment folders
-            calcsOldJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.visit.path,segment,counterpart,method)
-            if os.path.isfile(calcsOldJson):
-                with open(calcsOldJson, 'r') as f:
-                    calcs = json.loads(f.read())
-                    if not os.path.isdir("%s/Tractography/crush/%s" % (self.visit.path,segment)):
-                        os.mkdir("%s/Tractography/crush/%s" % (self.visit.path,segment))
-                    os.rename(calcsOldJson,calcsJson)
-                    return calcs
-
-        l_NumTracts = False
-        l_TractsToRender = False
-        l_LinesToRender = False
-        l_MeanTractLen = False
-        l_MeanTractLen_StdDev = False
-        l_VoxelSizeX = False
-        l_VoxelSizeY = False
-        l_VoxelSizeZ = False
-        l_meanFA = False
-        l_stddevFA = False
-        l_meanADC = False
-        l_stddevADC = False
-
-        p = "%s-%s-%s-NumTracts" %(segment,counterpart,method)                          
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_NumTracts=True            
-            calcs[p]= self.visit.GetValue(self.PipelineId,p)
-            #self.visit.data[self.visit.PatientId][self.visit.VisitId][p]
-
-        p = "%s-%s-%s-TractsToRender" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_TractsToRender=True     
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            #self.visit.data[self.visit.PatientId][self.visit.VisitId][p]          
-
-        p = "%s-%s-%s-LinesToRender" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_LinesToRender=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            #self.visit.data[self.visit.PatientId][self.visit.VisitId][p]          
-            
-        p = "%s-%s-%s-MeanTractLen" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_MeanTractLen=True     
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            # self.visit.data[self.visit.PatientId][self.visit.VisitId][p]          
-
-        p = r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_MeanTractLen_StdDev=True                                                
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            #self.visit.data[self.visit.PatientId][self.visit.VisitId][p]          
-
-        p = "%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_VoxelSizeX=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            #self.data[self.PatientId][self.VisitId][p]          
-
-        p = "%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_VoxelSizeY=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            #self.data[self.PatientId][self.VisitId][p]          
-
-        p = "%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_VoxelSizeZ=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            #self.data[self.PatientId][self.VisitId][p]          
-
-        p = "%s-%s-%s-meanFA" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_meanFA=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            #self.data[self.PatientId][self.VisitId][p]          
-
-        p = "%s-%s-%s-stddevFA" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_stddevFA=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            #self.data[self.PatientId][self.VisitId][p]          
-
-        p = "%s-%s-%s-meanADC" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_meanADC=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
-            #self.data[self.PatientId][self.VisitId][p]          
-
-        p = "%s-%s-%s-stddevADC" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
-            l_stddevADC=True     
-            calcs[p] =self.visit.GetValue(self.PipelineId,p)
-            #self.data[self.PatientId][self.VisitId][p]          
-
-        if(l_NumTracts and l_TractsToRender and l_LinesToRender and l_MeanTractLen
-            and l_MeanTractLen_StdDev and l_VoxelSizeX and l_VoxelSizeY and l_VoxelSizeZ
-            and l_meanFA and l_stddevFA and l_meanADC and l_stddevADC):
-
-            #We have everything in the tract file
-            return calcs
-        else:
-            #We don't have everything we need from the tract file
-            #Lets see if we cached it the last time we processed this sample
-            
-            
-            #else:
-                #Can't find any residue - looks like this is a new calc
-            return {}
+        
   
     def mgz2nifti(self):  
         MsgUser.bold("mgz2nifti")
@@ -628,18 +522,19 @@ class Pipeline:
             MsgUser.ok("dti_tracker Completed")
 
     def trackvis_create_nii(self,segment,counterpart,method):
+        
         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart)):
             if self.visit.disable_log:
                 trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.visit.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method),"-disable_log"]
             else:
                 trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.visit.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method)]
-
+            
             if not os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method)):
-                with open("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.visit.path,segment,counterpart,method), "w") as track_vis_out:
+                with open("%s/Tractography/crush/%s/%s-%s-%s.nii.txt" %(self.visit.path,segment,segment,counterpart,method), "w") as track_vis_out:
                     proc = subprocess.Popen(trackvis, stdout=track_vis_out)
                     proc.communicate()
             #    os.remove("%s/Tractography/crush.%s.trk" %(self.path,tmpFile)) 
-            with open ("%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.visit.path,segment,counterpart,method), "r") as myfile:
+            with open ("%s/Tractography/crush/%s/%s-%s-%s.nii.txt" %(self.visit.path,segment,segment,counterpart,method), "r") as myfile:
                 data=myfile.read()               
             return data
         else:
@@ -648,15 +543,15 @@ class Pipeline:
     def trackvis_cleanup_nii(self,segment,counterpart,method):
 
         nii = "%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method)
-        datafile = "%s/Tractography/crush/%s-%s-%s.nii.txt" %(self.visit.path,segment,counterpart,method)
+        datafile = "%s/Tractography/crush/%s/%s-%s-%s.nii.txt" %(self.visit.path,segment,segment,counterpart,method)
         oldcalcsfile = "%s/Tractography/crush/calcs-%s-%s-%s.json" %(self.visit.path,segment,counterpart,method)
         
         if os.path.isfile(nii):
             os.unlink(nii) 
         
-        if os.path.isfile(datafile):
-            print("Cleanup %s" %(datafile))
-            os.unlink(datafile) 
+        #if os.path.isfile(datafile):
+        #    print("Cleanup %s" %(datafile))
+        #    os.unlink(datafile) 
 
         if os.path.isfile(oldcalcsfile):
             print("Cleanup %s" %(oldcalcsfile))
@@ -677,55 +572,60 @@ class Pipeline:
 
             render = True
 
-            if self.visit.fixmissing:
-                calcs = self.visit.MeasurementAudit_worker(segment,counterpart,method)
-                if len(calcs)>0:
-                    MsgUser.ok("Previous calculations detected for %s,%s,%s" %(segment,counterpart,method))
-                    calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.visit.path,segment,segment,counterpart,method)
+            #if self.visit.fixmissing:
+            #calcs = self.visit.MeasurementAudit_worker(segment,counterpart,method)
+            #    if len(calcs)>0:
+            #        MsgUser.ok("Previous calculations detected for %s,%s,%s" %(segment,counterpart,method))
+            #        calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.visit.path,segment,segment,counterpart,method)
 
-                    if not os.path.isdir("%s/Tractography/crush/%s" % (self.visit.path,segment)):
-                        os.mkdir("%s/Tractography/crush/%s" % (self.visit.path,segment))
+            #        if not os.path.isdir("%s/Tractography/crush/%s" % (self.visit.path,segment)):
+            #            os.mkdir("%s/Tractography/crush/%s" % (self.visit.path,segment))
 
-                    with open(calcsJson, "w") as calcs_file:
-                        json.dump(calcs,calcs_file)                        
-                        self.visit.trackvis_cleanup_nii(segment,counterpart,method)
-                    #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
-                    return calcs
-                else:
-                    MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
-
-
-            data = self.visit.trackvis_create_nii(segment,counterpart,method)
+            #        with open(calcsJson, "w") as calcs_file:
+            #            json.dump(calcs,calcs_file)                        
+            #            self.visit.trackvis_cleanup_nii(segment,counterpart,method)
+            #        #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
+            #        return calcs
+            #    else:
+            #        MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
 
             
-                
-            m = re.search(r'Number of tracks: (\d+)', data)
-            if m:
-                NumTracts = m.group(1).strip()
-            else:
-                NumTracts = 0
-            calcs["%s-%s-%s-NumTracts" %(segment,counterpart,method)]=NumTracts
+            data = self.trackvis_create_nii(segment,counterpart,method)
             
-            ############
+        #   
+        #    m = re.search(r'Number of tracks: (\d+)', data)
+        #    if m:
+        #        NumTracts = m.group(1).strip()
+        #    else:
+        #        NumTracts = 0
+        #    calcs["%s-%s-%s-NumTracts" %(segment,counterpart,method)]=NumTracts
+        #    
+        #    ############
+        #    
+        #    m = re.search(r'Number of tracks to render: (\d+)', data)
+        #    if m:
+        #        TractsToRender = m.group(1).strip()
+        #    else:
+        #        TractsToRender = 0
+        #    calcs["%s-%s-%s-TractsToRender" %(segment,counterpart,method)]=TractsToRender
+        #    
+        #    ############
+        #    
+        #    m = re.search(r'Number of line segments to render: (\d+)', data)
+        #    if m:
+        #        LinesToRender = m.group(1).strip()
+        #    else:
+        #        LinesToRender = 0
+        #    calcs["%s-%s-%s-LinesToRender" %(segment,counterpart,method)]=LinesToRender
+        #    ############
+        #   
+            try:
+                calcs = self.MeasurementAudit_worker(segment,counterpart,method)
+            except Exception as e: 
+                print(e)
             
-            m = re.search(r'Number of tracks to render: (\d+)', data)
-            if m:
-                TractsToRender = m.group(1).strip()
-            else:
-                TractsToRender = 0
-            calcs["%s-%s-%s-TractsToRender" %(segment,counterpart,method)]=TractsToRender
             
-            ############
-            
-            m = re.search(r'Number of line segments to render: (\d+)', data)
-            if m:
-                LinesToRender = m.group(1).strip()
-            else:
-                LinesToRender = 0
-            calcs["%s-%s-%s-LinesToRender" %(segment,counterpart,method)]=LinesToRender
-            ############
-            
-            m = re.search(r'Mean track length: (\d+.\d+) +/- (\d+.\d+)', data)
+            m = re.search(r'Mean track length: (\d+.\d+) \+\/- (\d+.\d+)', data)
             if m:
                 MeanTractLen = m.group(1).strip()
                 MeanTractLen_StdDev = m.group(2).strip()
@@ -735,6 +635,7 @@ class Pipeline:
             
             calcs["%s-%s-%s-MeanTractLen" %(segment,counterpart,method)]=MeanTractLen
             calcs["%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)]=MeanTractLen_StdDev
+           
             ############
             
             m = re.search(r'Voxel size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
@@ -751,24 +652,25 @@ class Pipeline:
             calcs["%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)]=VoxelSizeY
             calcs["%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)]=VoxelSizeZ
 
-            
-            #FA Mean
-            meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))             
-            calcs["%s-%s-%s-meanFA" %(segment,counterpart,method)]=meanFA
-            
-            #FA Std Dev
-            stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))         
-            calcs["%s-%s-%s-stddevFA" %(segment,counterpart,method)]=stddevFA            
-            
-            #ADC Mean
-            meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))         
-            calcs["%s-%s-%s-meanADC" %(segment,counterpart,method)]=meanADC
-            
-            #ADC Std Dev
-            stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))       
-            calcs["%s-%s-%s-stddevADC" %(segment,counterpart,method)]=stddevADC
-            
-            
+         #'''
+         #TODO   
+         #   #FA Mean
+         #   meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))             
+         #   calcs["%s-%s-%s-meanFA" %(segment,counterpart,method)]=meanFA
+         #   
+         #   #FA Std Dev
+         #   stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))         
+         #   calcs["%s-%s-%s-stddevFA" %(segment,counterpart,method)]=stddevFA            
+         #   
+         #   #ADC Mean
+         #   meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))         
+         #   calcs["%s-%s-%s-meanADC" %(segment,counterpart,method)]=meanADC
+         #   
+         #   #ADC Std Dev
+         #   stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))       
+         #   calcs["%s-%s-%s-stddevADC" %(segment,counterpart,method)]=stddevADC
+         #   
+         #'''   
 
         else:
             MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
@@ -778,9 +680,10 @@ class Pipeline:
         if not os.path.isdir("%s/Tractography/crush/%s" % (self.visit.path,segment)):
             os.mkdir("%s/Tractography/crush/%s" % (self.visit.path,segment))
 
-        calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.visit.path,segment,segment,counterpart,method)
+        calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.visit.path,segment,segment,counterpart,method)        
         with open(calcsJson, "w") as calcs_file:
             json.dump(calcs,calcs_file)
+            print("written ...%s" %(calcsJson))
             ############# CLEANUP #################
             self.trackvis_cleanup_nii(segment,counterpart,method)
 
@@ -791,7 +694,7 @@ class Pipeline:
         MsgUser.bold("track_vis")
         #output: crush.txt		
             
-        #self.GetMeasurements()
+        self.visit.GetMeasurements()
         
 
         if self.visit.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.visit.path)):   
@@ -865,9 +768,9 @@ class Pipeline:
 
         self.MeasurementAudit()
 
+        print(self.visit.GetValue(PipelineId,"3028-1028-roi-MeanTractLen"))
         print("Patient measure count: %s" %(len(self.visit.data[self.visit.PatientId][self.visit.VisitId])))
-        
-        #visit.data = self.data
+                
         self.visit.Commit()
 
         '''
