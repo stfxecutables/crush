@@ -9,26 +9,16 @@ from scipy import stats
 
 results={}
 def f(s,c,m,x):
-    #ret = "%s-%s-%s=1" %(s,c,m)
-    #print(ret)
     try:
-        
-      
-            
        subset = df[ (df['ROI']==int(s)) & (df['ROI END']==int(c)) & (df['Method']==m)]
-       corr = subset['Age'].corr(subset[x])
-       #lg = linregress(subset['Age'],corr(subset[x]))
-       
-       x, y = subset['Age'].values.tolist().toarray(), subset[x].values.tolist().toarray()
-       
-       nas = np.logical_or(x.isnan(), y.isnan())
-       #corr = sp.pearsonr(x[~nas], y[~nas])
-       #correlation.append(corr)
-       pearson_coef, p_value = stats.pearsonr( x[~nas], y[~nas])
-       #pearson_coef, p_value = stats.pearsonr( subset['Age'],  subset[x])
-       
+       supersubset = subset[['Age',x]].copy()
+       ss = supersubset[supersubset[x].notna()]
+       corr = ss['Age'].corr(ss[x])
+       #x, y = ss['Age'].values, ss[x].values
+       #print(ss[x])
+       #print(ss.notna())
+       pearson_coef, p_value = stats.pearsonr( ss['Age'].values,ss[x].values)
        ret = "%s-%s-%s-%s=%s,%s,%s" %(s,c,m,x,corr,pearson_coef,p_value)
-       #print(ret, subset.shape,corr)
        
     except Exception as err:
         print(err)
@@ -47,20 +37,23 @@ def storeCorr(result):
 if __name__=="__main__":
     
     #_DATAFILE='/media/dmattie/GENERAL/2019-06-07.small.csv'
-    _DATAFILE='/media/dmattie/crush/2019-06-07.mid.csv'
-    #_DATAFILE='/media/dmattie/crush/fiftyk.csv'
+    _DATAFILE='~/projects/full.csv'
+    #_DATAFILE='~/projects/G0B.csv'
     print("Parsing file %s" %(_DATAFILE))
     
-    df = pd.read_csv(_DATAFILE).replace(np.nan, 0, regex=True) #nrows=30
-    df.to_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
+    df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
+    #df.to_pickle('/mnt/d/PROJECTS/2019-06-07.mid.csv.pk')
+    #df = pd.read_pickle('/mnt/d/PROJECTS/2019-06-07.mid.csv.pk')
+
     print("Looking for intersections")
-    #IntersectionsDF=df[['ROI','ROI END','Method']].drop_duplicates()
+    IntersectionsDF=df[['ROI','ROI END','Method']].drop_duplicates()
+    
     #IntersectionsDF=pd.DataFrame({'ROI':[2,4,1028],
     #                              'ROI END':[4,2,3028],
     #                              'Method':['roi','roi_end','roi']})
-    IntersectionsDF=pd.DataFrame({'ROI':[1028],
-                                  'ROI END':[3028],
-                                  'Method':['roi']})
+    #IntersectionsDF=pd.DataFrame({'ROI':[1028],
+    #                              'ROI END':[3028],
+    #                              'Method':['roi']})
     
     Measures=['NumTracts','TractsToRender','LinesToRender','MeanTractLen',
     'MeanTractLen_StdDev','VoxelSizeX','VoxelSizeY','VoxelSizeZ','meanFA',
@@ -85,20 +78,14 @@ if __name__=="__main__":
         
         for measure in Measures:
             tasks.append([roi,roiEnd,method,measure])
-
-    
     for t in tasks:
-        print(t)
-        #r= myPool.apply_async(f,args=(t[0],t[1],t[2],t[3],),callback=storeCorr)
-        
+    #    print(t)
         r= myPool.apply_async(f,args=(t[0],t[1],t[2],t[3],),callback=storeCorr)
-       
 
     print("Submitted tasks to pool")
 
     myPool.close()
     myPool.join()
-    pearson_coef, p_value = stats.pearsonr(df["list 1"], df["list 2"])
     for k in results:
         print("%s,%s" %(k,results[k]))
  
