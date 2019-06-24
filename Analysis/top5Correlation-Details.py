@@ -15,6 +15,8 @@ from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
 
 from pandas.compat import StringIO, BytesIO
+import matplotlib as mpl
+mpl.use('Agg')
 
 # settings for seaborn plotting style
 sns.set(color_codes=True)
@@ -27,7 +29,8 @@ from scipy.stats import uniform
 
 #_DATAFILE='/media/dmattie/GENERAL/2019-06-07.small.csv'
 #_DATAFILE='/media/dmattie/crush/2019-06-07.mid.csv'
-_DATAFILE='/media/dmattie/GENERAL/full.csv'
+#_DATAFILE='/media/dmattie/GENERAL/full.csv'
+_DATAFILE='~/projects/full.csv'
 
 df = pd.read_csv(_DATAFILE).replace(np.nan, 0, regex=True) #nrows=30
 
@@ -84,11 +87,14 @@ for focus in ROIs:
         
         sns.regplot('Age','NumTracts',nonzero_measures)
         
-                
+        fa=("/mnt/d/PROJECTS/visuals/%s-NumTracts.png" %(focus))
+        plt.savefig(fa)
         plt.figure()
         
+        fb=("/mnt/d/PROJECTS/visuals/%s-meanFA.png" %(focus))
         sns.regplot('Age','meanFA',nonzero_measures)
             
+        plt.savefig(fb)
         # Plot formatting
         
         plt.title('Changes in log age vs log NumTracts')
@@ -99,6 +105,8 @@ for focus in ROIs:
         
         sns.pairplot(nonzero_measures_meanFA,diag_kind='kde',plot_kws={'alpha':0.2})
         
+        fc=("/mnt/d/PROJECTS/visuals/%s-pairplot.png" %(focus))
+        plt.savefig(fc)
 #    
 #    #### HISTOGRAM
 #    plt.figure()
