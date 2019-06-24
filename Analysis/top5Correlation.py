@@ -4,20 +4,31 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 import mglearn
 import numpy as np
+from scipy import stats
 
 
 results={}
 def f(s,c,m,x):
-    ret = "%s-%s-%s=1" %(s,c,m)
-    print(ret)
+    #ret = "%s-%s-%s=1" %(s,c,m)
+    #print(ret)
     try:
         
       
             
        subset = df[ (df['ROI']==int(s)) & (df['ROI END']==int(c)) & (df['Method']==m)]
        corr = subset['Age'].corr(subset[x])
+       #lg = linregress(subset['Age'],corr(subset[x]))
        
-       print(ret, subset.shape,corr)
+       x, y = subset['Age'].values.tolist().toarray(), subset[x].values.tolist().toarray()
+       
+       nas = np.logical_or(x.isnan(), y.isnan())
+       #corr = sp.pearsonr(x[~nas], y[~nas])
+       #correlation.append(corr)
+       pearson_coef, p_value = stats.pearsonr( x[~nas], y[~nas])
+       #pearson_coef, p_value = stats.pearsonr( subset['Age'],  subset[x])
+       
+       ret = "%s-%s-%s-%s=%s,%s,%s" %(s,c,m,x,corr,pearson_coef,p_value)
+       #print(ret, subset.shape,corr)
        
     except Exception as err:
         print(err)
@@ -41,12 +52,15 @@ if __name__=="__main__":
     print("Parsing file %s" %(_DATAFILE))
     
     df = pd.read_csv(_DATAFILE).replace(np.nan, 0, regex=True) #nrows=30
-    
+    df.to_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
     print("Looking for intersections")
     #IntersectionsDF=df[['ROI','ROI END','Method']].drop_duplicates()
-    IntersectionsDF=pd.DataFrame({'ROI':[2,4,1028],
-                                  'ROI END':[4,2,3028],
-                                  'Method':['roi','roi_end','roi']})
+    #IntersectionsDF=pd.DataFrame({'ROI':[2,4,1028],
+    #                              'ROI END':[4,2,3028],
+    #                              'Method':['roi','roi_end','roi']})
+    IntersectionsDF=pd.DataFrame({'ROI':[1028],
+                                  'ROI END':[3028],
+                                  'Method':['roi']})
     
     Measures=['NumTracts','TractsToRender','LinesToRender','MeanTractLen',
     'MeanTractLen_StdDev','VoxelSizeX','VoxelSizeY','VoxelSizeZ','meanFA',
@@ -84,7 +98,9 @@ if __name__=="__main__":
 
     myPool.close()
     myPool.join()
-    #print(results)
+    pearson_coef, p_value = stats.pearsonr(df["list 1"], df["list 2"])
+    for k in results:
+        print("%s,%s" %(k,results[k]))
  
 #import os, sys,inspect
 #from multiprocessing import Pool,cpu_count
