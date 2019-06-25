@@ -1,400 +1,102 @@
-import seaborn as sns
-import matplotlib.pyplot as plt
-from IPython.display import Math, Latex
-# for displaying images
-from IPython.core.display import Image
-
-import sys,os,os.path
-import argparse
+from multiprocessing import Pool,cpu_count
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import mglearn
 import numpy as np
-from sklearn.decomposition import PCA
-from sklearn.neighbors import KNeighborsClassifier
+from scipy import stats
+import sys
 
-from pandas.compat import StringIO, BytesIO
+results={}
+def f(s,c,m,x):
+    try:
+       subset = df[ (df['ROI']==int(s)) & (df['ROI END']==int(c)) & (df['Method']==m)]
 
-# settings for seaborn plotting style
-sns.set(color_codes=True)
-# settings for seaborn plot sizes
-sns.set(rc={'figure.figsize':(5,5)})
+       males = subset[ (subset['Gender']=='Male')]
+       females=subset[ (subset['Gender']=='Female')]
 
+       male_measures = males[[x]].copy().notna()
+       female_measures = females[[x]].copy().notna()
+       all_measures =subset[[x]].copy().notna()
 
-from scipy.stats import uniform
-
-
-#_DATAFILE='/media/dmattie/GENERAL/2019-06-07.small.csv'
-_DATAFILE='/media/dmattie/crush/2019-06-07.tiny.csv'
-
-df = pd.read_csv(_DATAFILE).replace(np.nan, 0, regex=True) #nrows=30
-
-
-##############################################################################
-#
-#        NUMTRACTS
-#
-##############################################################################
-
-print("##########################\n#\n#  NumTracts\n#\n##########################")
-ROIs=[
-      ['ctx-lh-parahippocampa','ctx-lh-rostralanteriorcingulate','roi_end'],
-      ['ctx-rh-pericalcarine','wm-lh-temporalpole','roi_end'],
-      ['Left-Cerebellum-White-Matter','CC_Posterior','roi_end'],
-      ['Right-vessel','ctx-rh-entorhinal','roi_end'],
-      ['ctx-lh-superiorfrontal','wm-rh-middletemporal','roi_end'],      
-      ]
-
-for focus in ROIs:
-    print("ROI Start: "+focus[0]+", ROI End: "+focus[1]+", Method: "+focus[2])
-
-    subset1 = df[ (df['ROI Label']==focus[0]) & 
-                 (df['ROI END Label']==focus[1]) & 
-                 (df['Method']==focus[2])]
-
-    allvals = subset1['NumTracts']>0   #################################      TODO
-    nonzero_measures = subset1[allvals]
+       mmean = male_measures[x].mean()
+       fmean = female_measures[x].mean()
+      
+       std = all_measures[x].std()
+       print("male mean:%s female mean:%s std:%s" %(mmean,fmean,std))
+       d = (mmean - fmean)/std
+       
+       ret = "%s-%s-%s-%s=%s,%s,%s,%s" %(s,c,m,x,mmean,fmean,std,d)
+       
+    except Exception as err:
+        print(err)
+    return ret
     
-    males=nonzero_measures['Gender']=='Male'
-    females=nonzero_measures['Gender']=='Female'
+def storeCorr(result):
+    x=result.split('=')
+    key=x[0]
+    val=x[1]
+    results[key]=val
     
-    nonzero_measures_male = nonzero_measures[males]
-    nonzero_measures_female = nonzero_measures[females]
-   
-    ## SOURCE: https://towardsdatascience.com/histograms-and-density-plots-in-python-f6bda88f5ac0
+
     
-    plt.figure()
-    genders = ['Male','Female']
     
-    for gender in genders:
-        subset = nonzero_measures[nonzero_measures['Gender'] == gender]
+
+if __name__=="__main__":
     
-        sns.distplot(subset['NumTracts'], hist = False, kde = True, ######    TODO
-                     kde_kws = {'linewidth': 3},
-                     label = gender)
+    #_DATAFILE='/media/dmattie/GENERAL/2019-06-07.small.csv'
+    
+    #_DATAFILE='~/projects/full.csv'
+    #_DATAFILE='~/projects/G0B.csv'
+    _DATAFILE = sys.argv[1]
+    print("Parsing file %s" %(_DATAFILE))
+    
+    df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
+    #df.to_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
+    #df.to_pickle('/mnt/d/PROJECTS/2019-06-07.mid.csv.pk')
+    #df = pd.read_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
+
+    print("Looking for intersections")
+    IntersectionsDF=df[['ROI','ROI END','Method']].drop_duplicates()
+    
+    #IntersectionsDF=pd.DataFrame({'ROI':[2,4,1028],
+    #                              'ROI END':[4,2,3028],
+    #                              'Method':['roi','roi_end','roi']})
+    #IntersectionsDF=pd.DataFrame({'ROI':[1028],
+    #                              'ROI END':[3028],
+    #                              'Method':['roi']})
+    
+    Measures=['NumTracts','TractsToRender','LinesToRender','MeanTractLen',
+    'MeanTractLen_StdDev','VoxelSizeX','VoxelSizeY','VoxelSizeZ','meanFA',
+    'stddevFA','meanADC','stddevADC','NumTracts-asymidx',
+    'TractsToRender-asymidx','LinesToRender-asymidx','MeanTractLen-asymidx',
+    'MeanTractLen_StdDev-asymidx','VoxelSizeX-asymidx','VoxelSizeY-asymidx',
+    'VoxelSizeZ-asymidx','meanFA-asymidx','stddevFA-asymidx',
+    'meanADC-asymidx','stddevADC-asymidx']
+    #Measures=['NumTracts']
+  
+    no_of_procs = cpu_count() -1  #leave 1 core open to keep OS usable
+    myPool = Pool(no_of_procs)
+    
+    print("Pooling out to %s processors to calculate correlation" %(no_of_procs))
+
+    tasks = []
+    
+    for index, intersection in IntersectionsDF.iterrows():
+        roi=str(intersection['ROI'])#.zfill(4)
+        roiEnd=str(intersection['ROI END'])#.zfill(4)
+        method=intersection['Method']
         
-    # Plot formatting
-    plt.legend(prop={'size': 10}, title = 'Gender')
-    plt.title('Density Plot per Gender')
-    plt.xlabel('NumTracts')                           ####################   TODO
-    plt.ylabel('Density')
-    
-    
-    #### HISTOGRAM
-    plt.figure()
-    plt.hist(nonzero_measures_male.meanFA, bins='auto', alpha=0.5, label='Male')
-    plt.hist(nonzero_measures_female.meanFA, bins='auto', alpha=0.5, label='Female')
-    plt.legend(loc='upper right')
-    plt.title('Histogram of NumTracts')                  ##################   TODO
-    plt.xlabel('NumTracts')                          #####################   TODO
-    plt.ylabel('Count')
-    plt.show()
-    
+        for measure in Measures:
+            tasks.append([roi,roiEnd,method,measure])
+    for t in tasks:
+    #    print(t)
+        r= myPool.apply_async(f,args=(t[0],t[1],t[2],t[3],),callback=storeCorr)
 
-##############################################################################
-#
-#        TractsToRender
-#
-##############################################################################
+    print("Submitted tasks to pool")
 
-print("##########################\n#\n#  TractsToRender\n#\n##########################")
-ROIs=[
-      ['ctx-lh-parahippocampa','ctx-lh-rostralanteriorcingulate','roi_end'],
-      ['ctx-rh-pericalcarine','wm-lh-temporalpole','roi_end'],
-      ['Left-Cerebellum-White-Matter','CC_Posterior','roi_end'],
-      ['Right-vessel','ctx-rh-entorhinal','roi_end'],
-      ['ctx-lh-superiorfrontal','wm-rh-middletemporal','roi_end'],      
-      ]
-
-for focus in ROIs:
-    print("ROI Start: "+focus[0]+", ROI End: "+focus[1]+", Method: "+focus[2])
-
-    subset1 = df[ (df['ROI Label']==focus[0]) & 
-                 (df['ROI END Label']==focus[1]) & 
-                 (df['Method']==focus[2])]
-
-    allvals = subset1['TractsToRender']>0   #################################      TODO
-    nonzero_measures = subset1[allvals]
-    
-    males=nonzero_measures['Gender']=='Male'
-    females=nonzero_measures['Gender']=='Female'
-    
-    nonzero_measures_male = nonzero_measures[males]
-    nonzero_measures_female = nonzero_measures[females]
-   
-    ## SOURCE: https://towardsdatascience.com/histograms-and-density-plots-in-python-f6bda88f5ac0
-    
-    plt.figure()
-    genders = ['Male','Female']
-    
-    for gender in genders:
-        subset = nonzero_measures[nonzero_measures['Gender'] == gender]
-    
-        sns.distplot(subset['TractsToRender'], hist = False, kde = True, ######    TODO
-                     kde_kws = {'linewidth': 3},
-                     label = gender)
-        
-    # Plot formatting
-    plt.legend(prop={'size': 10}, title = 'Gender')
-    plt.title('Density Plot per Gender')
-    plt.xlabel('TractsToRender')                           ####################   TODO
-    plt.ylabel('Density')
-    
-    
-    #### HISTOGRAM
-    plt.figure()
-    plt.hist(nonzero_measures_male.meanFA, bins='auto', alpha=0.5, label='Male')
-    plt.hist(nonzero_measures_female.meanFA, bins='auto', alpha=0.5, label='Female')
-    plt.legend(loc='upper right')
-    plt.title('Histogram of TractsToRender')                  ##################   TODO
-    plt.xlabel('TractsToRender')                          #####################   TODO
-    plt.ylabel('Count')
-    plt.show()
-        
-##############################################################################
-#
-#        MEAN FA
-#
-##############################################################################
-
-print("##########################\n#\n#  MEAN FA\n#\n##########################")
-ROIs=[
-      ['ctx-lh-parahippocampa','ctx-lh-rostralanteriorcingulate','roi_end'],
-      ['ctx-rh-pericalcarine','wm-lh-temporalpole','roi_end'],
-      ['Left-Cerebellum-White-Matter','CC_Posterior','roi_end'],
-      ['Right-vessel','ctx-rh-entorhinal','roi_end'],
-      ['ctx-lh-superiorfrontal','wm-rh-middletemporal','roi_end'],      
-      ]
-
-for focus in ROIs:
-    print("ROI Start: "+focus[0]+", ROI End: "+focus[1]+", Method: "+focus[2])
-
-    subset1 = df[ (df['ROI Label']==focus[0]) & 
-                 (df['ROI END Label']==focus[1]) & 
-                 (df['Method']==focus[2])]
-
-    allvals = subset1['meanFA']>0   #################################      TODO
-    nonzero_measures = subset1[allvals]
-    
-    males=nonzero_measures['Gender']=='Male'
-    females=nonzero_measures['Gender']=='Female'
-    
-    nonzero_measures_male = nonzero_measures[males]
-    nonzero_measures_female = nonzero_measures[females]
-   
-    ## SOURCE: https://towardsdatascience.com/histograms-and-density-plots-in-python-f6bda88f5ac0
-    
-    plt.figure()
-    genders = ['Male','Female']
-    
-    for gender in genders:
-        subset = nonzero_measures[nonzero_measures['Gender'] == gender]
-    
-        sns.distplot(subset['meanFA'], hist = False, kde = True, ######    TODO
-                     kde_kws = {'linewidth': 3},
-                     label = gender)
-        
-    # Plot formatting
-    plt.legend(prop={'size': 10}, title = 'Gender')
-    plt.title('Density Plot per Gender')
-    plt.xlabel('mean FA')                           ####################   TODO
-    plt.ylabel('Density')
-    
-    
-    #### HISTOGRAM
-    plt.figure()
-    plt.hist(nonzero_measures_male.meanFA, bins='auto', alpha=0.5, label='Male')
-    plt.hist(nonzero_measures_female.meanFA, bins='auto', alpha=0.5, label='Female')
-    plt.legend(loc='upper right')
-    plt.title('Histogram of meanFA')                  ##################   TODO
-    plt.xlabel('mean FA')                          #####################   TODO
-    plt.ylabel('Count')
-    plt.show()
-
-
-##############################################################################
-#
-#        stddevFA
-#
-##############################################################################
-
-print("##########################\n#\n#  stddevFA\n#\n##########################")
-ROIs=[
-      ['ctx-lh-parahippocampa','ctx-lh-rostralanteriorcingulate','roi_end'],
-      ['ctx-rh-pericalcarine','wm-lh-temporalpole','roi_end'],
-      ['Left-Cerebellum-White-Matter','CC_Posterior','roi_end'],
-      ['Right-vessel','ctx-rh-entorhinal','roi_end'],
-      ['ctx-lh-superiorfrontal','wm-rh-middletemporal','roi_end'],      
-      ]
-
-for focus in ROIs:
-    print("ROI Start: "+focus[0]+", ROI End: "+focus[1]+", Method: "+focus[2])
-
-    subset1 = df[ (df['ROI Label']==focus[0]) & 
-                 (df['ROI END Label']==focus[1]) & 
-                 (df['Method']==focus[2])]
-
-    allvals = subset1['stddevFA']>0   #################################      TODO
-    nonzero_measures = subset1[allvals]
-    
-    males=nonzero_measures['Gender']=='Male'
-    females=nonzero_measures['Gender']=='Female'
-    
-    nonzero_measures_male = nonzero_measures[males]
-    nonzero_measures_female = nonzero_measures[females]
-   
-    ## SOURCE: https://towardsdatascience.com/histograms-and-density-plots-in-python-f6bda88f5ac0
-    
-    plt.figure()
-    genders = ['Male','Female']
-    
-    for gender in genders:
-        subset = nonzero_measures[nonzero_measures['Gender'] == gender]
-    
-        sns.distplot(subset['stddevFA'], hist = False, kde = True, ######    TODO
-                     kde_kws = {'linewidth': 3},
-                     label = gender)
-        
-    # Plot formatting
-    plt.legend(prop={'size': 10}, title = 'Gender')
-    plt.title('Density Plot per Gender')
-    plt.xlabel('stddevFA')                           ####################   TODO
-    plt.ylabel('Density')
-    
-    
-    #### HISTOGRAM
-    plt.figure()
-    plt.hist(nonzero_measures_male.meanFA, bins='auto', alpha=0.5, label='Male')
-    plt.hist(nonzero_measures_female.meanFA, bins='auto', alpha=0.5, label='Female')
-    plt.legend(loc='upper right')
-    plt.title('Histogram of stddevFA')                  ##################   TODO
-    plt.xlabel('stddevFA')                          #####################   TODO
-    plt.ylabel('Count')
-    plt.show()
-            
-
-##############################################################################
-#
-#        MEAN ADC
-#
-##############################################################################
-
-print("##########################\n#\n#  MEAN ADC\n#\n##########################")
-ROIs=[
-      ['Right-Putamen','wm-lh-parsorbitalis','roi_end'],
-      ['ctx-lh-parahippocampal','ctx-lh-rostralanteriorcingulate','roi_end'],
-      ['Left-Pallidum','ctx-rh-postcentral','roi_end'],
-      ['Left-Amygdala','Right-Inf-Lat-Vent','roi_end'],
-      ['CC_Anterior','ctx-lh-lateraloccipital','roi_end'],      
-      ]
-
-for focus in ROIs:
-    print("ROI Start: "+focus[0]+", ROI End: "+focus[1]+", Method: "+focus[2])
-
-    subset1 = df[ (df['ROI Label']==focus[0]) & 
-                 (df['ROI END Label']==focus[1]) & 
-                 (df['Method']==focus[2])]
-
-    allvals = subset1['meanADC']>0   #################################      TODO
-    nonzero_measures = subset1[allvals]
-    
-    males=nonzero_measures['Gender']=='Male'
-    females=nonzero_measures['Gender']=='Female'
-    
-    nonzero_measures_male = nonzero_measures[males]
-    nonzero_measures_female = nonzero_measures[females]
-   
-    ## SOURCE: https://towardsdatascience.com/histograms-and-density-plots-in-python-f6bda88f5ac0
-    
-    plt.figure()
-    genders = ['Male','Female']
-    
-    for gender in genders:
-        subset = nonzero_measures[nonzero_measures['Gender'] == gender]
-    
-        sns.distplot(subset['meanADC'], hist = False, kde = True, ######    TODO
-                     kde_kws = {'linewidth': 3},
-                     label = gender)
-        
-    # Plot formatting
-    plt.legend(prop={'size': 10}, title = 'Gender')
-    plt.title('Density Plot per Gender')
-    plt.xlabel('mean ADC')                           ####################   TODO
-    plt.ylabel('Density')
-    
-    
-    #### HISTOGRAM
-    plt.figure()
-    plt.hist(nonzero_measures_male.meanFA, bins='auto', alpha=0.5, label='Male')
-    plt.hist(nonzero_measures_female.meanFA, bins='auto', alpha=0.5, label='Female')
-    plt.legend(loc='upper right')
-    plt.title('Histogram of meanADC')                  ##################   TODO
-    plt.xlabel('mean ADC')                          #####################   TODO
-    plt.ylabel('Count')
-    plt.show()
-    
-
-
-##############################################################################
-#
-#        stddevADC
-#
-##############################################################################
-
-print("##########################\n#\n#  stddevADC\n#\n##########################")
-ROIs=[
-      ['Right-Putamen','wm-lh-parsorbitalis','roi_end'],
-      ['ctx-lh-parahippocampal','ctx-lh-rostralanteriorcingulate','roi_end'],
-      ['Left-Pallidum','ctx-rh-postcentral','roi_end'],
-      ['Left-Amygdala','Right-Inf-Lat-Vent','roi_end'],
-      ['CC_Anterior','ctx-lh-lateraloccipital','roi_end'],      
-      ]
-
-for focus in ROIs:
-    print("ROI Start: "+focus[0]+", ROI End: "+focus[1]+", Method: "+focus[2])
-
-    subset1 = df[ (df['ROI Label']==focus[0]) & 
-                 (df['ROI END Label']==focus[1]) & 
-                 (df['Method']==focus[2])]
-
-    allvals = subset1['stddevADC']>0   #################################      TODO
-    nonzero_measures = subset1[allvals]
-    
-    males=nonzero_measures['Gender']=='Male'
-    females=nonzero_measures['Gender']=='Female'
-    
-    nonzero_measures_male = nonzero_measures[males]
-    nonzero_measures_female = nonzero_measures[females]
-   
-    ## SOURCE: https://towardsdatascience.com/histograms-and-density-plots-in-python-f6bda88f5ac0
-    
-    plt.figure()
-    genders = ['Male','Female']
-    
-    for gender in genders:
-        subset = nonzero_measures[nonzero_measures['Gender'] == gender]
-    
-        sns.distplot(subset['stddevADC'], hist = False, kde = True, ######    TODO
-                     kde_kws = {'linewidth': 3},
-                     label = gender)
-        
-    # Plot formatting
-    plt.legend(prop={'size': 10}, title = 'Gender')
-    plt.title('Density Plot per Gender')
-    plt.xlabel('stddevADC')                           ####################   TODO
-    plt.ylabel('Density')
-    
-    
-    #### HISTOGRAM
-    plt.figure()
-    plt.hist(nonzero_measures_male.meanFA, bins='auto', alpha=0.5, label='Male')
-    plt.hist(nonzero_measures_female.meanFA, bins='auto', alpha=0.5, label='Female')
-    plt.legend(loc='upper right')
-    plt.title('Histogram of stddevADC')                  ##################   TODO
-    plt.xlabel('stddevADC')                          #####################   TODO
-    plt.ylabel('Count')
-    plt.show()
-    
-
-
+    myPool.close()
+    myPool.join()
+    for k in results:
+        print("%s,%s" %(k,results[k]))
+ 

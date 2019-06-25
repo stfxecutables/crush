@@ -14,9 +14,6 @@ def f(s,c,m,x):
        supersubset = subset[['Age',x]].copy()
        ss = supersubset[supersubset[x].notna()]
        corr = ss['Age'].corr(ss[x])
-       #x, y = ss['Age'].values, ss[x].values
-       #print(ss[x])
-       #print(ss.notna())
        pearson_coef, p_value = stats.pearsonr( ss['Age'].values,ss[x].values)
        ret = "%s-%s-%s-%s=%s,%s,%s" %(s,c,m,x,corr,pearson_coef,p_value)
        
@@ -89,44 +86,3 @@ if __name__=="__main__":
     for k in results:
         print("%s,%s" %(k,results[k]))
  
-#import os, sys,inspect
-#from multiprocessing import Pool,cpu_count
-##!/usr/bin/env python3
-#def f(parr):
-#  
-#    segment=parr[0]
-#    counterpart=parr[1]
-#    method=parr[2]
-#
-#    print("Processing: %s-%s-%s" %'NumTracts'(segment,counterpart,method))
-#    
-#def trackvis_worker(self,parr):#segment,counterpart,method):
-#    print("X")
-#    segment=parr[0]
-#    counterpart=parr[1]
-#    method=parr[2]
-#
-#    print("Processing: %s-%s-%s" %(segment,counterpart,method))
-#      
-#    
-#    #return x*x
-#def main():  
-#    pool = Pool(processes=4)              # start 4 worker processes
-#    
-#    tasks = []
-#    tasks.append( ["3028","1028","roi"] )
-#    tasks.append( ["1028","3028","roi_end"] )
-#    print(tasks)
-#    no_of_procs = cpu_count() 
-#    pool = Pool(no_of_procs)
-#    for t in tasks:
-#        pool.apply_async(trackvis_worker, (t,))            
-#    pool.close()
-#    pool.join()
-#    
-#
-#
-#if __name__ == '__main__':
-#    main()
-#
-#
