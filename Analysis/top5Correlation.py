@@ -34,7 +34,8 @@ def storeCorr(result):
 if __name__=="__main__":
     
     #_DATAFILE='/media/dmattie/GENERAL/2019-06-07.small.csv'
-    _DATAFILE='~/projects/full.csv'
+    #_DATAFILE='~/projects/full.csv'
+    _DATAFILE = sys.argv[1]
     #_DATAFILE='~/projects/G0B.csv'
     print("Parsing file %s" %(_DATAFILE))
     
