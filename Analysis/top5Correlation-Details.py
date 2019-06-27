@@ -51,7 +51,8 @@ ROIs=[
       ['ctx-lh-superiorfrontal','wm-rh-middletemporal','roi_end'],      
       ]
 ROIs=[
-     ['ctx-rh-posteriorcingulate','ctx-rh-frontalpole','roi_end']
+     ['ctx-rh-posteriorcingulate','ctx-rh-frontalpole','roi_end'],
+     ['Left-Cerebellum-White-Matter','ctx-lh-supramarginal','roi_end']
  ]
       #2023-2032-roi_end-meanFA,0.9999999999999998,1.0,0.0
 
@@ -94,22 +95,38 @@ for focus in ROIs:
         sns.regplot('Age','NumTracts',nonzero_measures)
         
         fa=("%s/visuals/%s-NumTracts.png" %(_OUTPUTPATH,focus))
-        plt.savefig(fa)
-        plt.figure()
-        
-        fb=("%s/visuals/%s-meanFA.png" %(_OUTPUTPATH,focus))
-        sns.regplot('Age','meanFA',nonzero_measures)
-            
-        plt.savefig(fb)
-        # Plot formatting
         
         plt.title('Changes in log age vs log NumTracts')
         plt.xlabel('Age')                           ####################   TODO
         plt.ylabel('NumTracts')
         
+        plt.savefig(fa)
+        
         plt.figure()
         
-        sns.pairplot(nonzero_measures_meanFA,diag_kind='kde',plot_kws={'alpha':0.2})
+        fb=("%s/visuals/%s-meanFA.png" %(_OUTPUTPATH,focus))
+        sns.regplot('Age','meanFA',nonzero_measures)
+        plt.title('Changes in log age vs log meanFA')
+        plt.xlabel('Age')                           ####################   TODO
+        plt.ylabel('meanFA')
+                    
+        plt.savefig(fb)
+
+        plt.figure()
+        
+        fb=("%s/visuals/%s-meanADC.png" %(_OUTPUTPATH,focus))
+        sns.regplot('Age','meanADC',nonzero_measures)
+        plt.title('Changes in log age vs log meanADC')
+        plt.xlabel('Age')                           ####################   TODO
+        plt.ylabel('meanADC')
+                    
+        plt.savefig(fb)
+        # Plot formatting
+        
+  
+        plt.figure()
+        
+        sns.pairplot(nonzero_measures_meanFA,diag_kind='auto',plot_kws={'alpha':0.2})
         
         fc=("%s/visuals/%s-pairplot.png" %(_OUTPUTPATH,focus))
         plt.savefig(fc)
