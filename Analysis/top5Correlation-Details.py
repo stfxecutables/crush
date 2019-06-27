@@ -93,11 +93,11 @@ for focus in ROIs:
         
         sns.regplot('Age','NumTracts',nonzero_measures)
         
-        fa=("/mnt/d/PROJECTS/visuals/%s-NumTracts.png" %(focus))
+        fa=("%s/visuals/%s-NumTracts.png" %(_OUTPUTPATH,focus))
         plt.savefig(fa)
         plt.figure()
         
-        fb=("/mnt/d/PROJECTS/visuals/%s-meanFA.png" %(focus))
+        fb=("%s/visuals/%s-meanFA.png" %(_OUTPUTPATH,focus))
         sns.regplot('Age','meanFA',nonzero_measures)
             
         plt.savefig(fb)
@@ -111,7 +111,7 @@ for focus in ROIs:
         
         sns.pairplot(nonzero_measures_meanFA,diag_kind='kde',plot_kws={'alpha':0.2})
         
-        fc=("/mnt/d/PROJECTS/visuals/%s-pairplot.png" %(focus))
+        fc=("%s/visuals/%s-pairplot.png" %(_OUTPUTPATH,focus))
         plt.savefig(fc)
 #    
 #    #### HISTOGRAM
