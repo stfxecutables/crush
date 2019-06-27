@@ -21,9 +21,9 @@ def f(s,c,m,x):
      if not os.path.isdir("%s/%s" % (_OUTPUTPATH,s)):
         os.mkdir("%s/%s" % (_OUTPUTPATH,s))
 
-     subset1 =df[ (df['ROI Label']==int(s)) & (df['ROI END Label']==int(c)) & (df['Method']==m)]
+     subset1 =df[ (df['ROI Label']==s) & (df['ROI END Label']==c) & (df['Method']==m)]
 
-
+     #print(subset1)
 
      allvals = subset1[x].notna()
      nonzero_measures =subset1[allvals].copy()     
@@ -35,6 +35,7 @@ def f(s,c,m,x):
          subset = nonzero_measures[nonzero_measures['Gender'] == gender]
          if (subset.shape[0]>0):
             #print("s=%s,c=%s,m=%s,x=%s, shape=%s" %(s,c,m,x,subset.shape[0]))
+            #print(subset)
             sns.distplot(subset[x], hist = False, kde = True, ######    TODO
                         kde_kws = {'linewidth': 3},
                         label = gender)
@@ -124,8 +125,11 @@ if __name__=="__main__":
     #   ]
  
     InterestingMeanFA = pd.DataFrame({'ROI Label':['Right-vessel','ctx-lh-superiorfrontal','ctx-rh-caudalanteriorcingulate','ctx-lh-pericalcarine','CC_Anterior','Right-Amygdala','CSF','Left-Amygdala','wm-lh-supramarginal','ctx-rh-precuneus','ctx-lh-parsopercularis','wm-rh-cuneus','wm-lh-inferiortemporal','Right-vessel','CC_Central','ctx-lh-cuneus','ctx-rh-precentral','ctx-rh-fusiform','ctx-lh-bankssts','Left-Cerebellum-White-Matter','ctx-rh-pericalcarine','ctx-lh-parahippocampal',],
-                                        'ROI END Label':['ctx-rh-entorhinal','wm-rh-middletemporal','ctx-rh-middletemporal','ctx-lh-precentral','wm-rh-precentral','ctx-lh-precentral','ctx-rh-transversetemporal','wm-rh-middletemporal','wm-rh-parsopercularis','wm-lh-parsopercularis','ctx-rh-pericalcarine','wm-rh-transversetemporal','wm-rh-temporalpole','wm-rh-parsopercularis','wm-lh-parsopercularis','wm-lh-supramarginal','wm-rh-cuneus','wm-lh-postcentral','ctx-rh-postcentral','CC_Posterior','wm-lh-temporalpole','ctx-lh-rostralanteriorcingulate',],
-                                        'Method':['roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi_end','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end',]})
+                                         'ROI END Label':['ctx-rh-entorhinal','wm-rh-middletemporal','ctx-rh-middletemporal','ctx-lh-precentral','wm-rh-precentral','ctx-lh-precentral','ctx-rh-transversetemporal','wm-rh-middletemporal','wm-rh-parsopercularis','wm-lh-parsopercularis','ctx-rh-pericalcarine','wm-rh-transversetemporal','wm-rh-temporalpole','wm-rh-parsopercularis','wm-lh-parsopercularis','wm-lh-supramarginal','wm-rh-cuneus','wm-lh-postcentral','ctx-rh-postcentral','CC_Posterior','wm-lh-temporalpole','ctx-lh-rostralanteriorcingulate',],
+                                         'Method':['roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi_end','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end',]})
+    # InterestingMeanFA = pd.DataFrame({'ROI Label':['ctx-rh-fusiform'],
+    #                                          'ROI END Label':['wm-lh-postcentral'],
+    #                                      'Method':['roi_end']})
 	
     IntersectionsDF=pd.DataFrame({'ROI':[51,13,18,255,2018,1016,2021,7,62,1028,2018],
                                   'ROI END':[3019,2022,44,1011,1023,1026,3033,251,2006,4015,2023],
