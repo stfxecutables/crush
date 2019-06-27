@@ -30,9 +30,10 @@ from scipy.stats import uniform
 #_DATAFILE='/media/dmattie/GENERAL/2019-06-07.small.csv'
 #_DATAFILE='/media/dmattie/crush/2019-06-07.mid.csv'
 #_DATAFILE='/media/dmattie/GENERAL/full.csv'
-_DATAFILE='~/projects/full.csv'
+_DATAFILE=sys.argv[1]#'~/projects/full.csv'
+_OUTPUTPATH = sys.argv[2]
 
-df = pd.read_csv(_DATAFILE).replace(np.nan, 0, regex=True) #nrows=30
+df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
 
 
 ##############################################################################
