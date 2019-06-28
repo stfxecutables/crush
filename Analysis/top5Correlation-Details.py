@@ -50,10 +50,23 @@ ROIs=[
       ['Right-vessel','ctx-rh-entorhinal','roi_end'],
       ['ctx-lh-superiorfrontal','wm-rh-middletemporal','roi_end'],      
       ]
+#ROIs=[
+#     ['ctx-rh-posteriorcingulate','ctx-rh-frontalpole','roi_end'],
+#     ['Left-Cerebellum-White-Matter','ctx-lh-supramarginal','roi_end']
+# ]
 ROIs=[
-     ['ctx-rh-posteriorcingulate','ctx-rh-frontalpole','roi_end'],
-     ['Left-Cerebellum-White-Matter','ctx-lh-supramarginal','roi_end']
- ]
+    ['ctx-lh-inferiorparietal','wm-rh-caudalmiddlefrontal','roi'],
+    ['Left-vessel','ctx-rh-parsorbitalis','roi'],
+    ['Left-Caudate','Right-vessel','roi'],
+    ['Left-vessel','wm-rh-parsorbitalis','roi'],
+    ['Right-Hippocampus','ctx-rh-parsopercularis','roi'],
+    ['ctx-rh-parsopercularis','wm-lh-lateraloccipital','roi'],
+    ['4th-Ventricle','ctx-lh-caudalmiddlefrontal','roi'],
+    ['Left-vessel','ctx-lh-parstriangularis','roi_end'],
+    ['Left-Pallidum','ctx-lh-caudalmiddlefrontal','roi_end'],
+    ['Left-VentralDC','ctx-rh-parsopercularis','roi_end'],
+    ['Right-Pallidum','ctx-lh-parsorbitalis','roi']
+]
       #2023-2032-roi_end-meanFA,0.9999999999999998,1.0,0.0
 
 
