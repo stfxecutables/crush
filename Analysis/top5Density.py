@@ -6,6 +6,7 @@ import mglearn
 import numpy as np
 from scipy import stats
 import sys
+import time
 
 results={}
 progress=[False for i in range(101)]
@@ -47,7 +48,7 @@ def storeCorr(result):
     results[key]=val
     counter = counter+1
     prog =int((counter/tasklen)*100)
-    print(prog)
+    
     
     if(prog>0 and prog<=100):
         if prog not in progress:
@@ -69,12 +70,13 @@ if __name__=="__main__":
     counter=0
     print("Parsing file %s" %(_DATAFILE))
     
-    df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
+    #df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
     #df.to_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
     #df.to_pickle('/mnt/d/PROJECTS/2019-06-07.mid.csv.pk')
-    #df = pd.read_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
+    df = pd.read_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
 
-    print("Looking for intersections")
+    print("Looking for intersections")    
+    
     IntersectionsDF=df[['ROI','ROI END','Method']].drop_duplicates()
     
     #IntersectionsDF=pd.DataFrame({'ROI':[2,4,1028],
