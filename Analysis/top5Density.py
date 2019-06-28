@@ -8,6 +8,9 @@ from scipy import stats
 import sys
 
 results={}
+progress=[False for i in range(101)]
+tasklen=0
+
 def f(s,c,m,x):
     try:
        subset = df[ (df['ROI']==int(s)) & (df['ROI END']==int(c)) & (df['Method']==m)]
@@ -23,8 +26,11 @@ def f(s,c,m,x):
        fmean = female_measures[x].mean()
       
        std = all_measures[x].std()
-       print("male mean:%s female mean:%s std:%s" %(mmean,fmean,std))
-       d = (mmean - fmean)/std
+       #print("male mean:%s female mean:%s std:%s" %(mmean,fmean,std))
+       if(std>0):
+           d = (mmean - fmean)/std
+       else:
+           d = ""
        
        ret = "%s-%s-%s-%s=%s,%s,%s,%s" %(s,c,m,x,mmean,fmean,std,d)
        
@@ -33,11 +39,22 @@ def f(s,c,m,x):
     return ret
     
 def storeCorr(result):
+    global counter
+    global tasklen
     x=result.split('=')
     key=x[0]
     val=x[1]
     results[key]=val
+    counter = counter+1
+    prog =int((counter/tasklen)*100)
+    print(prog)
     
+    if(prog>0 and prog<=100):
+        if prog not in progress:
+            progress[prog]=True
+        else:
+            print("%s \% complete" %(prog))
+        
 
     
     
@@ -49,6 +66,7 @@ if __name__=="__main__":
     #_DATAFILE='~/projects/full.csv'
     #_DATAFILE='~/projects/G0B.csv'
     _DATAFILE = sys.argv[1]
+    counter=0
     print("Parsing file %s" %(_DATAFILE))
     
     df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
@@ -89,6 +107,8 @@ if __name__=="__main__":
         
         for measure in Measures:
             tasks.append([roi,roiEnd,method,measure])
+    tasklen=len(tasks)
+    print("Number of tasks: %s" %(tasklen))
     for t in tasks:
     #    print(t)
         r= myPool.apply_async(f,args=(t[0],t[1],t[2],t[3],),callback=storeCorr)
@@ -97,6 +117,7 @@ if __name__=="__main__":
 
     myPool.close()
     myPool.join()
+    print("Results calculated")
     for k in results:
         print("%s,%s" %(k,results[k]))
  
