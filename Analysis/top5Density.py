@@ -70,10 +70,10 @@ if __name__=="__main__":
     counter=0
     print("Parsing file %s" %(_DATAFILE))
     
-    #df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
+    df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
     #df.to_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
     #df.to_pickle('/mnt/d/PROJECTS/2019-06-07.mid.csv.pk')
-    df = pd.read_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
+    #df = pd.read_pickle('/media/dmattie/GENERAL/2019-06-07.mid.csv.pk')
 
     print("Looking for intersections")    
     
