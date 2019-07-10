@@ -107,6 +107,7 @@ if __name__=="__main__":
     #_DATAFILE='~/projects/G0B.csv'
     _DATAFILE = sys.argv[1]
     _OUTPUTPATH=sys.argv[2]
+    _INTERESTINGCSV=sys.argv[3]
     print("Parsing file %s,rendering to %s" %(_DATAFILE,_OUTPUTPATH))
     
     df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
@@ -124,16 +125,17 @@ if __name__=="__main__":
     #   ['ctx-lh-superiorfrontal','wm-rh-middletemporal','roi_end'],      
     #   ]
  
-    InterestingMeanFA = pd.DataFrame({'ROI Label':['Right-vessel','ctx-lh-superiorfrontal','ctx-rh-caudalanteriorcingulate','ctx-lh-pericalcarine','CC_Anterior','Right-Amygdala','CSF','Left-Amygdala','wm-lh-supramarginal','ctx-rh-precuneus','ctx-lh-parsopercularis','wm-rh-cuneus','wm-lh-inferiortemporal','Right-vessel','CC_Central','ctx-lh-cuneus','ctx-rh-precentral','ctx-rh-fusiform','ctx-lh-bankssts','Left-Cerebellum-White-Matter','ctx-rh-pericalcarine','ctx-lh-parahippocampal',],
-                                         'ROI END Label':['ctx-rh-entorhinal','wm-rh-middletemporal','ctx-rh-middletemporal','ctx-lh-precentral','wm-rh-precentral','ctx-lh-precentral','ctx-rh-transversetemporal','wm-rh-middletemporal','wm-rh-parsopercularis','wm-lh-parsopercularis','ctx-rh-pericalcarine','wm-rh-transversetemporal','wm-rh-temporalpole','wm-rh-parsopercularis','wm-lh-parsopercularis','wm-lh-supramarginal','wm-rh-cuneus','wm-lh-postcentral','ctx-rh-postcentral','CC_Posterior','wm-lh-temporalpole','ctx-lh-rostralanteriorcingulate',],
-                                         'Method':['roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi_end','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end',]})
+    InterestingROI = pd.read_csv(_INTERESTINGCSV)
+    #InterestingMeanFA = pd.DataFrame({'ROI Label':['Right-vessel','ctx-lh-superiorfrontal','ctx-rh-caudalanteriorcingulate','ctx-lh-pericalcarine','CC_Anterior','Right-Amygdala','CSF','Left-Amygdala','wm-lh-supramarginal','ctx-rh-precuneus','ctx-lh-parsopercularis','wm-rh-cuneus','wm-lh-inferiortemporal','Right-vessel','CC_Central','ctx-lh-cuneus','ctx-rh-precentral','ctx-rh-fusiform','ctx-lh-bankssts','Left-Cerebellum-White-Matter','ctx-rh-pericalcarine','ctx-lh-parahippocampal',],
+    #                                     'ROI END Label':['ctx-rh-entorhinal','wm-rh-middletemporal','ctx-rh-middletemporal','ctx-lh-precentral','wm-rh-precentral','ctx-lh-precentral','ctx-rh-transversetemporal','wm-rh-middletemporal','wm-rh-parsopercularis','wm-lh-parsopercularis','ctx-rh-pericalcarine','wm-rh-transversetemporal','wm-rh-temporalpole','wm-rh-parsopercularis','wm-lh-parsopercularis','wm-lh-supramarginal','wm-rh-cuneus','wm-lh-postcentral','ctx-rh-postcentral','CC_Posterior','wm-lh-temporalpole','ctx-lh-rostralanteriorcingulate',],
+    #                                     'Method':['roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end','roi_end','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi_end',]})
     # InterestingMeanFA = pd.DataFrame({'ROI Label':['ctx-rh-fusiform'],
     #                                          'ROI END Label':['wm-lh-postcentral'],
     #                                      'Method':['roi_end']})
 	
-    IntersectionsDF=pd.DataFrame({'ROI':[51,13,18,255,2018,1016,2021,7,62,1028,2018],
-                                  'ROI END':[3019,2022,44,1011,1023,1026,3033,251,2006,4015,2023],
-                                  'Method':['roi_end','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi','roi_end','roi_end','roi_end']})
+   # IntersectionsDF=pd.DataFrame({'ROI':[51,13,18,255,2018,1016,2021,7,62,1028,2018],
+   #                               'ROI END':[3019,2022,44,1011,1023,1026,3033,251,2006,4015,2023],
+   #                               'Method':['roi_end','roi_end','roi_end','roi_end','roi','roi_end','roi_end','roi','roi_end','roi_end','roi_end']})
     #IntersectionsDF=pd.DataFrame({'ROI':[1016],
     #                              'ROI END':[1026],
     #                              'Method':['roi_end']})
@@ -155,7 +157,7 @@ if __name__=="__main__":
 
     tasks = []
     
-    for index, intersection in InterestingMeanFA.iterrows():#IntersectionsDF.iterrows():
+    for index, intersection in InterestingROI.iterrows():#IntersectionsDF.iterrows():
         roi=str(intersection['ROI Label'])#.zfill(4)
         roiEnd=str(intersection['ROI END Label'])#.zfill(4)
         method=intersection['Method']
