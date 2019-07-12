@@ -18,16 +18,24 @@ _OUTPUTPATH="."
 def f(s,c,m,x):
     try:
        
-     if not os.path.isdir("%s/%s" % (_OUTPUTPATH,s)):
-        os.mkdir("%s/%s" % (_OUTPUTPATH,s))
+     if not os.path.isdir("%s/%s_%s_%s" % (_OUTPUTPATH,s,c,m)):
+        os.mkdir("%s/%s_%s_%s" % (_OUTPUTPATH,s,c,m))
 
      subset1 =df[ (df['ROI Label']==s) & (df['ROI END Label']==c) & (df['Method']==m)]
 
      #print(subset1)
 
      allvals = subset1[x].notna()
-     nonzero_measures =subset1[allvals].copy()     
+     nonzero_measures =subset1[allvals].copy()  
 
+     nonzero_measures_x = nonzero_measures[[
+            'Age', 
+            'Gender',      
+            x
+            ]]   
+
+
+##########
      plt.figure()
      genders = ['Male','Female']
     
@@ -42,13 +50,57 @@ def f(s,c,m,x):
         
         #     # Plot formatting
             plt.legend(prop={'size': 10}, title = 'Gender')
-            plt.title('Density Plot per Gender')
+            plt.title('Gaussian Density Plot per Gender')
             plt.xlabel(x)                           ####################   TODO
-            plt.ylabel('Density')
-            plt.savefig("%s/%s/%s-%s-%s-%s-Density-Plot.png" %(_OUTPUTPATH,s,s,c,m,x))
+            plt.ylabel('Number of Patient Visits')
+            plt.savefig("%s/%s_%s_%s/%s-%s-%s-%s-Density-Plot.png" %(_OUTPUTPATH,s,c,m,s,c,m,x))
 
      plt.close()
 
+     plt.figure()
+         
+     for gender in genders:
+         subset = nonzero_measures[nonzero_measures['Gender'] == gender]
+         if (subset.shape[0]>0):
+ 
+            sns.distplot(subset[x], hist = True, kde = False, ######    TODO
+                        kde_kws = {'linewidth': 3},
+                        label = gender)
+        
+        #     # Plot formatting
+            plt.legend(prop={'size': 10}, title = 'Gender')
+            plt.title('Histogram of Samples by Gender')
+            plt.xlabel(x)                           ####################   TODO
+            plt.ylabel('Number of Patient Visits')
+            plt.savefig("%s/%s_%s_%s/%s-%s-%s-%s-Density-Plot.png" %(_OUTPUTPATH,s,c,m,s,c,m,x))
+
+     plt.close()
+############     
+
+     if (nonzero_measures.shape[0]>0):
+        plt.figure()       
+        sns.pairplot(nonzero_measures_x,hue="Gender",diag_kind='auto',plot_kws={'alpha':0.2})            
+        plt.savefig("%s/%s_%s_%s/%s-%s-%s-%s-Pairplot.png" %(_OUTPUTPATH,s,c,m,s,c,m,x))
+        plt.close()
+
+    
+     if (nonzero_measures.shape[0]>0):
+        plt.figure()       
+        nonzero_measures_x.plot.scatter(x='Age',y=x)            
+        plt.savefig("%s/%s_%s_%s/%s-%s-%s-%s-scatter.png" %(_OUTPUTPATH,s,c,m,s,c,m,x))
+        plt.close()
+
+     if (nonzero_measures.shape[0]>0):
+        plt.figure()       
+        sns.pairplot(x_vars=["Age"],y_vars=x,data=nonzero_measures_x,hue="Gender")
+        plt.savefig("%s/%s_%s_%s/%s-%s-%s-%s-snsscatter.png" %(_OUTPUTPATH,s,c,m,s,c,m,x))
+        plt.close()
+
+     if (nonzero_measures.shape[0]>0):
+        plt.figure()       
+        sns.lmplot(x='Age',y=x,data=nonzero_measures_x,hue="Gender")
+        plt.savefig("%s/%s_%s_%s/%s-%s-%s-%s-snslmplot.png" %(_OUTPUTPATH,s,c,m,s,c,m,x))
+        plt.close()        
 #        print(subset['meanFA'])
 #        males = subset[ (subset['Gender']=='Male')]
 #        females=subset[ (subset['Gender']=='Female')]
