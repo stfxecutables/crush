@@ -12,6 +12,7 @@ import matplotlib as mpl
 
 
 mpl.use('Agg')
+mpl.rcParams['figure.max_open_warning'] = 0
 
 results={}
 _OUTPUTPATH="."
@@ -33,6 +34,31 @@ def f(s,c,m,x):
             'Gender',      
             x
             ]]   
+
+     nonzero_measures_x_allothers = nonzero_measures[[
+        'Age',
+        'Gender',
+        'NumTracts',
+        'TractsToRender',
+        'LinesToRender',
+        'meanFA',
+        'stddevFA',
+        'meanADC',
+        'stddevADC'
+     ]]
+
+     nonzero_measures_x_allothers_asymidx = nonzero_measures[[
+        'Age',
+        'Gender',
+        'NumTracts-asymidx',
+        'TractsToRender-asymidx',
+        'LinesToRender-asymidx',
+        'meanFA-asymidx',
+        'stddevFA-asymidx',
+        'meanADC-asymidx',
+        'stddevADC-asymidx'
+     ]]
+   
 
 
 ##########
@@ -100,7 +126,18 @@ def f(s,c,m,x):
         plt.figure()       
         sns.lmplot(x='Age',y=x,data=nonzero_measures_x,hue="Gender")
         plt.savefig("%s/%s_%s_%s/%s-%s-%s-%s-snslmplot.png" %(_OUTPUTPATH,s,c,m,s,c,m,x))
-        plt.close()        
+        plt.close()      
+
+     if (nonzero_measures.shape[0]>0):
+        plt.figure()
+        sns.pairplot(nonzero_measures_x_allothers,hue="Gender",diag_kind='auto',kind='reg')            
+        plt.savefig("%s/%s_%s_%s/%s-%s-%s-%s-Pairplot-all.png" %(_OUTPUTPATH,s,c,m,s,c,m,x))
+        plt.close()
+     if (nonzero_measures.shape[0]>0):
+        plt.figure()
+        sns.pairplot(nonzero_measures_x_allothers_asymidx,hue="Gender",diag_kind='auto',kind='reg')            
+        plt.savefig("%s/%s_%s_%s/%s-%s-%s-%s-Pairplot-all-asymidx.png" %(_OUTPUTPATH,s,c,m,s,c,m,x))
+        plt.close()
 #        print(subset['meanFA'])
 #        males = subset[ (subset['Gender']=='Male')]
 #        females=subset[ (subset['Gender']=='Female')]
