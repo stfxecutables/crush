@@ -80,6 +80,6 @@ if __name__=="__main__":
         gF.legend()
         gM.set_title("%s / %s (%s)" %(roi,roiEnd,method))
         #sns.pairplot(nonzero_measures_x,hue="Gender",diag_kind='auto',kind='reg')            
-        
+    fig.tight_layout()    
     plt.savefig("%s/%s-Pairplot-all.png" %(_OUTPUTPATH,_MEASURE))
     plt.close() 
