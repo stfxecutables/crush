@@ -28,20 +28,80 @@ def main():
                         type=lambda x: is_valid_file(parser,x))
 
     parser.add_argument('-method',action='store',
-                        help='Specify method to invoke: knn,pca,etc.')                           
+                        help='Specify learning method to invoke: [knn,pca,guided]') 
 
+    parser.add_argument('-focus', dest="focus",required=True,
+                        help="A csv file representing tracts to manually narrow dataset. one line per tract.  e.g. ctx-lh-insula,wm-lh-lateraloccipital,roi_end",
+                        metavar="FILE",
+                        type=lambda x: is_valid_file(parser,x))
+                        
     args = parser.parse_args()  
 
     if args.method == "knn":
         knnMethod(args)
     elif args.method =="pca":
         pcaMethod(args)
+    elif args.method =="guided":
+        guidedMethod(args)
     else:
         print("all")
     #pcaMethod(args)
 
+def guidedMethod(args):
+    #--GUIDED manually via -mostcorrelated switch
+    datafile = "%s.pk" %(args.file.name)
+    if os.path.isfile(datafile):
+        df = pd.read_pickle(datafile)
+    else:
+        df = pd.read_csv(args.file.name)
+    
+    df['focus']=False
+
+    if os.path.isfile(args.focus.name):
+        InterestingROI = pd.read_csv(args.focus.name)
+    else:
+        print("To use guided method, -focus must be used")
+        return
+    for index, intersection in InterestingROI.iterrows():
+        roi=str(intersection[0])
+        roiEnd=str(intersection[1])
+        method=str(intersection[2])
+
+        print("%s %s %s" %(roi,roiEnd,method))
+        df.loc[
+            (df['ROI Label']==roi) & (df['ROI END Label']==roiEnd) & (df['Method']==method),
+            'focus'
+        ]=True
+
+    
+    target = df[['Gender']]
+    features = df.iloc[:,3:]
+
+    X_train,X_test,y_train,y_test=train_test_split(features,target,random_state=0)
+    print("X_train shape: {}".format(X_train.shape))
+    print("y_train shape: {}".format(y_train.shape))
+    print("X_test shape: {}".format(X_test.shape))
+    print("y_test shape: {}".format(y_test.shape))
+
+    components = 100
+    if components>X_train.ndim:
+        components=X_train.ndim
+    pca = PCA(n_components = components,whiten=True,random_state=0).fit(X_train) 
+    X_train_pca = pca.transform(X_train)
+    X_test_pca = pca.transform(X_test)
+
+    knn = KNeighborsClassifier(n_neighbors=1)
+    knn.fit(X_train_pca,y_train.values.ravel())
+
+    print("Test set accuracy: {:.2f}".format(knn.score(X_test_pca,y_test)))
+
+
+
+
+
+
 def knnMethod(args):
-    #-- KNN -------------------------------------------------------------
+    #-- KNN ------17819459-------------------------------------------------------
 
    # args = parser.parse_args()        
     df = pd.read_csv(args.file.name).replace(np.nan, 0, regex=True) #nrows=30

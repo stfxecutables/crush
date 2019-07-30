@@ -1,0 +1,17 @@
+ROI Start,ROI End,Method
+ctx-lh-insula,wm-lh-lateraloccipital,roi_end
+ctx-lh-medialorbitofrontal,ctx-lh-insula,roi
+ctx-lh-posteriorcingulate,wm-lh-rostralanteriorcingulate,roi
+wm-lh-lateraloccipital,wm-lh-superiortemporal,roi_end
+wm-lh-superiorparietal,wm-lh-superiortemporal,roi_end
+wm-lh-caudalmiddlefrontal,wm-rh-caudalanteriorcingulate,roi
+ctx-lh-middletemporal,wm-lh-inferiortemporal,roi
+ctx-lh-middletemporal,ctx-lh-temporalpole,roi
+ctx-lh-caudalanteriorcingulate,wm-lh-rostralanteriorcingulate,roi_end
+ctx-lh-lateraloccipital,ctx-lh-insula,roi
+wm-lh-fusiform,wm-lh-superiortemporal,roi_end
+ctx-lh-lateraloccipital,ctx-lh-superiortemporal,roi
+ctx-lh-middletemporal,wm-lh-fusiform,roi
+wm-lh-caudalanteriorcingulate,wm-lh-caudalmiddlefrontal,roi
+wm-rh-bankssts,wm-rh-inferiortemporal,roi_end
+ctx-lh-caudalanteriorcingulate,ctx-lh-precuneus,roi_end
