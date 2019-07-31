@@ -294,7 +294,7 @@ class Samples:
         self.Segments = []#{}
 
         i=1
-        segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.txt")
+        segmentMap="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"segmentMap.csv")
         with open(segmentMap) as fin:
             reader=csv.reader(fin, skipinitialspace=True, quotechar="'")
             p = re.compile('^ *#')   # if not commented          
@@ -324,33 +324,33 @@ class Samples:
                     for method in methods:
                         #print("Rendering segment %s counterpart %s method %s" %(segment, counterpart, method))
                         if segment != counterpart:
-                            measurementKeys.append("%s-%s-%s-Tractlength" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-NumTracts" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-TractsToRender" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-LinesToRender" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-MeanTractLen" %(segment,counterpart,method))
-                            measurementKeys.append(r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-VoxelSizeX" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-VoxelSizeY" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-meanFA" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-stddevFA" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-meanADC" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-stddevADC" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-Tractlength" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-NumTracts" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-TractsToRender" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-LinesToRender" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-MeanTractLen" %(segmentName,counterpartName,method))
+                            measurementKeys.append(r"levman/%s-%s-%s-MeanTractLen_StdDev" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeX" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeY" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeZ" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-meanFA" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-stddevFA" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-meanADC" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-stddevADC" %(segmentName,counterpartName,method))
 
-                            measurementKeys.append("%s-%s-%s-Tractlength-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-NumTracts-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-TractsToRender-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-LinesToRender-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-MeanTractLen-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append(r"%s-%s-%s-MeanTractLen_StdDev-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-VoxelSizeX-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-VoxelSizeY-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-VoxelSizeZ-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-meanFA-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-stddevFA-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-meanADC-asymidx" %(segment,counterpart,method))
-                            measurementKeys.append("%s-%s-%s-stddevADC-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-Tractlength-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-NumTracts-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-TractsToRender-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-LinesToRender-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-MeanTractLen-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append(r"levman/%s-%s-%s-MeanTractLen_StdDev-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeX-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeY-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeZ-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-meanFA-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-stddevFA-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-meanADC-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-stddevADC-asymidx" %(segmentName,counterpartName,method))
                             
 
         for k in measurementKeys:

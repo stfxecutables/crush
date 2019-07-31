@@ -1,0 +1,16 @@
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Brain-Stem" "wm-lh-insula" "roi" "meanFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "ctx-lh-precentral" "wm-lh-precentral" "roi" "stddevFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "ctx-rh-precentral" "wm-rh-precentral" "roi" "stddevFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Brain-Stem" "ctx-lh-superiorfrontal" "roi" "meanFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Brain-Stem" "wm-lh-superiorfrontal" "roi" "meanFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Brain-Stem" "Left-VentralDC" "roi" "meanFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Left-VentralDC" "wm-lh-insula" "roi" "meanFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Brain-Stem" "wm-lh-precentral" "roi" "meanFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Left-VentralDC" "wm-lh-precentral" "roi" "meanFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Brain-Stem" "Right-Pallidum" "roi" "meanFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "ctx-lh-rostralmiddlefrontal" "wm-lh-rostralmiddlefrontal" "roi_end" "stddevFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Left-Thalamus-Proper" "Brain-Stem" "roi" "meanFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "ctx-lh-postcentral" "wm-lh-postcentral" "roi" "stddevFA"
+python3 ~/projects/def-jlevman/dmattie/crush/Analysis/top5Correlation2.py ~/scratch/full.csv ~/viz-CORR-27 "Right-Putamen" "wm-rh-insula" "roi" "meanFA"
+
+

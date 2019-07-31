@@ -46,19 +46,7 @@ def genderDifferences(args):
         if "-asymidx" in column:
             asymidxKeys.append(column)        
     print(pd.Index(asymidxKeys))
-   # asymDF = df['Gender',index=asymidxKeys]
-    
-    #asymDF = df[['Gender','0002-2001-roi_end-LinesToRender-asymidx']]
-    #print(asymDF.mean(axis='columns'))
-    #grouped = asymDF.groupby('Gender')
-    #print(grouped.mean())
-
-    #print( df[['0002-2001-roi_end-LinesToRender-asymidx']].mean())
-    #return
-
-
-
-
+ 
     #This works but not sorted
     asyms = {}
     for key in asymidxKeys:

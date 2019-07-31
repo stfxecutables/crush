@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.impute import SimpleImputer
 
 from pandas.compat import StringIO, BytesIO
 
@@ -54,51 +55,57 @@ def guidedMethod(args):
         df = pd.read_pickle(datafile)
     else:
         df = pd.read_csv(args.file.name)
-    
-    df['focus']=False
+    #df.to_pickle("%s.pk" %(args.file.name))
+
+    focus={}
 
     if os.path.isfile(args.focus.name):
-        InterestingROI = pd.read_csv(args.focus.name)
+        with open(args.focus.name) as f:
+            for line in f:
+                focus[line.rstrip()]=True
     else:
         print("To use guided method, -focus must be used")
         return
-    for index, intersection in InterestingROI.iterrows():
-        roi=str(intersection[0])
-        roiEnd=str(intersection[1])
-        method=str(intersection[2])
 
-        print("%s %s %s" %(roi,roiEnd,method))
-        df.loc[
-            (df['ROI Label']==roi) & (df['ROI END Label']==roiEnd) & (df['Method']==method),
-            'focus'
-        ]=True
+    
+    good_bye_list = []
+    for column in df:
+        if column !="Age" and column != "PatientId" and column != "VisitId" and column !="Gender":
+            if column not in focus:
+                good_bye_list.append(column)
 
+    df.drop(good_bye_list,axis=1,inplace=True)
     
     target = df[['Gender']]
     features = df.iloc[:,3:]
 
-    X_train,X_test,y_train,y_test=train_test_split(features,target,random_state=0)
+    features_nona = features.copy()
+    features_nona.fillna(features_nona.mean(),inplace=True)   
+    features_nona=features_nona.dropna(axis=1,how='all')
+
+
+    
+    X_train,X_test,y_train,y_test=train_test_split(features_nona,target,random_state=0)
     print("X_train shape: {}".format(X_train.shape))
     print("y_train shape: {}".format(y_train.shape))
     print("X_test shape: {}".format(X_test.shape))
     print("y_test shape: {}".format(y_test.shape))
 
-    components = 100
-    if components>X_train.ndim:
-        components=X_train.ndim
-    pca = PCA(n_components = components,whiten=True,random_state=0).fit(X_train) 
-    X_train_pca = pca.transform(X_train)
-    X_test_pca = pca.transform(X_test)
-
+    from sklearn.neighbors import KNeighborsClassifier
     knn = KNeighborsClassifier(n_neighbors=1)
-    knn.fit(X_train_pca,y_train.values.ravel())
 
-    print("Test set accuracy: {:.2f}".format(knn.score(X_test_pca,y_test)))
+    knn.fit(X_train,y_train.values.ravel())
 
+    X_test=X_test.copy()    
+    X_test.fillna(X_train.mean(),inplace=True)
 
+    y_pred = knn.predict(X_test)
 
-
-
+    print("KNN Test set predictions:\n {}".format(y_pred))
+    print("KNN Test set tests:\n {}".format(y_test))
+    #print("test set score: {:.2f}".format(np.mean(y_pred == y_test.values.tolist())))   
+    print("KNN test set score: {:.2f}".format(knn.score(X_test,y_test)))
+    
 
 def knnMethod(args):
     #-- KNN ------17819459-------------------------------------------------------
