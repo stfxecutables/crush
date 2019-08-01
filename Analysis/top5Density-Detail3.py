@@ -23,9 +23,17 @@ if __name__=="__main__":
     _OUTPUTPATH=sys.argv[2]
     _INTERESTINGCSV=sys.argv[3]
     _MEASURE=sys.argv[4]
+    _YLIML=float(sys.argv[5])
+    _YLIMU=float(sys.argv[6])
     
-    print("Parsing file %s,rendering to %s" %(_DATAFILE,_OUTPUTPATH))    
-    df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
+    print("Parsing file %s,rendering to %s" %(_DATAFILE,_OUTPUTPATH)) 
+
+    pickle = "%s.pk" %(_DATAFILE)
+    if os.path.isfile(pickle):
+        df = pd.read_pickle(pickle)
+    else:
+        df = pd.read_csv(_DATAFILE)#.replace(np.nan, 0, regex=True) #nrows=30
+    
     print("Looking for intersections")
     InterestingROI = pd.read_csv(_INTERESTINGCSV)
 
@@ -79,7 +87,15 @@ if __name__=="__main__":
         gM.legend()
         gF.legend()
         gM.set_title("%s / %s (%s)" %(roi,roiEnd,method))
-        #sns.pairplot(nonzero_measures_x,hue="Gender",diag_kind='auto',kind='reg')            
+        # if _YLIML!="":
+        #     print("Setting Y Limits")
+        #     #plt.ylim(_YLIML,_YLIMU)
+        #     print(_YLIML)
+        if _MEASURE=="meanADC":
+            gM.set_ylim(0.0007,0.00106)
+            gF.set_ylim(0.0007,0.00106)
+        #sns.pairplot(nonzero_measures_x,hue="Gender",diag_kind='auto',kind='reg')   
+        #print(males)         
     fig.tight_layout()    
     plt.savefig("%s/%s-Pairplot-all.png" %(_OUTPUTPATH,_MEASURE))
     plt.close() 
