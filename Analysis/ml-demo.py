@@ -67,21 +67,24 @@ def guidedMethod(args):
         print("To use guided method, -focus must be used")
         return
 
-    
+    print(focus)
     good_bye_list = []
     for column in df:
         if column !="Age" and column != "PatientId" and column != "VisitId" and column !="Gender":
             if column not in focus:
+                #print(column)
                 good_bye_list.append(column)
-
+            else:
+                print("influencer:%s" %(column))    
+    #print("Shape of good_bye_list: {}".format(good_bye_list.shape))
     df.drop(good_bye_list,axis=1,inplace=True)
-    
+    print("Shape of df: {}".format(df.shape))
     target = df[['Gender']]
     features = df.iloc[:,3:]
 
     features_nona = features.copy()
     features_nona.fillna(features_nona.mean(),inplace=True)   
-    features_nona=features_nona.dropna(axis=1,how='all')
+    #features_nona=features_nona.dropna(axis=1,how='all')
 
 
     
@@ -94,6 +97,9 @@ def guidedMethod(args):
     from sklearn.neighbors import KNeighborsClassifier
     knn = KNeighborsClassifier(n_neighbors=1)
 
+    X_train=X_train.copy()
+    X_train.fillna(X_train.mean(),inplace=True)
+    print(X_train)
     knn.fit(X_train,y_train.values.ravel())
 
     X_test=X_test.copy()    

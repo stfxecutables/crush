@@ -262,7 +262,7 @@ class Samples:
        
 
     def Columnar(self):
-
+        PipelineId = "levman"
         #Check for any patient metadata so we can augment output
         #The metadata file should have the format Patient,Visit,Attr1..AttrN
         Metadata = {} 
@@ -300,17 +300,18 @@ class Samples:
             p = re.compile('^ *#')   # if not commented          
             for row in reader:
                 #print("%s,%s" %(i,row))
-                if(not p.match(row[0])): 
+                if(i>1 and not p.match(row[0])): 
                     self.Segments.append({'roi':row[0],'roiname':row[1],'asymmetry':row[2]})
                 i=i+1
 
         measurementKeys = []
 
         for s in self.Segments:
-            segment=s['roi']
+            segment=s['roi'].zfill(4)
+            
             segmentName=s['roiname']                                            
             for c in self.Segments:
-                counterpart=c['roi']
+                counterpart=c['roi'].zfill(4)
                 counterpartName=c['roiname']                               
                 if (segment!=counterpart and segment<counterpart):                        
                     methods=[]  #Methods represents the possible ROI switches to trackvis, e.g methods = ["roi","roi_end"]
@@ -324,36 +325,37 @@ class Samples:
                     for method in methods:
                         #print("Rendering segment %s counterpart %s method %s" %(segment, counterpart, method))
                         if segment != counterpart:
-                            measurementKeys.append("levman/%s-%s-%s-Tractlength" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-NumTracts" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-TractsToRender" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-LinesToRender" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-MeanTractLen" %(segmentName,counterpartName,method))
-                            measurementKeys.append(r"levman/%s-%s-%s-MeanTractLen_StdDev" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeX" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeY" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeZ" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-meanFA" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-stddevFA" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-meanADC" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-stddevADC" %(segmentName,counterpartName,method))
+                            #print("levman/%s-%s-%s-Tractlength" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-Tractlength" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-NumTracts" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-TractsToRender" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-LinesToRender" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-MeanTractLen" %(segment,counterpart,method))
+                            measurementKeys.append(r"levman/%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeX" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeY" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-meanFA" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-stddevFA" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-meanADC" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-stddevADC" %(segment,counterpart,method))
 
-                            measurementKeys.append("levman/%s-%s-%s-Tractlength-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-NumTracts-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-TractsToRender-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-LinesToRender-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-MeanTractLen-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append(r"levman/%s-%s-%s-MeanTractLen_StdDev-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeX-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeY-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeZ-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-meanFA-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-stddevFA-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-meanADC-asymidx" %(segmentName,counterpartName,method))
-                            measurementKeys.append("levman/%s-%s-%s-stddevADC-asymidx" %(segmentName,counterpartName,method))
+                            measurementKeys.append("levman/%s-%s-%s-Tractlength-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-NumTracts-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-TractsToRender-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-LinesToRender-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-MeanTractLen-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append(r"levman/%s-%s-%s-MeanTractLen_StdDev-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeX-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeY-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-VoxelSizeZ-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-meanFA-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-stddevFA-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-meanADC-asymidx" %(segment,counterpart,method))
+                            measurementKeys.append("levman/%s-%s-%s-stddevADC-asymidx" %(segment,counterpart,method))
                             
 
-        for k in measurementKeys:
+        for k in measurementKeys:            
             header.append(k)
                                
         print(",".join(header))
@@ -371,10 +373,53 @@ class Samples:
                         row.append(Metadata[p.PatientId][v.VisitId][meta])
                     else:
                         row.append("")                
-                measurements = v.GetMeasurements()
+                measurements = v.GetMeasurements()   
+                        
+                #=====================================================
+                asymMeasuresToAdd = {}                
+                for m in measurements:
+                    if len(m)>8 and m[-8] != "-asymidx":
+                        #print(m)
+                        m0 = re.match("^"+PipelineId+"\/(\w+)-(\w+)-(\w+)-(\w+)",m)
+                        
+                        if m0:
+                            l_roi = m0.group(1)
+                            l_roiE = m0.group(2)
+                            l_method = m0.group(3)
+                            l_measure = m0.group(4)
+
+                            l_roiC=""
+                            l_roiEC=""
+
+                            
+                            for s in self.Segments:                        
+                                if s['roi']==l_roi:                            
+                                    l_roiC = s['asymmetry']
+                                if s['roi']==l_roiE:
+                                    l_roiEC = s['asymmetry']
+                            #print("%s, %s, %s, %s" %(l_roi,l_roiE,l_roiC,l_roiEC))
+                            asymCounterpart = PipelineId+"/%s-%s-%s-%s" %(l_roiC,l_roiEC,l_method,l_measure) 
+                            #print(asymCounterpart)                   
+                            if asymCounterpart in measurements:
+                                if v.is_number(measurements[m]) and v.is_number(measurements[asymCounterpart]) and float(measurements[asymCounterpart]) != 0:
+                                    asymIdx=float(measurements[m]) / float(measurements[asymCounterpart])                            
+                                    asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
+
+                #print(asymMeasuresToAdd)
+                #return
+                for newm in asymMeasuresToAdd:
+                    if v.is_number(str(asymMeasuresToAdd[newm])):
+                        measurements[newm]=str(asymMeasuresToAdd[newm])
+
+
+                #===================================
+
+                #print(measurements)
                 for k in measurementKeys:
-                    if k in measurements:
+                    #print(k)
+                    if k in measurements:                              
                         row.append(measurements[k])
-                    else:   
+                    else:
+                        #print("not found: patient id:%s measurement:%s" %(p.PatientId,k))
                         row.append("")                                      
                 print(",".join(row))
