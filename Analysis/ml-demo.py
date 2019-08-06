@@ -57,6 +57,8 @@ def guidedMethod(args):
         df = pd.read_csv(args.file.name)
     #df.to_pickle("%s.pk" %(args.file.name))
 
+    info = df.info(memory_usage='deep')
+    #print(info)
     focus={}
 
     if os.path.isfile(args.focus.name):
@@ -67,7 +69,7 @@ def guidedMethod(args):
         print("To use guided method, -focus must be used")
         return
 
-    print(focus)
+    #print(focus)
     good_bye_list = []
     for column in df:
         if column !="Age" and column != "PatientId" and column != "VisitId" and column !="Gender":
@@ -84,9 +86,7 @@ def guidedMethod(args):
 
     features_nona = features.copy()
     features_nona.fillna(features_nona.mean(),inplace=True)   
-    #features_nona=features_nona.dropna(axis=1,how='all')
-
-
+    features_nona=features_nona.dropna(axis=1,how='all')
     
     X_train,X_test,y_train,y_test=train_test_split(features_nona,target,random_state=0)
     print("X_train shape: {}".format(X_train.shape))
@@ -97,20 +97,20 @@ def guidedMethod(args):
     from sklearn.neighbors import KNeighborsClassifier
     knn = KNeighborsClassifier(n_neighbors=1)
 
-    X_train=X_train.copy()
-    X_train.fillna(X_train.mean(),inplace=True)
-    print(X_train)
+    #X_train=X_train.copy()
+    #X_train.fillna(X_train.mean(),inplace=True)
+    #print(X_train)
     knn.fit(X_train,y_train.values.ravel())
 
-    X_test=X_test.copy()    
-    X_test.fillna(X_train.mean(),inplace=True)
+    #X_test=X_test.copy()    
+    #X_test.fillna(X_train.mean(),inplace=True)
 
     y_pred = knn.predict(X_test)
 
-    print("KNN Test set predictions:\n {}".format(y_pred))
-    print("KNN Test set tests:\n {}".format(y_test))
+    print("Guided KNN Test set predictions:\n {}".format(y_pred))
+    print("Guided KNN Test set tests:\n {}".format(y_test))
     #print("test set score: {:.2f}".format(np.mean(y_pred == y_test.values.tolist())))   
-    print("KNN test set score: {:.2f}".format(knn.score(X_test,y_test)))
+    print("Guided KNN test set score: {:.2f}".format(knn.score(X_test,y_test)))
     
 
 def knnMethod(args):
@@ -151,7 +151,11 @@ def pcaMethod(args):
     target = df[['Gender']]
     features = df.iloc[:,3:]
 
-    X_train,X_test,y_train,y_test=train_test_split(features,target,random_state=0)
+    features_nona = features.copy()
+    features_nona.fillna(features_nona.mean(),inplace=True)   
+    features_nona=features_nona.dropna(axis=1,how='all')
+
+    X_train,X_test,y_train,y_test=train_test_split(features_nona,target,random_state=0)
     print("X_train shape: {}".format(X_train.shape))
     print("y_train shape: {}".format(y_train.shape))
     print("X_test shape: {}".format(X_test.shape))
