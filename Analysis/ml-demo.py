@@ -10,6 +10,15 @@ from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.impute import SimpleImputer
 
+import pandas
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.wrappers.scikit_learn import KerasRegressor
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import KFold
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
+
 from pandas.compat import StringIO, BytesIO
 
 def is_valid_file(parser, arg):
@@ -29,9 +38,9 @@ def main():
                         type=lambda x: is_valid_file(parser,x))
 
     parser.add_argument('-method',action='store',
-                        help='Specify learning method to invoke: [knn,pca,guided]') 
+                        help='Specify learning method to invoke: [knn,pca,guided,randomforest,keras]') 
 
-    parser.add_argument('-focus', dest="focus",required=True,
+    parser.add_argument('-focus', dest="focus",required=False,
                         help="A csv file representing tracts to manually narrow dataset. one line per tract.  e.g. ctx-lh-insula,wm-lh-lateraloccipital,roi_end",
                         metavar="FILE",
                         type=lambda x: is_valid_file(parser,x))
@@ -44,6 +53,10 @@ def main():
         pcaMethod(args)
     elif args.method =="guided":
         guidedMethod(args)
+    elif args.method =="randomforest":
+        randomForest(args)
+    elif args.method =="keras":
+        keras(args)        
     else:
         print("all")
     #pcaMethod(args)
@@ -165,6 +178,7 @@ def pcaMethod(args):
     if components>X_train.ndim:
         components=X_train.ndim
     pca = PCA(n_components = components,whiten=True,random_state=0).fit(X_train) 
+    
     X_train_pca = pca.transform(X_train)
     X_test_pca = pca.transform(X_test)
 
@@ -174,6 +188,62 @@ def pcaMethod(args):
     print("Test set accuracy: {:.2f}".format(knn.score(X_test_pca,y_test)))
 
 
+def randomForest(args):
+ 
+   # args = parser.parse_args()        
+    df = pd.read_csv(args.file.name).replace(np.nan, 0, regex=True) #nrows=30
+    target = df[['Age']]
+    print(target)
+    features = df.iloc[:,4:]
+
+    X_train,X_test,y_train,y_test=train_test_split(features,target,random_state=0)
+    print("X_train shape: {}".format(X_train.shape))
+    print("y_train shape: {}".format(y_train.shape))
+    print("X_test shape: {}".format(X_test.shape))
+    print("y_test shape: {}".format(y_test.shape))
+
+
+    #pd.plotting.scatter_matrix(features,figsize=(15,15),marker='o',hist_kwds={'bins':20},s=60,alpha=.8,cmap=mglearn.cm3)
+    #plt.show()
+
+    from sklearn.ensemble import RandomForestRegressor
+    forest = RandomForestRegressor(n_estimators=5,random_state=2)
+    forest.fit(X_train,y_train.values.ravel())
+
+    y_pred = forest.predict(X_test)
+    #print(y_pred)
+    #print(y_test)
+    print("RandomForest Test set predictions:\n {}".format(y_pred))
+    print("RandomForest Test set tests:\n {}".format(y_test))
+    #print("test set score: {:.2f}".format(np.mean(y_pred == y_test.values.tolist())))   
+    print("RandomForst test set score: {:.2f}".format(forest.score(X_test,y_test)))
+
+def keras_baseline_model():
+	# create model
+	model = Sequential()
+	model.add(Dense(847080, input_dim=847080, kernel_initializer='normal', activation='relu'))
+	model.add(Dense(1, kernel_initializer='normal'))
+	# Compile model
+	model.compile(loss='mean_squared_error', optimizer='adam')
+	return model
+
+def keras(args):
+ 
+   # args = parser.parse_args()        
+    df = pd.read_csv(args.file.name).replace(np.nan, 0, regex=True) #nrows=30
+    target = df[['Age']]
+    print(target)
+    features = df.iloc[:,4:]
+
+    # fix random seed for reproducibility
+    seed = 7
+    np.random.seed(seed)
+    # evaluate model with standardized dataset
+    estimator = KerasRegressor(build_fn=keras_baseline_model, epochs=100, batch_size=5, verbose=0)
+
+    kfold = KFold(n_splits=10, random_state=seed)
+    results = cross_val_score(estimator, features, target, cv=kfold)
+    print("Results: %.2f (%.2f) MSE" % (results.mean(), results.std()))
 
 if __name__ == '__main__':
     main()
