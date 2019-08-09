@@ -1,3 +1,7 @@
+PatientID
+VisitId
+Gender
+Age
 levman/0016-5001-roi-meanFA
 levman/0028-5001-roi-meanFA
 levman/0016-3035-roi-meanFA
