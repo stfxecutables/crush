@@ -221,7 +221,7 @@ def randomForest(args):
 def keras_baseline_model():
 	# create model
 	model = Sequential()
-	model.add(Dense(847080, input_dim=847080, kernel_initializer='normal', activation='relu'))
+	model.add(Dense(101, input_dim=101, kernel_initializer='normal', activation='relu'))
 	model.add(Dense(1, kernel_initializer='normal'))
 	# Compile model
 	model.compile(loss='mean_squared_error', optimizer='adam')
