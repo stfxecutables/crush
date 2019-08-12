@@ -10,6 +10,7 @@ from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.impute import SimpleImputer
 
+
 import pandas
 from keras.models import Sequential
 from keras.layers import Dense
@@ -38,7 +39,7 @@ def main():
                         type=lambda x: is_valid_file(parser,x))
 
     parser.add_argument('-method',action='store',
-                        help='Specify learning method to invoke: [knn,pca,guided,randomforest,keras]') 
+                        help='Specify learning method to invoke: [svc,knn,pca,guided,randomforest,keras]') 
 
     parser.add_argument('-focus', dest="focus",required=False,
                         help="A csv file representing tracts to manually narrow dataset. one line per tract.  e.g. ctx-lh-insula,wm-lh-lateraloccipital,roi_end",
@@ -56,7 +57,9 @@ def main():
     elif args.method =="randomforest":
         randomForest(args)
     elif args.method =="keras":
-        keras(args)        
+        keras(args) 
+    elif args.method =="svc":
+        svcMethod(args)               
     else:
         print("all")
     #pcaMethod(args)
@@ -155,6 +158,37 @@ def knnMethod(args):
     print("KNN Test set tests:\n {}".format(y_test))
     #print("test set score: {:.2f}".format(np.mean(y_pred == y_test.values.tolist())))   
     print("KNN test set score: {:.2f}".format(knn.score(X_test,y_test)))
+
+def svcMethod(args):
+    
+   # args = parser.parse_args()        
+    df = pd.read_csv(args.file.name).replace(np.nan, 0, regex=True) #nrows=30
+    target = df[['Gender']]
+    features = df.iloc[:,3:]
+
+    X_train,X_test,y_train,y_test=train_test_split(features,target,random_state=0)
+    print("X_train shape: {}".format(X_train.shape))
+    print("y_train shape: {}".format(y_train.shape))
+    print("X_test shape: {}".format(X_test.shape))
+    print("y_test shape: {}".format(y_test.shape))
+
+
+    from sklearn.svm import SVC
+    from sklearn.preprocessing import MinMaxScaler
+    svm = SVC()
+    svm.fit(X_train,y_train.values.ravel())
+
+    print("Test set accuracy: {:.2f}".format(svm.score(X_test,y_test)))
+
+    #lets try preprocessing
+    scaler = MinMaxScaler()
+    scaler.fit(X_train)
+    X_train_scaled = scaler.transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    svm.fit(X_train_scaled,y_train.values.ravel())
+
+    print("Scaled test set accuracy: {:.2f}".format(svm.score(X_test_scaled,y_test)))
+    
 
 def pcaMethod(args):
     #-- PCA ----------------------------------------------------------------------
