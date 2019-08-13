@@ -12,9 +12,7 @@ from sklearn.impute import SimpleImputer
 
 
 import pandas
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasRegressor
+
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
 from sklearn.preprocessing import StandardScaler
@@ -262,8 +260,10 @@ def keras_baseline_model():
 	return model
 
 def keras(args):
- 
-   # args = parser.parse_args()        
+    from keras.models import Sequential
+    from keras.layers import Dense
+    from keras.wrappers.scikit_learn import KerasRegressor
+    # args = parser.parse_args()        
     df = pd.read_csv(args.file.name).replace(np.nan, 0, regex=True) #nrows=30
     target = df[['Age']]
     print(target)
