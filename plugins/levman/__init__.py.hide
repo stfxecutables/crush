@@ -3,6 +3,7 @@ import subprocess
 import numpy as np
 import re
 import time
+import datetime
 import uuid
 from basecrush.ux import MsgUser
 import nibabel as nib
@@ -297,17 +298,25 @@ class Pipeline:
         MsgUser.message("##############################################...")
             
     def run(self):      
-        
-        self.mgz2nifti()        
+        print("%s:%s" %("mgz2nifti started:",datetime.datetime.now()))
+        self.mgz2nifti()      
+        print("%s:%s" %("eddy_correct started:",datetime.datetime.now()))  
         self.eddy_correct()
+        print("%s:%s" %("hardi_mat started:",datetime.datetime.now()))
         self.hardi_mat()
+        print("%s:%s" %("odf recon started:",datetime.datetime.now()))
         self.odf_recon()
+        print("%s:%s" %("odf tracker started:",datetime.datetime.now()))
         self.odf_tracker()
+        print("%s:%s" %("flirt started:",datetime.datetime.now()))
         self.flirt()
+        print("%s:%s" %("tract_transform started:",datetime.datetime.now()))
         self.tract_transform()
+        print("%s:%s" %("dti_recon started:",datetime.datetime.now()))
         self.dti_recon()
+        print("%s:%s" %("dti_tracker started:",datetime.datetime.now()))
         self.dti_tracker()
-
+        print("%s:%s" %("track_vis started:",datetime.datetime.now()))
         self.track_vis()
 
 
