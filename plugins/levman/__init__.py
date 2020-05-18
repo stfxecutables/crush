@@ -496,7 +496,7 @@ class Pipeline:
   
     def mgz2nifti(self):  
         MsgUser.bold("mgz2nifti")
-        if self.visit.rebuild!=True and os.path.isfile("%s/Freesurfer/mri/brainmask.nii" % (self.visit.path)):
+        if self.visit.rebuild!=True and os.path.isfile("%s/mri/brainmask.nii" % (self.visit.freesurferpath)):
             self.visit.NiftiComplete=True
             MsgUser.skipped("All Nifti files exist")
         else:
@@ -505,12 +505,12 @@ class Pipeline:
             mgzFiles=['aseg','aparc+aseg', 'aparc.a2009s+aseg', 'lh.ribbon', 'rh.ribbon', 'nu', 'orig', 'ribbon', 'wm.asegedit', 'wm', 'wm.seg', 'brain', 'brainmask']
         
             for mgz in mgzFiles:
-                if os.path.isfile("%s/Freesurfer/mri/%s.nii" % (self.visit.path,mgz)) :
+                if os.path.isfile("%s/mri/%s.nii" % (self.visit.freesurferpath,mgz)) :
                     MsgUser.skipped("\t%s.nii exists" % (mgz))
                 else:
                 
                     MsgUser.message("Create or replace %s.nii" % (mgz))
-                    subprocess.call(['mri_convert','-rt','nearest','-nc','-ns','1',"%s/Freesurfer/mri/%s.mgz" %(self.visit.path,mgz),"%s/Freesurfer/mri/%s.nii" % (self.visit.path,mgz)])
+                    subprocess.call(['mri_convert','-rt','nearest','-nc','-ns','1',"%s/mri/%s.mgz" %(self.visit.freesurferpath,mgz),"%s/mri/%s.nii" % (self.visit.freesurferpath,mgz)])
 
     def eddy_correct(self):
         MsgUser.bold("eddy_correct")
@@ -535,7 +535,7 @@ class Pipeline:
         else:
             defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"gradientMatrix.txt")
             
-            cmdArray=["hardi_mat",defaultGradientMatrix,"%s/Tractography/temp_mat.dat" % (self.visit.path), "-ref","%s/Tractography/DTI35_eddy.nii.gz" % (self.path),"-oc"]
+            cmdArray=["hardi_mat",defaultGradientMatrix,"%s/Tractography/temp_mat.dat" % (self.visit.path), "-ref","%s/Tractography/DTI35_eddy.nii.gz" % (self.visit.path),"-oc"]
             print(cmdArray)
             subprocess.call(cmdArray)
             
@@ -583,7 +583,7 @@ class Pipeline:
             MsgUser.skipped("flirt output exists")
         else:
             #flirt -in ./DTI35_eddy.nii.gz -ref ./brainmask.nii -omat ./RegTransform4D
-            cmdArray=["flirt","-in","%s/Tractography/DTI35_eddy.nii.gz" %(self.visit.path),"-ref","%s/Freesurfer/mri/brainmask.nii" %(self.path),"-omat","%s/Tractography/RegTransform4d" %(self.visit.path)]
+            cmdArray=["flirt","-in","%s/Tractography/DTI35_eddy.nii.gz" %(self.visit.path),"-ref","%s/mri/brainmask.nii" %(self.freesurferpath),"-omat","%s/Tractography/RegTransform4d" %(self.visit.path)]
             print(cmdArray)
             subprocess.call(cmdArray)
 
@@ -598,7 +598,7 @@ class Pipeline:
         else:
             #track_transform DTI35_preReg.trk DTI35_postReg.trk -src DTI35_Recon_dwi.nii.gz -ref brainmask.nii -reg RegTransform4D
 
-            cmdArray=["track_transform","%s/Tractography/DTI35_preReg.trk" %(self.visit.path),"%s/Tractography/crush.trk" %(self.visit.path),"-src","%s/Tractography/DTI35_Recon_dwi.nii.gz"%(self.visit.path),"-ref", "%s/Freesurfer/mri/brainmask.nii" %(self.visit.path),"-reg","%s/Tractography/RegTransform4D"%(self.visit.path)]
+            cmdArray=["track_transform","%s/Tractography/DTI35_preReg.trk" %(self.visit.path),"%s/Tractography/crush.trk" %(self.visit.path),"-src","%s/Tractography/DTI35_Recon_dwi.nii.gz"%(self.visit.path),"-ref", "%s/mri/brainmask.nii" %(self.visit.freesurferpath),"-reg","%s/Tractography/RegTransform4D"%(self.visit.path)]
             print(cmdArray)
             subprocess.call(cmdArray)
 
@@ -683,6 +683,10 @@ class Pipeline:
                 
         #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
         
+        #create wmparc#### if missing
+        if not os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment)) and not os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart)):
+            MsgUser.warning("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment))
+
         if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart)):
 
             render = True

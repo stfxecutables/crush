@@ -41,6 +41,9 @@ def VersionCheck():
             MsgUser.warning("Unable to determine valid FreeSurfer version in file (%s)" % fsFile)
 
 def StatusReport(args,S):
+    l_reconall_message = ""
+    l_parcellation_message = ""
+    l_measurement_message = ""
     l_v = 0
     print("Sample size:%i" % (len(S.Patients)))
     for p in S.Patients:
@@ -67,8 +70,8 @@ def StatusReport(args,S):
             else:
                 l_measurement_message = "Measurements exist"
 
-        print("%s/%s %s, %s, %s" % (
-            p.PatientId, len(p.Visits), l_reconall_message, l_parcellation_message, l_measurement_message))
+        print("%s/%s %s, %s, %s [%s]" % (
+            p.PatientId, len(p.Visits), l_reconall_message, l_parcellation_message, l_measurement_message,v.freesurferpath))
 
 def ProcessSamples(args,S):
     

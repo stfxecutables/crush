@@ -39,6 +39,16 @@ class Samples:
                             self.Count+=1
                             patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log,self.pipeline)
                             self.Patients.append(patient)
+                        else:  #e.g. humanConnectome project doesn't have visits 100307/100307/mri
+                            mri_dir = "%s/%s/mri" % (patient_dir,v)
+                            if os.path.exists(mri_dir):
+                                #print "%s/%s/mri" %(patient_dir,v)
+                                #visit_dir = "%s/%s/01" % (rootDir,file)
+                                #if os.path.exists(visit_dir): #assume if at least one visit then patient
+                                self.Count+=1
+                                patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log,self.pipeline)
+                                self.Patients.append(patient)
+
                                    
     def csv(self):
 

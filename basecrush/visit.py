@@ -24,6 +24,7 @@ class Visit:
     def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log,pipeline):        
         self.VisitId=os.path.basename(path)
         self.path=path
+        self.freesurferpath="undefined"
         self.rebuild=rebuild
         self.voi=voi        
         self.recrush=recrush
@@ -38,9 +39,14 @@ class Visit:
         self.disable_log=disable_log
         
         if os.path.isfile(reconTest):
-            self.ReconComplete=True            
+            self.ReconComplete=True   
+            self.freesurferpath = "%s/Freesurfer" % (path)        
         else:
-            self.ReconComplete=False
+            if os.path.isfile("%s/mri/wmparc.mgz" % (path)):
+                self.ReconComplete=True
+                self.freesurferpath = "%s" % (path)
+            else:
+                self.ReconComplete=False
         self.pipeline=pipeline
 
         measurementTest = "%s/Tractography/crush/tracts.txt" % (path)
