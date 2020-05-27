@@ -22,9 +22,12 @@ class Visit:
     
                     
     def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log,pipeline):        
+       
         self.VisitId=os.path.basename(path)
         self.path=path
         self.freesurferpath="undefined"
+        self.tractographypath="undefined"
+        self.diffusionpath="undefined"
         self.rebuild=rebuild
         self.voi=voi        
         self.recrush=recrush
@@ -39,17 +42,26 @@ class Visit:
         self.disable_log=disable_log
         
         if os.path.isfile(reconTest):
+            print("Looks like BCH formatted directory structure")
             self.ReconComplete=True   
-            self.freesurferpath = "%s/Freesurfer" % (path)        
+            self.freesurferpath = "%s/Freesurfer" % (path)   
+            self.tractographypath = "%s/Tractography" % (path) 
+            self.diffusionpath = "%s/Tractography" %(path)    
         else:
-            if os.path.isfile("%s/mri/wmparc.mgz" % (path)):
+            
+            if os.path.isfile("%s/%s/mri/wmparc.mgz" % (path,self.PatientId)):
+                print("Looks like HCP formatted directory structure")
                 self.ReconComplete=True
-                self.freesurferpath = "%s" % (path)
+                self.freesurferpath = "%s/%s" % (path,self.PatientId)
+
+             
+                self.tractographypath = "%s/Tractography" % (path)
+                self.diffusionpath = "%s/Diffusion" %(path) 
             else:
                 self.ReconComplete=False
         self.pipeline=pipeline
 
-        measurementTest = "%s/Tractography/crush/tracts.txt" % (path)
+        measurementTest = "%s/crush/tracts.txt" % (self.tractographypath)
         
         if os.path.isfile(measurementTest):
             self.MeasurementComplete=True    
@@ -76,7 +88,7 @@ class Visit:
         return self.data[self.PatientId][self.VisitId]["%s/%s" %(pipelineId,name)]
 
     def Commit(self):
-        with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
+        with open("%s/crush/tracts.txt" % (self.tractographypath), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
                 if m[-8:] !="-asymidx":
                     crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
@@ -87,8 +99,8 @@ class Visit:
         #print(self.Segments)
         self.data[self.PatientId]={}
         self.data[self.PatientId][self.VisitId]={}        
-        if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
-            with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
+        if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
+            with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
                 for line in fMeasure:
                     if line.strip() != "":
                         nvp=line.split("=")                          
@@ -123,8 +135,8 @@ class Visit:
             self.data[self.PatientId]={}
             self.data[self.PatientId][self.VisitId]={}
 
-            if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
-                with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
+            if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
+                with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
                     for line in fMeasure:
                         nvp=line.split("=")   
                         self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
@@ -188,8 +200,8 @@ class Visit:
             
             measures["PatientVisit"]=self.path           
             
-            if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
-                with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
+            if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
+                with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
                     for line in fMeasure:
                         nvp=line.split("=")                        
                         measures[nvp[0]]=nvp[1]

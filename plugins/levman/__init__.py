@@ -378,19 +378,19 @@ class Pipeline:
 
         calcs={}
 
-        calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.visit.path,segment,segment,counterpart,method)
+        calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
         if os.path.isfile(calcsJson):
             with open(calcsJson, 'r') as f:
                 calcs = json.loads(f.read())
                 return calcs
         else:
             #Check for and Fix legacy structure and put JSON in segment folders
-            calcsOldJson = "%s/Tractography/crush/calcs-%s-%s-%s.json" % (self.visit.path,segment,counterpart,method)
+            calcsOldJson = "%s/crush/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,counterpart,method)
             if os.path.isfile(calcsOldJson):
                 with open(calcsOldJson, 'r') as f:
                     calcs = json.loads(f.read())
-                    if not os.path.isdir("%s/Tractography/crush/%s" % (self.visit.path,segment)):
-                        os.mkdir("%s/Tractography/crush/%s" % (self.visit.path,segment))
+                    if not os.path.isdir("%s/crush/%s" % (self.visit.tractographypath,segment)):
+                        os.mkdir("%s/crush/%s" % (self.visit.tractographypath,segment))
                     os.rename(calcsOldJson,calcsJson)
                     return calcs
 
@@ -514,28 +514,47 @@ class Pipeline:
 
     def eddy_correct(self):
         MsgUser.bold("eddy_correct")
+
         #eddy_correct ~/HealthyTractography/%s/%s/DTI35.nii ~/HealthyTractography/%s/%s/DTI35_eddy.nii 0
-        
-        if self.visit.rebuild!=True  and os.path.isfile("%s/Tractography/DTI35_eddy.nii.gz" %(self.visit.path)):
-            MsgUser.skipped("eddy_correct output exists")
+        #if os.path.isfile("%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath)):
+        if self.visit.rebuild!=True  and os.path.isfile("%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath)):
+            MsgUser.skipped("eddy_correct output exists [%s/DTI35_eddy.nii.gz]" %(self.visit.tractographypath))
         else:
+            #dtifit -k data.nii.gz -o dti -m nodif_brain_mask.nii.gz -r bvecs -b bvals
+            cmdArray=["dtifit","-k","data.nii.gz", "-o","dti","-m","nodif_brain_mask.nii.gz" ,"-r","bvecs","-b","bvals"]
+            print(cmdArray)
+            subprocess.call(cmdArray,cwd=self.visit.diffusionpath)
+    
+            if os.path.isfile("%s/dti_FA.nii.gz" %(self.visit.diffusionpath)):# and os.path.isfile("%s/DTI35_eddy.nii.gz" %(self.visit.diffusionpath)):
+                os.rename("%s/dti_FA.nii.gz" %(self.visit.diffusionpath),"%s/DTI35.nii.gz" %(self.visit.tractographypath))
+                #os.rename("%s/DTI35_eddy.nii.gz" %(self.visit.diffusionpath),"%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath))
+
             
-            cmdArray=["eddy_correct","%s/Tractography/DTI35.nii" % (self.visit.path),"%s/Tractography/DTI35_eddy.nii.gz" % (self.visit.path),"0"]
+            cmdArray=["eddy_correct","%s/DTI35.nii" % (self.visit.tractographypath),"%s/DTI35_eddy.nii.gz" % (self.visit.tractographypath),"0"]
             print (cmdArray)
             subprocess.call(cmdArray)
             
             MsgUser.ok("eddy_correct Completed")
+    #  else:
+
+
+    #         #eddy_correct dti_FA.nii.gz DTI35_eddy.nii.gz 0
+    #         cmdArray=["eddy_correct","%s/DTI35.nii.gz" %(self.visit.tractographypath),"%s/DTI35_eddy.nii.gz"%(self.visit.tractographypath) ,"0"]
+    #         print(cmdArray)
+    #         subprocess.call(cmdArray,cwd=self.visit.tractographypath)
+            
+        
 
             
         
     def hardi_mat(self):
         MsgUser.bold("hardi_mat")
-        if self.visit.rebuild!=True and os.path.isfile("%s/Tractography/temp_mat.dat" %(self.visit.path)):
+        if self.visit.rebuild!=True and os.path.isfile("%s/temp_mat.dat" %(self.visit.tractographypath)):
             MsgUser.skipped("hardi_mat output exists")
         else:
             defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"gradientMatrix.txt")
             
-            cmdArray=["hardi_mat",defaultGradientMatrix,"%s/Tractography/temp_mat.dat" % (self.visit.path), "-ref","%s/Tractography/DTI35_eddy.nii.gz" % (self.visit.path),"-oc"]
+            cmdArray=["hardi_mat",defaultGradientMatrix,"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref","%s/DTI35_eddy.nii.gz" % (self.visit.tractographypath),"-oc"]
             print(cmdArray)
             subprocess.call(cmdArray)
             
@@ -545,12 +564,12 @@ class Pipeline:
     def odf_recon(self):
         MsgUser.bold("odf_recon")
         #output: DTI35_Recon_max.nii.gz
-        if self.visit.rebuild!=True  and os.path.isfile("%s/Tractography/DTI35_Recon_max.nii.gz" %(self.visit.path)):
+        if self.visit.rebuild!=True  and os.path.isfile("%s/DTI35_Recon_max.nii.gz" %(self.visit.tractographypath)):
             #odf_, max_, dwi_, b0 files should exist
             MsgUser.skipped("odf_recon output exists")
         else:
             
-            cmdArray=["odf_recon","%s/Tractography/DTI35_eddy.nii.gz" %(self.visit.path),"31","181","%s/Tractography/DTI35_Recon" %(self.visit.path),"-b0", "5","-mat","%s/Tractography/temp_mat.dat" %(self.visit.path),"-p","3","-sn", "1", "-ot", "nii.gz"]
+            cmdArray=["odf_recon","%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath),"31","181","%s/DTI35_Recon" %(self.visit.tractographypath),"-b0", "5","-mat","%s/temp_mat.dat" %(self.visit.tractographypath),"-p","3","-sn", "1", "-ot", "nii.gz"]
             print(cmdArray)
             subprocess.call(cmdArray)
 
@@ -560,15 +579,15 @@ class Pipeline:
         MsgUser.bold("odf_tracker")
         #output: DTI35_Recon_max.nii.gz
         
-        if (self.visit.rebuild!=True and os.path.isfile("%s/Tractography/DTI35_Recon_dwi.nii.gz" %(self.visit.path)) == False):
+        if (self.visit.rebuild!=True and os.path.isfile("%s/DTI35_Recon_dwi.nii.gz" %(self.visit.tractographypath)) == False):
             MsgUser.failed("odf_tracker cannot be completed, odf_recon did not finish, missing DTI35_Recon files")
             return
             
-        if self.visit.rebuild!=True  and os.path.isfile("%s/Tractography/DTI35_preReg.trk" %(self.visit.path)):
+        if self.visit.rebuild!=True  and os.path.isfile("%s/DTI35_preReg.trk" %(self.visit.tractographypath)):
             #odf_, max_, dwi_, b0 files should exist
             MsgUser.skipped("odf_tracker output exists")
         else:
-            cmdArray=["odf_tracker","%s/Tractography/DTI35_Recon" %(self.visit.path),"%s/Tractography/DTI35_preReg.trk" %(self.visit.path),"-at","45","-m", "%s/Tractography/DTI35_Recon_dwi.nii.gz" %(self.path),"-it","nii.gz"]
+            cmdArray=["odf_tracker","%s/DTI35_Recon" %(self.visit.tractographypath),"%s/DTI35_preReg.trk" %(self.visit.tractographypath),"-at","45","-m", "%s/DTI35_Recon_dwi.nii.gz" %(self.visit.tractographypath),"-it","nii.gz"]
             print(cmdArray)
             subprocess.call(cmdArray)
 
@@ -579,11 +598,11 @@ class Pipeline:
         #output: RegTransform4D
         
 
-        if self.visit.rebuild!=True  and os.path.isfile("%s/Tractography/RegTransform4d" %(self.visit.path)):        
+        if self.visit.rebuild!=True  and os.path.isfile("%s/RegTransform4d" %(self.visit.tractographypath)):        
             MsgUser.skipped("flirt output exists")
         else:
             #flirt -in ./DTI35_eddy.nii.gz -ref ./brainmask.nii -omat ./RegTransform4D
-            cmdArray=["flirt","-in","%s/Tractography/DTI35_eddy.nii.gz" %(self.visit.path),"-ref","%s/mri/brainmask.nii" %(self.freesurferpath),"-omat","%s/Tractography/RegTransform4d" %(self.visit.path)]
+            cmdArray=["flirt","-in","%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath),"-ref","%s/mri/brainmask.nii" %(self.visit.freesurferpath),"-omat","%s/RegTransform4d" %(self.visit.tractographypath)]
             print(cmdArray)
             subprocess.call(cmdArray)
 
@@ -592,13 +611,13 @@ class Pipeline:
     def tract_transform(self):
         MsgUser.bold("tract_transform")
         #output: DTI35_postReg.trk
-        if self.visit.rebuild!=True  and os.path.isfile("%s/Tractography/DTI35_postReg.trk" %(self.visit.path)):#TODO Need correct filename
+        if self.visit.rebuild!=True  and os.path.isfile("%s/DTI35_postReg.trk" %(self.visit.tractographypath)):#TODO Need correct filename
             #odf_, max_, dwi_, b0 files should exist
             MsgUser.skipped("tract_transform output exists")
         else:
             #track_transform DTI35_preReg.trk DTI35_postReg.trk -src DTI35_Recon_dwi.nii.gz -ref brainmask.nii -reg RegTransform4D
 
-            cmdArray=["track_transform","%s/Tractography/DTI35_preReg.trk" %(self.visit.path),"%s/Tractography/crush.trk" %(self.visit.path),"-src","%s/Tractography/DTI35_Recon_dwi.nii.gz"%(self.visit.path),"-ref", "%s/mri/brainmask.nii" %(self.visit.freesurferpath),"-reg","%s/Tractography/RegTransform4D"%(self.visit.path)]
+            cmdArray=["track_transform","%s/DTI35_preReg.trk" %(self.visit.tractographypath),"%s/crush.trk" %(self.visit.tractographypath),"-src","%s/DTI35_Recon_dwi.nii.gz"%(self.visit.tractographypath),"-ref", "%s/mri/brainmask.nii" %(self.visit.freesurferpath),"-reg","%s/RegTransform4D"%(self.visit.tractographypath)]
             print(cmdArray)
             subprocess.call(cmdArray)
 
@@ -606,16 +625,13 @@ class Pipeline:
             
     def dti_recon(self):
         MsgUser.bold("dti_recon")
-        if self.visit.rebuild!=True  and os.path.isfile("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.visit.path)):#TODO we could test for all files to be sure
+        if self.visit.rebuild!=True  and os.path.isfile("%s/DTI35_Reg2Brain_fa.nii" %(self.visit.tractographypath)):#TODO we could test for all files to be sure
             #odf_, max_, dwi_, b0 files should exist
             MsgUser.skipped("dti_recon output exists")
         else:
             defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"gradientMatrix.txt")
             
-            
-            #dti_recon "%s/Tractography/DTI35_eddy.nii.gz" %(self.path) "%s/Tractography/dave/DTI35_Reg2Brain" %(self.path) -gm "%s" %(defaultGradientMatrix) -b 1000 -b0 5 -p 3 -sn 1 -ot nii 
-
-            cmdArray=["dti_recon","%s/Tractography/DTI35_eddy.nii.gz" %(self.visit.path),"%s/Tractography/DTI35_Reg2Brain" %(self.visit.path),"-gm",defaultGradientMatrix,"-b", "1000","-b0","5","-p","3","-sn","1","-ot","nii"]
+            cmdArray=["dti_recon","%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath),"%s/DTI35_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "1000","-b0","5","-p","3","-sn","1","-ot","nii"]
             print(cmdArray)
             subprocess.call(cmdArray)
 
@@ -625,12 +641,12 @@ class Pipeline:
     def dti_tracker(self):
         MsgUser.bold("dti_tracker")
 
-        if self.visit.rebuild!=True  and os.path.isfile("%s/Tractography/crush.trk" %(self.visit.path)):
+        if self.visit.rebuild!=True  and os.path.isfile("%s/crush.trk" %(self.visit.tractographypath)):
             MsgUser.skipped("dti_tracker output exists")
         else:
             #dti_tracker DTI35_Reg2Brain DTI35_postReg.trk -m DTI35_Reg2Brain_fa.nii 0.15
 
-            cmdArray=["dti_tracker","%s/Tractography/DTI35_Reg2Brain" %(self.visit.path),"%s/Tractography/crush.trk" %(self.visit.path),"-m","%s/Tractography/DTI35_Reg2Brain_fa.nii"%(self.visit.path),"-at","35","-m","%s/Tractography/DTI35_Reg2Brain_dwi.nii" %(self.visit.path),"-it","nii"]
+            cmdArray=["dti_tracker","%s/DTI35_Reg2Brain" %(self.visit.tractographypath),"%s/crush.trk" %(self.visit.tractographypath),"-m","%s/DTI35_Reg2Brain_fa.nii"%(self.visit.tractographypath),"-at","35","-m","%s/DTI35_Reg2Brain_dwi.nii" %(self.visit.tractographypath),"-it","nii"]
             print(cmdArray)
             subprocess.call(cmdArray)
 
@@ -638,18 +654,18 @@ class Pipeline:
 
     def trackvis_create_nii(self,segment,counterpart,method):
         
-        if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart)):
+        if os.path.isfile("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,segment)) and os.path.isfile("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,counterpart)):
             if self.visit.disable_log:
-                trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.visit.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method),"-disable_log"]
+                trackvis = ["track_vis","%s/crush.trk" %(self.visit.tractographypath),"-%s"%(method),"%s/wmparc%s.nii.gz" %(self.visit.tractographypath,segment),"-%s2" %(method),"%s/wmparc%s.nii.gz" %(self.visit.tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method),"-disable_log"]
             else:
-                trackvis = ["track_vis","%s/Tractography/crush.trk" %(self.visit.path),"-%s"%(method),"%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment),"-%s2" %(method),"%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart),"-nr", "-ov","%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method)]
+                trackvis = ["track_vis","%s/crush.trk" %(self.visit.tractographypath),"-%s"%(method),"%s/wmparc%s.nii.gz" %(self.visit.tractographypath,segment),"-%s2" %(method),"%s/wmparc%s.nii.gz" %(self.visit.tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method)]
             
-            if not os.path.isfile("%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method)):
-                with open("%s/Tractography/crush/%s/%s-%s-%s.nii.txt" %(self.visit.path,segment,segment,counterpart,method), "w") as track_vis_out:
+            if not os.path.isfile("%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method)):
+                with open("%s/crush/%s/%s-%s-%s.nii.txt" %(self.visit.tractographypath,segment,segment,counterpart,method), "w") as track_vis_out:
                     proc = subprocess.Popen(trackvis, stdout=track_vis_out)
                     proc.communicate()
-            #    os.remove("%s/Tractography/crush.%s.trk" %(self.path,tmpFile)) 
-            with open ("%s/Tractography/crush/%s/%s-%s-%s.nii.txt" %(self.visit.path,segment,segment,counterpart,method), "r") as myfile:
+           
+            with open ("%s/crush/%s/%s-%s-%s.nii.txt" %(self.visit.tractographypath,segment,segment,counterpart,method), "r") as myfile:
                 data=myfile.read()               
             return data
         else:
@@ -657,17 +673,13 @@ class Pipeline:
 
     def trackvis_cleanup_nii(self,segment,counterpart,method):
 
-        nii = "%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method)
-        datafile = "%s/Tractography/crush/%s/%s-%s-%s.nii.txt" %(self.visit.path,segment,segment,counterpart,method)
-        oldcalcsfile = "%s/Tractography/crush/calcs-%s-%s-%s.json" %(self.visit.path,segment,counterpart,method)
+        nii = "%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method)
+        datafile = "%s/crush/%s/%s-%s-%s.nii.txt" %(self.visit.tractographypath,segment,segment,counterpart,method)
+        oldcalcsfile = "%s/crush/calcs-%s-%s-%s.json" %(self.visit.tractographypath,segment,counterpart,method)
         
         if os.path.isfile(nii):
             os.unlink(nii) 
         
-        #if os.path.isfile(datafile):
-        #    print("Cleanup %s" %(datafile))
-        #    os.unlink(datafile) 
-
         if os.path.isfile(oldcalcsfile):
             print("Cleanup %s" %(oldcalcsfile))
             os.unlink(oldcalcsfile)             
@@ -684,10 +696,10 @@ class Pipeline:
         #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
         
         #create wmparc#### if missing
-        if not os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment)) and not os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart)):
-            MsgUser.warning("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment))
+        if not os.path.isfile("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,segment)) and not os.path.isfile("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,counterpart)):
+            MsgUser.warning("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,segment))
 
-        if os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,segment)) and os.path.isfile("%s/Tractography/wmparc%s.nii.gz" %(self.visit.path,counterpart)):
+        if os.path.isfile("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,segment)) and os.path.isfile("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,counterpart)):
 
             render = True
 
@@ -695,10 +707,10 @@ class Pipeline:
                 calcs = self.visit.MeasurementAudit_worker(segment,counterpart,method)
                 if len(calcs)>0:
                     MsgUser.ok("Previous calculations detected for %s,%s,%s" %(segment,counterpart,method))
-                    calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.visit.path,segment,segment,counterpart,method)
+                    calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
 
-                    if not os.path.isdir("%s/Tractography/crush/%s" % (self.visit.path,segment)):
-                        os.mkdir("%s/Tractography/crush/%s" % (self.visit.path,segment))
+                    if not os.path.isdir("%s/crush/%s" % (self.visit.tractographypath,segment)):
+                        os.mkdir("%s/crush/%s" % (self.visit.tractographypath,segment))
 
                     with open(calcsJson, "w") as calcs_file:
                         json.dump(calcs,calcs_file)                        
@@ -766,19 +778,19 @@ class Pipeline:
 
             
             #FA Mean
-            meanFA=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))             
+            meanFA=self.nonZeroMean("%s/DTI35_Reg2Brain_fa.nii" %(self.visit.tractographypath),"%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method))             
             calcs["%s-%s-%s-meanFA" %(segment,counterpart,method)]=meanFA
             
             #FA Std Dev
-            stddevFA=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_fa.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))         
+            stddevFA=self.nonZeroStdDev("%s/DTI35_Reg2Brain_fa.nii" %(self.visit.tractographypath),"%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method))         
             calcs["%s-%s-%s-stddevFA" %(segment,counterpart,method)]=stddevFA            
             
             #ADC Mean
-            meanADC=self.nonZeroMean("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))         
+            meanADC=self.nonZeroMean("%s/DTI35_Reg2Brain_adc.nii" %(self.visit.tractographypath),"%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method))         
             calcs["%s-%s-%s-meanADC" %(segment,counterpart,method)]=meanADC
             
             #ADC Std Dev
-            stddevADC=self.nonZeroStdDev("%s/Tractography/DTI35_Reg2Brain_adc.nii" %(self.visit.path),"%s/Tractography/crush/%s-%s-%s.nii" %(self.visit.path,segment,counterpart,method))       
+            stddevADC=self.nonZeroStdDev("%s/DTI35_Reg2Brain_adc.nii" %(self.visit.tractographypath),"%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method))       
             calcs["%s-%s-%s-stddevADC" %(segment,counterpart,method)]=stddevADC
             
             
@@ -788,10 +800,10 @@ class Pipeline:
         
         # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
         
-        if not os.path.isdir("%s/Tractography/crush/%s" % (self.visit.path,segment)):
-            os.mkdir("%s/Tractography/crush/%s" % (self.visit.path,segment))
+        if not os.path.isdir("%s/crush/%s" % (self.visit.tractographypath,segment)):
+            os.mkdir("%s/crush/%s" % (self.visit.tractographypath,segment))
 
-        calcsJson = "%s/Tractography/crush/%s/calcs-%s-%s-%s.json" % (self.visit.path,segment,segment,counterpart,method)
+        calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
         with open(calcsJson, "w") as calcs_file:
             json.dump(calcs,calcs_file)
             ############# CLEANUP #################
@@ -807,13 +819,13 @@ class Pipeline:
         #self.GetMeasurements()
         
 
-        if self.visit.rebuild!=True  and os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.visit.path)):   
+        if self.visit.rebuild!=True  and os.path.isfile("%s/crush/tracts.txt" %(self.visit.tractographypath)):   
             
             if(self.visit.fixmissing!=True):
                 if(self.visit.recrush):
                     print("Deleting previous crush output")
                     
-                    folder = '%s/Tractography/crush' %(self.visit.path)
+                    folder = '%s/crush' %(self.visit.tractographypath)
                     for the_file in os.listdir(folder):
                         file_path = os.path.join(folder, the_file)
                         try:
@@ -827,8 +839,8 @@ class Pipeline:
             else:
                 MsgUser.skipped("some track_vis output exists, I will crush anything missing")
                 
-        if not os.path.exists("%s/Tractography/crush/" % (self.visit.path)):
-            os.makedirs("%s/Tractography/crush/" % (self.visit.path))
+        if not os.path.exists("%s/crush/" % (self.visit.tractographypath)):
+            os.makedirs("%s/crush/" % (self.visit.tractographypath))
 
         
         #self.MeasurementAudit()
@@ -884,7 +896,7 @@ class Pipeline:
         self.visit.Commit()
 
         '''
-        with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
+        with open("%s/crush/tracts.txt" % (self.visit.tractographypath), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
                 if m[-8:] !="-asymidx":
                     crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
