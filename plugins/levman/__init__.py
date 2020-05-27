@@ -544,6 +544,23 @@ class Pipeline:
     #         subprocess.call(cmdArray,cwd=self.visit.tractographypath)
             
         
+    def createGradientMatrix(self):
+
+        if("NHDRCONVERSION" in os.environ):
+            #nhdr_write.py --nifti data.nii.gz --bval bvals --bvec bvecs --nhdr davegradient.nhdr
+            cmdArray=["python","%s/nhdr_write.py" %(os.environ["NHDRCONVERSION"]),"--nifti",
+              "%s/data.nii.gz" %(self.visit.diffusionpath),
+              "--bval","%s/bvals" %(self.visit.diffusionpath),
+              "--bvec","%s/bvecs" %(self.visit.diffusionpath),
+              "--nhdr","%s/gradient_table.nhdr" %(self.visit.tractographypath)
+              ]
+            print(cmdArray)
+            subprocess.call(cmdArray)
+            #Convert NHDR to text
+            
+        else:
+            MsgUser.failed("NHDRCONVERSION variable not set.  Please set to installation path for https://github.com/pnlbwh/conversion/") 
+            exit()
 
             
         
@@ -553,14 +570,17 @@ class Pipeline:
             MsgUser.skipped("hardi_mat output exists")
         else:
             defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"gradientMatrix.txt")
-            
-            cmdArray=["hardi_mat",defaultGradientMatrix,"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref","%s/DTI35_eddy.nii.gz" % (self.visit.tractographypath),"-oc"]
+            if(not os.path.isfile("%s/gradient_table.nhdr"%(self.visit.tractographypath))):
+                self.createGradientMatrix()
+
+            cmdArray=["hardi_mat","%s/gradient_table.txt"%(self.visit.tractographypath),"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref","%s/DTI35_eddy.nii.gz" % (self.visit.tractographypath),"-oc"]
             print(cmdArray)
             subprocess.call(cmdArray)
             
             MsgUser.ok("HARDIReconstruction Completed")
+            exit("hardi_mat")
 
-            
+
     def odf_recon(self):
         MsgUser.bold("odf_recon")
         #output: DTI35_Recon_max.nii.gz
