@@ -22,7 +22,7 @@ class Visit:
     
                     
     def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log,pipeline):        
-       
+        self.SourceTaxonomy="undefined"
         self.VisitId=os.path.basename(path)
         self.path=path
         self.freesurferpath="undefined"
@@ -43,6 +43,7 @@ class Visit:
         
         if os.path.isfile(reconTest):
             print("Looks like BCH formatted directory structure")
+            self.SourceTaxonomy="BCH"
             self.ReconComplete=True   
             self.freesurferpath = "%s/Freesurfer" % (path)   
             self.tractographypath = "%s/Tractography" % (path) 
@@ -50,6 +51,7 @@ class Visit:
         else:
             
             if os.path.isfile("%s/%s/mri/wmparc.mgz" % (path,self.PatientId)):
+                self.SourceTaxonomy="HCP"
                 print("Looks like HCP formatted directory structure")
                 self.ReconComplete=True
                 self.freesurferpath = "%s/%s" % (path,self.PatientId)
