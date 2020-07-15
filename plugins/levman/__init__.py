@@ -305,6 +305,8 @@ class Pipeline:
                  
         print("%s:%s" %("mgz2nifti started:",datetime.datetime.now()))
         self.mgz2nifti()      
+#        self.flirt()
+#        return
         print("%s:%s" %("eddy_correct started:",datetime.datetime.now()))  
         self.eddy_correct()
         print("%s:%s" %("hardi_mat started:",datetime.datetime.now()))
@@ -315,6 +317,8 @@ class Pipeline:
         self.odf_tracker()
         print("%s:%s" %("flirt started:",datetime.datetime.now()))
         self.flirt()
+    
+
         print("%s:%s" %("tract_transform started:",datetime.datetime.now()))
         self.tract_transform()
         print("%s:%s" %("dti_recon started:",datetime.datetime.now()))
@@ -555,7 +559,7 @@ class Pipeline:
                 os.rename("%s/data.nii.gz" %(self.visit.diffusionpath),"%s/data.nii.gz" %(self.visit.tractographypath))
                 with gzip.open("%s/data.nii.gz" %(self.visit.tractographypath), 'rb') as f_in:
                     with open("%s/data.nii" %(self.visit.tractographypath), 'wb') as f_out:
-                        shutil.copyfileobj(f_in, f_o)
+                        shutil.copyfileobj(f_in, f_out)
 
                
                 self.eddyCorrectedData=self.visit.tractographypath+"/data.nii"
