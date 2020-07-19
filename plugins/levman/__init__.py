@@ -15,6 +15,8 @@ from collections import defaultdict
 import json
 import gzip
 import shutil
+import configparser
+import psycopg2
 
 
 PipelineId="levman"
@@ -267,6 +269,15 @@ class Pipeline:
    
     def __init__(self,object): 
         self.PipelineId = "levman"
+
+        config = configparser.ConfigParser() 
+        config.read(os.path.join(os.path.dirname(__file__), 'levman.ini'))             
+        #config.read('~/projects/crush/plugins/levman/levman.ini')
+        #config.sections()
+        self.dbname=config['DATABASE']['dbname']
+        self.dbuser=config['DATABASE']['user']
+        self.dbpass=config['DATABASE']['password']
+            
         self.visit = object
         self.eddyCorrectedData=""
 
@@ -302,7 +313,9 @@ class Pipeline:
         MsgUser.message("##############################################...")
             
     def run(self):  
-                 
+
+        self.dbtest()
+        return;        
         print("%s:%s" %("mgz2nifti started:",datetime.datetime.now()))
         self.mgz2nifti()      
 #        self.flirt()
@@ -336,6 +349,47 @@ class Pipeline:
             for row in csv_reader:
                 yield [unicode(cell, 'utf-8') for cell in row]
 
+    def dbtest(self):
+        try:
+            conn=psycopg2.connect("dbname='%s' user='%s' password='%s'" %(self.dbname,self.dbuser,self.dbpass))
+            print("Connected to %s" %(self.dbname))
+        except:
+            print("Failed to connect to [%s].  Check .ini file in plugin" %(self.dbname))
+            return
+        cur=conn.cursor()
+
+        cur.execute("""
+        SELECT EXISTS(SELECT 1 FROM information_schema.tables 
+              WHERE table_catalog='%s' AND 
+                    table_schema='%s' AND 
+                    table_name='crush_measures')""" %(self.dbname,self.dbuser)
+        );
+        tableExists = cur.fetchone()[0]
+        
+        if (tableExists):
+            print("crush_measures table found in %s" %(self.dbname))            
+        else:
+
+            cur.execute("""
+               Create table %s.crush_measures (
+                   roi_start varchar(4),
+                   roi_end varchar(4),
+                   method varchar(10),
+                   measure varchar(20),
+                   value varchar(30),
+                 unique(roi_start,roi_end,method,measure));
+            """ %(self.dbuser))
+            conn.commit();
+            print("crush_measures table created in %s" %(self.dbname))
+
+        cur.execute("""
+            INSERT INTO %s.crush_measures(roi_start,roi_end,method,measure,value)
+            VALUES('%s','%s','%s','%s','%s')
+            on conflict(roi_start,roi_end,method,measure)
+            do
+              update set value=excluded.value
+            """ %(self.dbuser,'0002','0004','roi','meas','12'))    
+        conn.commit()
 
     def MeasurementAudit(self):     
         '''
