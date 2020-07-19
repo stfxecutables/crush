@@ -277,7 +277,7 @@ class Pipeline:
         self.dbname=config['DATABASE']['dbname']
         self.dbuser=config['DATABASE']['user']
         self.dbpass=config['DATABASE']['password']
-            
+        self.repository = config['CORE']['repository'] 
         self.visit = object
         self.eddyCorrectedData=""
 
@@ -313,9 +313,12 @@ class Pipeline:
         MsgUser.message("##############################################...")
             
     def run(self):  
+        if self.repository=="postgres":
+            self.dbtest()
 
-        self.dbtest()
-        return;        
+            self.testread()
+            return            
+           
         print("%s:%s" %("mgz2nifti started:",datetime.datetime.now()))
         self.mgz2nifti()      
 #        self.flirt()
@@ -343,12 +346,6 @@ class Pipeline:
         print("%s:%s" %("track_vis started:",datetime.datetime.now()))
         self.track_vis()
 
-
-    def unicode_csv_reader(utf8_data, dialect=csvModule.excel, **kwargs):
-            csv_reader = csvModule.reader(utf8_data, dialect=dialect, **kwargs)
-            for row in csv_reader:
-                yield [unicode(cell, 'utf-8') for cell in row]
-
     def dbtest(self):
         try:
             conn=psycopg2.connect("dbname='%s' user='%s' password='%s'" %(self.dbname,self.dbuser,self.dbpass))
@@ -363,7 +360,7 @@ class Pipeline:
               WHERE table_catalog='%s' AND 
                     table_schema='%s' AND 
                     table_name='crush_measures')""" %(self.dbname,self.dbuser)
-        );
+        )
         tableExists = cur.fetchone()[0]
         
         if (tableExists):
@@ -379,7 +376,7 @@ class Pipeline:
                    value varchar(30),
                  unique(roi_start,roi_end,method,measure));
             """ %(self.dbuser))
-            conn.commit();
+            conn.commit()
             print("crush_measures table created in %s" %(self.dbname))
 
         cur.execute("""
@@ -390,6 +387,22 @@ class Pipeline:
               update set value=excluded.value
             """ %(self.dbuser,'0002','0004','roi','meas','12'))    
         conn.commit()
+    def testread(self):
+        results = self.GetIntermediateData('0002','0004','roi')
+        print(type(results))
+        for r in results:
+            print(f"{r}={results[r]}\n")
+
+    def testwrite(self,d):
+        """insert d (dictonary) into keyvaluepair table"""
+        
+
+    def unicode_csv_reader(utf8_data, dialect=csvModule.excel, **kwargs):
+            csv_reader = csvModule.reader(utf8_data, dialect=dialect, **kwargs)
+            for row in csv_reader:
+                yield [unicode(cell, 'utf-8') for cell in row]
+
+    
 
     def MeasurementAudit(self):     
         '''
@@ -439,25 +452,34 @@ class Pipeline:
         print("%s/%s is %s percent complete.  %s positives" %(self.visit.PatientId, self.visit.VisitId,positives/l*100,positives))
         return completeInd
 
+    def GetIntermediateData(self,segment,counterpart,method):
+        calcs={}
+        if self.repository =='postgres':
+            x=1
+        else:
+            calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
+            if os.path.isfile(calcsJson):
+                with open(calcsJson, 'r') as f:
+                    calcs = json.loads(f.read())                    
+                    return calcs
+            else:
+                #Check for and Fix legacy structure and put JSON in segment folders
+                calcsOldJson = "%s/crush/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,counterpart,method)
+                if os.path.isfile(calcsOldJson):
+                    with open(calcsOldJson, 'r') as f:
+                        calcs = json.loads(f.read())
+                        if not os.path.isdir("%s/crush/%s" % (self.visit.tractographypath,segment)):
+                            os.mkdir("%s/crush/%s" % (self.visit.tractographypath,segment))
+                        os.rename(calcsOldJson,calcsJson)
+                        return calcs
+
+
+        return calcs
+
     def MeasurementAudit_worker(self,segment,counterpart,method):
 
-        calcs={}
+        calcs=self.GetIntermediateData(segment,counterpart,method)
 
-        calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
-        if os.path.isfile(calcsJson):
-            with open(calcsJson, 'r') as f:
-                calcs = json.loads(f.read())
-                return calcs
-        else:
-            #Check for and Fix legacy structure and put JSON in segment folders
-            calcsOldJson = "%s/crush/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,counterpart,method)
-            if os.path.isfile(calcsOldJson):
-                with open(calcsOldJson, 'r') as f:
-                    calcs = json.loads(f.read())
-                    if not os.path.isdir("%s/crush/%s" % (self.visit.tractographypath,segment)):
-                        os.mkdir("%s/crush/%s" % (self.visit.tractographypath,segment))
-                    os.rename(calcsOldJson,calcsJson)
-                    return calcs
 
         l_NumTracts = False
         l_TractsToRender = False

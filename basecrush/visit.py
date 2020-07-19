@@ -16,6 +16,7 @@ import warnings
 from collections import defaultdict
 import json
 
+
               
 class Visit:
    
@@ -31,16 +32,17 @@ class Visit:
         self.rebuild=rebuild
         self.voi=voi        
         self.recrush=recrush
-        self.fixmissing=fixmissing        
+        self.fixmissing=fixmissing                
         if maxcores:
             self.maxcores=maxcores 
         else:
             self.maxcores=9999
         self.data = defaultdict(list)#{}
-        self.PatientId=os.path.split(os.path.dirname(self.path))[1]
+        self.PatientId=os.path.split(os.path.dirname(self.path))[1]        
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
         self.disable_log=disable_log
-        
+
+
         if os.path.isfile(reconTest):
             print("Looks like BCH formatted directory structure")
             self.SourceTaxonomy="BCH"
@@ -63,6 +65,7 @@ class Visit:
                 self.ReconComplete=False
         self.pipeline=pipeline
 
+
         measurementTest = "%s/crush/tracts.txt" % (self.tractographypath)
         
         if os.path.isfile(measurementTest):
@@ -72,6 +75,7 @@ class Visit:
         
         self.GetMeasurements()
 
+    
     def Render(self):
         #Lets Render as needed
         MsgUser.message("Rendering %s" % self.path)
@@ -124,7 +128,7 @@ class Visit:
             return True
         except ValueError:
             return False
-
+    
     def Report2(self):
         #MsgUser.bold("Reporting values of interest")
 
