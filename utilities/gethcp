@@ -1,0 +1,4 @@
+#!/bin/bash
+#cd ~/projects/def-dmattie/HCP
+cd ~/scratch/HCP
+aws s3 sync s3://hcp-openaccess/HCP_1200/$1/T1w $1/T1w
