@@ -14,3 +14,8 @@ aws s3 sync s3://hcp-openaccess/HCP/101006/T1w ~/projects/def-dmattie/HCP/101006
 
 
  mri_convert -rt nearest -nc -ns 1 brainmask.mgz brainmask.nii
+
+## Postgresql
+
+psql --dbname=crush --password
+

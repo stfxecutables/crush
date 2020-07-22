@@ -12,13 +12,15 @@ from contextlib import contextmanager
 
 class repository:
     
-    def __init__(self):   
+    def __init__(self):           
         self.pool = self.connect()
 
         schema=os.path.join(os.path.dirname(__file__), 'schema.sql')             
 
         conn = self.pool.getconn()
+        print("Connected")
         self.createdb(conn,schema)
+        print("Created")
         self.pool.putconn(conn)
 
     def connect(self,env="CRUSH_DATABASE_URL", connections=2):
@@ -84,31 +86,31 @@ class repository:
             self.pool.putconn(conn)
             
             
-    def update_measurement(self,conn,roi_start,roi_end,method,measurement,measured):
+    def update_measurement(self,conn,sample,visit,roi_start,roi_end,method,measurement,measured):
         """
         Create or insert the measured value in measurements table
         """  
         measured = Decimal(measured)
         with conn.cursor() as curs:
-            sql="""INSERT INTO measurements (roi_start,roi_end,method,measurement,measured)
-                    VALUES('%s','%s','%s','%s','%d') 
-                    ON CONFLICT (roi_start,roi_end,method,measurement) 
+            sql="""INSERT INTO measurements (sample,visit,roi_start,roi_end,method,measurement,measured)
+                    VALUES('%s','%s','%s','%s','%s','%s','%d') 
+                    ON CONFLICT (sample,visit,roi_start,roi_end,method,measurement) 
                     DO 
-                        UPDATE SET measured = EXCLUDED.measured""" %(roi_start,roi_end,method,measurement,measured)            
+                        UPDATE SET measured = EXCLUDED.measured""" %(sample,visit,roi_start,roi_end,method,measurement,measured)            
             curs.execute(sql)
 
             
-    def get_measurement(self,conn,roi_start,roi_end,method,measurement):
+    def get_measurement(self,conn,sample,visit,roi_start,roi_end,method,measurement):
         """
         fetch the measured value in measurements table
         """
         with conn.cursor() as curs:
             sql=(
-                    """select measured from measurements where roi_start=%s and roi_end=%s
+                    """select measured from measurements where sample=%s and visit=%s and roi_start=%s and roi_end=%s
                     and method=%s and measurement=%s
                     """
              )               
-            curs.execute(sql,(roi_start,roi_end,method,measurement))   
+            curs.execute(sql,(sample,visit,roi_start,roi_end,method,measurement))   
             row = curs.fetchone()             
             measured = row[0]                    
         
@@ -117,12 +119,13 @@ class repository:
 
 
     @transact
-    def upsert(self,conn, roi_start,roi_end,method,measurement,measured):
-        self.update_measurement(conn,roi_start,roi_end,method,measurement,measured)
+    def upsert(self,conn,sample,visit, roi_start,roi_end,method,measurement,measured):
+        print(f"{sample}-{visit}")
+        self.update_measurement(conn,sample,visit,roi_start,roi_end,method,measurement,measured)
 
     @transact
-    def get(self,conn, roi_start,roi_end,method,measurement):        
-        x=self.get_measurement(conn,roi_start,roi_end,method,measurement)                
+    def get(self,conn,sample,visit, roi_start,roi_end,method,measurement):        
+        x=self.get_measurement(conn,sample,visit,roi_start,roi_end,method,measurement)                
         return x
 
 
