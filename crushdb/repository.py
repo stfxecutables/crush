@@ -17,10 +17,8 @@ class repository:
 
         schema=os.path.join(os.path.dirname(__file__), 'schema.sql')             
 
-        conn = self.pool.getconn()
-        print("Connected")
-        self.createdb(conn,schema)
-        print("Created")
+        conn = self.pool.getconn()        
+        self.createdb(conn,schema)        
         self.pool.putconn(conn)
 
     def connect(self,env="CRUSH_DATABASE_URL", connections=2):
@@ -119,8 +117,7 @@ class repository:
 
 
     @transact
-    def upsert(self,conn,sample,visit, roi_start,roi_end,method,measurement,measured):
-        print(f"{sample}-{visit}")
+    def upsert(self,conn,sample,visit, roi_start,roi_end,method,measurement,measured):        
         self.update_measurement(conn,sample,visit,roi_start,roi_end,method,measurement,measured)
 
     @transact
