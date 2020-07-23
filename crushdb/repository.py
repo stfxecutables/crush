@@ -2,24 +2,27 @@
 
 import os
 import psycopg2 as pg
-
+import logging
 from decimal import Decimal
 from functools import wraps
 from psycopg2.pool import ThreadedConnectionPool
 
 from contextlib import contextmanager
 
+logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s',filename='crushdb-repository.log')
 
 class repository:
     
     def __init__(self):           
         self.pool = self.connect()
-
+        logging.info('Repository Instantiated')
         schema=os.path.join(os.path.dirname(__file__), 'schema.sql')             
 
         conn = self.pool.getconn()        
         self.createdb(conn,schema)        
         self.pool.putconn(conn)
+    def __del__(self): 
+        logging.info('Repository Uninstantiated')       
 
     def connect(self,env="CRUSH_DATABASE_URL", connections=2):
         """
@@ -45,8 +48,10 @@ class repository:
             with conn.cursor() as curs:
                 curs.execute(sql)
                 conn.commit()
+                logging.info('Repository Instantiated')
         except Exception as e:
             conn.rollback()
+            logging.error(f'Failed to create schema, ERROR:{e}')
             raise e
     def transact(func):
         """
@@ -78,6 +83,7 @@ class repository:
             conn.commit()
         except Exception as e:
             print(e)
+            logging.info(f'Transaction failed ERROR:{e}')
             conn.rollback()           
         finally:
             conn.reset()
@@ -89,14 +95,17 @@ class repository:
         Create or insert the measured value in measurements table
         """  
         measured = Decimal(measured)
-        with conn.cursor() as curs:
-            sql="""INSERT INTO measurements (sample,visit,roi_start,roi_end,method,measurement,measured)
+        try:
+            with conn.cursor() as curs:
+                sql="""INSERT INTO measurements (sample,visit,roi_start,roi_end,method,measurement,measured)
                     VALUES('%s','%s','%s','%s','%s','%s','%d') 
                     ON CONFLICT (sample,visit,roi_start,roi_end,method,measurement) 
                     DO 
                         UPDATE SET measured = EXCLUDED.measured""" %(sample,visit,roi_start,roi_end,method,measurement,measured)            
-            curs.execute(sql)
-
+                curs.execute(sql)
+        except Exception as e:
+           logging.error(f"ERROR:{e} SQL:{sql}\n")
+           raise e
             
     def get_measurement(self,conn,sample,visit,roi_start,roi_end,method,measurement):
         """

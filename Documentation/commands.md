@@ -18,4 +18,4 @@ aws s3 sync s3://hcp-openaccess/HCP/101006/T1w ~/projects/def-dmattie/HCP/101006
 ## Postgresql
 
 psql --dbname=crush --password
-
+e
