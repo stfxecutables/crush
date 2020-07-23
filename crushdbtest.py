@@ -7,8 +7,8 @@ visit=1
 
 repo=crushdb.repository()
 
-for i in range(1,2):    
-    for j in range(1,2):        
+for i in range(1,182):    
+    for j in range(1,182):        
         repo.upsert(sample,visit,i,j,'roi','a',124)
         repo.upsert(sample,visit,i,j,'roi','b',124)
         repo.upsert(sample,visit,i,j,'roi','c',124)
