@@ -9,29 +9,60 @@ from psycopg2.pool import ThreadedConnectionPool
 
 from contextlib import contextmanager
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s',filename='crushdb-repository.log')
+# Keep a text file to capture any errors.  
+# I'm particularly interested in pooled connection failures 
+# if there are too many concurrent connections.
+
+logging.basicConfig(level=logging.INFO, 
+    format='%(asctime)s %(message)s',
+    filename='crushdb-repository.log')
 
 class repository:
     
-    def __init__(self):           
-        self.pool = self.connect()
-        logging.info('Repository Instantiated')
-        schema=os.path.join(os.path.dirname(__file__), 'schema.sql')             
+    def __init__(self):  
+        # Establish a connection pool
+        # Opening connections every time is expensive, lets open a few of them, 
+        # and reuse them as neeed
+        # The connections in the pool will be closed then the repository memory 
+        # instance is destroyed
+                   
+        # default is to open a connection pool of at least 2 connections. 
+        # see below minconn and maxconn 
+        # Adjustments may be needed.
 
-        conn = self.pool.getconn()        
-        self.createdb(conn,schema)        
-        self.pool.putconn(conn)
+        self.pool = self.connect() 
+                              
+        logging.info('Repository Instantiated')
+
+        #if the schema doesn't exist, create it using module code schema.sql       
+        schema=os.path.join(os.path.dirname(__file__), 'schema.sql')    
+
+        # want as little possible in next 3 lines,  between getconn and putconn              
+        conn = self.pool.getconn()         
+        self.createdb(conn,schema)          
+        self.pool.putconn(conn)   
+        # quick release of connection for anyone else waiting for a connection
+        # from the pool 
+
     def __del__(self): 
-        logging.info('Repository Uninstantiated')       
+        #Indicator in logs for when teardown happens, conns close      
+        logging.info('Repository Uninstantiated') 
 
     def connect(self,env="CRUSH_DATABASE_URL", connections=2):
         """
         Connect to the database using an environment variable CRUSH_DATABASE_URL.
         """
+        
         url = os.getenv(env)
         if not url:
-            raise ValueError("no database url specified.  CRUSH_DATABASE_URL environment variable must be set using example:\npostgresql://user@localhost:5432/dbname")
-
+            msg = '''no database url specified.  CRUSH_DATABASE_URL environment 
+            variable must be set using example:
+            postgresql://user@localhost:5432/dbname'''
+            logging.error(msg)
+            raise ValueError(msg)
+        
+        # Keep an open pool of 2 connections, but grow up to 4 as needed
+        # The ThreadedConnectionPool will decide when to do garbage collection
         minconns = connections
         maxconns = connections * 2
         return ThreadedConnectionPool(minconns, maxconns, url)
@@ -53,6 +84,9 @@ class repository:
             conn.rollback()
             logging.error(f'Failed to create schema, ERROR:{e}')
             raise e
+    
+    # This will be a decorator function used below for "upsert" and "get"
+    # functions.
     def transact(func):
         """
         Creates a connection per-transaction, committing when complete or
@@ -69,6 +103,10 @@ class repository:
         
     @contextmanager
     def transaction(self,name="transaction", **kwargs):
+        # This is the secret ingredient, allowing us to allocate and release 
+        # resources (db connections) precisely when we want to.  This minimizes
+        # the time we have the connection in use
+
         # Get the session parameters from the kwargs
         options = {
             "isolation_level": kwargs.get("isolation_level", None),
