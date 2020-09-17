@@ -18,8 +18,8 @@ logger.info(f'Test Initiated for sample {sample}')
 try :
     repo=crushdb.repository()
 
-    for i in range(1,182):    
-        for j in range(1,182):        
+    for i in range(1,2):    
+        for j in range(1,2):        
             repo.upsert(sample,visit,i,j,'roi','a',124)
             repo.upsert(sample,visit,i,j,'roi','b',124)
             repo.upsert(sample,visit,i,j,'roi','c',124)
@@ -37,9 +37,14 @@ try :
             repo.upsert(sample,visit,i,j,'roi_end','f',124)
             repo.upsert(sample,visit,i,j,'roi_end','g',124)
             repo.upsert(sample,visit,i,j,'roi_end','h',124)
+    x=repo.countvals(1234,1)
+    print(f"{x} at 1234,1")
+
+    repo.upsert(100307,'T1w',1,1,'roi','a',124)
 except Exception as e:
     print(e)
     logger.error(f'Test failed ERROR:{e}')
+
 
 logger.info(f'Test Completed for sample {sample}') 
 

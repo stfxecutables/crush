@@ -4,6 +4,7 @@ import numpy as np
 import re
 import time
 import uuid
+import crushdb
 from basecrush.pluginloader import pluginloader
 
 
@@ -42,6 +43,12 @@ class Visit:
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
         self.disable_log=disable_log
 
+        self.DBURL = os.getenv("CRUSH_DATABASE_URL")
+        if self.DBURL is None:
+            self.persistencemode="file"
+        else :
+            self.persistencemode="db"
+
 
         if os.path.isfile(reconTest):
             print("Looks like BCH formatted directory structure")
@@ -65,15 +72,24 @@ class Visit:
                 self.ReconComplete=False
         self.pipeline=pipeline
 
-
-        measurementTest = "%s/crush/tracts.txt" % (self.tractographypath)
-        
-        if os.path.isfile(measurementTest):
-            self.MeasurementComplete=True    
-        else: 
-            self.MeasurementComplete=False
-        
+        if self.persistencemode=="file":
+            measurementTest = "%s/crush/tracts.txt" % (self.tractographypath)
+            
+            if os.path.isfile(measurementTest):
+                self.MeasurementComplete=True    
+            else: 
+                self.MeasurementComplete=False
+        else:
+            self.repo=crushdb.repository()  
+            measurementCount = self.repo.countvals(self.PatientId,self.VisitId)            
+            if measurementCount>1000000:
+                self.MeasurementComplete=True 
+            else:
+                self.MeasurementComplete=False
+                if measurementCount>0:
+                    MsgUser.message(f"Incomplete measurements detected in {self.PatientId} visit {self.VisitId}")
         self.GetMeasurements()
+        exit
 
     
     def Render(self):
@@ -93,35 +109,43 @@ class Visit:
     def GetValue(self,pipelineId,name):
         return self.data[self.PatientId][self.VisitId]["%s/%s" %(pipelineId,name)]
 
-    def Commit(self):
+    def Commit(self):               
         with open("%s/crush/tracts.txt" % (self.tractographypath), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
                 if m[-8:] !="-asymidx":
                     crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
+
 
     def GetMeasurements(self):
 
         Measurements={}
         #print(self.Segments)
         self.data[self.PatientId]={}
-        self.data[self.PatientId][self.VisitId]={}        
-        if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
-            with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
-                for line in fMeasure:
-                    if line.strip() != "":
-                        nvp=line.split("=")                          
-                        self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
-                        if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
-                            Measurements[nvp[0]]=nvp[1].strip()
-                        else:
-                            Measurements[nvp[0]]="" #convert nan to missing value
-            
-        ## Add derived measures here
-        #print("Deriving Asymmetry Indexes")
+        self.data[self.PatientId][self.VisitId]={} 
+
+        if self.persistencemode=="file":
         
+
+            if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
+                with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
+                    for line in fMeasure:
+                        if line.strip() != "":
+                            nvp=line.split("=")                          
+                            self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
+                            if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
+                                Measurements[nvp[0]]=nvp[1].strip()
+                            else:
+                                Measurements[nvp[0]]="" #convert nan to missing value
+                
+            ## Add derived measures here
+            #print("Deriving Asymmetry Indexes")
+        else:
+            self.repo=crushdb.repository()               
+            Measurements=self.repo.getall(sample=self.PatientId,visit=self.VisitId)                                
+            for n in Measurements:
+                self.data[self.PatientId][self.VisitId][n]=Measurements[n]
         
-        
-        return Measurements
+        return #Measurements
     def is_number(self,s):
         try:
             float(s)

@@ -3,3 +3,4 @@
 /utilities/*.log
 /utilities/*.err
 /utilities/*.out
+/crushdbtest*.log

@@ -66,7 +66,7 @@ def StatusReport(args,S):
                 l_parcellation_message = "Parcellated"
 
             if not v.MeasurementComplete:
-                l_measurement_message = "NO Measurements"
+                l_measurement_message = f"{len(v.data[v.PatientId][v.VisitId])} Measurement(s) (INCOMPLETE)"
             else:
                 l_measurement_message = "Measurements exist"
 

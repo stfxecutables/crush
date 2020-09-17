@@ -131,7 +131,7 @@ class repository:
     def update_measurement(self,conn,sample,visit,roi_start,roi_end,method,measurement,measured):
         """
         Create or insert the measured value in measurements table
-        """  
+        """          
         measured = Decimal(measured)
         try:
             with conn.cursor() as curs:
@@ -148,7 +148,7 @@ class repository:
     def get_measurement(self,conn,sample,visit,roi_start,roi_end,method,measurement):
         """
         fetch the measured value in measurements table
-        """
+        """        
         with conn.cursor() as curs:
             sql=(
                     """select measured from measurements where sample=%s and visit=%s and roi_start=%s and roi_end=%s
@@ -162,6 +162,72 @@ class repository:
         measured = Decimal(measured)        
         return measured
 
+    def get_measurement_count(self,conn,sample,visit):
+        """
+        fetch the number of measurements in measurements table for sample,visit
+        """
+        
+        #cursor.callproc('Function_or_procedure_name',[IN and OUT parameters,])
+        
+        with conn.cursor() as curs:            
+            sql=(
+                    """select count(1) from measurements where sample=%s and visit=%s
+                    """
+             )               
+                        
+            curs.execute(sql,(sample,visit))   
+            row = curs.fetchone()       
+            measured = row[0]                    
+        
+        measured = int(measured)        
+        return measured
+
+    def get_all_measurements(self,conn,sample,visit):
+        """
+        fetch the measured values from measurements table for sample,visit
+        return dictionary of name-value pairs
+        """               
+        Measurements={}
+        with conn.cursor() as curs:
+            sql=(
+                    """select roi_start,roi_end,method,measurement,measured from measurements where sample=%s and visit=%s
+                    """
+             )               
+            curs.execute(sql,(sample,visit))   
+            row = curs.fetchone()  
+            while row:
+                #measured = row[0]    
+                #n = levman/0251-3001-roi-VoxelSizeX=0
+                n = f"{row[0]}-{row[1]}-{row[2]}-{row[3]}"
+                v = row[4]                              
+                Measurements[n]=v                 
+                row = curs.fetchone()
+
+        return Measurements
+    def get_local_measurements(self,conn,sample,visit,roi_start,roi_end,method):
+        """
+        fetch the measured values from measurements table for sample,visit
+        and localized region of interest
+        return dictionary of name-value pairs
+        """              
+        Measurements={}
+        with conn.cursor() as curs:
+            sql=(
+                    """select roi_start,roi_end,method,measurement,measured 
+                    from measurements where sample=%s and visit=%s
+                    and roi_start=%s and roi_end=%s and method=%s
+                    """
+             )               
+            curs.execute(sql,(sample,visit,roi_start,roi_end,method))   
+            row = curs.fetchone()    
+            while row:
+               
+                n = f"{row[0]}-{row[1]}-{row[2]}-{row[3]}"
+                v = row[4]                              
+                Measurements[n]=v 
+                row = curs.fetchone()    
+                
+        return Measurements
 
     @transact
     def upsert(self,conn,sample,visit, roi_start,roi_end,method,measurement,measured):        
@@ -171,5 +237,21 @@ class repository:
     def get(self,conn,sample,visit, roi_start,roi_end,method,measurement):        
         x=self.get_measurement(conn,sample,visit,roi_start,roi_end,method,measurement)                
         return x
+
+    @transact
+    def getall(self,conn,sample,visit):        
+        x=self.get_all_measurements(conn,sample,visit)                
+        return x
+
+    @transact
+    def getlocal(self,conn,sample,visit,roi_start,roi_end,method):        
+        x=self.get_local_measurements(conn,sample,visit,roi_start,roi_end,method)                
+        return x
+
+    @transact
+    def countvals(self,conn,sample,visit):
+        x=self.get_measurement_count(conn,sample,visit)
+        return x
+    
 
 
