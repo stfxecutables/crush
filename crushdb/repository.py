@@ -186,8 +186,7 @@ class repository:
         """
         fetch the measured values from measurements table for sample,visit
         return dictionary of name-value pairs
-        """      
-        print("get all measurements")  
+        """               
         Measurements={}
         with conn.cursor() as curs:
             sql=(
@@ -195,17 +194,41 @@ class repository:
                     """
              )               
             curs.execute(sql,(sample,visit))   
-            row = curs.fetchone()    
-            if(row):
-                       
+            row = curs.fetchone()  
+            while row:
                 #measured = row[0]    
                 #n = levman/0251-3001-roi-VoxelSizeX=0
                 n = f"{row[0]}-{row[1]}-{row[2]}-{row[3]}"
                 v = row[4]                              
-                Measurements[n]=v 
-            else:
-                print(f"{sample}/{visit} has no measurements")
+                Measurements[n]=v                 
+                row = curs.fetchone()
+
         return Measurements
+    def get_local_measurements(self,conn,sample,visit,roi_start,roi_end,method):
+        """
+        fetch the measured values from measurements table for sample,visit
+        and localized region of interest
+        return dictionary of name-value pairs
+        """              
+        Measurements={}
+        with conn.cursor() as curs:
+            sql=(
+                    """select roi_start,roi_end,method,measurement,measured 
+                    from measurements where sample=%s and visit=%s
+                    and roi_start=%s and roi_end=%s and method=%s
+                    """
+             )               
+            curs.execute(sql,(sample,visit,roi_start,roi_end,method))   
+            row = curs.fetchone()    
+            while row:
+               
+                n = f"{row[0]}-{row[1]}-{row[2]}-{row[3]}"
+                v = row[4]                              
+                Measurements[n]=v 
+                row = curs.fetchone()    
+                
+        return Measurements
+
     @transact
     def upsert(self,conn,sample,visit, roi_start,roi_end,method,measurement,measured):        
         self.update_measurement(conn,sample,visit,roi_start,roi_end,method,measurement,measured)
@@ -218,6 +241,11 @@ class repository:
     @transact
     def getall(self,conn,sample,visit):        
         x=self.get_all_measurements(conn,sample,visit)                
+        return x
+
+    @transact
+    def getlocal(self,conn,sample,visit,roi_start,roi_end,method):        
+        x=self.get_local_measurements(conn,sample,visit,roi_start,roi_end,method)                
         return x
 
     @transact

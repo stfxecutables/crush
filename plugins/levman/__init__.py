@@ -274,10 +274,13 @@ class Pipeline:
         config.read(os.path.join(os.path.dirname(__file__), 'levman.ini'))             
         #config.read('~/projects/crush/plugins/levman/levman.ini')
         #config.sections()
-        self.dbname=config['DATABASE']['dbname']
-        self.dbuser=config['DATABASE']['user']
-        self.dbpass=config['DATABASE']['password']
-        self.repository = config['CORE']['repository'] 
+        self.DBURL = os.getenv("CRUSH_DATABASE_URL")
+        if self.DBURL is None:
+            self.persistencemode="file"
+        else :
+            self.repo=crushdb.repository()  
+            self.persistencemode="db"
+        
         self.visit = object
         self.eddyCorrectedData=""
 
@@ -313,12 +316,7 @@ class Pipeline:
         MsgUser.message("##############################################...")
             
     def run(self):  
-        if self.repository=="postgres":
-            self.dbtest()
 
-            self.testread()
-            return            
-           
         print("%s:%s" %("mgz2nifti started:",datetime.datetime.now()))
         self.mgz2nifti()      
 #        self.flirt()
@@ -454,8 +452,8 @@ class Pipeline:
 
     def GetIntermediateData(self,segment,counterpart,method):
         calcs={}
-        if self.repository =='postgres':
-            x=1
+        if self.persistencemode =='db':
+            calcs=self.repo.getlocal(sample=self.visit.PatientId,visit=self.visit.VisitId,roi_start=segment,roi_end=counterpart,method=method)
         else:
             calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
             if os.path.isfile(calcsJson):
@@ -865,22 +863,25 @@ class Pipeline:
 
             if self.visit.fixmissing:
                 calcs = self.visit.MeasurementAudit_worker(segment,counterpart,method)
-                if len(calcs)>0:
-                    MsgUser.ok("Previous calculations detected for %s,%s,%s" %(segment,counterpart,method))
-                    calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
-
-                    if not os.path.isdir("%s/crush/%s" % (self.visit.tractographypath,segment)):
-                        os.mkdir("%s/crush/%s" % (self.visit.tractographypath,segment))
-
-                    with open(calcsJson, "w") as calcs_file:
-                        json.dump(calcs,calcs_file)                        
-                        self.visit.trackvis_cleanup_nii(segment,counterpart,method)
-                    #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
+                if self.persistencemode =='db':                    
                     return calcs
                 else:
-                    MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
+                    if len(calcs)>0:
+                        MsgUser.ok("Previous calculations detected for %s,%s,%s" %(segment,counterpart,method))
+                        calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
 
-            
+                        if not os.path.isdir("%s/crush/%s" % (self.visit.tractographypath,segment)):
+                            os.mkdir("%s/crush/%s" % (self.visit.tractographypath,segment))
+
+                        with open(calcsJson, "w") as calcs_file:
+                            json.dump(calcs,calcs_file)                        
+                            self.visit.trackvis_cleanup_nii(segment,counterpart,method)
+                        #MsgUser.skipped("SKIPPING already calculated measures for %s-%s-%s" %(segment,counterpart,method))
+                        return calcs
+                    else:
+                        MsgUser.ok("Rendering missing measures for %s-%s-%s" %(segment,counterpart,method))
+
+                
             data = self.trackvis_create_nii(segment,counterpart,method)
             
             print(data)
@@ -959,15 +960,25 @@ class Pipeline:
             MsgUser.failed("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
         
         # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
-        
-        if not os.path.isdir("%s/crush/%s" % (self.visit.tractographypath,segment)):
-            os.mkdir("%s/crush/%s" % (self.visit.tractographypath,segment))
+        if self.persistencemode =='db':
+            for k in calcs:
+                kpieces=k.split('-')
+                self.repo.upsert(sample=self.visit.PatientId,
+                        visit=self.visit.VisitId,
+                        roi_start=kpieces[0],
+                        roi_end=kpieces[1],
+                        method=kpieces[2],
+                        measurement=kpieces[3],
+                        measured=calcs[k])                            
+        else:
+            if not os.path.isdir("%s/crush/%s" % (self.visit.tractographypath,segment)):
+                os.mkdir("%s/crush/%s" % (self.visit.tractographypath,segment))
 
-        calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
-        with open(calcsJson, "w") as calcs_file:
-            json.dump(calcs,calcs_file)
-            ############# CLEANUP #################
-            self.trackvis_cleanup_nii(segment,counterpart,method)
+            calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
+            with open(calcsJson, "w") as calcs_file:
+                json.dump(calcs,calcs_file)
+                ############# CLEANUP #################
+                self.trackvis_cleanup_nii(segment,counterpart,method)
 
 
         return calcs
