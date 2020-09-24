@@ -4,6 +4,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mail-user=dmattie@stfx.ca
 #SBATCH --mem-per-cpu=32000M
+#SBATCH -e slurm-stage1-%j.err
 
 #patientID=$(sed -n "${SLURM_ARRAY_TASK_ID}"p ~/projects/def-dmattie/data/subjects.dat)
 patientID=PATIENT
