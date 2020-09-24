@@ -1,5 +1,5 @@
 #from crushdb import repository
-import crushdb
+from basecrush import repository
 import sys
 import logging
 
@@ -16,7 +16,7 @@ logger.setLevel(logging.DEBUG)
 logger.info(f'Test Initiated for sample {sample}') 
 
 try :
-    repo=crushdb.repository()
+    repo=repository.repository()
 
     for i in range(1,2):    
         for j in range(1,2):        

@@ -4,7 +4,7 @@ import numpy as np
 import re
 import time
 import uuid
-import crushdb
+from basecrush import repository
 from basecrush.pluginloader import pluginloader
 
 
@@ -51,7 +51,7 @@ class Visit:
 
 
         if os.path.isfile(reconTest):
-            print("Looks like BCH formatted directory structure")
+            print("%s Looks like BCH formatted directory structure" %(self.PatientId))
             self.SourceTaxonomy="BCH"
             self.ReconComplete=True   
             self.freesurferpath = "%s/Freesurfer" % (path)   
@@ -61,7 +61,7 @@ class Visit:
             
             if os.path.isfile("%s/%s/mri/wmparc.mgz" % (path,self.PatientId)):
                 self.SourceTaxonomy="HCP"
-                print("Looks like HCP formatted directory structure")
+                print("%s Looks like HCP formatted directory structure" %(self.PatientId))
                 self.ReconComplete=True
                 self.freesurferpath = "%s/%s" % (path,self.PatientId)
 
@@ -80,7 +80,7 @@ class Visit:
             else: 
                 self.MeasurementComplete=False
         else:
-            self.repo=crushdb.repository()  
+            self.repo=repository.repository()  
             measurementCount = self.repo.countvals(self.PatientId,self.VisitId)            
             if measurementCount>1000000:
                 self.MeasurementComplete=True 
@@ -140,7 +140,7 @@ class Visit:
             ## Add derived measures here
             #print("Deriving Asymmetry Indexes")
         else:
-            self.repo=crushdb.repository()               
+            self.repo=repository.repository()               
             Measurements=self.repo.getall(sample=self.PatientId,visit=self.VisitId)                                
             for n in Measurements:
                 self.data[self.PatientId][self.VisitId][n]=Measurements[n]
