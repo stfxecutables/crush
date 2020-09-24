@@ -1,4 +1,13 @@
+
 import os, sys,inspect
+
+
+#packages="%s/../basecrush" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))))
+
+#print(packages)
+#sys.path.insert(0,packages)
+
+
 import subprocess
 import numpy as np
 import re
@@ -16,7 +25,9 @@ import json
 import gzip
 import shutil
 import configparser
-import psycopg2
+#import psycopg2
+import basecrush.repository 
+
 
 
 PipelineId="levman"
@@ -278,7 +289,7 @@ class Pipeline:
         if self.DBURL is None:
             self.persistencemode="file"
         else :
-            self.repo=crushdb.repository()  
+            self.repo=basecrush.repository.repository()  
             self.persistencemode="db"
         
         self.visit = object
@@ -602,41 +613,52 @@ class Pipeline:
     def eddy_correct(self):
         MsgUser.bold("eddy_correct")
 
+
+        if self.visit.SourceTaxonomy=="HCP":
+            if self.visit.rebuild!=True  and os.path.isfile("%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)):
+                self.eddyCorrectedData="%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)
+                MsgUser.skipped("eddy_correct output exists [%s/reg2brain.data.nii.gz]" %(self.visit.tractographypath))
+            else:               
+                MsgUser.failed("Registration has not been run.  See utilities/advance.sh to move from stage 1 to 2")                        
+
+
         #eddy_correct ~/HealthyTractography/%s/%s/DTI35.nii ~/HealthyTractography/%s/%s/DTI35_eddy.nii 0
         #if os.path.isfile("%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath)):
-        if self.visit.rebuild!=True  and os.path.isfile("%s/data.nii.gz" %(self.visit.tractographypath)):
-            self.eddyCorrectedData="%s/data.nii" %(self.visit.tractographypath)
-            MsgUser.skipped("eddy_correct output exists [%s/data.nii.gz]" %(self.visit.tractographypath))
+        if self.visit.SourceTaxonomy=="BCH":
+            if self.visit.rebuild!=True  and os.path.isfile("%s/data.nii.gz" %(self.visit.tractographypath)):
+                self.eddyCorrectedData="%s/data.nii" %(self.visit.tractographypath)
+                MsgUser.skipped("eddy_correct output exists [%s/data.nii.gz]" %(self.visit.tractographypath))
+            else:
+                #Removed June 2020 - not sure what I was thinking, leaving in comments for now.
+                # #dtifit -k data.nii.gz -o dti -m nodif_brain_mask.nii.gz -r bvecs -b bvals
+                # cmdArray=["dtifit","-k","data.nii.gz", "-o","dti","-m","nodif_brain_mask.nii.gz" ,"-r","bvecs","-b","bvals"]
+                # print(cmdArray)
+                # subprocess.call(cmdArray,cwd=self.visit.diffusionpath)
+        
+                # if os.path.isfile("%s/dti_FA.nii.gz" %(self.visit.diffusionpath)):# and os.path.isfile("%s/DTI35_eddy.nii.gz" %(self.visit.diffusionpath)):
+                #     os.rename("%s/dti_FA.nii.gz" %(self.visit.diffusionpath),"%s/DTI.nii.gz" %(self.visit.tractographypath))
+                #     #os.rename("%s/DTI35_eddy.nii.gz" %(self.visit.diffusionpath),"%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath))
 
-        else:
-            #Removed June 2020 - not sure what I was thinking, leaving in comments for now.
-            # #dtifit -k data.nii.gz -o dti -m nodif_brain_mask.nii.gz -r bvecs -b bvals
-            # cmdArray=["dtifit","-k","data.nii.gz", "-o","dti","-m","nodif_brain_mask.nii.gz" ,"-r","bvecs","-b","bvals"]
-            # print(cmdArray)
-            # subprocess.call(cmdArray,cwd=self.visit.diffusionpath)
-    
-            # if os.path.isfile("%s/dti_FA.nii.gz" %(self.visit.diffusionpath)):# and os.path.isfile("%s/DTI35_eddy.nii.gz" %(self.visit.diffusionpath)):
-            #     os.rename("%s/dti_FA.nii.gz" %(self.visit.diffusionpath),"%s/DTI.nii.gz" %(self.visit.tractographypath))
-            #     #os.rename("%s/DTI35_eddy.nii.gz" %(self.visit.diffusionpath),"%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath))
+                if self.visit.SourceTaxonomy=="BCH":
+                    cmdArray=["eddy_correct","%s/data.nii.gz" % (self.visit.diffusionpath),"%s/data.nii.gz" % (self.visit.tractographypath),"0"]                
+                    ret = subprocess.call(cmdArray)
+                    if ret !=0:
+                        MsgUser.failed("eddy_correct failed with error")
+                        exit()   
+                    self.eddyCorrectedData="%s/data.nii.gz" %(self.visit.tractographypath)             
+                    MsgUser.ok("eddy_correct Completed")
+                elif self.visit.SourceTaxonomy=="HCP":
+                    #HCP data is already eddy corrected
+                    
+                    os.rename("%s/data.nii.gz" %(self.visit.diffusionpath),"%s/data.nii.gz" %(self.visit.tractographypath))
+                    with gzip.open("%s/data.nii.gz" %(self.visit.tractographypath), 'rb') as f_in:
+                        with open("%s/data.nii" %(self.visit.tractographypath), 'wb') as f_out:
+                            shutil.copyfileobj(f_in, f_out)
 
-            if self.visit.SourceTaxonomy=="BCH":
-                cmdArray=["eddy_correct","%s/data.nii.gz" % (self.visit.diffusionpath),"%s/data.nii.gz" % (self.visit.tractographypath),"0"]                
-                ret = subprocess.call(cmdArray)
-                if ret !=0:
-                    MsgUser.failed("eddy_correct failed with error")
-                    exit()   
-                self.eddyCorrectedData="%s/data.nii.gz" %(self.visit.tractographypath)             
-                MsgUser.ok("eddy_correct Completed")
-            elif self.visit.SourceTaxonomy=="HCP":
-                #HCP data is already eddy corrected
                 
-                os.rename("%s/data.nii.gz" %(self.visit.diffusionpath),"%s/data.nii.gz" %(self.visit.tractographypath))
-                with gzip.open("%s/data.nii.gz" %(self.visit.tractographypath), 'rb') as f_in:
-                    with open("%s/data.nii" %(self.visit.tractographypath), 'wb') as f_out:
-                        shutil.copyfileobj(f_in, f_out)
+                    self.eddyCorrectedData=self.visit.tractographypath+"/data.nii"
 
-               
-                self.eddyCorrectedData=self.visit.tractographypath+"/data.nii"
+
 
     #  else:
 
