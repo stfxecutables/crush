@@ -724,7 +724,7 @@ class Pipeline:
             
             #cmdArray=["odf_recon","%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath),"31","181","%s/DTI35_Recon" %(self.visit.tractographypath),"-b0", "5","-mat","%s/temp_mat.dat" %(self.visit.tractographypath),"-p","3","-sn", "1", "-ot", "nii.gz"]
             #~/bin/odf_recon data.nii 125 181 DTI_Recon -b0 1 -p 3 -sn 1 -ot nii -mat ~/projects/def-dmattie/HCP/100307/T1w/Diffusion/temp_mat.dat
-            cmdArray=["odf_recon",self.eddyCorrectedData,"270","181","%s/DTI_Recon" %(self.visit.tractographypath),"-b0", "18","-mat","%s/temp_mat.dat" %(self.visit.tractographypath),"-p","3","-sn", "1", "-ot", "nii.gz"]
+            cmdArray=["odf_recon",self.eddyCorrectedData,"270","181","%s/DTI_Recon" %(self.visit.tractographypath),"-b0", "18","-mat","%s/temp_mat.dat" %(self.visit.tractographypath),"-p","3","-sn", "1", "-ot", "nii"]
             print(cmdArray)
             ret = subprocess.call(cmdArray)
             if ret !=0:

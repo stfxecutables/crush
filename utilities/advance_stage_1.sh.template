@@ -11,7 +11,16 @@ patientID=PATIENT
 SUBJECTS_DIR=~/scratch/HCP/stage_1
 
 cd $SUBJECTS_DIR/$patientID/T1w/
-mkdir Tractography
+mkdir -p Tractography
 cp Diffusion/data.nii.gz Tractography
 cd Tractography
 ~/projects/def-dmattie/crush/utilities/reg2brain.sh data.nii.gz ../$patientID/mri/brainmask.mgz
+
+registered=reg2brain.data.nii.gz
+if test -f "$registered";then
+   cd $SUBJECTS_DIR
+   mv $patientID ../stage_2
+else
+   echo "Registration incomplete for patient $patientID"
+fi
+

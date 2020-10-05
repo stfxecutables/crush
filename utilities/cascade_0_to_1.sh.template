@@ -1,0 +1,37 @@
+#!/bin/bash
+#SBATCH --time=0:40:00
+#SBATCH --account=def-dmattie
+#SBATCH --cpus-per-task=1
+#SBATCH --mail-user=dmattie@stfx.ca
+#SBATCH --mem-per-cpu=1000M
+#SBATCH --error=%x-%j.err
+
+patientID=PATIENT
+
+SUBJECTS_DIR=~/scratch/HCP/stage_0
+DATADIR=~/projects/def-dmattie/crush/data
+
+while read p; do
+    echo "Extracting Region $p ($SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations)"
+    mkdir -p $SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations
+    cp $SUBJECTS_DIR/$patientID/T1w/$patientID/mri/wmparc.mgz $SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations
+    cd $SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations
+
+    mri_convert -rt nearest -nc -ns 1 wmparc.mgz wmparc.nii
+    mri_extract_label wmparc.nii $p wmparc$p.nii
+
+
+done <$DATADIR/rois.dat
+
+parcels=$(cat $DATADIR/rois.dat|wc -l)
+echo "$parcels rois"
+
+rendered=$(ls $SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations|wc -l) 
+echo "$rendered rendered"
+
+if [ "$rendered" -ge "$parcels" ]; then
+    mkdir -p $SUBJECTS_DIR/../stage_1 
+    mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_1
+
+fi
+
