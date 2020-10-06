@@ -1,0 +1,51 @@
+#!/bin/bash
+######################################
+##### REGISTRATION
+######################################
+
+#SBATCH --time=5:00:00
+#SBATCH --account=def-dmattie
+#SBATCH --cpus-per-task=1
+#SBATCH --mail-user=dmattie@stfx.ca
+#SBATCH --mem-per-cpu=32000M
+#SBATCH -e slurm-stage1-%j.err
+
+
+util=~/projects/def-dmattie/crush/utilities
+patientID=PATIENT_1_2
+
+SUBJECTS_DIR=~/scratch/HCP/stage_1
+
+cd $SUBJECTS_DIR/$patientID/T1w/
+mkdir Tractography
+cp Diffusion/data.nii.gz Tractography
+cd Tractography
+$util/reg2brain.sh data.nii.gz ../$patientID/mri/brainmask.mgz
+
+
+if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; then
+    mkdir -p $SUBJECTS_DIR/../stage_2
+    mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2
+
+    echo "STAGE 1 to STAGE 2 COMPLETE.  ADVANCING FORWARD"
+    #MOVE FORWARD
+
+
+    cd $util
+
+    cat cascade_2_to_3.sh.template | sed -e "s/PATIENT_2_3/$patientID/" > ~/jobs/generated/$patientID-2_3.sh
+    chmod u+x ~/jobs/generated/$patientID-2_3.sh
+    mkdir -p ~/jobs/generated/logs
+    cd ~/jobs/generated/logs
+    ############
+    echo sbatch ~/jobs/generated/$patientID-2_3.sh
+
+    ############
+    cd $util
+
+
+
+else
+    echo "XXXXXXXXXXXXXXXXXXX  Registration incomplete for patient $patientID"
+fi
+

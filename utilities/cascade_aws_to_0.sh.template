@@ -1,0 +1,32 @@
+#!/bin/bash
+#SBATCH --time=0:30:00
+#SBATCH --account=def-dmattie
+#SBATCH --cpus-per-task=1
+#SBATCH --mail-user=dmattie@stfx.ca
+#SBATCH --mem-per-cpu=1000M
+#SBATCH --error=%x-%j.err
+
+util=~/projects/def-dmattie/crush/utilities
+patientID=PATIENT_AWS_0
+
+SUBJECTS_DIR=~/scratch/HCP/stage_0
+
+############
+#aws s3 sync s3://hcp-openaccess/HCP_1200/$patientID/T1w ~/scratch/HCP/stage_0/$patientID/T1w
+mkdir -p ~/scratch/HCP/stage_0/$patientID/T1w
+touch ~/scratch/HCP/stage_0/$patientID/T1w/stage0
+############
+
+echo "AWS to STAGE 0 COMPLETE.  ADVANCING FORWARD"
+#MOVE FORWARD
+cd $util
+
+cat cascade_0_to_1.sh.template | sed -e "s/PATIENT_0_1/$patientID/" > ~/jobs/generated/$patientID-0_1.sh
+chmod u+x ~/jobs/generated/$patientID-0_1.sh
+mkdir -p ~/jobs/generated/logs
+cd ~/jobs/generated/logs
+############
+#echo sbatch ~/jobs/generated/$patientID-0_1.sh
+
+############
+cd $util

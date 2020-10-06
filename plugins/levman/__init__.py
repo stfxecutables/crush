@@ -616,7 +616,13 @@ class Pipeline:
 
         if self.visit.SourceTaxonomy=="HCP":
             if self.visit.rebuild!=True  and os.path.isfile("%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)):
-                self.eddyCorrectedData="%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)
+                if !os.path.isfile("%s/reg2brain.data.nii" %(self.visit.tractographypath)):
+                    with gzip.open("%s/reg2brain.data.nii.gz" %(self.visit.tractographypath), 'rb') as f_in:
+                        with open("%s/reg2brain.data.nii" %(self.visit.tractographypath), 'wb') as f_out:
+                            shutil.copyfileobj(f_in, f_out)
+
+                self.eddyCorrectedData=self.visit.tractographypath+"/reg2brain.data.nii"
+                #self.eddyCorrectedData="%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)
                 MsgUser.skipped("eddy_correct output exists [%s/reg2brain.data.nii.gz]" %(self.visit.tractographypath))
             else:               
                 MsgUser.failed("Registration has not been run.  See utilities/advance.sh to move from stage 1 to 2")                        
