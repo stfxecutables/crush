@@ -835,13 +835,13 @@ class Pipeline:
             MsgUser.ok("dti_tracker Completed")
 
     def trackvis_create_nii(self,segment,counterpart,method):
-        wmparcStart=f"{self.visit.tractographypath}/wmparc{segment}.nii"
-        wmparcEnd=f"{self.visit.tractographypath}/wmparc{counterpart}.nii"
+        wmparcStart=f"{self.visit.tractographypath}/parcellations/wmparc{segment}.nii"
+        wmparcEnd=f"{self.visit.tractographypath}/parcellations/wmparc{counterpart}.nii"
         if os.path.isfile(wmparcStart) and os.path.isfile(wmparcEnd):
             if self.visit.disable_log:
-                trackvis = ["track_vis","%s/crush.trk" %(self.visit.tractographypath),"-%s"%(method),"%s/wmparc%s.nii" %(self.visit.tractographypath,segment),"-%s2" %(method),"%s/wmparc%s.nii" %(self.visit.tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method),"-disable_log"]
+                trackvis = ["track_vis","%s/crush.trk" %(self.visit.tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(self.visit.tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(self.visit.tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method),"-disable_log"]
             else:
-                trackvis = ["track_vis","%s/crush.trk" %(self.visit.tractographypath),"-%s"%(method),"%s/wmparc%s.nii" %(self.visit.tractographypath,segment),"-%s2" %(method),"%s/wmparc%s.nii" %(self.visit.tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method)]
+                trackvis = ["track_vis","%s/crush.trk" %(self.visit.tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(self.visit.tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(self.visit.tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method)]
             
             if not os.path.isfile("%s/crush/%s-%s-%s.nii" %(self.visit.tractographypath,segment,counterpart,method)):
                 with open("%s/crush/%s/%s-%s-%s.nii.txt" %(self.visit.tractographypath,segment,segment,counterpart,method), "w") as track_vis_out:
@@ -879,8 +879,8 @@ class Pipeline:
         #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
         
         #create wmparc#### if missing
-        wmparcStart=f"{self.visit.tractographypath}/wmparc{segment}.nii"
-        wmparcEnd=f"{self.visit.tractographypath}/wmparc{counterpart}.nii"
+        wmparcStart=f"{self.visit.tractographypath}/parcellations/wmparc{segment}.nii"
+        wmparcEnd=f"{self.visit.tractographypath}/parcellations/wmparc{counterpart}.nii"
         #if not os.path.isfile("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,segment)) and not os.path.isfile("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,counterpart)):
         #    MsgUser.warning("%s/wmparc%s.nii.gz" %(self.visit.tractographypath,segment))
 
@@ -1192,14 +1192,14 @@ class Pipeline:
         for s in self.Segments:
             #print()
             segment= f"{s['roi']}"
-            if (os.path.isfile(f"{self.visit.tractographypath}/wmparc{segment}.nii")):
+            if (os.path.isfile(f"{self.visit.tractographypath}/parcellations/wmparc{segment}.nii")):
                 #print(f"FOUND: {self.visit.tractographypath}/wmparc{segment}.nii")
                 continue
         
             cmdArray=["mri_extract_label",
                         wmparc,
                         segment,
-                        f"{self.visit.tractographypath}/wmparc{segment}.mgz"]
+                        f"{self.visit.tractographypath}/parcellations/wmparc{segment}.mgz"]
                         
             print(cmdArray)
             ret = subprocess.call(cmdArray)
@@ -1213,8 +1213,8 @@ class Pipeline:
                         "-nc",
                         "-ns",
                         "1",
-                        f"{self.visit.tractographypath}/wmparc{segment}.mgz",
-                        f"{self.visit.tractographypath}/wmparc{segment}.nii"
+                        f"{self.visit.tractographypath}/parcellations/wmparc{segment}.mgz",
+                        f"{self.visit.tractographypath}/parcellations/wmparc{segment}.nii"
                         ]
                         
             print(cmdArray)
@@ -1223,6 +1223,6 @@ class Pipeline:
                 MsgUser.failed(f"Parcellation failed at segment {segment}")
                 exit()  
             else:
-                os.remove(f"{self.visit.tractographypath}/wmparc{segment}.mgz")         
+                os.remove(f"{self.visit.tractographypath}/parcellations/wmparc{segment}.mgz")         
 
         MsgUser.ok("Parcellation Completed")
