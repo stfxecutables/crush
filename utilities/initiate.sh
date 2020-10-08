@@ -21,10 +21,9 @@ if [ ! -d "$ROOT_DIR/stage_0/$patientID" ] &&
     chmod u+x ~/jobs/generated/$patientID-aws_0.sh
     cd ~/jobs/generated/logs    
     ##########################
-    #sbatch 
     echo "*****RUN aws-0***********"
     ls -l ~/jobs/generated/$patientID-aws_0.sh     
-    ~/jobs/generated/$patientID-aws_0.sh 
+    sbatch ~/jobs/generated/$patientID-aws_0.sh 
     echo "*****END RUN aws-0********"
 else
     if [ -d "$ROOT_DIR/stage_0/$patientID" ]; then

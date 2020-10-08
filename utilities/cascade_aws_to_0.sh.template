@@ -12,9 +12,9 @@ patientID=PATIENT_AWS_0
 SUBJECTS_DIR=~/scratch/HCP/stage_0
 
 ############
-#aws s3 sync s3://hcp-openaccess/HCP_1200/$patientID/T1w ~/scratch/HCP/stage_0/$patientID/T1w
-mkdir -p ~/scratch/HCP/stage_0/$patientID/T1w
-touch ~/scratch/HCP/stage_0/$patientID/T1w/stage0
+aws s3 sync s3://hcp-openaccess/HCP_1200/$patientID/T1w ~/scratch/HCP/stage_0/$patientID/T1w
+#mkdir -p ~/scratch/HCP/stage_0/$patientID/T1w
+#touch ~/scratch/HCP/stage_0/$patientID/T1w/stage0
 ############
 
 echo "AWS to STAGE 0 COMPLETE.  ADVANCING FORWARD"
