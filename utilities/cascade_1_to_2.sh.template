@@ -9,6 +9,8 @@
 #SBATCH --mail-user=dmattie@stfx.ca
 #SBATCH --mem-per-cpu=32000M
 #SBATCH -e slurm-stage1-%j.err
+#SBATCH -e PATIENT_1_2_1-2_%x-%j.err
+#SBATCH -o PATIENT_1_2_1-2_%x-%j.out
 
 
 util=~/projects/def-dmattie/crush/utilities
@@ -29,8 +31,6 @@ if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; the
 
     echo "STAGE 1 to STAGE 2 COMPLETE.  ADVANCING FORWARD"
     #MOVE FORWARD
-
-
     cd $util
 
     cat cascade_2_to_3.sh.template | sed -e "s/PATIENT_2_3/$patientID/" > ~/jobs/generated/$patientID-2_3.sh
@@ -42,9 +42,6 @@ if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; the
 
     ############
     cd $util
-
-
-
 else
     echo "XXXXXXXXXXXXXXXXXXX  Registration incomplete for patient $patientID"
 fi

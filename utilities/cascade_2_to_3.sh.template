@@ -4,23 +4,27 @@
 ##### CRUSH
 ####################################
 
-#SBATCH --time=24:00:00
+#SBATCH --time=10:00:00
 #SBATCH --account=def-dmattie
-#SBATCH --cpus-per-task=1
+#SBATCH --cpus-per-task=10
 #SBATCH --mail-user=dmattie@stfx.ca
 #SBATCH --mail-type=ALL
-#SBATCH --mem-per-cpu=32000M
+#SBATCH --mem-per-cpu=8000M
 #SBATCH -e slurm-stage1-%j.err
+#SBATCH -e PATIENT_2_3_2-3_%x-%j.err
+#SBATCH -o PATIENT_2_3_2-3_%x-%j.out
 
 patientID=PATIENT_2_3
 SUBJECTS_DIR=~/scratch/HCP/stage_2
-mkdir -p /tmp/crush/
-rsync -a $SUBJECTS_DIR/$patientID/ /tmp/crush/$patientID 
-cd /tmp/crush/
-python ~/projects/def-dmattie/crush/crush.py -samples /tmp/crush -patient $patientID 
-rsync -a /tmp/crush/$patientID/T1w/Tractography/ $SUBJECTS_DIR/$patientID/T1w/Tractography
-pwd
+##mkdir -p /tmp/crush/
+##rsync -a $SUBJECTS_DIR/$patientID/ /tmp/crush/$patientID 
+##cd /tmp/crush/
 
+##python ~/projects/def-dmattie/crush/crush.py -samples /tmp/crush -patient $patientID 
+
+##rsync -a /tmp/crush/$patientID/T1w/Tractography/ $SUBJECTS_DIR/$patientID/T1w/Tractography
+python ~/projects/def-dmattie/crush/crush.py -samples $SUBJECTS_DIR -patient $patientID 
+pwd
 
 if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/crush.trk" ]; then
     mkdir -p $SUBJECTS_DIR/../stage_3
@@ -31,20 +35,15 @@ if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/crush.trk" ]; then
 
 
     cd $util
-
-#    cat cascade_3_to_4.sh.template | sed -e "s/PATIENT_3_4/$patientID/" > ~/jobs/generated/$patientID-3_4.sh
-#    chmod u+x ~/jobs/generated/$patientID-3_4.sh
-#    mkdir -p ~/jobs/generated/logs
-#    cd ~/jobs/generated/logs
-#    ############
-    echo sbatch ~/jobs/generated/$patientID-3_4.sh
-
-    ############
-#    cd $util
-
-
-
 else
-    echo "XXXXXXXXXXXXXXXXXXX  Crush incomplete for patient $patientID"
+    echo "XXXXXXXXXX STAGE 2 to 3  FAILED. NOT CRUSHed"
+    # Sync to Cold Storage
+    #cat cascade_3_to_4.sh.template | sed -e "s/PATIENT_3_4/$patientID/" > ~/jobs/generated/$patientID-3_4.sh
+    #chmod u+x ~/jobs/generated/$patientID-3_4.sh
+    #mkdir -p ~/jobs/generated/logs
+    #cd ~/jobs/generated/logs
+    #sbatch ~/jobs/generated/$patientID-3_4.sh
+    #cd $util
+
 fi
 
