@@ -743,7 +743,7 @@ class Pipeline:
         MsgUser.bold("odf_tracker")
         #output: DTI35_Recon_max.nii.gz
         
-        if (self.visit.rebuild!=True and os.path.isfile("%s/DTI_Recon_dwi.nii.gz" %(self.visit.tractographypath)) == False):
+        if (self.visit.rebuild!=True and os.path.isfile("%s/DTI_Recon_dwi.nii" %(self.visit.tractographypath)) == False):
             MsgUser.failed("odf_tracker cannot be completed, odf_recon did not finish, missing DTI_Recon files")
             return
             
