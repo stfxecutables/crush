@@ -723,7 +723,7 @@ class Pipeline:
     def odf_recon(self):
         MsgUser.bold("odf_recon")
         #output: DTI35_Recon_max.nii.gz
-        if self.visit.rebuild!=True  and os.path.isfile("%s/DTI_Recon_max.nii.gz" %(self.visit.tractographypath)):
+        if self.visit.rebuild!=True  and os.path.isfile("%s/DTI_Recon_max.nii" %(self.visit.tractographypath)):
             #odf_, max_, dwi_, b0 files should exist
             MsgUser.skipped("odf_recon output exists")
         else:
