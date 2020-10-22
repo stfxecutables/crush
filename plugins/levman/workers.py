@@ -2,6 +2,7 @@ import sys,os,subprocess
 import re
 import nibabel as nib
 import numpy as np
+import warnings
 
 class workerTrackvis(object):
 
