@@ -1,6 +1,7 @@
 import sys,os,subprocess
 import re
 import nibabel as nib
+import numpy as np
 
 class workerTrackvis(object):
 
