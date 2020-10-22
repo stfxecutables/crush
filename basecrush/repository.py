@@ -72,6 +72,7 @@ class repository:
         """
         Execute CREATE TABLE statements in the schema.sql file.
         """
+        print(schema)
         with open(schema, 'r') as f:
             sql = f.read()
 
