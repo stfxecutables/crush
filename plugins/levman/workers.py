@@ -1,5 +1,6 @@
 import sys,os,subprocess
 import re
+import nibabel as nib
 
 class workerTrackvis(object):
 
