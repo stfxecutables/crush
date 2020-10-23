@@ -47,9 +47,9 @@ class workerTrackvis(object):
                 wmparcEnd=f"{tractographypath}/parcellations/wmparc{counterpart}.nii"
                 if os.path.isfile(wmparcStart) and os.path.isfile(wmparcEnd):
                     #if self.visit.disable_log:
-                    #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method),"-disable_log"]
+                    trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method),"-disable_log"]
                     #else:
-                    trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)]
+                    #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)]
                     
                     if not os.path.isfile("%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)):
                         if not os.path.isdir(f"{tractographypath}/crush/{segment}"):
@@ -164,7 +164,7 @@ class workerTrackvis(object):
                 print("Cleanup %s" %(oldcalcsfile))
                 os.unlink(oldcalcsfile)             
 
-            print(calcs)
+            #print(calcs)
             return calcs
 
     def nonZeroMean(self,faFile,roiFile):
