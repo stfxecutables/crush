@@ -66,26 +66,40 @@ class repository:
         minconns = connections
         maxconns = connections * 2
         return ThreadedConnectionPool(minconns, maxconns, url)
-
+    
 
     def createdb(self,conn, schema="schema.sql"):
         """
         Execute CREATE TABLE statements in the schema.sql file.
         """
-        print(schema)
-        with open(schema, 'r') as f:
-            sql = f.read()
 
-        try:
-            with conn.cursor() as curs:
-                curs.execute(sql)
-                conn.commit()
-                logging.info('Repository Instantiated')
-        except Exception as e:
-            conn.rollback()
-            logging.error(f'Failed to create schema, ERROR:{e}')
-            raise e
-    
+        with conn.cursor() as curs:            
+            sql=(
+                    """select exists(SELECT FROM pg_tables WHERE tablename  = 'measurements')
+                    """
+             )               
+                        
+            curs.execute(sql)   
+            row = curs.fetchone()       
+            exists = row[0]                    
+        
+        exists = bool(exists) 
+
+        if not exists:
+            print(schema)        
+            with open(schema, 'r') as f:
+                sql = f.read()
+
+            try:
+                with conn.cursor() as curs:
+                    curs.execute(sql)
+                    conn.commit()
+                    logging.info('Repository Instantiated')
+            except Exception as e:
+                conn.rollback()
+                logging.error(f'Failed to create schema, ERROR:{e}')
+                raise e
+        
     # This will be a decorator function used below for "upsert" and "get"
     # functions.
     def transact(func):
