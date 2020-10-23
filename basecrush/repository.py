@@ -134,6 +134,7 @@ class repository:
         Create or insert the measured value in measurements table
         """          
         measured = Decimal(measured)
+        sql=""
         try:
             with conn.cursor() as curs:
                 sql="""INSERT INTO measurements (sample,visit,roi_start,roi_end,method,measurement,measured)
@@ -149,7 +150,7 @@ class repository:
     def get_measurement(self,conn,sample,visit,roi_start,roi_end,method,measurement):
         """
         fetch the measured value in measurements table
-        """        
+        """                
         with conn.cursor() as curs:
             sql=(
                     """select measured from measurements where sample=%s and visit=%s and roi_start=%s and roi_end=%s
