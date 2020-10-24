@@ -19,7 +19,7 @@ patientID=PATIENT_1_2
 SUBJECTS_DIR=~/scratch/HCP/stage_1
 
 cd $SUBJECTS_DIR/$patientID/T1w/
-mkdir Tractography
+mkdir -p Tractography
 cp Diffusion/data.nii.gz Tractography
 cd Tractography
 $util/reg2brain.sh data.nii.gz ../$patientID/mri/brainmask.mgz
@@ -39,7 +39,7 @@ if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; the
     cd ~/jobs/generated/logs
     ############
     mkdir -p ../completed
-    mv ../$patient-1_2.sh ../completed   #Move the currently running script to archive
+    mv ../$patientID-1_2.sh ../completed   #Move the currently running script to archive
     sbatch ~/jobs/generated/$patientID-2_3.sh
     ############
     cd $util

@@ -34,7 +34,7 @@ if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/crush.trk" ]; then
     cd ~/jobs/generated/logs
     ############
     mkdir -p ../completed
-    mv ../$patient-2_3.sh ../completed   #Move the currently running script to archive
+    mv ../$patientID-2_3.sh ../completed   #Move the currently running script to archive
     sbatch ~/jobs/generated/$patientID-3_4.sh
     cd $util
 else

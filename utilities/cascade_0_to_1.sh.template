@@ -49,7 +49,7 @@ mkdir -p ~/jobs/generated/logs
 cd ~/jobs/generated/logs
 ############
 mkdir -p ../completed
-mv ../$patient-0_1.sh ../completed   #Move the currently running script to archive
+mv ../$patientID-0_1.sh ../completed   #Move the currently running script to archive
 sbatch ~/jobs/generated/$patientID-1_2.sh
 
 ############
