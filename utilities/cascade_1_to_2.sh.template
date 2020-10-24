@@ -19,7 +19,7 @@ patientID=PATIENT_1_2
 SUBJECTS_DIR=~/scratch/HCP/stage_1
 
 cd $SUBJECTS_DIR/$patientID/T1w/
-mkdir Tractography
+mkdir -p Tractography
 cp Diffusion/data.nii.gz Tractography
 cd Tractography
 $util/reg2brain.sh data.nii.gz ../$patientID/mri/brainmask.mgz
