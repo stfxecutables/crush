@@ -331,10 +331,6 @@ class Pipeline:
             
     def run(self):  
 
-        print("%s:%s" %("track_vis started:",datetime.datetime.now()))
-        self.track_vis()
-        return
-
         print("%s:%s" %("mgz2nifti started:",datetime.datetime.now()))
         self.mgz2nifti()      
 #        self.flirt()
