@@ -39,7 +39,7 @@ if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; the
     cd ~/jobs/generated/logs
     ############
     mkdir -p ../completed
-    mv ../$patient-1_2.sh ../completed   #Move the currently running script to archive
+    mv ../$patientID-1_2.sh ../completed   #Move the currently running script to archive
     sbatch ~/jobs/generated/$patientID-2_3.sh
     ############
     cd $util
