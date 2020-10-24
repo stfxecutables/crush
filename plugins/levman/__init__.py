@@ -18,6 +18,7 @@ from basecrush.ux import MsgUser
 import nibabel as nib
 from shutil import copyfile
 from multiprocessing import Pool,cpu_count
+
 import csv as csvModule
 import warnings
 from collections import defaultdict
@@ -26,8 +27,7 @@ import gzip
 import shutil
 import configparser
 #import psycopg2
-import basecrush.repository 
-
+import basecrush.repository
 from plugins.levman.workers import workerTrackvis
 
 
@@ -877,6 +877,26 @@ class Pipeline:
                                                         
 
     
+    def getTrackVisResults(self,result):        
+        calcs=result            
+        for k in calcs:              
+            kpieces=k.split('-')            
+            if(len(kpieces)==4):
+                sample=self.visit.PatientId,
+                visit=self.visit.VisitId,
+                roi_start=kpieces[0],
+                roi_end=kpieces[1],
+                method=kpieces[2],
+                measurement=kpieces[3],
+                measured=calcs[k]                        
+                self.repo.upsert(sample=self.visit.PatientId,
+                        visit=self.visit.VisitId,
+                        roi_start=kpieces[0],
+                        roi_end=kpieces[1],
+                        method=kpieces[2],
+                        measurement=kpieces[3],
+                        measured=calcs[k])   
+
     def track_vis(self):
         MsgUser.bold("track_vis")
         #output: crush.txt		
@@ -944,32 +964,41 @@ class Pipeline:
             no_of_procs = self.visit.maxcores
             
         print("Multiprocessing across %s async procs" %(no_of_procs))
-                
+
         pool = Pool(no_of_procs)
         workerTV=workerTrackvis()
         for t in tasks:
             
-            calcs=pool.apply_async(workerTV.process, (t,))            
-            calcs=calcs.get()
-
-            ##########
-            for k in calcs:               
-               kpieces=k.split('-')
-               
-               if(len(kpieces)==4):
-                self.repo.upsert(sample=self.visit.PatientId,
-                        visit=self.visit.VisitId,
-                        roi_start=kpieces[0],
-                        roi_end=kpieces[1],
-                        method=kpieces[2],
-                        measurement=kpieces[3],
-                        measured=calcs[k])     
-
-            #######
-            
+            pool.apply_async(workerTV.process, (t,),callback=self.getTrackVisResults)                       
 
         pool.close()
         pool.join()
+                        
+        # pool = Pool(no_of_procs)
+        # workerTV=workerTrackvis()
+        # for t in tasks:
+            
+        #     calcs=pool.apply_async(workerTV.process, (t,))            
+        #     calcs=calcs.get()
+
+        #     ##########
+        #     for k in calcs:               
+        #        kpieces=k.split('-')
+               
+        #        if(len(kpieces)==4):
+        #         self.repo.upsert(sample=self.visit.PatientId,
+        #                 visit=self.visit.VisitId,
+        #                 roi_start=kpieces[0],
+        #                 roi_end=kpieces[1],
+        #                 method=kpieces[2],
+        #                 measurement=kpieces[3],
+        #                 measured=calcs[k])     
+
+        #     #######
+            
+
+        # pool.close()
+        # pool.join()
         
         MsgUser.ok("@@@@  LETS JOIN IT ALL TOGETHER @@@@  ")
 
@@ -989,8 +1018,9 @@ class Pipeline:
         
         self.visit.MeasurementComplete=True
         MsgUser.ok("track_vis Completed")
-
   
+
+            #######
     def AddDerivedMeasures(self,visit):
 
         asymMeasuresToAdd = {}

@@ -2,7 +2,7 @@ import os, sys, argparse,re
 from basecrush import Samples
 from basecrush.ux import MsgUser
 import numpy
-from multiprocessing import cpu_count
+from multiprocessing import cpu_count,set_start_method
 
 
 class readable_dir(argparse.Action):
@@ -87,7 +87,7 @@ def ProcessSamples(args,S):
                 v.Render()
                 #v.Measure()
 def main():                
-
+    set_start_method("spawn")
     ldir = "."
     parser = argparse.ArgumentParser(
         description='Connectomics and Reporting User Shell is used to iterrogate samples, generate or extract measurements.')
