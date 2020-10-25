@@ -618,7 +618,7 @@ class Pipeline:
 
 
         if self.visit.SourceTaxonomy=="HCP":
-            if self.visit.rebuild!=True  and os.path.isfile("%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)):
+            if self.visit.rebuild!=True  and (os.path.isfile("%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)) or os.path.isfile("%s/reg2brain.data.nii" %(self.visit.tractographypath)):
                 if not os.path.isfile("%s/reg2brain.data.nii" %(self.visit.tractographypath)):
                     with gzip.open("%s/reg2brain.data.nii.gz" %(self.visit.tractographypath), 'rb') as f_in:
                         with open("%s/reg2brain.data.nii" %(self.visit.tractographypath), 'wb') as f_out:
