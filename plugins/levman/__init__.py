@@ -623,6 +623,7 @@ class Pipeline:
                     with gzip.open("%s/reg2brain.data.nii.gz" %(self.visit.tractographypath), 'rb') as f_in:
                         with open("%s/reg2brain.data.nii" %(self.visit.tractographypath), 'wb') as f_out:
                             shutil.copyfileobj(f_in, f_out)
+                        os.unlink("%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)
 
                 self.eddyCorrectedData=self.visit.tractographypath+"/reg2brain.data.nii"
                 #self.eddyCorrectedData="%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)
