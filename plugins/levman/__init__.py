@@ -1007,12 +1007,12 @@ class Pipeline:
         #visit.data = self.data
         self.visit.Commit()
 
-        '''
+        
         with open("%s/crush/tracts.txt" % (self.visit.tractographypath), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
                 if m[-8:] !="-asymidx":
                     crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
-        '''
+        
         
         self.visit.MeasurementComplete=True
         MsgUser.ok("track_vis Completed")
@@ -1056,6 +1056,7 @@ class Pipeline:
         #mri_extract_label $SUBJECTS_DIR/$1/T1w/$1/mri/wmparc.mgz $2 $SUBJECTS_DIR/$1/T1w/$1/mri/wmparc$2.mgz
         #mri_convert -rt nearest -nc -ns 1 $SUBJECTS_DIR/$1/T1w/$1/mri/wmparc$2.mgz $SUBJECTS_DIR/$1/T1w/$1/mri/wmparc$2.nii
         wmparc= f"{self.visit.freesurferpath}/mri/wmparc.mgz"
+        print(f"{len(self.Segments)} segments to extract")
         for s in self.Segments:
             #print()
             segment= f"{s['roi']}"
