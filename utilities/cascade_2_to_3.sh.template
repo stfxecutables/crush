@@ -22,7 +22,7 @@ SUBJECTS_DIR=~/scratch/HCP/stage_2
 ##python ~/projects/def-dmattie/crush/crush.py -samples /tmp/crush -patient $patientID 
 
 ##rsync -a /tmp/crush/$patientID/T1w/Tractography/ $SUBJECTS_DIR/$patientID/T1w/Tractography
-python ~/projects/def-dmattie/crush/crush.py -samples $SUBJECTS_DIR -patient $patientID 
+python ~/projects/def-dmattie/crush/crush.py -samples $SUBJECTS_DIR -patient $patientID -recrush
 pwd
 
 if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/crush.trk" ]; then
