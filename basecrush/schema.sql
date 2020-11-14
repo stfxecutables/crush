@@ -4,7 +4,7 @@ create table if not exists measurements (
     roi_start int,
     roi_end int,
     method varchar(7),
-    measurement varchar(20),
+    measurement varchar(40),
     measured numeric(36,20),
     modified timestamp,
 unique(sample,visit,roi_start,roi_end,method,measurement)

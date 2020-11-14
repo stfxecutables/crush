@@ -11,9 +11,11 @@ class workerTrackvis(object):
             counterpart=parr[1]
             method=parr[2]
             tractographypath=parr[3]
+            pipelineId=parr[4]
 
             calcs={}
-            print("WORKER")
+            print('.',end='',flush=True)
+            #print(".",end=".")
 
             #track_vis ./DTI35_postReg_Threshold5.trk -roi_end ./wmparc3001.nii.gz -roi_end2 ./wmparc3002.nii.gz -nr
             
@@ -71,7 +73,7 @@ class workerTrackvis(object):
                     NumTracts = m.group(1).strip()
                 else:
                     NumTracts = 0
-                calcs["%s-%s-%s-NumTracts" %(segment,counterpart,method)]=NumTracts
+                calcs["%s/%s-%s-%s-NumTracts" %(pipelineId,segment,counterpart,method)]=NumTracts
                 
                 ############
                 
@@ -80,7 +82,7 @@ class workerTrackvis(object):
                     TractsToRender = m.group(1).strip()
                 else:
                     TractsToRender = 0
-                calcs["%s-%s-%s-TractsToRender" %(segment,counterpart,method)]=TractsToRender
+                calcs["%s/%s-%s-%s-TractsToRender" %(pipelineId,segment,counterpart,method)]=TractsToRender
                 
                 ############
                 
@@ -89,7 +91,7 @@ class workerTrackvis(object):
                     LinesToRender = m.group(1).strip()
                 else:
                     LinesToRender = 0
-                calcs["%s-%s-%s-LinesToRender" %(segment,counterpart,method)]=LinesToRender
+                calcs["%s/%s-%s-%s-LinesToRender" %(pipelineId,segment,counterpart,method)]=LinesToRender
                 ############
                 
                 m = re.search(r'Mean track length: (\d+.\d+) \+\/- (\d+.\d+)', data)
@@ -100,8 +102,8 @@ class workerTrackvis(object):
                     MeanTractLen = 0
                     MeanTractLen_StdDev = 0
                 
-                calcs["%s-%s-%s-MeanTractLen" %(segment,counterpart,method)]=MeanTractLen
-                calcs["%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)]=MeanTractLen_StdDev
+                calcs["%s/%s-%s-%s-MeanTractLen" %(pipelineId,segment,counterpart,method)]=MeanTractLen
+                calcs["%s/%s-%s-%s-MeanTractLen_StdDev" %(pipelineId,segment,counterpart,method)]=MeanTractLen_StdDev
                 ############
                 
                 m = re.search(r'Voxel size: (\d*[.,]?\d*) (\d*[.,]?\d*) (\d*[.,]?\d*)', data)
@@ -114,26 +116,26 @@ class workerTrackvis(object):
                     VoxelSizeY = 0
                     VoxelSizeZ = 0
 
-                calcs["%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)]=VoxelSizeX
-                calcs["%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)]=VoxelSizeY
-                calcs["%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)]=VoxelSizeZ
+                calcs["%s/%s-%s-%s-VoxelSizeX" %(pipelineId,segment,counterpart,method)]=VoxelSizeX
+                calcs["%s/%s-%s-%s-VoxelSizeY" %(pipelineId,segment,counterpart,method)]=VoxelSizeY
+                calcs["%s/%s-%s-%s-VoxelSizeZ" %(pipelineId,segment,counterpart,method)]=VoxelSizeZ
 
                 
                 #FA Mean
-                meanFA=self.nonZeroMean("%s/DTI_Reg2Brain_fa.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))             
-                calcs["%s-%s-%s-meanFA" %(segment,counterpart,method)]=meanFA
+                meanFA=self.nonZeroMean("%s/DTI_Reg2Brain_fa.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))                             
+                calcs["%s/%s-%s-%s-meanFA" %(pipelineId,segment,counterpart,method)]=meanFA
                 
                 #FA Std Dev
                 stddevFA=self.nonZeroStdDev("%s/DTI_Reg2Brain_fa.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))         
-                calcs["%s-%s-%s-stddevFA" %(segment,counterpart,method)]=stddevFA            
+                calcs["%s/%s-%s-%s-stddevFA" %(pipelineId,segment,counterpart,method)]=stddevFA            
                 
                 #ADC Mean
                 meanADC=self.nonZeroMean("%s/DTI_Reg2Brain_adc.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))         
-                calcs["%s-%s-%s-meanADC" %(segment,counterpart,method)]=meanADC
+                calcs["%s/%s-%s-%s-meanADC" %(pipelineId,segment,counterpart,method)]=meanADC
                 
                 #ADC Std Dev
                 stddevADC=self.nonZeroStdDev("%s/DTI_Reg2Brain_adc.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))       
-                calcs["%s-%s-%s-stddevADC" %(segment,counterpart,method)]=stddevADC
+                calcs["%s/%s-%s-%s-stddevADC" %(pipelineId,segment,counterpart,method)]=stddevADC
                 
                 
 
@@ -157,8 +159,8 @@ class workerTrackvis(object):
             datafile = "%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method)
             oldcalcsfile = "%s/crush/calcs-%s-%s-%s.json" %(tractographypath,segment,counterpart,method)
                     
-            if os.path.isfile(nii):
-                os.unlink(nii) 
+            #if os.path.isfile(nii):
+            #    os.unlink(nii) 
                     
             if os.path.isfile(oldcalcsfile):
                 print("Cleanup %s" %(oldcalcsfile))
@@ -183,12 +185,13 @@ class workerTrackvis(object):
         roiData = img.get_data()
 
         indecesOfInterest = np.nonzero(roiData)
+        
 
         #I expect to see runtime warnings in this block, e.g. divide by zero
         with warnings.catch_warnings():
-            warnings.simplefilter("ignore", category=RuntimeWarning)            
+            warnings.simplefilter("ignore", category=RuntimeWarning)                 
             mean =np.mean(dataFA[indecesOfInterest],dtype=np.float64)
-
+            #print(mean)        
         return mean
     def nonZeroStdDev(self,faFile,roiFile):
         

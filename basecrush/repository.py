@@ -6,14 +6,14 @@ import logging
 from decimal import Decimal
 from functools import wraps
 from psycopg2.pool import ThreadedConnectionPool
-
+import math
 from contextlib import contextmanager
 
 # Keep a text file to capture any errors.  
 # I'm particularly interested in pooled connection failures 
 # if there are too many concurrent connections.
 
-logging.basicConfig(level=logging.INFO, 
+logging.basicConfig(level=logging.ERROR, 
     format='%(asctime)s %(message)s',
     filename='crushdb-repository.log')
 
@@ -146,20 +146,24 @@ class repository:
     def update_measurement(self,conn,sample,visit,roi_start,roi_end,method,measurement,measured):
         """
         Create or insert the measured value in measurements table
-        """          
+        """        
+        #print(f"sample:{sample}, roi_start:{roi_start}, roi_end:{roi_end}, measurement:{measurement}, measured:{measured}")  
+
         measured = Decimal(measured)
-        sql=""
-        try:
-            with conn.cursor() as curs:
-                sql="""INSERT INTO measurements (sample,visit,roi_start,roi_end,method,measurement,measured)
-                    VALUES('%s','%s','%s','%s','%s','%s','%d') 
-                    ON CONFLICT (sample,visit,roi_start,roi_end,method,measurement) 
-                    DO 
-                        UPDATE SET measured = EXCLUDED.measured""" %(sample,visit,roi_start,roi_end,method,measurement,measured)            
-                curs.execute(sql)
-        except Exception as e:
-           logging.error(f"ERROR:{e} SQL:{sql}\n")
-           raise e
+        if(not math.isnan(measured)):
+            sql=""
+            try:
+                with conn.cursor() as curs:
+                    sql="""INSERT INTO measurements (sample,visit,roi_start,roi_end,method,measurement,measured)
+                        VALUES('%s','%s','%s','%s','%s','%s','%36.20f') 
+                        ON CONFLICT (sample,visit,roi_start,roi_end,method,measurement) 
+                        DO 
+                            UPDATE SET measured = EXCLUDED.measured""" %(sample,visit,roi_start,roi_end,method,measurement,measured)                                                          
+                    #print(sql)
+                    curs.execute(sql)
+            except Exception as e:
+                logging.error(f"ERROR:{e} SQL:{sql}\n")
+                raise e
             
     def get_measurement(self,conn,sample,visit,roi_start,roi_end,method,measurement):
         """
@@ -175,7 +179,7 @@ class repository:
             row = curs.fetchone()             
             measured = row[0]                    
         
-        measured = Decimal(measured)        
+        measured = Float(measured)        
         return measured
 
     def get_measurement_count(self,conn,sample,visit):
@@ -246,7 +250,7 @@ class repository:
         return Measurements
 
     @transact
-    def upsert(self,conn,sample,visit, roi_start,roi_end,method,measurement,measured):        
+    def upsert(self,conn,sample,visit, roi_start,roi_end,method,measurement,measured):               
         self.update_measurement(conn,sample,visit,roi_start,roi_end,method,measurement,measured)
 
     @transact
