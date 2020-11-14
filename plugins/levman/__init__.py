@@ -146,7 +146,6 @@ def csv(Patients,**kwargs):
             if(not p.match(row[0])): 
                 Segments.append({'roi':row[0],'roiname':row[1],'asymmetry':row[2]})
             i=i+1
-
  
     #Print CSV Data
     for p in Patients:
@@ -330,6 +329,10 @@ class Pipeline:
         MsgUser.message("##############################################...")
             
     def run(self):  
+        print("%s:%s" %("track_vis started:",datetime.datetime.now()))
+        self.track_vis()
+        return
+
 
         print("%s:%s" %("mgz2nifti started:",datetime.datetime.now()))
         self.mgz2nifti()      
@@ -877,22 +880,25 @@ class Pipeline:
     
     def getTrackVisResults(self,result):        
         calcs=result            
-        for k in calcs:              
+        for k in calcs:  
+            #print(f"k: {k}={calcs[k]}")            
             kpieces=k.split('-')            
             if(len(kpieces)==4):
-                sample=self.visit.PatientId,
-                visit=self.visit.VisitId,
-                roi_start=kpieces[0],
-                roi_end=kpieces[1],
-                method=kpieces[2],
-                measurement=kpieces[3],
-                measured=calcs[k]                        
+                sample=self.visit.PatientId
+                visit=self.visit.VisitId
+                firsttoken=kpieces[0].split('/')
+                pluginId=firsttoken[0]
+               # roi_start=firsttoken[1]
+               # roi_end=kpieces[1]
+               # method=kpieces[2]
+               # measurement=f"{pluginId}/{kpieces[3]}"
+               # measured=calcs[k]                        
                 self.repo.upsert(sample=self.visit.PatientId,
                         visit=self.visit.VisitId,
-                        roi_start=kpieces[0],
+                        roi_start=firsttoken[1],
                         roi_end=kpieces[1],
                         method=kpieces[2],
-                        measurement=kpieces[3],
+                        measurement=f"{pluginId}/{kpieces[3]}",
                         measured=calcs[k])   
 
     def track_vis(self):
@@ -953,7 +959,7 @@ class Pipeline:
                         if segment != counterpart:
                             if (self.visit.fixmissing or len(self.MeasurementAudit_worker(segment,counterpart,method))==0):
                                 MsgUser.ok("Setting up %s %s %s" %(segment,counterpart,method))                            
-                                t = [segment,counterpart,method,self.visit.tractographypath] 
+                                t = [segment,counterpart,method,self.visit.tractographypath,self.PipelineId] 
                                 print("Rendering %s against %s using method %s" % (segment,counterpart,method))
                                 tasks.append(t)
 
@@ -1001,7 +1007,9 @@ class Pipeline:
         MsgUser.ok("@@@@  LETS JOIN IT ALL TOGETHER @@@@  ")
 
         self.MeasurementAudit()
-
+        self.AddDerivedMeasures(self.visit)
+        print(self.Segments)
+        
         print("Patient measure count: %s" %(len(self.visit.data[self.visit.PatientId][self.visit.VisitId])))
         
         #visit.data = self.data
@@ -1009,9 +1017,9 @@ class Pipeline:
 
         
         with open("%s/crush/tracts.txt" % (self.visit.tractographypath), "w") as crush_file:
-            for m in self.data[self.PatientId][self.VisitId]: 
+            for m in self.visit.data[self.visit.PatientId][self.visit.VisitId]: 
                 if m[-8:] !="-asymidx":
-                    crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
+                    crush_file.write("%s=%s\n" % (m,self.visit.data[self.visit.PatientId][self.visit.VisitId][m]))
         
         
         self.visit.MeasurementComplete=True
@@ -1020,13 +1028,15 @@ class Pipeline:
 
             #######
     def AddDerivedMeasures(self,visit):
-
+        
         asymMeasuresToAdd = {}
         for m in visit.data[visit.PatientId][visit.VisitId]:
+            
             if len(m)>8 and m[-8] != "-asymidx":
-                m0 = re.match("^"+self.visit.PipelineId+"\/(\w+)-(\w+)-(\w+)-(\w+)",m)
-                
+                m0 = re.match("^(\w+)-(\w+)-(\w+)-"+self.PipelineId+"/(\w+)",m)
+                #print(f"m:{m}")
                 if m0:
+                    #print(m)
                     l_roi = m0.group(1)
                     l_roiE = m0.group(2)
                     l_method = m0.group(3)
@@ -1036,13 +1046,15 @@ class Pipeline:
                     l_roiEC=""
 
                     #print("%s, %s" %(l_roi,l_roiE))
+                    
                     for s in self.Segments:                        
                         if s['roi']==l_roi:                            
                             l_roiC = s['asymmetry']
                         if s['roi']==l_roiE:
                             l_roiEC = s['asymmetry']
 
-                    asymCounterpart = "%s-%s-%s-%s" %(l_roiC,l_roiEC,l_method,l_measure)                    
+                    asymCounterpart = "%s-%s-%s-%s/%s" %(l_roiC,l_roiEC,l_method,self.PipelineId,l_measure)     
+                    #print(f"asymcounterpart: {asymCounterpart}")               
                     if asymCounterpart in self.visit.data[self.visit.PatientId][self.visit.VisitId]:
                         if self.is_number(self.visit.data[self.visit.PatientId][self.visit.VisitId][m]) and self.visit.is_number(self.visit.visit.data[self.visit.PatientId][self.visit.VisitId][asymCounterpart]) and float(self.visit.data[self.visit.PatientId][self.visit.VisitId][asymCounterpart]) != 0:
                             asymIdx=float(self.visit.data[self.visit.PatientId][self.visit.VisitId][m]) / float(self.visit.data[self.visit.PatientId][self.visit.VisitId][asymCounterpart])                            
@@ -1050,6 +1062,24 @@ class Pipeline:
         for newm in asymMeasuresToAdd:
             if self.visit.is_number(str(asymMeasuresToAdd[newm])):
                 Measurements[self.PipelineId+'/'+newm]=str(asymMeasuresToAdd[newm])
+                #print(f"{newm} {asymMeasuresToAdd[newm]}")
+
+                '''
+                sample=self.visit.PatientId,
+                visit=self.visit.VisitId,
+                roi_start=kpieces[0],
+                roi_end=kpieces[1],
+                method=kpieces[2],
+                measurement=kpieces[3],
+                measured=calcs[k]                        
+                self.repo.upsert(sample=self.visit.PatientId,
+                        visit=self.visit.VisitId,
+                        roi_start=kpieces[0],
+                        roi_end=kpieces[1],
+                        method=kpieces[2],
+                        measurement=kpieces[3],
+                        measured=calcs[k])   
+                '''
             
         ## End of derived measures
     def parcellate(self):
