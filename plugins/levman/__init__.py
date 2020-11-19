@@ -329,9 +329,9 @@ class Pipeline:
         MsgUser.message("##############################################...")
             
     def run(self):  
-        print("%s:%s" %("track_vis started:",datetime.datetime.now()))
-        self.track_vis()
-        return
+#        print("%s:%s" %("track_vis started:",datetime.datetime.now()))
+#        self.track_vis()
+#        return
 
 
         print("%s:%s" %("mgz2nifti started:",datetime.datetime.now()))
