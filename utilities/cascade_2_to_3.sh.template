@@ -15,6 +15,7 @@
 
 patientID=PATIENT_2_3
 SUBJECTS_DIR=~/scratch/HCP/stage_2
+util=~/projects/def-dmattie/crush/utilities
 ##mkdir -p /tmp/crush/
 ##rsync -a $SUBJECTS_DIR/$patientID/ /tmp/crush/$patientID 
 ##cd /tmp/crush/
@@ -30,13 +31,21 @@ if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/crush.trk" ]; then
     mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3
 
     echo "STAGE 2 to STAGE 3 COMPLETE.  ADVANCING FORWARD"
+    
     #MOVE FORWARD
+    cd $util
+
+    cat cascade_3_to_4.sh.template | sed -e "s/PATIENT_3_4/$patientID/" > ~/jobs/generated/$patientID-3_4.sh
+    chmod u+x ~/jobs/generated/$patientID-3_4.sh
+    mkdir -p ~/jobs/generated/logs
     cd ~/jobs/generated/logs
     ############
     mkdir -p ../completed
     mv ../$patientID-2_3.sh ../completed   #Move the currently running script to archive
     sbatch ~/jobs/generated/$patientID-3_4.sh
+    ############
     cd $util
+
 else
     echo "XXXXXXXXXX STAGE 2 to 3  FAILED. NOT CRUSHed"
     # Sync to Cold Storage
