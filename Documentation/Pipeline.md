@@ -1,7 +1,12 @@
-* STAGE_0 = HCP Data is downloaded and parcellated
-* STAGE 1 = Brain registration is performed here
-* STAGE 2 = Early stage CRUSH is performed here
-* STAGE 3 = Measurement extract stage of CRUSH
+* STAGE_0 = HCP Data is downloaded to this folder.  stage 0=>1 involves
+*           parcellating to create wmparc####.nii files in T1w/Tractography/parcellations
+* STAGE 1 = Parcellations exist, one for each ROI.  stage 1-2 (Brain registration)
+*           is performed here, creating /T1w/Tractography/reg2brain.data.nii.gz
+* STAGE 2 = Brain has been registered.  Stage 2-3 Early stage CRUSH is performed here.
+*           with -recrush -fixmissing switches.  Produces tractoraphy/crush/#### 
+*           directories, and updates data repository with measures.
+* STAGE 3 = Measurement extract stage of CRUSH completed, stage 3-4 initiated, tar
+*           files for storage.  Files moved to ~/projects/def-dmattie/HCP
 Completion is determined by the existence of this file: `./--sample id--/T1w/Tractography/reg2brain.data.nii.gz`
 * Stage 3  crush
 

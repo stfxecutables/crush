@@ -3,7 +3,7 @@
 ##### ARCHIVE
 ######################################
 
-#SBATCH --time=3:00:00
+#SBATCH --time=6:00:00
 #SBATCH --account=def-dmattie
 #SBATCH --cpus-per-task=1
 #SBATCH --mail-user=dmattie@stfx.ca
@@ -17,21 +17,18 @@ util=~/projects/def-dmattie/crush/utilities
 patientID=PATIENT_3_4
 
 SUBJECTS_DIR=~/scratch/HCP/stage_3
-if tar -czf $patientID.tar.gz $patientID ; then
-    if mv $patientID.tar.gz ~/projects/def-dmattie/HCP; then
+if tar -czf ~/projects/def-dmattie/HCP/$patientID.tar.gz $patientID ; then
+   
+    echo "STAGE 3 to STAGE 4 COMPLETE." 
+            
+    mkdir -p ~/jobs/generated/logs
+    cd ~/jobs/generated/logs
+    ############
+    mkdir -p ../completed
+    mv ../$patientID-3_4.sh ../completed   #Move the currently running script to archive        
+    ############
+    cd $util
 
-        echo "STAGE 3 to STAGE 4 COMPLETE." 
-                
-        mkdir -p ~/jobs/generated/logs
-        cd ~/jobs/generated/logs
-        ############
-        mkdir -p ../completed
-        mv ../$patientID-3_4.sh ../completed   #Move the currently running script to archive        
-        ############
-        cd $util
-    else
-        echo "XXXXXXXXXXXXXXXXXXX  Failed to relocate archive $patientID to project space"
-    fi
 else
     echo "XXXXXXXXXXXXXXXXXXX  Failed to archive $patientID"
     

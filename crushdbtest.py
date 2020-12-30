@@ -4,7 +4,7 @@ import sys
 import logging
 
 sample=sys.argv[1]
-visit=1
+visit='T1w'
 
 logger = logging.getLogger()
 fhandler = logging.FileHandler(filename=f'crushdbtest.{sample}.log', mode='a')
