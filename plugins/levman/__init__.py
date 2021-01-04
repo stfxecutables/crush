@@ -1056,30 +1056,28 @@ class Pipeline:
                     asymCounterpart = "%s-%s-%s-%s/%s" %(l_roiC,l_roiEC,l_method,self.PipelineId,l_measure)     
                     #print(f"asymcounterpart: {asymCounterpart}")               
                     if asymCounterpart in self.visit.data[self.visit.PatientId][self.visit.VisitId]:
-                        if self.is_number(self.visit.data[self.visit.PatientId][self.visit.VisitId][m]) and self.visit.is_number(self.visit.visit.data[self.visit.PatientId][self.visit.VisitId][asymCounterpart]) and float(self.visit.data[self.visit.PatientId][self.visit.VisitId][asymCounterpart]) != 0:
+                        if visit.is_number(self.visit.data[self.visit.PatientId][self.visit.VisitId][m]) and self.visit.is_number(self.visit.visit.data[self.visit.PatientId][self.visit.VisitId][asymCounterpart]) and float(self.visit.data[self.visit.PatientId][self.visit.VisitId][asymCounterpart]) != 0:
                             asymIdx=float(self.visit.data[self.visit.PatientId][self.visit.VisitId][m]) / float(self.visit.data[self.visit.PatientId][self.visit.VisitId][asymCounterpart])                            
                             asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
         for newm in asymMeasuresToAdd:
             if self.visit.is_number(str(asymMeasuresToAdd[newm])):
-                Measurements[self.PipelineId+'/'+newm]=str(asymMeasuresToAdd[newm])
+                #measurements[self.PipelineId+'/'+newm]=str(asymMeasuresToAdd[newm])
                 #print(f"{newm} {asymMeasuresToAdd[newm]}")
 
-                '''
-                sample=self.visit.PatientId,
-                visit=self.visit.VisitId,
-                roi_start=kpieces[0],
-                roi_end=kpieces[1],
-                method=kpieces[2],
-                measurement=kpieces[3],
-                measured=calcs[k]                        
-                self.repo.upsert(sample=self.visit.PatientId,
-                        visit=self.visit.VisitId,
-                        roi_start=kpieces[0],
-                        roi_end=kpieces[1],
-                        method=kpieces[2],
-                        measurement=kpieces[3],
-                        measured=calcs[k])   
-                '''
+            #print(f"k: {k}={calcs[k]}")            
+                kpieces=newm.split('-')            
+                if(len(kpieces)==4):
+
+                    self.repo.upsert(sample=self.visit.PatientId,
+                            visit=self.visit.VisitId,
+                            roi_start=kpieces[0],
+                            roi_end=kpieces[1],
+                            method=kpieces[2],
+                            measurement=f"{self.PipelineId}/{kpieces[3]}",
+                            #measurement=kpieces[3],
+                            measured=str(asymMeasuresToAdd[newm])
+                            )   
+                
             
         ## End of derived measures
     def parcellate(self):
