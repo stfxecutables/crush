@@ -26,7 +26,7 @@ util=~/projects/def-dmattie/crush/utilities
 python ~/projects/def-dmattie/crush/crush.py -samples $SUBJECTS_DIR -patient $patientID -recrush -fixmissing
 pwd
 
-if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/crush.trk" ]; then
+if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/crush/tracts.txt" ]; then
     mkdir -p $SUBJECTS_DIR/../stage_3
     mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3
 
