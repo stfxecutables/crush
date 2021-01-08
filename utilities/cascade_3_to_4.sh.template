@@ -17,6 +17,7 @@ util=~/projects/def-dmattie/crush/utilities
 patientID=PATIENT_3_4
 
 SUBJECTS_DIR=~/scratch/HCP/stage_3
+cd $SUBJECTS_DIR
 if tar -czf ~/projects/def-dmattie/HCP/$patientID.tar.gz $patientID ; then
    
     echo "STAGE 3 to STAGE 4 COMPLETE." 
