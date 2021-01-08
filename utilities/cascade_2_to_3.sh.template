@@ -16,6 +16,7 @@
 patientID=PATIENT_2_3
 SUBJECTS_DIR=~/scratch/HCP/stage_2
 util=~/projects/def-dmattie/crush/utilities
+module load postgresql
 ##mkdir -p /tmp/crush/
 ##rsync -a $SUBJECTS_DIR/$patientID/ /tmp/crush/$patientID 
 ##cd /tmp/crush/
