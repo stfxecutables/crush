@@ -3,12 +3,12 @@
 ##### ARCHIVE
 ######################################
 
-#SBATCH --time=6:00:00
+#SBATCH --time=2:00:00
 #SBATCH --account=def-dmattie
 #SBATCH --cpus-per-task=1
 #SBATCH --mail-user=dmattie@stfx.ca
 #SBATCH --mail-type=ALL
-#SBATCH --mem-per-cpu=4000M
+#SBATCH --mem-per-cpu=512M
 #SBATCH -e PATIENT_3_4_3-4_%x-%j.err
 #SBATCH -o PATIENT_3_4_3-4_%x-%j.out
 
@@ -27,6 +27,7 @@ if tar -czf ~/projects/def-dmattie/HCP/$patientID.tar.gz $patientID ; then
     ############
     mkdir -p ../completed
     mv ../$patientID-3_4.sh ../completed   #Move the currently running script to archive        
+    rm -r $SUBJECTS_DIR/$patientID
     ############
     cd $util
 
