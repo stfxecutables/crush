@@ -38,7 +38,11 @@ echo "$rendered rendered"
 if [ "$rendered" -ge "$parcels" ]; then
     echo "STAGE 0 to STAGE 1 COMPLETE.  ADVANCING FORWARD"
     mkdir -p $SUBJECTS_DIR/../stage_1 
-    mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_1
+    #mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_1
+    if [ cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_1 ];then
+        rm -r $SUBJECTS_DIR/$patientID
+    fi
+    
 fi
 
 cd $util
