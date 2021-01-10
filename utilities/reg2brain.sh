@@ -23,5 +23,9 @@ do
 done
 fslmerge -a reg2brain.data.nii.gz reg2ref.*
 mkdir stage_registration
-mv vol* stage_registration
-mv reg2ref* stage_registration
+cp -a vol* stage_registration
+cp -a reg2ref* stage_registration
+rm vol*
+rm reg2ref*
+#mv vol* stage_registration
+#mv reg2ref* stage_registration
