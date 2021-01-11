@@ -28,24 +28,29 @@ $util/reg2brain.sh data.nii.gz ../$patientID/mri/brainmask.mgz
 if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; then
     mkdir -p $SUBJECTS_DIR/../stage_2
     #mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2
-    if [ cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 ];then
+    if cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
+    then
         rm -r $SUBJECTS_DIR/$patientID
+
+        echo "STAGE 1 to STAGE 2 COMPLETE.  ADVANCING FORWARD"
+        #MOVE FORWARD
+        cd $util
+
+        cat cascade_2_to_3.sh.template | sed -e "s/PATIENT_2_3/$patientID/" > ~/jobs/generated/$patientID-2_3.sh
+        chmod u+x ~/jobs/generated/$patientID-2_3.sh
+        mkdir -p ~/jobs/generated/logs
+        cd ~/jobs/generated/logs
+        ############
+        mkdir -p ../completed
+        mv ../$patientID-1_2.sh ../completed   #Move the currently running script to archive
+        sbatch ~/jobs/generated/$patientID-2_3.sh
+        ############
+        cd $util
+    else 
+        echo "XXXXXXXXXXXXXXXXXXX failed to copy files to next stage"
     fi
 
-    echo "STAGE 1 to STAGE 2 COMPLETE.  ADVANCING FORWARD"
-    #MOVE FORWARD
-    cd $util
-
-    cat cascade_2_to_3.sh.template | sed -e "s/PATIENT_2_3/$patientID/" > ~/jobs/generated/$patientID-2_3.sh
-    chmod u+x ~/jobs/generated/$patientID-2_3.sh
-    mkdir -p ~/jobs/generated/logs
-    cd ~/jobs/generated/logs
-    ############
-    mkdir -p ../completed
-    mv ../$patientID-1_2.sh ../completed   #Move the currently running script to archive
-    sbatch ~/jobs/generated/$patientID-2_3.sh
-    ############
-    cd $util
+   
 else
     echo "XXXXXXXXXXXXXXXXXXX  Registration incomplete for patient $patientID"
 fi
