@@ -29,10 +29,10 @@ pwd
 
 if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/crush/tracts.txt" ]; then
     mkdir -p $SUBJECTS_DIR/../stage_3
-    #mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3
-    if cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3 
+    
+    if mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3 #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3 
     then
-        rm -r $SUBJECTS_DIR/$patientID
+        #rm -r $SUBJECTS_DIR/$patientID
 
         echo "STAGE 2 to STAGE 3 COMPLETE.  ADVANCING FORWARD"
     

@@ -27,10 +27,10 @@ $util/reg2brain.sh data.nii.gz ../$patientID/mri/brainmask.mgz
 
 if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; then
     mkdir -p $SUBJECTS_DIR/../stage_2
-    #mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2
-    if cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
+    
+    if mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2   #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
     then
-        rm -r $SUBJECTS_DIR/$patientID
+        #rm -r $SUBJECTS_DIR/$patientID
 
         echo "STAGE 1 to STAGE 2 COMPLETE.  ADVANCING FORWARD"
         #MOVE FORWARD
