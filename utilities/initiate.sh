@@ -1,15 +1,59 @@
 #!/bin/bash
 
-if [ $# -eq 0 ]
-  then
-      echo "No arguments supplied.  Must specify a patient  E.g. initiate.sh 1001234"
-      exit
-fi
+fshift() { local v n=$'\n';read -r v < <(
+	    sed -e $'1{w/dev/stdout\n;d}' -i~ "$1")
+	        printf ${2+-v} $2 "%s${n[${2+2}]}" "$v"
+	}
+
+fsplice() {
+    [ "$2" ] || return ; local v n=$'\n';read -r v < <(
+    sed -e $2$'{w/dev/stdout\n;d}' -i~ "$1");
+    printf ${3+-v} $3 "%s${n[${3+3}]}" "$v"
+}
+
+PATIENT_QUEUE=~/projects/def-dmattie/data/crush-queue
 ROOT_DIR=~/scratch/HCP
 SUBJECTS_DIR=$ROOT_DIR/stage_0
 util=$(pwd)
-patientID=$1
-echo $patientID
+
+
+if [ $# -eq 0 ]
+  then
+      echo "No arguments supplied.  Getting next in queue $PATIENT_QUEUE"
+      while [ ! -f $PATIENT_QUEUE ]
+      do
+        echo "."
+	    sleep 2
+      done
+      mv $PATIENT_QUEUE $PATIENT_QUEUE.tmp
+
+      fshift $PATIENT_QUEUE.tmp patientID  
+      mv $PATIENT_QUEUE.tmp $PATIENT_QUEUE
+          
+else    
+    myline=`awk "/$1/{ print NR; exit }" $PATIENT_QUEUE`
+    if [ $myline ]
+    then
+
+        while [ ! -f $PATIENT_QUEUE ]
+        do
+            echo "."
+            sleep 2
+        done
+        mv $PATIENT_QUEUE $PATIENT_QUEUE.tmp
+
+        fsplice $PATIENT_QUEUE.tmp $myline patientID
+        mv $PATIENT_QUEUE.tmp $PATIENT_QUEUE
+        
+        echo "Patient found on line $myline of $PATIENT_QUEUE"
+    else    
+        echo "Not found in QUEUE.  Queue file ignored"
+        patientID=$1
+    fi        
+fi
+
+echo "Initiating patient: $patientID"
+
 echo "****START************"
 if [ ! -d "$ROOT_DIR/stage_0/$patientID" ] &&
 [ ! -d "$ROOT_DIR/stage_1/$patientID" ] &&
