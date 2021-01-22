@@ -1059,6 +1059,17 @@ class Pipeline:
                         if visit.is_number(visit.data[visit.PatientId][visit.VisitId][m]) and visit.is_number(visit.data[visit.PatientId][visit.VisitId][asymCounterpart]) and float(visit.data[visit.PatientId][visit.VisitId][asymCounterpart]) != 0:
                             asymIdx=float(visit.data[visit.PatientId][visit.VisitId][m]) / float(visit.data[visit.PatientId][visit.VisitId][asymCounterpart])                            
                             asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
+        
+
+        dburl = os.getenv(CRUSH_DATABASE_URL)
+        if not dburl:
+            msg = '''no database url specified.  CRUSH_DATABASE_URL environment 
+            variable must be set using example:
+            postgresql://user@localhost:5432/dbname'''
+            logging.error(msg)
+            raise ValueError(msg)
+        conn = psycopg2.connect(dburl)
+                        
         for newm in asymMeasuresToAdd:
             if visit.is_number(str(asymMeasuresToAdd[newm])):
                 #measurements[self.PipelineId+'/'+newm]=str(asymMeasuresToAdd[newm])
@@ -1068,15 +1079,39 @@ class Pipeline:
                 kpieces=newm.split('-')            
                 if(len(kpieces)==4):
 
-                    self.repo.upsert(sample=visit.PatientId,
-                            visit=visit.VisitId,
-                            roi_start=kpieces[0],
-                            roi_end=kpieces[1],
-                            method=kpieces[2],
-                            measurement=f"{self.PipelineId}/{kpieces[3]}",
-                            #measurement=kpieces[3],
-                            measured=str(asymMeasuresToAdd[newm])
-                            )   
+                    measured = Decimal(measured)
+                    if(not math.isnan(measured)):
+                        sql=""                        
+                        try:
+                            with conn.cursor() as curs:
+                                sql="""INSERT INTO measurements (sample,visit,roi_start,roi_end,method,measurement,measured)
+                                    VALUES('%s','%s','%s','%s','%s','%s','%36.20f') 
+                                    ON CONFLICT (sample,visit,roi_start,roi_end,method,measurement) 
+                                    DO 
+                                        UPDATE SET measured = EXCLUDED.measured""" %(visit.PatientId,
+                                        visit.VisitId,
+                                        kpieces[0],
+                                        kpieces[1],
+                                        kpieces[2],
+                                        f"{self.PipelineId}/{kpieces[3]}",
+                                        str(asymMeasuresToAdd[newm]))                                                          
+                                #print(sql)
+                                curs.execute(sql)
+                        except Exception as e:
+                            logging.error(f"ERROR:{e} SQL:{sql}\n")
+                            raise e
+        conn.close()
+                        
+
+                    # self.repo.upsert(sample=visit.PatientId,
+                    #         visit=visit.VisitId,
+                    #         roi_start=kpieces[0],
+                    #         roi_end=kpieces[1],
+                    #         method=kpieces[2],
+                    #         measurement=f"{self.PipelineId}/{kpieces[3]}",
+                    #         #measurement=kpieces[3],
+                    #         measured=str(asymMeasuresToAdd[newm])
+                    #         )   
                 
             
         ## End of derived measures
