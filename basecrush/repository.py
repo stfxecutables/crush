@@ -79,8 +79,10 @@ class repository:
                 sys.stderr.write("db!")
                 timeoutattempts = timeoutattempts -1 
                 if timeoutattempts ==1:
-                    traceback.print_exc()                                        
-                    raise RuntimeError(f"** Attempted for 500 seconds to establish connection pool to {url}\n") from error
+                    sys.stderr.write("Stack Trace:")
+                    traceback.print_exc()    
+                    sys.stderr.write(f"** Attempted for 500 seconds to establish connection pool to {url}\n")                                  
+                    raise RuntimeError("Unable to establish a connection pool!")
                     
         print(f"Delayed creation connection of connection pool to db {url}. {timeoutattempts} timeout seconds remaining")
 
