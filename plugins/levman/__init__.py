@@ -1100,7 +1100,7 @@ class Pipeline:
                         except Exception as e:
                             logging.error(f"ERROR:{e} SQL:{sql}\n")
                             raise e
-        conn.close()
+            conn.close()
                         
 
                     # self.repo.upsert(sample=visit.PatientId,

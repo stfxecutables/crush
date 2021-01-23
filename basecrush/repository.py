@@ -8,6 +8,8 @@ from functools import wraps
 from psycopg2.pool import ThreadedConnectionPool
 import math
 from contextlib import contextmanager
+import time
+import traceback
 
 # Keep a text file to capture any errors.  
 # I'm particularly interested in pooled connection failures 
@@ -65,8 +67,17 @@ class repository:
         # The ThreadedConnectionPool will decide when to do garbage collection
         minconns = connections
         maxconns = connections * 2
-        return ThreadedConnectionPool(minconns, maxconns, url)
-    
+        timeoutattempts = 100
+        while timeoutattempts>0:
+            try:
+                tc = ThreadedConnectionPool(minconns, maxconns, url)                    
+                return tc
+            except:
+                time.sleep(1)
+                if timeoutattempts ==1:
+                    traceback.print_exc()                    
+                timeoutattempts = timeoutattempts -1 
+        print(f"Attempted for {timeoutattempts} seconds to reconnect to {url}")
 
     def createdb(self,conn, schema="schema.sql"):
         """
