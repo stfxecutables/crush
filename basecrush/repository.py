@@ -68,7 +68,7 @@ class repository:
         # The ThreadedConnectionPool will decide when to do garbage collection
         minconns = connections
         maxconns = connections * 2
-        timeoutattempts = 500
+        timeoutattempts = 100
         
         while timeoutattempts>0:
             try:
@@ -81,7 +81,7 @@ class repository:
                 if timeoutattempts ==1:
                     sys.stderr.write("Stack Trace:")
                     traceback.print_exc()    
-                    sys.stderr.write(f"** Attempted for 500 seconds to establish connection pool to {url}\n")                                  
+                    sys.stderr.write(f"** Attempted for 100 seconds to establish connection pool to {url}\n")                                  
                     raise RuntimeError("Unable to establish a connection pool!")
                     
         print(f"Delayed creation connection of connection pool to db {url}. {timeoutattempts} timeout seconds remaining")
