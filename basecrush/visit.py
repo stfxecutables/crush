@@ -79,16 +79,16 @@ class Visit:
                 self.MeasurementComplete=True    
             else: 
                 self.MeasurementComplete=False
-        else:
-            self.repo=repository.repository()  
-            measurementCount = self.repo.countvals(self.PatientId,self.VisitId)            
-            if measurementCount>1000000:
-                self.MeasurementComplete=True 
-            else:
-                self.MeasurementComplete=False
-                if measurementCount>0:
-                    MsgUser.message(f"Incomplete measurements detected in {self.PatientId} visit {self.VisitId}")
-        self.GetMeasurements()
+        #else:
+        #    self.repo=repository.repository()  
+        #    measurementCount = self.repo.countvals(self.PatientId,self.VisitId)            
+        #    if measurementCount>1000000:
+        #        self.MeasurementComplete=True 
+        #    else:
+        #        self.MeasurementComplete=False
+        #        if measurementCount>0:
+        #            MsgUser.message(f"Incomplete measurements detected in {self.PatientId} visit {self.VisitId}")
+        #self.GetMeasurements()
         exit
 
     
