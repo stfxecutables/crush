@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import os
+import os,sys
 import psycopg2 as pg
 import logging
 from decimal import Decimal
@@ -50,6 +50,7 @@ class repository:
         #Indicator in logs for when teardown happens, conns close      
         logging.info('Repository Uninstantiated') 
 
+
     def connect(self,env="CRUSH_DATABASE_URL", connections=2):
         """
         Connect to the database using an environment variable CRUSH_DATABASE_URL.
@@ -67,17 +68,21 @@ class repository:
         # The ThreadedConnectionPool will decide when to do garbage collection
         minconns = connections
         maxconns = connections * 2
-        timeoutattempts = 100
+        timeoutattempts = 500
+        
         while timeoutattempts>0:
             try:
                 tc = ThreadedConnectionPool(minconns, maxconns, url)                    
                 return tc
             except:
                 time.sleep(1)
-                if timeoutattempts ==1:
-                    traceback.print_exc()                    
+                sys.stderr.write("db!")
                 timeoutattempts = timeoutattempts -1 
-        print(f"Attempted for {timeoutattempts} seconds to reconnect to {url}")
+                if timeoutattempts ==1:
+                    traceback.print_exc()                                        
+                    raise RuntimeError(f"** Attempted for 500 seconds to establish connection pool to {url}\n") from error
+                    
+        print(f"Delayed creation connection of connection pool to db {url}. {timeoutattempts} timeout seconds remaining")
 
     def createdb(self,conn, schema="schema.sql"):
         """
