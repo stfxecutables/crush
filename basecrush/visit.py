@@ -79,20 +79,21 @@ class Visit:
                 self.MeasurementComplete=True    
             else: 
                 self.MeasurementComplete=False
-        #else:
-        #    self.repo=repository.repository()  
-        #    measurementCount = self.repo.countvals(self.PatientId,self.VisitId)            
-        #    if measurementCount>1000000:
-        #        self.MeasurementComplete=True 
-        #    else:
-        #        self.MeasurementComplete=False
-        #        if measurementCount>0:
-        #            MsgUser.message(f"Incomplete measurements detected in {self.PatientId} visit {self.VisitId}")
-        #self.GetMeasurements()
-        exit
+        else:
+           self.repo=repository.repository()  
+           measurementCount = self.repo.countvals(self.PatientId,self.VisitId)            
+           if measurementCount>1000000:
+               self.MeasurementComplete=True 
+           else:
+               self.MeasurementComplete=False
+               if measurementCount>0:
+                   MsgUser.message(f"Incomplete measurements detected in {self.PatientId} visit {self.VisitId}")
+        self.GetMeasurements()
+        
 
     
     def Render(self):
+        print(f"Rendering {self.VisitId}")
         #Lets Render as needed
         MsgUser.message("Rendering %s" % self.path)
         
@@ -119,7 +120,7 @@ class Visit:
     def GetMeasurements(self):
 
         Measurements={}
-        #print(self.Segments)
+        
         self.data[self.PatientId]={}
         self.data[self.PatientId][self.VisitId]={} 
 
@@ -143,8 +144,7 @@ class Visit:
             self.repo=repository.repository()               
             Measurements=self.repo.getall(sample=self.PatientId,visit=self.VisitId)                                
             for n in Measurements:
-                self.data[self.PatientId][self.VisitId][n]=Measurements[n]
-        
+                self.data[self.PatientId][self.VisitId][n]=Measurements[n]                
         return #Measurements
     def is_number(self,s):
         try:

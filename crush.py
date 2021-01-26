@@ -80,7 +80,7 @@ def ProcessSamples(args,S):
         if (args.patient is not None and args.patient != p.PatientId):
             continue
         for v in p.Visits:
-
+            
             if v.ReconComplete != True:
                 MsgUser.warning("\t%s recon incomplete" % (v.VisitId))
             else:
