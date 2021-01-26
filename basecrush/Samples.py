@@ -28,7 +28,7 @@ class Samples:
         for file in dirs:
             patient_dir = "%s/%s" % (rootDir,file)
                    
-            if os.path.isdir(patient_dir) and (self.patient is None or f"./{self.patient}"==patient_dir):    
+            if os.path.isdir(patient_dir) and (self.patient is None or f"{self.patient}"==os.path.basename(patient_dir)):    
                 print(f"Scanning {patient_dir}")            
                 visits = os.listdir(patient_dir)
                 for v in visits:
