@@ -89,6 +89,7 @@ class Visit:
                if measurementCount>0:
                    MsgUser.message(f"Incomplete measurements detected in {self.PatientId} visit {self.VisitId}")
         self.GetMeasurements()
+        self.repo = None
         
 
     
