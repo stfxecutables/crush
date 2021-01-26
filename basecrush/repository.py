@@ -72,7 +72,8 @@ class repository:
         
         while timeoutattempts>0:
             try:
-                tc = ThreadedConnectionPool(minconns, maxconns, url)                    
+                tc = ThreadedConnectionPool(minconns, maxconns, url)     
+                print("Connection Pool Established")                
                 return tc
             except:
                 time.sleep(1)

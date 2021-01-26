@@ -305,7 +305,7 @@ class Pipeline:
             reader=csvModule.reader(fin, skipinitialspace=True, quotechar="'")
             p = re.compile('^ *#')   # if not commented          
             for row in reader:
-                print("%s,%s" %(i,row))
+                #print("%s,%s" %(i,row))
                 if(not p.match(row[0])): 
                     self.Segments.append({'roi':row[0],'roiname':row[1],'asymmetry':row[2]})
                 i=i+1

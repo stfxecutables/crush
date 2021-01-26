@@ -125,7 +125,7 @@ def main():
 
     args = parser.parse_args()
 
-    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.disable_log,args.pipeline,args.csv)
+    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.disable_log,args.pipeline,args.csv,args.patient)
 
     if(args.csv):
         S.csv()

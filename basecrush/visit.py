@@ -79,7 +79,7 @@ class Visit:
                 self.MeasurementComplete=True    
             else: 
                 self.MeasurementComplete=False
-        else:
+        else:           
            self.repo=repository.repository()  
            measurementCount = self.repo.countvals(self.PatientId,self.VisitId)            
            if measurementCount>1000000:

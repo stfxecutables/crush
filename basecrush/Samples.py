@@ -9,7 +9,7 @@ class Samples:
     Count=0
     
     
-    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing,maxcores,disable_log,pipeline,csv):
+    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing,maxcores,disable_log,pipeline,csv,patient):
         self.Patients=[]
         self.force=force
         self.voi=voi
@@ -21,12 +21,15 @@ class Samples:
         self.disable_log=disable_log
         self.pipeline=pipeline
         self.csv_flag=csv
+        self.patient=patient
 
         dirs = os.listdir( rootDir )
         
         for file in dirs:
             patient_dir = "%s/%s" % (rootDir,file)
-            if os.path.isdir(patient_dir):                
+                   
+            if os.path.isdir(patient_dir) and (self.patient is None or f"./{self.patient}"==patient_dir):    
+                print(f"Scanning {patient_dir}")            
                 visits = os.listdir(patient_dir)
                 for v in visits:
                     if(not os.path.islink("%s/%s" %(patient_dir,v))):
