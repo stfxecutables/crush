@@ -1061,7 +1061,7 @@ class Pipeline:
                             asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
         
 
-        dburl = os.getenv(CRUSH_DATABASE_URL)
+        dburl = os.getenv("CRUSH_DATABASE_URL")
         if not dburl:
             msg = '''no database url specified.  CRUSH_DATABASE_URL environment 
             variable must be set using example:
