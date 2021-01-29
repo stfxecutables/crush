@@ -30,6 +30,11 @@ import configparser
 import basecrush.repository
 from plugins.levman.workers import workerTrackvis
 
+import math
+import psycopg2 as pg
+import logging
+from decimal import Decimal
+
 
 
 
