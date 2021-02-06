@@ -80,10 +80,12 @@ class Visit:
             else: 
                 self.MeasurementComplete=False
         else:           
+           print("Let's see if there are any pre-existing measurements")
            self.repo=repository.repository()  
            measurementCount = self.repo.countvals(self.PatientId,self.VisitId)            
            if measurementCount>1000000:
                self.MeasurementComplete=True 
+               MsgUser.message(f"{measurementCount} measurements detected in {self.PatientId} visit {self.VisitId}.  We will consider this complete.")
            else:
                self.MeasurementComplete=False
                if measurementCount>0:
@@ -138,12 +140,13 @@ class Visit:
                                 Measurements[nvp[0]]=nvp[1].strip()
                             else:
                                 Measurements[nvp[0]]="" #convert nan to missing value
-                
+            print(f"{length(Measurements)} measurements retrieved from tracts.txt file")   
             ## Add derived measures here
             #print("Deriving Asymmetry Indexes")
         else:
             self.repo=repository.repository()               
-            Measurements=self.repo.getall(sample=self.PatientId,visit=self.VisitId)                                
+            Measurements=self.repo.getall(sample=self.PatientId,visit=self.VisitId)     
+            print(f"{length(Measurements)} measurements retrieved from database")                            
             for n in Measurements:
                 self.data[self.PatientId][self.VisitId][n]=Measurements[n]                
         return #Measurements
