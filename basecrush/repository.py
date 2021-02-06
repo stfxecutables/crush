@@ -15,7 +15,13 @@ import traceback
 # I'm particularly interested in pooled connection failures 
 # if there are too many concurrent connections.
 
-logging.basicConfig(level=logging.ERROR, 
+loglevel = os.getenv("CRUSH_DATABASE_LOGGING_LEVEL")
+if not loglevel:
+    loglvl=logging.ERROR
+else:
+    loglvl=loglevel
+
+logging.basicConfig(level=loglvl, 
     format='%(asctime)s %(message)s',
     filename='crushdb-repository.log')
 
@@ -34,7 +40,7 @@ class repository:
 
         self.pool = self.connect() 
                               
-        logging.info('Repository Instantiated')
+        logging.debug('Repository Instantiated')
 
         #if the schema doesn't exist, create it using module code schema.sql       
         schema=os.path.join(os.path.dirname(__file__), 'schema.sql')    
@@ -48,8 +54,7 @@ class repository:
 
     def __del__(self): 
         #Indicator in logs for when teardown happens, conns close      
-        logging.info('Repository Uninstantiated') 
-        print("Closing repo")
+        logging.debug('Repository Uninstantiated')        
 
 
     def connect(self,env="CRUSH_DATABASE_URL", connections=2):
@@ -73,19 +78,20 @@ class repository:
         
         while timeoutattempts>0:
             try:
-                tc = ThreadedConnectionPool(minconns, maxconns, url)     
-                print("Connection Pool Established")                
+                tc = ThreadedConnectionPool(minconns, maxconns, url)  
+                logging.debug("Connection Pool Established")                          
                 return tc
             except:
                 time.sleep(1)
-                sys.stderr.write("db!")
+                logging.debug("Connection Pool Setup Failed, trying again")
                 timeoutattempts = timeoutattempts -1 
                 if timeoutattempts ==1:
                     sys.stderr.write("Stack Trace:")
                     traceback.print_exc()    
-                    sys.stderr.write(f"** Attempted for 100 seconds to establish connection pool to {url}\n")                                  
+                    sys.stderr.write(f"** Attempted for 100 seconds to establish connection pool to {url}\n") 
+                    logging.debug(traceback.print_exc())                                 
                     raise RuntimeError("Unable to establish a connection pool!")
-                    
+        
         print(f"Delayed creation connection of connection pool to db {url}. {timeoutattempts} timeout seconds remaining")
 
     def createdb(self,conn, schema="schema.sql"):
@@ -98,23 +104,24 @@ class repository:
                     """select exists(SELECT FROM pg_tables WHERE tablename  = 'measurements')
                     """
              )               
-                        
+            logging.debug(sql)           
             curs.execute(sql)   
             row = curs.fetchone()       
             exists = row[0]                    
         
         exists = bool(exists) 
 
-        if not exists:
-            print(schema)        
+        if not exists:            
+            logging.debug(schema)     
             with open(schema, 'r') as f:
                 sql = f.read()
+                logging.debug(sql)
 
             try:
                 with conn.cursor() as curs:
                     curs.execute(sql)
                     conn.commit()
-                    logging.info('Repository Instantiated')
+                    logging.debug('Repository Instantiated')
             except Exception as e:
                 conn.rollback()
                 logging.error(f'Failed to create schema, ERROR:{e}')
@@ -156,7 +163,7 @@ class repository:
             conn.commit()
         except Exception as e:
             print(e)
-            logging.info(f'Transaction failed ERROR:{e}')
+            logging.error(f'Transaction failed ERROR:{e}')
             conn.rollback()           
         finally:
             conn.reset()
@@ -179,7 +186,7 @@ class repository:
                         ON CONFLICT (sample,visit,roi_start,roi_end,method,measurement) 
                         DO 
                             UPDATE SET measured = EXCLUDED.measured""" %(sample,visit,roi_start,roi_end,method,measurement,measured)                                                          
-                    #print(sql)
+                    logging.debug(sql)
                     curs.execute(sql)
             except Exception as e:
                 logging.error(f"ERROR:{e} SQL:{sql}\n")
@@ -194,7 +201,8 @@ class repository:
                     """select measured from measurements where sample=%s and visit=%s and roi_start=%s and roi_end=%s
                     and method=%s and measurement=%s
                     """
-             )               
+             ) 
+            logging.debug(sql)              
             curs.execute(sql,(sample,visit,roi_start,roi_end,method,measurement))   
             row = curs.fetchone()             
             measured = row[0]                    
@@ -214,7 +222,7 @@ class repository:
                     """select count(1) from measurements where sample=%s and visit=%s
                     """
              )               
-                        
+            logging.debug(sql)       
             curs.execute(sql,(sample,visit))   
             row = curs.fetchone()       
             measured = row[0]                    
@@ -232,7 +240,8 @@ class repository:
             sql=(
                     """select roi_start,roi_end,method,measurement,measured from measurements where sample=%s and visit=%s
                     """
-             )               
+             )
+            logging.debug(sql)               
             curs.execute(sql,(sample,visit))   
             row = curs.fetchone()  
             while row:
@@ -257,7 +266,8 @@ class repository:
                     from measurements where sample=%s and visit=%s
                     and roi_start=%s and roi_end=%s and method=%s
                     """
-             )               
+             )
+            logging.debug(sql)               
             curs.execute(sql,(sample,visit,roi_start,roi_end,method))   
             row = curs.fetchone()    
             while row:
