@@ -34,6 +34,8 @@ import math
 import psycopg2 as pg
 import logging
 from decimal import Decimal
+from bids.layout import BIDSLayout
+import pandas as pd
 
 
 
@@ -287,7 +289,7 @@ class Pipeline:
    
     def __init__(self,object): 
         self.PipelineId = "levman"
-
+        self.bidslayout = BIDSLayout( os.getenv("SUBJECTS_DIR"), validate=False)
         config = configparser.ConfigParser() 
         config.read(os.path.join(os.path.dirname(__file__), 'levman.ini'))             
         #config.read('~/projects/crush/plugins/levman/levman.ini')
@@ -347,22 +349,25 @@ class Pipeline:
         self.eddy_correct()
         print("%s:%s" %("hardi_mat started:",datetime.datetime.now()))
         self.hardi_mat()            
-        print("%s:%s" %("odf recon started:",datetime.datetime.now()))
-        self.odf_recon()
-        print("%s:%s" %("odf tracker started:",datetime.datetime.now()))
-        self.odf_tracker()
+        #print("%s:%s" %("odf recon started:",datetime.datetime.now()))
+        #self.odf_recon()
+        #print("%s:%s" %("odf tracker started:",datetime.datetime.now()))
+        #self.odf_tracker()
+
+        print("%s:%s" %("dti_recon started:",datetime.datetime.now()))
+        self.dti_recon()
+        print("%s:%s" %("dti_tracker started:",datetime.datetime.now()))
+        self.dti_tracker()
+        #print("%s:%s" %("parcellation started:",datetime.datetime.now()))
+        #self.parcellate()
+
         print("%s:%s" %("flirt started:",datetime.datetime.now()))
         self.flirt()
     
 
         print("%s:%s" %("tract_transform started:",datetime.datetime.now()))
         self.tract_transform()
-        print("%s:%s" %("dti_recon started:",datetime.datetime.now()))
-        self.dti_recon()
-        print("%s:%s" %("dti_tracker started:",datetime.datetime.now()))
-        self.dti_tracker()
-        print("%s:%s" %("parcellation started:",datetime.datetime.now()))
-        self.parcellate()
+ 
         print("%s:%s" %("track_vis started:",datetime.datetime.now()))
         self.track_vis()
 
@@ -644,6 +649,10 @@ class Pipeline:
         #eddy_correct ~/HealthyTractography/%s/%s/DTI35.nii ~/HealthyTractography/%s/%s/DTI35_eddy.nii 0
         #if os.path.isfile("%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath)):
         if self.visit.SourceTaxonomy=="BCH":
+
+            if not os.path.isdir("%s" % (self.visit.tractographypath)):
+                os.mkdir("%s/" % (self.visit.tractographypath))
+
             if self.visit.rebuild!=True  and os.path.isfile("%s/data.nii.gz" %(self.visit.tractographypath)):
                 self.eddyCorrectedData="%s/data.nii" %(self.visit.tractographypath)
                 MsgUser.skipped("eddy_correct output exists [%s/data.nii.gz]" %(self.visit.tractographypath))
@@ -659,12 +668,27 @@ class Pipeline:
                 #     #os.rename("%s/DTI35_eddy.nii.gz" %(self.visit.diffusionpath),"%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath))
 
                 if self.visit.SourceTaxonomy=="BCH":
-                    cmdArray=["eddy_correct","%s/data.nii.gz" % (self.visit.diffusionpath),"%s/data.nii.gz" % (self.visit.tractographypath),"0"]                
+
+                    
+                    print(self.bidslayout.get(subject=self.visit.PatientId.replace('sub-',''), suffix='dwi', extension='nii.gz', return_type='file'))
+                    print(self.visit.PatientId.replace('sub-',''))
+                    dwi_fname = self.bidslayout.get(subject=self.visit.PatientId.replace('sub-',''), suffix='dwi', extension='nii.gz', return_type='file')[0]
+                    print(f"Eddy Correcting Processing {dwi_fname}")
+                    
+
+
+                    cmdArray=["eddy_correct","%s" % (dwi_fname),"%s/data.nii.gz" % (self.visit.tractographypath),"0"]                
+                    print(cmdArray)
                     ret = subprocess.call(cmdArray)
                     if ret !=0:
                         MsgUser.failed("eddy_correct failed with error")
                         exit()   
-                    self.eddyCorrectedData="%s/data.nii.gz" %(self.visit.tractographypath)             
+
+                    with gzip.open("%s/data.nii.gz" %(self.visit.tractographypath), 'rb') as f_in:
+                        with open("%s/data.nii" %(self.visit.tractographypath), 'wb') as f_out:
+                            shutil.copyfileobj(f_in, f_out)
+
+                    self.eddyCorrectedData="%s/data.nii" %(self.visit.tractographypath)             
                     MsgUser.ok("eddy_correct Completed")
                 elif self.visit.SourceTaxonomy=="HCP":
                     #HCP data is already eddy corrected
@@ -689,8 +713,15 @@ class Pipeline:
             
     def createGradientMatrix(self):
 
-        a = zip(*csvModule.reader(open("%s/bvecs" %(self.visit.diffusionpath), "rt")))
-        csvModule.writer(open("%s/bvecs2gradientMatrix.txt" %(self.visit.tractographypath), "wt")).writerows(a)
+        #a = zip(*csvModule.reader(open("%s/bvecs" %(self.visit.diffusionpath), "rt")))
+
+        #csvModule.writer(open("%s/bvecs2gradientMatrix.txt" %(self.visit.tractographypath), "wt")).writerows(a)
+        bvec_fname= self.bidslayout.get(subject=self.visit.PatientId.replace('sub-',''),  extension='bvec', return_type='file')[0]
+        #csv = pd.read_csv("%s/bvecs" %(self.visit.diffusionpath), skiprows=0,sep=' ')
+        csv = pd.read_csv(bvec_fname, skiprows=0,sep=' ')
+        df_csv = pd.DataFrame(data=csv)
+        transposed_csv = df_csv.T        
+        transposed_csv.to_csv("%s/bvecs2gradientMatrix.txt" %(self.visit.tractographypath),header=False,index=True)
 
         
     def createGradientMatrixNHDR(self):
@@ -718,11 +749,18 @@ class Pipeline:
         if self.visit.rebuild!=True and os.path.isfile("%s/temp_mat.dat" %(self.visit.tractographypath)):
             MsgUser.skipped("hardi_mat output exists")
         else:
-            defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"gradientMatrix_HCP.txt")
-            if(not os.path.isfile("%s/hcp_gradient_table_from_data_dictionary_3T.csv"%(self.visit.tractographypath))):
+            # defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"gradientMatrix_HCP.txt")
+            # if(not os.path.isfile("%s/hcp_gradient_table_from_data_dictionary_3T.csv"%(self.visit.tractographypath))):
+            #     self.createGradientMatrix()
+
+            #defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"bvecs2gradientMatrix.txt")
+            if(not os.path.isfile("%s/bvecs2gradientMatrix.txt"%(self.visit.tractographypath))):
                 self.createGradientMatrix()
 
-            cmdArray=["hardi_mat","%s/hcp_gradient_table_from_data_dictionary_3T.csv" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))),"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref",self.eddyCorrectedData,"-oc"]
+            #cmdArray=["hardi_mat","%s/hcp_gradient_table_from_data_dictionary_3T.csv" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))),"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref",self.eddyCorrectedData,"-oc"]
+            #cmdArray=["hardi_mat","%s/bvecs2gradientMatrix.txt" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))),"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref",self.eddyCorrectedData,"-oc"]
+            cmdArray=["hardi_mat","%s/bvecs2gradientMatrix.txt" %(self.visit.tractographypath),"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref",self.eddyCorrectedData,"-oc"]
+            
             print(cmdArray)
             ret = subprocess.call(cmdArray)
 
@@ -743,7 +781,8 @@ class Pipeline:
             
             #cmdArray=["odf_recon","%s/DTI35_eddy.nii.gz" %(self.visit.tractographypath),"31","181","%s/DTI35_Recon" %(self.visit.tractographypath),"-b0", "5","-mat","%s/temp_mat.dat" %(self.visit.tractographypath),"-p","3","-sn", "1", "-ot", "nii.gz"]
             #~/bin/odf_recon data.nii 125 181 DTI_Recon -b0 1 -p 3 -sn 1 -ot nii -mat ~/projects/def-dmattie/HCP/100307/T1w/Diffusion/temp_mat.dat
-            cmdArray=["odf_recon",self.eddyCorrectedData,"270","181","%s/DTI_Recon" %(self.visit.tractographypath),"-b0", "18","-mat","%s/temp_mat.dat" %(self.visit.tractographypath),"-p","3","-sn", "1", "-ot", "nii"]
+            #cmdArray=["odf_recon",self.eddyCorrectedData,"270","181","%s/DTI_Recon" %(self.visit.tractographypath),"-b0", "18","-mat","%s/temp_mat.dat" %(self.visit.tractographypath),"-p","3","-sn", "1", "-ot", "nii"]
+            cmdArray=["odf_recon",self.eddyCorrectedData,"31","181","%s/DTI_Recon" %(self.visit.tractographypath),"-b0", "5","-mat","%s/temp_mat.dat" %(self.visit.tractographypath),"-p","3","-sn", "1", "-ot", "nii"]
             print(cmdArray)
             ret = subprocess.call(cmdArray)
             if ret !=0:
@@ -801,7 +840,8 @@ class Pipeline:
         else:
             #track_transform DTI35_preReg.trk DTI35_postReg.trk -src DTI35_Recon_dwi.nii.gz -ref brainmask.nii -reg RegTransform4D
 
-            cmdArray=["track_transform","%s/DTI_preReg.trk" %(self.visit.tractographypath),"%s/DTI_postReg.trk" %(self.visit.tractographypath),"-src","%s/DTI_Recon_dwi.nii.gz"%(self.visit.tractographypath),"-ref", "%s/mri/brainmask.nii" %(self.visit.freesurferpath),"-reg","%s/RegTransform4D"%(self.visit.tractographypath)]
+            #cmdArray=["track_transform","%s/DTI_preReg.trk" %(self.visit.tractographypath),"%s/DTI_postReg.trk" %(self.visit.tractographypath),"-src","%s/DTI_Recon_dwi.nii.gz"%(self.visit.tractographypath),"-ref", "%s/mri/brainmask.nii" %(self.visit.freesurferpath),"-reg","%s/RegTransform4D"%(self.visit.tractographypath)]
+            cmdArray=["track_transform","%s/crush.trk" %(self.visit.tractographypath),"%s/DTI_postReg.trk" %(self.visit.tractographypath),"-src","%s/DTI_Reg2Brain_dwi.nii"%(self.visit.tractographypath),"-ref", "%s/mri/brainmask.nii" %(self.visit.freesurferpath),"-reg","%s/RegTransform4D"%(self.visit.tractographypath)]
             print(cmdArray)
             ret = subprocess.call(cmdArray)
             if ret !=0:
@@ -816,10 +856,12 @@ class Pipeline:
             #odf_, max_, dwi_, b0 files should exist
             MsgUser.skipped("dti_recon output exists")
         else:
-            defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"hcp_gradient_table_from_data_dictionary_3T.csv")
+            #defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"hcp_gradient_table_from_data_dictionary_3T.csv")
+            defaultGradientMatrix ="%s/%s" %(self.visit.tractographypath,"bvecs2gradientMatrix.txt")
             
             #cmdArray=["dti_recon","%s/DTI_eddy.nii.gz" %(self.visit.tractographypath),"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "1000","-b0","5","-p","3","-sn","1","-ot","nii"]
-            cmdArray=["dti_recon",self.eddyCorrectedData,"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "3010","-b0","1","-p","3","-sn","1","-ot","nii"]
+            #cmdArray=["dti_recon",self.eddyCorrectedData,"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "3010","-b0","1","-p","3","-sn","1","-ot","nii"]
+            cmdArray=["dti_recon",self.eddyCorrectedData,"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "1000","-b0","auto","-p","3","-sn","1","-ot","nii"]
             print(cmdArray)
             ret = subprocess.call(cmdArray)
             if ret !=0:
@@ -838,7 +880,7 @@ class Pipeline:
             #dti_tracker DTI35_Reg2Brain DTI35_postReg.trk -m DTI35_Reg2Brain_fa.nii 0.15
 
             #cmdArray=["dti_tracker","%s/DTI35_Reg2Brain" %(self.visit.tractographypath),"%s/crush.trk" %(self.visit.tractographypath),"-m","%s/DTI35_Reg2Brain_fa.nii"%(self.visit.tractographypath),"-at","35","-m","%s/DTI35_Reg2Brain_dwi.nii" %(self.visit.tractographypath),"-it","nii"]
-            cmdArray=["dti_tracker","%s/DTI_Reg2Brain" %(self.visit.tractographypath),"%s/crush.trk" %(self.visit.tractographypath),"-m","%s/DTI_Reg2Brain_fa.nii"%(self.visit.tractographypath),"-at","35","-m","%s/DTI_Reg2Brain_dwi.nii" %(self.visit.tractographypath),"-it","nii"]
+            cmdArray=["dti_tracker","%s/DTI_Reg2Brain" %(self.visit.tractographypath),"%s/crush.trk" %(self.visit.tractographypath),"-m","%s/DTI_Reg2Brain_fa.nii"%(self.visit.tractographypath),"-at","35","-m","%s/DTI_Reg2Brain_dwi.nii" %(self.visit.tractographypath),"-it","nii", "-iz"]
             print(cmdArray)
             ret = subprocess.call(cmdArray)
             if ret !=0:
