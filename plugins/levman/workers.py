@@ -141,7 +141,13 @@ class workerTrackvis(object):
                 
 
             else:
-                print("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
+                #print("Parcellation (wmparc####.nii) files missing (%s or %s)"%(segment,counterpart))
+                if not os.path.isfile(wmparcStart):
+                    print("%s is missing for %s-%s operation" %(wmparcStart,segment,counterpart))
+                if not os.path.isfile(wmparcEnd):
+                    print("%s is missing for %s-%s operation" %(wmparcStart,segment,counterpart))
+            
+   
             
             # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
             # if self.persistencemode =='db':

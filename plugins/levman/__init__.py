@@ -1008,16 +1008,16 @@ class Pipeline:
                         #print("Rendering segment %s counterpart %s method %s" %(segment, counterpart, method))
                         if segment != counterpart:
                             if (self.visit.fixmissing or len(self.MeasurementAudit_worker(segment,counterpart,method))==0):
-                                MsgUser.ok("Setting up %s %s %s" %(segment,counterpart,method))                            
+                                #MsgUser.ok("Setting up %s %s %s" %(segment,counterpart,method))                            
                                 t = [segment,counterpart,method,self.visit.tractographypath,self.PipelineId] 
-                                print("Rendering %s against %s using method %s" % (segment,counterpart,method))
+                                #print("Rendering %s against %s using method %s" % (segment,counterpart,method))
                                 tasks.append(t)
 
         no_of_procs = cpu_count() 
         if(no_of_procs>self.visit.maxcores):
             no_of_procs = self.visit.maxcores
             
-        print("Multiprocessing across %s async procs" %(no_of_procs))
+        print("Multiprocessing %s tasks across %s async procs" %(len(tasks),no_of_procs))
 
         pool = Pool(no_of_procs)
         workerTV=workerTrackvis()
