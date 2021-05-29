@@ -653,9 +653,9 @@ class Pipeline:
             if not os.path.isdir("%s" % (self.visit.tractographypath)):
                 os.mkdir("%s/" % (self.visit.tractographypath))
 
-            if self.visit.rebuild!=True  and os.path.isfile("%s/data.nii.gz" %(self.visit.tractographypath)):
-                self.eddyCorrectedData="%s/data.nii" %(self.visit.tractographypath)
-                MsgUser.skipped("eddy_correct output exists [%s/data.nii.gz]" %(self.visit.tractographypath))
+            if self.visit.rebuild!=True  and os.path.isfile("%s/reg2brain.data_eddy.nii" %(self.visit.tractographypath)):
+                self.eddyCorrectedData="%s/reg2brain.data_eddy.nii" %(self.visit.tractographypath)
+                MsgUser.skipped("eddy_correct output exists [%s/reg2brain.data_eddy.nii]" %(self.visit.tractographypath))
             else:
                 #Removed June 2020 - not sure what I was thinking, leaving in comments for now.
                 # #dtifit -k data.nii.gz -o dti -m nodif_brain_mask.nii.gz -r bvecs -b bvals
@@ -670,25 +670,28 @@ class Pipeline:
                 if self.visit.SourceTaxonomy=="BCH":
 
                     
-                    print(self.bidslayout.get(subject=self.visit.PatientId.replace('sub-',''), suffix='dwi', extension='nii.gz', return_type='file'))
-                    print(self.visit.PatientId.replace('sub-',''))
-                    dwi_fname = self.bidslayout.get(subject=self.visit.PatientId.replace('sub-',''), suffix='dwi', extension='nii.gz', return_type='file')[0]
-                    print(f"Eddy Correcting Processing {dwi_fname}")
+                    #print(self.bidslayout.get(subject=self.visit.PatientId.replace('sub-',''), suffix='dwi', extension='nii.gz', return_type='file'))
+                    #print(self.visit.PatientId.replace('sub-',''))
+                    #dwi_fname = self.bidslayout.get(subject=self.visit.PatientId.replace('sub-',''), suffix='dwi', extension='nii.gz', return_type='file')[0]
+                    #print(f"Eddy Correcting Processing {dwi_fname}")
                     
+                    #Normally ^^ use this but I have preregistered the schizconnect data
+                    dwi_fname="%s/reg2brain.data.nii.gz" %(self.visit.tractographypath)
 
-
-                    cmdArray=["eddy_correct","%s" % (dwi_fname),"%s/data.nii.gz" % (self.visit.tractographypath),"0"]                
+                    #cmdArray=["eddy_correct","%s" % (dwi_fname),"%s/data.nii.gz" % (self.visit.tractographypath),"0"]                
+                    cmdArray=["eddy_correct","%s" % (dwi_fname),"%s/reg2brain.data_eddy.nii.gz" % (self.visit.tractographypath),"0"]  
+                    
                     print(cmdArray)
                     ret = subprocess.call(cmdArray)
                     if ret !=0:
                         MsgUser.failed("eddy_correct failed with error")
                         exit()   
 
-                    with gzip.open("%s/data.nii.gz" %(self.visit.tractographypath), 'rb') as f_in:
-                        with open("%s/data.nii" %(self.visit.tractographypath), 'wb') as f_out:
+                    with gzip.open("%s/reg2brain.data_eddy.nii.gz" %(self.visit.tractographypath), 'rb') as f_in:
+                        with open("%s/reg2brain.data_eddy.nii" %(self.visit.tractographypath), 'wb') as f_out:
                             shutil.copyfileobj(f_in, f_out)
 
-                    self.eddyCorrectedData="%s/data.nii" %(self.visit.tractographypath)             
+                    self.eddyCorrectedData="%s/reg2brain.data_eddy.nii" %(self.visit.tractographypath)             
                     MsgUser.ok("eddy_correct Completed")
                 elif self.visit.SourceTaxonomy=="HCP":
                     #HCP data is already eddy corrected
