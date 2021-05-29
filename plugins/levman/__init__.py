@@ -929,27 +929,38 @@ class Pipeline:
 
     
     def getTrackVisResults(self,result):        
-        calcs=result            
-        for k in calcs:  
-            #print(f"k: {k}={calcs[k]}")            
-            kpieces=k.split('-')            
-            if(len(kpieces)==4):
-                sample=self.visit.PatientId
-                visit=self.visit.VisitId
-                firsttoken=kpieces[0].split('/')
-                pluginId=firsttoken[0]
-               # roi_start=firsttoken[1]
-               # roi_end=kpieces[1]
-               # method=kpieces[2]
-               # measurement=f"{pluginId}/{kpieces[3]}"
-               # measured=calcs[k]                        
-                self.repo.upsert(sample=self.visit.PatientId,
-                        visit=self.visit.VisitId,
-                        roi_start=firsttoken[1],
-                        roi_end=kpieces[1],
-                        method=kpieces[2],
-                        measurement=f"{pluginId}/{kpieces[3]}",
-                        measured=calcs[k])   
+        calcs=result    
+        if self.persistencemode=="db":         
+            for k in calcs:  
+                #print(f"k: {k}={calcs[k]}")            
+                kpieces=k.split('-')            
+                if(len(kpieces)==4):
+                    sample=self.visit.PatientId
+                    visit=self.visit.VisitId
+                    firsttoken=kpieces[0].split('/')
+                    pluginId=firsttoken[0]
+                # roi_start=firsttoken[1]
+                # roi_end=kpieces[1]
+                # method=kpieces[2]
+                # measurement=f"{pluginId}/{kpieces[3]}"
+                # measured=calcs[k]   
+                                      
+                    self.repo.upsert(sample=self.visit.PatientId,
+                            visit=self.visit.VisitId,
+                            roi_start=firsttoken[1],
+                            roi_end=kpieces[1],
+                            method=kpieces[2],
+                            measurement=f"{pluginId}/{kpieces[3]}",
+                            measured=calcs[k])  
+        else:
+            kpieces=calcs[0].split('-')
+            segment=kpieces[0].split('/')
+            counterpart=kpieces[1]
+            method=kpieces[2]
+            
+            calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
+            with open(calcsJson, "w") as calcs_file:
+                json.dump(calcs,calcs_file)
 
     def track_vis(self):
         MsgUser.bold("track_vis")
