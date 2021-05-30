@@ -59,11 +59,16 @@ class workerTrackvis(object):
                         if not os.path.isdir(f"{tractographypath}/crush/{segment}"):
                             os.mkdir(f"{tractographypath}/crush/{segment}")
                         try:
+                            proc = subprocess.run(trackvis,capture_output=True, text=True)
+
                             with open("%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method), "w") as track_vis_out:
                                 #proc = subprocess.Popen(trackvis, stdout=track_vis_out)
-                                #proc.communicate()
-                                proc = subprocess.run(trackvis,stdout=track_vis_out, text=True)
+                                #proc.communicate() 
                                 print(proc.stdout)
+                            if proc.returncode <> 0:
+                                print("TRACKVIS Command returned non-zero exit code")
+
+
                         except Exception as e:
                             print(f"Trackvis failed::{e}")                            
 
