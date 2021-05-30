@@ -65,8 +65,8 @@ class workerTrackvis(object):
                                 #proc = subprocess.Popen(trackvis, stdout=track_vis_out)
                                 #proc.communicate() 
                                 print(proc.stdout)
-                            if proc.returncode <> 0:
-                                print("TRACKVIS Command returned non-zero exit code")
+                   #         if proc.returncode <> 0:
+                   #             print("TRACKVIS Command returned non-zero exit code")
 
 
                         except Exception as e:
