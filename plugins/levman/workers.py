@@ -51,7 +51,7 @@ class workerTrackvis(object):
                     #if self.visit.disable_log:
                     #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method),"-disable_log"]
                     trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)]
-                    print(trackvis)
+                    
                     #else:
                     #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)]
                     
@@ -60,11 +60,12 @@ class workerTrackvis(object):
                             os.mkdir(f"{tractographypath}/crush/{segment}")
                         try:
                             proc = subprocess.run(trackvis,capture_output=True, text=True)
-                            print(proc)
+#                            print(proc)
                             with open("%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method), "w") as track_vis_out:
                                 #proc = subprocess.Popen(trackvis, stdout=track_vis_out)
                                 #proc.communicate() 
                                 print(proc.stdout)
+                                data=proc.stdout
                    #         if proc.returncode <> 0:
                    #             print("TRACKVIS Command returned non-zero exit code")
 
@@ -177,15 +178,15 @@ class workerTrackvis(object):
             datafile = "%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method)
             oldcalcsfile = "%s/crush/calcs-%s-%s-%s.json" %(tractographypath,segment,counterpart,method)
                     
-            #if os.path.isfile(nii):
-            #    os.unlink(nii) 
+            if os.path.isfile(nii):
+               os.unlink(nii) 
             
-            #if os.path.isfile(datafile):
-            #    os.unlink(datafile)
+            if os.path.isfile(datafile):
+               os.unlink(datafile)
                     
-            #if os.path.isfile(oldcalcsfile):
-            #    print("Cleanup %s" %(oldcalcsfile))
-            #    os.unlink(oldcalcsfile)             
+            if os.path.isfile(oldcalcsfile):
+               print("Cleanup %s" %(oldcalcsfile))
+               os.unlink(oldcalcsfile)             
 
             #print(calcs)
             return calcs
