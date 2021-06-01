@@ -959,21 +959,25 @@ class Pipeline:
             print("A")
             print(calcs.keys())
             print("A2")
-            key=calcs.keys()[0]
-            print(key)
-            kpieces=calcs[0].split('-')
-            print("B")
-            segment=kpieces[0].split('/')
-            print("C")
-            counterpart=kpieces[1]
-            print("D")
-            method=kpieces[2]
-            print("E")
-            
-            calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
-            with open(calcsJson, "w") as calcs_file:
-               json.dump(calcs,calcs_file)
-            print("done")
+            keys=calcs.keys()
+            if(len(keys))>0:
+                key=calcs.keys()[0]
+                print(key)
+                kpieces=calcs.keys[0].split('-')
+                print("B")
+                segment=kpieces[0].split('/')
+                print("C")
+                counterpart=kpieces[1]
+                print("D")
+                method=kpieces[2]
+                print("E")
+                
+                calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
+                with open(calcsJson, "w") as calcs_file:
+                json.dump(calcs,calcs_file)
+                print("done")
+            else:
+                raise Exception("getTrackvisResult - results not returned or not in appropriate format")
         print("Callback completed.  json created")
 
     def track_vis(self):
