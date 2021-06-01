@@ -188,7 +188,7 @@ class workerTrackvis(object):
                print("Cleanup %s" %(oldcalcsfile))
                os.unlink(oldcalcsfile)             
 
-            #print(calcs)
+            print(calcs)
             return calcs
 
     def nonZeroMean(self,faFile,roiFile):
