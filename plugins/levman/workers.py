@@ -60,7 +60,7 @@ class workerTrackvis(object):
                             os.mkdir(f"{tractographypath}/crush/{segment}")
                         try:
                             proc = subprocess.run(trackvis,capture_output=True, text=True)
-#                            print(proc)
+                            print(proc)
                             with open("%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method), "w") as track_vis_out:
                                 #proc = subprocess.Popen(trackvis, stdout=track_vis_out)
                                 #proc.communicate() 
