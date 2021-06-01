@@ -957,9 +957,10 @@ class Pipeline:
                             measured=calcs[k])  
         else:
             print("A")
-            print(calcs)
+            print(calcs.keys())
             print("A2")
-
+            key=calcs.keys()[0]
+            print(key)
             kpieces=calcs[0].split('-')
             print("B")
             segment=kpieces[0].split('/')
