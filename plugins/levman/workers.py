@@ -189,7 +189,7 @@ class workerTrackvis(object):
                print("Cleanup %s" %(oldcalcsfile))
                os.unlink(oldcalcsfile)             
             print("exiting worker")
-            return calcs
+            return json.dumps(calcs)   # dict doesn't appear to be threadsafe, need to stringify
 
     def nonZeroMean(self,faFile,roiFile):
         

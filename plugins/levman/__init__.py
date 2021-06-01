@@ -930,7 +930,7 @@ class Pipeline:
     
     def getTrackVisResults(self,result):    
         print("Callback invoked::getTrackVisResults")    
-        calcs=result    
+        calcs=json.loads(result)  # dict doesn't appear to be threadsafe, need to stringify
         
         if self.persistencemode=="db":    
             print("Attempting db upsert")     
