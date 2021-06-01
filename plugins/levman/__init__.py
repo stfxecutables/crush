@@ -931,7 +931,7 @@ class Pipeline:
     def getTrackVisResults(self,result):    
         print("Callback invoked::getTrackVisResults")    
         calcs=result    
-        print("here")
+        
         if self.persistencemode=="db":    
             print("Attempting db upsert")     
             for k in calcs:  
@@ -956,6 +956,7 @@ class Pipeline:
                             measurement=f"{pluginId}/{kpieces[3]}",
                             measured=calcs[k])  
         else:
+            print("here")
             kpieces=calcs[0].split('-')
             segment=kpieces[0].split('/')
             counterpart=kpieces[1]
