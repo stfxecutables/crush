@@ -968,7 +968,7 @@ class Pipeline:
             key=key.split('/')[1]            
             segment=key.split('-')[0]
             counterpart=key.split('-')[1]
-            method=key.split('-')
+            method=key.split('-')[2]
             print(f"segment={segment} counterpart={counterpart} method={method}")
 
             calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
