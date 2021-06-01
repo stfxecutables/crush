@@ -961,9 +961,9 @@ class Pipeline:
             print("A2")
             keys=calcs.keys()
             if(len(keys))>0:
-                key=calcs.keys()[0]
+                key=keys[0]
                 print(key)
-                kpieces=calcs.keys[0].split('-')
+                kpieces=key.split('-')
                 print("B")
                 segment=kpieces[0].split('/')
                 print("C")
