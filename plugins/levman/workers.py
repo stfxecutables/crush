@@ -179,15 +179,15 @@ class workerTrackvis(object):
             datafile = "%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method)
             oldcalcsfile = "%s/crush/calcs-%s-%s-%s.json" %(tractographypath,segment,counterpart,method)
                     
-            if os.path.isfile(nii):
-               os.unlink(nii) 
+            # if os.path.isfile(nii):
+            #    os.unlink(nii) 
             
-            if os.path.isfile(datafile):
-               os.unlink(datafile)
+            # if os.path.isfile(datafile):
+            #    os.unlink(datafile)
                     
-            if os.path.isfile(oldcalcsfile):
-               print("Cleanup %s" %(oldcalcsfile))
-               os.unlink(oldcalcsfile)             
+            # if os.path.isfile(oldcalcsfile):
+            #    print("Cleanup %s" %(oldcalcsfile))
+            #    os.unlink(oldcalcsfile)             
             print("exiting worker")
             return json.dumps(calcs)   # dict doesn't appear to be threadsafe, need to stringify
 
