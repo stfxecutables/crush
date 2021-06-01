@@ -51,7 +51,7 @@ class workerTrackvis(object):
                     #if self.visit.disable_log:
                     #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method),"-disable_log"]
                     trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)]
-                    
+                    print(trackvis)
                     #else:
                     #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)]
                     
