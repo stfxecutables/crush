@@ -960,22 +960,25 @@ class Pipeline:
             print(calcs.keys())
             print("A2")
             keys=calcs.keys()
-            if(len(keys))>0:
-                key=keys[0]
-                print(key)
-                kpieces=key.split('-')
-                print("B")
-                segment=kpieces[0].split('/')
-                print("C")
-                counterpart=kpieces[1]
-                print("D")
-                method=kpieces[2]
-                print("E")
-                
-                calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
-                with open(calcsJson, "w") as calcs_file:
-                    json.dump(calcs,calcs_file)
-                print("done")
+            for c in calcs:
+                print(c)
+                key=c
+                break
+
+            print(key)
+            kpieces=key.split('-')
+            print("B")
+            segment=kpieces[0].split('/')
+            print("C")
+            counterpart=kpieces[1]
+            print("D")
+            method=kpieces[2]
+            print("E")
+            
+            calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
+            with open(calcsJson, "w") as calcs_file:
+                json.dump(calcs,calcs_file)
+            print("done")
             else:
                 raise Exception("getTrackvisResult - results not returned or not in appropriate format")
         print("Callback completed.  json created")
