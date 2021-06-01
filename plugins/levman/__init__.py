@@ -1135,7 +1135,7 @@ class Pipeline:
                             asymIdx=float(visit.data[visit.PatientId][visit.VisitId][m]) / float(visit.data[visit.PatientId][visit.VisitId][asymCounterpart])                            
                             asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
         
-
+        return #  db TODO issues
         dburl = os.getenv("CRUSH_DATABASE_URL")
         if not dburl:
             msg = '''no database url specified.  CRUSH_DATABASE_URL environment 
