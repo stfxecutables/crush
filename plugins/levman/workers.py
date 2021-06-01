@@ -3,6 +3,7 @@ import re
 import nibabel as nib
 import numpy as np
 import warnings
+import json
 
 class workerTrackvis(object):
 
