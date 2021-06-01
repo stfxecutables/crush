@@ -505,7 +505,7 @@ class Pipeline:
 
         calcs=self.GetIntermediateData(segment,counterpart,method)
 
-
+        print(f"measurementAudit_worker:{calcs}")
         l_NumTracts = False
         l_TractsToRender = False
         l_LinesToRender = False
@@ -600,7 +600,7 @@ class Pipeline:
         else:
             #We don't have everything we need from the tract file
             #Lets see if we cached it the last time we processed this sample
-            
+            print(f"We don't have everything::{calcs}")
             
             #else:
                 #Can't find any residue - looks like this is a new calc
@@ -942,12 +942,7 @@ class Pipeline:
                     visit=self.visit.VisitId
                     firsttoken=kpieces[0].split('/')
                     pluginId=firsttoken[0]
-                # roi_start=firsttoken[1]
-                # roi_end=kpieces[1]
-                # method=kpieces[2]
-                # measurement=f"{pluginId}/{kpieces[3]}"
-                # measured=calcs[k]   
-                                      
+
                     self.repo.upsert(sample=self.visit.PatientId,
                             visit=self.visit.VisitId,
                             roi_start=firsttoken[1],
@@ -956,25 +951,20 @@ class Pipeline:
                             measurement=f"{pluginId}/{kpieces[3]}",
                             measured=calcs[k])  
         else:
-            print("A")
-            print(calcs.keys())
-            print("A2")
+
             keys=calcs.keys()
-            for c in calcs:
-                print(c)
+            for c in calcs:                
                 key=c
                 break
             #key=levman/3015-3014-roi_end-NumTracts
             key=key.split('/')[1]            
             segment=key.split('-')[0]
             counterpart=key.split('-')[1]
-            method=key.split('-')[2]
-            print(f"segment={segment} counterpart={counterpart} method={method}")
+            method=key.split('-')[2]            
 
             calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
             with open(calcsJson, "w") as calcs_file:
-                json.dump(calcs,calcs_file)
-            print("done")
+                json.dump(calcs,calcs_file)            
 
         print("Callback completed.  json created")
 
