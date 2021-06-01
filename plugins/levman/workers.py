@@ -66,6 +66,7 @@ class workerTrackvis(object):
                                 proc.communicate() 
                                 #track_vis_out.write(proc.stdout)
                                 #data=proc.stdout
+                            print("Trackvis completed")
                    #         if proc.returncode <> 0:
                    #             print("TRACKVIS Command returned non-zero exit code")
 
@@ -79,7 +80,7 @@ class workerTrackvis(object):
                     data=""
 
                 #data = self.trackvis_create_nii(segment,counterpart,method)
-                
+                print("process results")
                
                 m = re.search(r'Number of tracks: (\d+)', data)
                 if m:
@@ -173,7 +174,7 @@ class workerTrackvis(object):
             #         json.dump(calcs,calcs_file)
             #         ############# CLEANUP #################
             #        ### self.trackvis_cleanup_nii(segment,counterpart,method)
-
+            print("cleanup")
             nii = "%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)
             datafile = "%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method)
             oldcalcsfile = "%s/crush/calcs-%s-%s-%s.json" %(tractographypath,segment,counterpart,method)
@@ -187,7 +188,7 @@ class workerTrackvis(object):
             if os.path.isfile(oldcalcsfile):
                print("Cleanup %s" %(oldcalcsfile))
                os.unlink(oldcalcsfile)             
-
+            print("exiting worker")
             return calcs
 
     def nonZeroMean(self,faFile,roiFile):
