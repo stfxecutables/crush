@@ -965,8 +965,7 @@ class Pipeline:
                 key=c
                 break
             #key=levman/3015-3014-roi_end-NumTracts
-            key=key.split('/')[1]
-            key=key.split('/')[1]
+            key=key.split('/')[1]            
             segment=key.split('-')[0]
             counterpart=key.split('-')[1]
             method=key.split('-')
