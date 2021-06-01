@@ -174,7 +174,7 @@ class workerTrackvis(object):
                 calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (tractographypath,segment,segment,counterpart,method)
                 with open(calcsJson, "w") as calcs_file:
                     json.dump(calcs,calcs_file)
-                print(f"dump complete {calcsJson")
+                print(f"dump complete {calcsJson}")
             #         ############# CLEANUP #################
             #        ### self.trackvis_cleanup_nii(segment,counterpart,method)
             print("cleanup")
