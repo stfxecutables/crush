@@ -974,7 +974,7 @@ class Pipeline:
                 
                 calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
                 with open(calcsJson, "w") as calcs_file:
-                json.dump(calcs,calcs_file)
+                    json.dump(calcs,calcs_file)
                 print("done")
             else:
                 raise Exception("getTrackvisResult - results not returned or not in appropriate format")
