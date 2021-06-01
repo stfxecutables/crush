@@ -956,11 +956,12 @@ class Pipeline:
                             measurement=f"{pluginId}/{kpieces[3]}",
                             measured=calcs[k])  
         else:
-            print("here")
+            
             kpieces=calcs[0].split('-')
             segment=kpieces[0].split('/')
             counterpart=kpieces[1]
             method=kpieces[2]
+            print("here")
             
             calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
             with open(calcsJson, "w") as calcs_file:
