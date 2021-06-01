@@ -964,17 +964,14 @@ class Pipeline:
                 print(c)
                 key=c
                 break
+            #key=levman/3015-3014-roi_end-NumTracts
+            key=key.split('/')[1]
+            key=key.split('/')[1]
+            segment=key.split('-')[0]
+            counterpart=key.split('-')[1]
+            method=key.split('-')
+            print(f"segment={segment} counterpart={counterpart} method={method}")
 
-            print(key)
-            kpieces=key.split('-')
-            print("B")
-            segment=kpieces[0].split('/')
-            print("C")
-            counterpart=kpieces[1]
-            print("D")
-            method=kpieces[2]
-            print("E")
-            
             calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
             with open(calcsJson, "w") as calcs_file:
                 json.dump(calcs,calcs_file)
