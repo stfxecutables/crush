@@ -50,7 +50,7 @@ class workerTrackvis(object):
                 if os.path.isfile(wmparcStart) and os.path.isfile(wmparcEnd):
                     #if self.visit.disable_log:
                     #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method),"-disable_log"]
-                    trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)]
+                    trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method),"-disable_log"]
                     print(trackvis)
                     #else:
                     #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)]
@@ -64,7 +64,7 @@ class workerTrackvis(object):
                             with open("%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method), "w") as track_vis_out:
                                 #proc = subprocess.Popen(trackvis, stdout=track_vis_out)
                                 #proc.communicate() 
-                                print(proc.stdout)
+                                track_vis_out.write(proc.stdout)
                                 data=proc.stdout
                    #         if proc.returncode <> 0:
                    #             print("TRACKVIS Command returned non-zero exit code")
@@ -188,7 +188,6 @@ class workerTrackvis(object):
                print("Cleanup %s" %(oldcalcsfile))
                os.unlink(oldcalcsfile)             
 
-            #print(calcs)
             return calcs
 
     def nonZeroMean(self,faFile,roiFile):
