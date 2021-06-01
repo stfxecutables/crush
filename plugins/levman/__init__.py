@@ -931,6 +931,7 @@ class Pipeline:
     def getTrackVisResults(self,result):    
         print("Callback invoked::getTrackVisResults")    
         calcs=result    
+        print("here")
         if self.persistencemode=="db":    
             print("Attempting db upsert")     
             for k in calcs:  
@@ -960,9 +961,9 @@ class Pipeline:
             counterpart=kpieces[1]
             method=kpieces[2]
             
-            #calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
-            #with open(calcsJson, "w") as calcs_file:
-            #    json.dump(calcs,calcs_file)
+            calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
+            with open(calcsJson, "w") as calcs_file:
+               json.dump(calcs,calcs_file)
             print("done")
         print("Callback completed.  json created")
 
