@@ -163,15 +163,15 @@ class workerTrackvis(object):
    
             
             # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
-            # if self.persistencemode =='db':
-            #     return calcs                       
-            # else:
-            #     if not os.path.isdir("%s/crush/%s" % (tractographypath,segment)):
-            #         os.mkdir("%s/crush/%s" % (tractographypath,segment))
+            if self.persistencemode =='db':
+                return calcs                       
+            else:
+                if not os.path.isdir("%s/crush/%s" % (tractographypath,segment)):
+                    os.mkdir("%s/crush/%s" % (tractographypath,segment))
 
-            #     calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (tractographypath,segment,segment,counterpart,method)
-            #     with open(calcsJson, "w") as calcs_file:
-            #         json.dump(calcs,calcs_file)
+                calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (tractographypath,segment,segment,counterpart,method)
+                with open(calcsJson, "w") as calcs_file:
+                    json.dump(calcs,calcs_file)
             #         ############# CLEANUP #################
             #        ### self.trackvis_cleanup_nii(segment,counterpart,method)
             print("cleanup")
