@@ -960,9 +960,10 @@ class Pipeline:
             counterpart=kpieces[1]
             method=kpieces[2]
             
-            calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
-            with open(calcsJson, "w") as calcs_file:
-                json.dump(calcs,calcs_file)
+            #calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
+            #with open(calcsJson, "w") as calcs_file:
+            #    json.dump(calcs,calcs_file)
+            print("done")
         print("Callback completed.  json created")
 
     def track_vis(self):
