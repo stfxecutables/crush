@@ -162,21 +162,25 @@ class workerTrackvis(object):
             
    
             print("dump results")
-            # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
-            if self.persistencemode =='db':
-                print("dump to db")
-                return calcs                       
-            else:
-                print("dump to file")
-                if not os.path.isdir("%s/crush/%s" % (tractographypath,segment)):
-                    os.mkdir("%s/crush/%s" % (tractographypath,segment))
+            try:
+                # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
+                if self.persistencemode =='db':
+                    print("dump to db")
+                    return calcs                       
+                else:
+                    print("dump to file")
+                    if not os.path.isdir("%s/crush/%s" % (tractographypath,segment)):
+                        os.mkdir("%s/crush/%s" % (tractographypath,segment))
 
-                calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (tractographypath,segment,segment,counterpart,method)
-                with open(calcsJson, "w") as calcs_file:
-                    json.dump(calcs,calcs_file)
-                print(f"dump complete {calcsJson}")
-            #         ############# CLEANUP #################
-            #        ### self.trackvis_cleanup_nii(segment,counterpart,method)
+                    calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (tractographypath,segment,segment,counterpart,method)
+                    with open(calcsJson, "w") as calcs_file:
+                        json.dump(calcs,calcs_file)
+                    print(f"dump complete {calcsJson}")
+                #         ############# CLEANUP #################
+                #        ### self.trackvis_cleanup_nii(segment,counterpart,method)
+            except Exception as e:
+                print(f"dump failed::{e}")  
+                  
             print("cleanup")
             nii = "%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)
             datafile = "%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method)
