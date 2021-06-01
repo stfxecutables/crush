@@ -161,17 +161,20 @@ class workerTrackvis(object):
                     print("%s is missing for %s-%s operation" %(wmparcStart,segment,counterpart))
             
    
-            
+            print("dump results")
             # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
             if self.persistencemode =='db':
+                print("dump to db")
                 return calcs                       
             else:
+                print("dump to file")
                 if not os.path.isdir("%s/crush/%s" % (tractographypath,segment)):
                     os.mkdir("%s/crush/%s" % (tractographypath,segment))
 
                 calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (tractographypath,segment,segment,counterpart,method)
                 with open(calcsJson, "w") as calcs_file:
                     json.dump(calcs,calcs_file)
+                print(f"dump complete {calcsJson")
             #         ############# CLEANUP #################
             #        ### self.trackvis_cleanup_nii(segment,counterpart,method)
             print("cleanup")
