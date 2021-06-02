@@ -2,7 +2,7 @@ import os, sys, argparse,re
 from basecrush import Samples
 from basecrush.ux import MsgUser
 import numpy
-from multiprocessing import cpu_count
+from multiprocessing import cpu_count,set_start_method
 
 
 class readable_dir(argparse.Action):
@@ -41,6 +41,9 @@ def VersionCheck():
             MsgUser.warning("Unable to determine valid FreeSurfer version in file (%s)" % fsFile)
 
 def StatusReport(args,S):
+    l_reconall_message = ""
+    l_parcellation_message = ""
+    l_measurement_message = ""
     l_v = 0
     print("Sample size:%i" % (len(S.Patients)))
     for p in S.Patients:
@@ -63,12 +66,12 @@ def StatusReport(args,S):
                 l_parcellation_message = "Parcellated"
 
             if not v.MeasurementComplete:
-                l_measurement_message = "NO Measurements"
+                l_measurement_message = f"{len(v.data[v.PatientId][v.VisitId])} Measurement(s) (INCOMPLETE)"
             else:
                 l_measurement_message = "Measurements exist"
 
-        print("%s/%s %s, %s, %s" % (
-            p.PatientId, len(p.Visits), l_reconall_message, l_parcellation_message, l_measurement_message))
+        print("%s/%s %s, %s, %s [%s]" % (
+            p.PatientId, len(p.Visits), l_reconall_message, l_parcellation_message, l_measurement_message,v.freesurferpath))
 
 def ProcessSamples(args,S):
     
@@ -77,14 +80,14 @@ def ProcessSamples(args,S):
         if (args.patient is not None and args.patient != p.PatientId):
             continue
         for v in p.Visits:
-
+            
             if v.ReconComplete != True:
                 MsgUser.warning("\t%s recon incomplete" % (v.VisitId))
             else:
                 v.Render()
                 #v.Measure()
 def main():                
-
+    set_start_method("spawn")
     ldir = "."
     parser = argparse.ArgumentParser(
         description='Connectomics and Reporting User Shell is used to iterrogate samples, generate or extract measurements.')
@@ -122,7 +125,7 @@ def main():
 
     args = parser.parse_args()
 
-    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.disable_log,args.pipeline,args.csv)
+    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.disable_log,args.pipeline,args.csv,args.patient)
 
     if(args.csv):
         S.csv()

@@ -29,4 +29,12 @@ class Patient:
                 visitPath="%s/%s" %(path,v)
                 thisVisit = Visit(visitPath,self.rebuild,voi,recrush,fixmissing,maxcores,self.disable_log,self.pipeline)
                 self.Visits.append(thisVisit)
+            else: #cases where there is only one visit, like HCP
+                visitPathTest="%s/%s/%s/mri" % (path,v,self.PatientId)
+            
+                if os.path.exists(visitPathTest) and v!="fsaverage":
+                    visitPath="%s/%s" %(path,v)
+                    thisVisit = Visit(visitPath,self.rebuild,voi,recrush,fixmissing,maxcores,self.disable_log,self.pipeline)
+                    self.Visits.append(thisVisit)
+
     

@@ -1,0 +1,182 @@
+#ParcellationId,Label,Asymmetry Counterpart,White Grey Cunterpart,Left or Right,White or Grey,Common Name
+0002,Left-Cerebral-White-Matter,0041,,Left,White,left cerebral white matter
+0004,Left-Lateral-Ventricle,0043,,Left,Neither,left lateral ventricle
+0005,Left-Inf-Lat-Vent,0044,,Left,Neither,left inferior lateral ventricle
+0007,Left-Cerebellum-White-Matter,0046,0008,Left,White,left cerebellum white matter
+0008,Left-Cerebellum-Cortex,0047,0007,Left,Neither,left cerebellum cortex
+0010,Left-Thalamus-Proper,0049,,Left,Neither,left thalamus proper
+0011,Left-Caudate,0050,,Left,Neither,left caudate
+0012,Left-Putamen,0051,,Left,Neither,left putamen
+0013,Left-Pallidum,0052,,Left,Neither,left pallidum
+0014,3rd-Ventricle,,,Neither,Neither,third ventricle
+0015,4th-Ventricle,,,Neither,Neither,fourth ventricle
+0016,Brain-Stem,,,Neither,Neither,brain stem
+0017,Left-Hippocampus,0053,,Left,Neither,left hippocampus
+0018,Left-Amygdala,0054,,Left,Neither,left amygdala
+0024,CSF,,,Neither,Neither,cerebrospinal fluid
+0026,Left-Accumbens-area,0058,,Left,Neither,left accumbens area
+0028,Left-VentralDC,0060,,Left,Neither,left ventral diencephalon
+0030,Left-vessel,0062,,Left,Neither,left vessel
+0031,Left-choroid-plexus,0063,,Left,Neither,left choroid plexus
+0041,Right-Cerebral-White-Matter,0002,,Right,White,right cerebral white matter
+0043,Right-Lateral-Ventricle,0004,,Right,Neither,right lateral ventricle
+0044,Right-Inf-Lat-Vent,0005,,Right,Neither,right inferior lateral ventricle
+0046,Right-Cerebellum-White-Matter,0007,0047,Right,White,right cerebellum white matter
+0047,Right-Cerebellum-Cortex,0008,0046,Right,Neither,right cerebellum cortex
+0049,Right-Thalamus-Proper,0010,,Right,Neither,right thalamus proper
+0050,Right-Caudate,0011,,Right,Neither,right caudate
+0051,Right-Putamen,0012,,Right,Neither,right putamen
+0052,Right-Pallidum,0013,,Right,Neither,right pallidum
+0053,Right-Hippocampus,0017,,Right,Neither,right hippocampus
+0054,Right-Amygdala,0018,,Right,Neither,right amygdala
+0058,Right-Accumbens-area,0026,,Right,Neither,right accumbens area
+0060,Right-VentralDC,0028,,Right,Neither,right ventral diencephalon
+0062,Right-vessel,0030,,Right,Neither,right vessel
+0063,Right-choroid-plexus,0031,,Right,Neither,right choroid plexus
+0077,WM-hypointensities,,,Neither,White,white matter hypointensities
+0085,Optic-Chiasm,,,Neither,Neither,optic chiasm
+0251,CC_Posterior,,,Neither,Neither,posterior corpus callosum
+0252,CC_Mid_Posterior,,,Neither,Neither,mid posterior corpus callosum
+0253,CC_Central,,,Neither,Neither,central corpus callosum
+0254,CC_Mid_Anterior,,,Neither,Neither,mid anterior corpus callosum
+0255,CC_Anterior,,,Neither,Neither,anterior corpus callosum
+1000,ctx-lh-unknown,2000,,Left,Grey,unknown left hemisphere grey matter
+1001,ctx-lh-bankssts,2001,3001,Left,Grey,left banks of superior temporal sulcus grey matter
+1002,ctx-lh-caudalanteriorcingulate,2002,3002,Left,Grey,left caudal anterior cingulate grey matter
+1003,ctx-lh-caudalmiddlefrontal,2003,3003,Left,Grey,left caudal middle frontal grey matter
+1005,ctx-lh-cuneus,2005,3005,Left,Grey,left cuneus grey matter
+1006,ctx-lh-entorhinal,2006,3006,Left,Grey,left entorhinal grey matter
+1007,ctx-lh-fusiform,2007,3007,Left,Grey,left fusiform grey matter
+1008,ctx-lh-inferiorparietal,2008,3008,Left,Grey,left inferior parietal grey matter
+1009,ctx-lh-inferiortemporal,2009,3009,Left,Grey,left inferior temporal grey matter
+1010,ctx-lh-isthmuscingulate,2010,3010,Left,Grey,left isthmus cingulate grey matter
+1011,ctx-lh-lateraloccipital,2011,3011,Left,Grey,left lateral occipital grey matter
+1012,ctx-lh-lateralorbitofrontal,2012,3012,Left,Grey,left lateral orbitofrontal grey matter
+1013,ctx-lh-lingual,2013,3013,Left,Grey,left lingual grey matter
+1014,ctx-lh-medialorbitofrontal,2014,3014,Left,Grey,left medial orbitofrontal grey matter
+1015,ctx-lh-middletemporal,2015,3015,Left,Grey,left middle temporal grey matter
+1016,ctx-lh-parahippocampal,2016,3016,Left,Grey,left parahippocampal grey matter
+1017,ctx-lh-paracentral,2017,3017,Left,Grey,left paracentral grey matter
+1018,ctx-lh-parsopercularis,2018,3018,Left,Grey,left pars opercularis grey matter
+1019,ctx-lh-parsorbitalis,2019,3019,Left,Grey,left pars orbitalis grey matter
+1020,ctx-lh-parstriangularis,2020,3020,Left,Grey,left pars triangularis grey matter
+1021,ctx-lh-pericalcarine,2021,3021,Left,Grey,left pericalcarine grey matter
+1022,ctx-lh-postcentral,2022,3022,Left,Grey,left postcentral grey matter
+1023,ctx-lh-posteriorcingulate,2023,3023,Left,Grey,left posterior cingulate grey matter
+1024,ctx-lh-precentral,2024,3024,Left,Grey,left precentral grey matter
+1025,ctx-lh-precuneus,2025,3025,Left,Grey,left precuneus grey matter
+1026,ctx-lh-rostralanteriorcingulate,2026,3026,Left,Grey,left rostral anterior cingulate grey matter
+1027,ctx-lh-rostralmiddlefrontal,2027,3027,Left,Grey,left rostral middle frontal grey matter
+1028,ctx-lh-superiorfrontal,2028,3028,Left,Grey,left superior frontal grey matter
+1029,ctx-lh-superiorparietal,2029,3029,Left,Grey,left superior parietal grey matter
+1030,ctx-lh-superiortemporal,2030,3030,Left,Grey,left superior temporal grey matter
+1031,ctx-lh-supramarginal,2031,3031,Left,Grey,left supramarginal grey matter
+1032,ctx-lh-frontalpole,2032,3032,Left,Grey,left frontal pole grey matter
+1033,ctx-lh-temporalpole,2033,3033,Left,Grey,left temporal pole grey matter
+1034,ctx-lh-transversetemporal,2034,3034,Left,Grey,left transverse temporal grey matter
+1035,ctx-lh-insula,2035,3035,Left,Grey,left insula grey matter
+2000,ctx-rh-unknown,1000,,Right,Grey,right hemisphere unknown grey matter
+2001,ctx-rh-bankssts,1001,4001,Right,Grey,right banks of superior temporal sulcus grey matter
+2002,ctx-rh-caudalanteriorcingulate,1002,4002,Right,Grey,right caudal anterior cingulate grey matter
+2003,ctx-rh-caudalmiddlefrontal,1003,4003,Right,Grey,right caudal middle frontal grey matter
+2005,ctx-rh-cuneus,1005,4005,Right,Grey,right cuneus grey matter
+2006,ctx-rh-entorhinal,1006,4006,Right,Grey,right entorhinal grey matter
+2007,ctx-rh-fusiform,1007,4007,Right,Grey,right fusiform grey matter
+2008,ctx-rh-inferiorparietal,1008,4008,Right,Grey,right inferior parietal grey matter
+2009,ctx-rh-inferiortemporal,1009,4009,Right,Grey,right inferior temporal grey matter
+2010,ctx-rh-isthmuscingulate,1010,4010,Right,Grey,right isthmus cingulate grey matter
+2011,ctx-rh-lateraloccipital,1011,4011,Right,Grey,right lateral occipital grey matter
+2012,ctx-rh-lateralorbitofrontal,1012,4012,Right,Grey,right lateral orbitofrontal grey matter
+2013,ctx-rh-lingual,1013,4013,Right,Grey,right lingual grey matter
+2014,ctx-rh-medialorbitofrontal,1014,4014,Right,Grey,right medial orbitofrontal grey matter
+2015,ctx-rh-middletemporal,1015,4015,Right,Grey,right middle temporal grey matter
+2016,ctx-rh-parahippocampal,1016,4016,Right,Grey,right parahippocampal grey matter
+2017,ctx-rh-paracentral,1017,4017,Right,Grey,right paracentral grey matter
+2018,ctx-rh-parsopercularis,1018,4018,Right,Grey,right pars opercularis grey matter
+2019,ctx-rh-parsorbitalis,1019,4019,Right,Grey,right pars orbitalis grey matter
+2020,ctx-rh-parstriangularis,1020,4020,Right,Grey,right pars triangularis grey matter
+2021,ctx-rh-pericalcarine,1021,4021,Right,Grey,right pericalcarine grey matter
+2022,ctx-rh-postcentral,1022,4022,Right,Grey,right postcentral grey matter
+2023,ctx-rh-posteriorcingulate,1023,4023,Right,Grey,right posterior cingulate grey matter
+2024,ctx-rh-precentral,1024,4024,Right,Grey,right precentral grey matter
+2025,ctx-rh-precuneus,1025,4025,Right,Grey,right precuneus grey matter
+2026,ctx-rh-rostralanteriorcingulate,1026,4026,Right,Grey,right rostral anterior cingulate grey matter
+2027,ctx-rh-rostralmiddlefrontal,1027,4027,Right,Grey,right rostral middle frontal grey matter
+2028,ctx-rh-superiorfrontal,1028,4028,Right,Grey,right superior frontal grey matter
+2029,ctx-rh-superiorparietal,1029,4029,Right,Grey,right superior parietal grey matter
+2030,ctx-rh-superiortemporal,1030,4030,Right,Grey,right superior temporal grey matter
+2031,ctx-rh-supramarginal,1031,4031,Right,Grey,right supramarginal grey matter
+2032,ctx-rh-frontalpole,1032,4032,Right,Grey,right frontal pole grey matter
+2033,ctx-rh-temporalpole,1033,4033,Right,Grey,right temporal pole grey matter
+2034,ctx-rh-transversetemporal,1034,4034,Right,Grey,right transverse temporal grey matter
+2035,ctx-rh-insula,1035,4035,Right,Grey,right insula grey matter
+3001,wm-lh-bankssts,4001,1001,Left,White,left banks of superior temporal sulcus white matter
+3002,wm-lh-caudalanteriorcingulate,4002,1002,Left,White,left caudal anterior cingulate white matter
+3003,wm-lh-caudalmiddlefrontal,4003,1003,Left,White,left caudal middle frontal white matter
+3005,wm-lh-cuneus,4005,1005,Left,White,left cuneus white matter
+3006,wm-lh-entorhinal,4006,1006,Left,White,left entorhinal white matter
+3007,wm-lh-fusiform,4007,1007,Left,White,left fusiform white matter
+3008,wm-lh-inferiorparietal,4008,1008,Left,White,left inferior parietal white matter
+3009,wm-lh-inferiortemporal,4009,1009,Left,White,left inferior temporal white matter
+3010,wm-lh-isthmuscingulate,4010,1010,Left,White,left isthmus cingulate white matter
+3011,wm-lh-lateraloccipital,4011,1011,Left,White,left lateral occipital white matter
+3012,wm-lh-lateralorbitofrontal,4012,1012,Left,White,left lateral orbitofrontal white matter
+3013,wm-lh-lingual,4013,1013,Left,White,left lingual white matter
+3014,wm-lh-medialorbitofrontal,4014,1014,Left,White,left medial orbitofrontal white matter
+3015,wm-lh-middletemporal,4015,1015,Left,White,left middle temporal white matter
+3016,wm-lh-parahippocampal,4016,1016,Left,White,left parahippocampal white matter
+3017,wm-lh-paracentral,4017,1017,Left,White,left paracentral white matter
+3018,wm-lh-parsopercularis,4018,1018,Left,White,left pars opercularis white matter
+3019,wm-lh-parsorbitalis,4019,1019,Left,White,left pars orbitalis white matter
+3020,wm-lh-parstriangularis,4020,1020,Left,White,left pars triangularis white matter
+3021,wm-lh-pericalcarine,4021,1021,Left,White,left pericalcarine white matter
+3022,wm-lh-postcentral,4022,1022,Left,White,left postcentral white matter
+3023,wm-lh-posteriorcingulate,4023,1023,Left,White,left posterior cingulate white matter
+3024,wm-lh-precentral,4024,1024,Left,White,left precentral white matter
+3025,wm-lh-precuneus,4025,1025,Left,White,left precuneus white matter
+3026,wm-lh-rostralanteriorcingulate,4026,1026,Left,White,left rostral anterior cingulate white matter
+3027,wm-lh-rostralmiddlefrontal,4027,1027,Left,White,left rostral middle frontal white matter
+3028,wm-lh-superiorfrontal,4028,1028,Left,White,left superior frontal white matter
+3029,wm-lh-superiorparietal,4029,1029,Left,White,left superior parietal white matter
+3030,wm-lh-superiortemporal,4030,1030,Left,White,left suprior temporal white matter
+3031,wm-lh-supramarginal,4031,1031,Left,White,left supramarginal white matter
+3032,wm-lh-frontalpole,4032,1032,Left,White,left frontal pole white matter
+3033,wm-lh-temporalpole,4033,1033,Left,White,left temporal pole white matter
+3034,wm-lh-transversetemporal,4034,1034,Left,White,left transverse temporal white matter
+3035,wm-lh-insula,4035,1035,Left,White,left insula white matter
+4001,wm-rh-bankssts,3001,2001,Right,White,right banks of superior temporal sulcus white matter
+4002,wm-rh-caudalanteriorcingulate,3002,2002,Right,White,right caudal anterior cingulate white matter
+4003,wm-rh-caudalmiddlefrontal,3003,2003,Right,White,right caudal middle frontal white matter
+4005,wm-rh-cuneus,3005,2005,Right,White,right cuneus white matter
+4006,wm-rh-entorhinal,3006,2006,Right,White,right entorhinal white matter
+4007,wm-rh-fusiform,3007,2007,Right,White,right fusiform white matter
+4008,wm-rh-inferiorparietal,3008,2008,Right,White,right inferior parietal white matter
+4009,wm-rh-inferiortemporal,3009,2009,Right,White,right inferior temporal white matter
+4010,wm-rh-isthmuscingulate,3010,2010,Right,White,right isthmus cingulate white matter
+4011,wm-rh-lateraloccipital,3011,2011,Right,White,right lateral occipital white matter
+4012,wm-rh-lateralorbitofrontal,3012,2012,Right,White,right lateral orbitofrontal white matter
+4013,wm-rh-lingual,3013,2013,Right,White,right lingual white matter
+4014,wm-rh-medialorbitofrontal,3014,2014,Right,White,right meidal orbitofrontal white matter
+4015,wm-rh-middletemporal,3015,2015,Right,White,right middle temporal white matter
+4016,wm-rh-parahippocampal,3016,2016,Right,White,right parahippocampal white matter
+4017,wm-rh-paracentral,3017,2017,Right,White,right paracentral white matter
+4018,wm-rh-parsopercularis,3018,2018,Right,White,right pars opercularis white matter
+4019,wm-rh-parsorbitalis,3019,2019,Right,White,right pars orbitalis white matter
+4020,wm-rh-parstriangularis,3020,2020,Right,White,right pars triangularis white matter
+4021,wm-rh-pericalcarine,3021,2021,Right,White,right pericalcarine white matter
+4022,wm-rh-postcentral,3022,2022,Right,White,right postcentral white matter
+4023,wm-rh-posteriorcingulate,3023,2023,Right,White,right posterior cingulate white matter
+4024,wm-rh-precentral,3024,2024,Right,White,right precentral white matter
+4025,wm-rh-precuneus,3025,2025,Right,White,right precuneus white matter
+4026,wm-rh-rostralanteriorcingulate,3026,2026,Right,White,right rostral anterior cingulate white matter
+4027,wm-rh-rostralmiddlefrontal,3027,2027,Right,White,right rostral middle frontal white matter
+4028,wm-rh-superiorfrontal,3028,2028,Right,White,right superior frontal white matter
+4029,wm-rh-superiorparietal,3029,2029,Right,White,right superior parietal white matter
+4030,wm-rh-superiortemporal,3030,2030,Right,White,right suprior temporal white matter
+4031,wm-rh-supramarginal,3031,2031,Right,White,right supramarginal white matter
+4032,wm-rh-frontalpole,3032,2032,Right,White,right frontal pole white matter
+4033,wm-rh-temporalpole,3033,2033,Right,White,right temporal pole white matter
+4034,wm-rh-transversetemporal,3034,2034,Right,White,right transverse temporal white matter
+4035,wm-rh-insula,3035,2035,Right,White,right insula white matter
+5001,Left-UnsegmentedWhiteMatter,5002,,Left,White,left unsegmented white matter
+5002,Right-UnsegmentedWhiteMatter,5001,,Right,White,right unsegmented white matter

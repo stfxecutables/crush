@@ -4,6 +4,7 @@ import numpy as np
 import re
 import time
 import uuid
+from basecrush import repository
 from basecrush.pluginloader import pluginloader
 
 
@@ -16,43 +17,86 @@ import warnings
 from collections import defaultdict
 import json
 
+
               
 class Visit:
    
     
                     
     def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log,pipeline):        
+        self.SourceTaxonomy="undefined"
         self.VisitId=os.path.basename(path)
         self.path=path
+        self.freesurferpath="undefined"
+        self.tractographypath="undefined"
+        self.diffusionpath="undefined"
         self.rebuild=rebuild
         self.voi=voi        
         self.recrush=recrush
-        self.fixmissing=fixmissing        
+        self.fixmissing=fixmissing                
         if maxcores:
             self.maxcores=maxcores 
         else:
             self.maxcores=9999
         self.data = defaultdict(list)#{}
-        self.PatientId=os.path.split(os.path.dirname(self.path))[1]
+        self.PatientId=os.path.split(os.path.dirname(self.path))[1]        
         reconTest= "%s/Freesurfer/mri/wmparc.mgz" % (path)
         self.disable_log=disable_log
-        
+
+        self.DBURL = os.getenv("CRUSH_DATABASE_URL")
+        if self.DBURL is None:
+            self.persistencemode="file"
+        else :
+            self.persistencemode="db"
+
+
         if os.path.isfile(reconTest):
-            self.ReconComplete=True            
+            print("%s Looks like BCH formatted directory structure" %(self.PatientId))
+            self.SourceTaxonomy="BCH"
+            self.ReconComplete=True   
+            self.freesurferpath = "%s/Freesurfer" % (path)   
+            self.tractographypath = "%s/Tractography" % (path) 
+            self.diffusionpath = "%s/Tractography" %(path)    
         else:
-            self.ReconComplete=False
+            
+            if os.path.isfile("%s/%s/mri/wmparc.mgz" % (path,self.PatientId)):
+                self.SourceTaxonomy="HCP"
+                print("%s Looks like HCP formatted directory structure" %(self.PatientId))
+                self.ReconComplete=True
+                self.freesurferpath = "%s/%s" % (path,self.PatientId)
+
+             
+                self.tractographypath = "%s/Tractography" % (path)
+                self.diffusionpath = "%s/Diffusion" %(path) 
+            else:
+                self.ReconComplete=False
         self.pipeline=pipeline
 
-        measurementTest = "%s/Tractography/crush/tracts.txt" % (path)
-        
-        if os.path.isfile(measurementTest):
-            self.MeasurementComplete=True    
-        else: 
-            self.MeasurementComplete=False
-        
+        if self.persistencemode=="file":
+            measurementTest = "%s/crush/tracts.txt" % (self.tractographypath)
+            
+            if os.path.isfile(measurementTest):
+                self.MeasurementComplete=True    
+            else: 
+                self.MeasurementComplete=False
+        else:           
+           print("Let's see if there are any pre-existing measurements")
+           self.repo=repository.repository()  
+           measurementCount = self.repo.countvals(self.PatientId,self.VisitId)            
+           if measurementCount>1000000:
+               self.MeasurementComplete=True 
+               MsgUser.message(f"{measurementCount} measurements detected in {self.PatientId} visit {self.VisitId}.  We will consider this complete.")
+           else:
+               self.MeasurementComplete=False
+               if measurementCount>0:
+                   MsgUser.message(f"Incomplete measurements detected in {self.PatientId} visit {self.VisitId}")
         self.GetMeasurements()
+        self.repo = None
+        
 
+    
     def Render(self):
+        print(f"Rendering {self.VisitId}")
         #Lets Render as needed
         MsgUser.message("Rendering %s" % self.path)
         
@@ -69,42 +113,50 @@ class Visit:
     def GetValue(self,pipelineId,name):
         return self.data[self.PatientId][self.VisitId]["%s/%s" %(pipelineId,name)]
 
-    def Commit(self):
-        with open("%s/Tractography/crush/tracts.txt" % (self.path), "w") as crush_file:
+    def Commit(self):               
+        with open("%s/crush/tracts.txt" % (self.tractographypath), "w") as crush_file:
             for m in self.data[self.PatientId][self.VisitId]: 
                 if m[-8:] !="-asymidx":
                     crush_file.write("%s=%s\n" % (m,self.data[self.PatientId][self.VisitId][m]))
 
+
     def GetMeasurements(self):
 
         Measurements={}
-        #print(self.Segments)
+        
         self.data[self.PatientId]={}
-        self.data[self.PatientId][self.VisitId]={}        
-        if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
-            with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
-                for line in fMeasure:
-                    if line.strip() != "":
-                        nvp=line.split("=")                          
-                        self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
-                        if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
-                            Measurements[nvp[0]]=nvp[1].strip()
-                        else:
-                            Measurements[nvp[0]]="" #convert nan to missing value
-            
-        ## Add derived measures here
-        #print("Deriving Asymmetry Indexes")
+        self.data[self.PatientId][self.VisitId]={} 
+
+        if self.persistencemode=="file":
         
-        
-        
-        return Measurements
+
+            if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
+                with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
+                    for line in fMeasure:
+                        if line.strip() != "":
+                            nvp=line.split("=")                          
+                            self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
+                            if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
+                                Measurements[nvp[0]]=nvp[1].strip()
+                            else:
+                                Measurements[nvp[0]]="" #convert nan to missing value
+                print(f"{len(Measurements)} measurements retrieved from tracts.txt file")   
+            ## Add derived measures here
+            #print("Deriving Asymmetry Indexes")
+        else:
+            self.repo=repository.repository()               
+            Measurements=self.repo.getall(sample=self.PatientId,visit=self.VisitId)     
+            print(f"{len(Measurements)} measurements retrieved from database")                            
+            for n in Measurements:
+                self.data[self.PatientId][self.VisitId][n]=Measurements[n]                
+        return #Measurements
     def is_number(self,s):
         try:
             float(s)
             return True
         except ValueError:
             return False
-
+    
     def Report2(self):
         #MsgUser.bold("Reporting values of interest")
 
@@ -117,8 +169,8 @@ class Visit:
             self.data[self.PatientId]={}
             self.data[self.PatientId][self.VisitId]={}
 
-            if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
-                with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
+            if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
+                with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
                     for line in fMeasure:
                         nvp=line.split("=")   
                         self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
@@ -182,8 +234,8 @@ class Visit:
             
             measures["PatientVisit"]=self.path           
             
-            if os.path.isfile("%s/Tractography/crush/tracts.txt" %(self.path)):
-                with open("%s/Tractography/crush/tracts.txt" %(self.path)) as fMeasure:
+            if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
+                with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
                     for line in fMeasure:
                         nvp=line.split("=")                        
                         measures[nvp[0]]=nvp[1]

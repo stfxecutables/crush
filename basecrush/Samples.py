@@ -9,7 +9,7 @@ class Samples:
     Count=0
     
     
-    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing,maxcores,disable_log,pipeline,csv):
+    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing,maxcores,disable_log,pipeline,csv,patient):
         self.Patients=[]
         self.force=force
         self.voi=voi
@@ -21,17 +21,20 @@ class Samples:
         self.disable_log=disable_log
         self.pipeline=pipeline
         self.csv_flag=csv
+        self.patient=patient
 
         dirs = os.listdir( rootDir )
         
         for file in dirs:
-           
             patient_dir = "%s/%s" % (rootDir,file)
-            if os.path.isdir(patient_dir):                
+                   
+            if os.path.isdir(patient_dir) and (self.patient is None or f"{self.patient}"==os.path.basename(patient_dir)):    
+                print(f"Scanning {patient_dir}")            
                 visits = os.listdir(patient_dir)
                 for v in visits:
                     if(not os.path.islink("%s/%s" %(patient_dir,v))):
                         mri_dir = "%s/%s/Freesurfer/mri" % (patient_dir,v)
+                        
                         if os.path.exists(mri_dir):
                             #print "%s/%s/mri" %(patient_dir,v)
                             #visit_dir = "%s/%s/01" % (rootDir,file)
@@ -39,6 +42,16 @@ class Samples:
                             self.Count+=1
                             patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log,self.pipeline)
                             self.Patients.append(patient)
+                        else:  #e.g. humanConnectome project doesn't have visits 100307/T1w/100307/mri
+                            mri_dir = "%s/%s/%s/mri" % (patient_dir,v,file)
+                            if os.path.exists(mri_dir):
+                                #print "%s/%s/mri" %(patient_dir,v)
+                                #visit_dir = "%s/%s/01" % (rootDir,file)
+                                #if os.path.exists(visit_dir): #assume if at least one visit then patient
+                                self.Count+=1
+                                patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log,self.pipeline)
+                                self.Patients.append(patient)
+
                                    
     def csv(self):
 

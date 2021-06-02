@@ -1,0 +1,15 @@
+2020-07-27 10:08:05,213 - root - INFO - Test Initiated for sample 100307
+2020-07-27 10:08:05,235 - root - INFO - Repository Instantiated
+2020-07-27 10:08:05,236 - root - INFO - Repository Instantiated
+2020-07-27 10:08:05,260 - root - INFO - Transaction failed ERROR:operator does not exist: character varying = integer
+LINE 1: ...ect count(1) from measurements where sample=1234 and visit=1
+                                                                     ^
+HINT:  No operator matches the given name and argument type(s). You might need to add explicit type casts.
+
+2020-07-27 10:08:05,262 - root - INFO - Test Completed for sample 100307
+2020-07-27 10:08:05,266 - root - INFO - Repository Uninstantiated
+2020-07-27 10:08:57,672 - root - INFO - Test Initiated for sample 100307
+2020-07-27 10:08:57,687 - root - INFO - Repository Instantiated
+2020-07-27 10:08:57,688 - root - INFO - Repository Instantiated
+2020-07-27 10:08:57,712 - root - INFO - Test Completed for sample 100307
+2020-07-27 10:08:57,717 - root - INFO - Repository Uninstantiated

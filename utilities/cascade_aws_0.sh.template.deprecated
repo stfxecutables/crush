@@ -1,0 +1,14 @@
+#!/bin/bash
+#SBATCH --time=0:30:00
+#SBATCH --account=def-dmattie
+#SBATCH --cpus-per-task=1
+#SBATCH --mail-user=dmattie@stfx.ca
+#SBATCH --mem-per-cpu=1000M
+#SBATCH --error=%x-%j.err
+
+patientID=PATIENT
+
+SUBJECTS_DIR=~/scratch/HCP/stage_0
+
+aws s3 sync s3://hcp-openaccess/HCP_1200/$patientID/T1w ~/scratch/HCP/stage_0/$patientID/T1w
+

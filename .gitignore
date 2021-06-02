@@ -1,1 +1,6 @@
 /track_vis.log
+/crushdb-repository.log
+/utilities/*.log
+/utilities/*.err
+/utilities/*.out
+/crushdbtest*.log

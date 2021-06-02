@@ -1,0 +1,64 @@
+#!/bin/bash
+######################################
+##### PARCELLATE
+######################################
+#SBATCH --time=0:40:00
+#SBATCH --account=def-dmattie
+#SBATCH --cpus-per-task=1
+#SBATCH --mail-user=dmattie@stfx.ca
+#SBATCH --mail-type=ALL
+#SBATCH --mem-per-cpu=1000M
+#SBATCH -e PATIENT_0_1_0-1_%x-%j.err
+#SBATCH -o PATIENT_0_1_0-1_%x-%j.out
+
+util=~/projects/def-dmattie/crush/utilities
+patientID=PATIENT_0_1
+
+SUBJECTS_DIR=~/scratch/HCP/stage_0
+DATADIR=~/projects/def-dmattie/crush/data
+
+#############
+while read p; do
+    echo "Extracting Region $p ($SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations)"
+    mkdir -p $SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations
+    cp $SUBJECTS_DIR/$patientID/T1w/$patientID/mri/wmparc.mgz $SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations
+    cd $SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations
+    mri_convert -rt nearest -nc -ns 1 wmparc.mgz wmparc.nii
+    mri_extract_label wmparc.nii $p wmparc$p.nii
+done <$DATADIR/rois.dat
+
+parcels=$(cat $DATADIR/rois.dat|wc -l)
+echo "$parcels rois"
+
+rendered=$(ls $SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations|wc -l) 
+echo "$rendered rendered"
+
+#MOVE FORWARD
+
+if [ "$rendered" -ge "$parcels" ]; then
+    echo "STAGE 0 to STAGE 1 COMPLETE.  ADVANCING FORWARD"
+    mkdir -p $SUBJECTS_DIR/../stage_1 
+    #mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_1
+    if mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_1 
+    then
+        #rm -r $SUBJECTS_DIR/$patientID   
+
+        cd $util
+
+        cat cascade_1_to_2.sh.template | sed -e "s/PATIENT_1_2/$patientID/" > ~/jobs/generated/$patientID-1_2.sh
+        chmod u+x ~/jobs/generated/$patientID-1_2.sh
+        mkdir -p ~/jobs/generated/logs
+        cd ~/jobs/generated/logs
+        ############
+        mkdir -p ../completed
+        mv ../$patientID-0_1.sh ../completed   #Move the currently running script to archive
+        sbatch ~/jobs/generated/$patientID-1_2.sh
+
+        ############
+        cd $util
+    else
+        echo "FAILED TO MOVE FILES FROM STAGE 0 to STAGE 1"
+    fi
+else
+    echo "STAGE 0 INCOMPLETE.  Parcellations rendered does not match expected."    
+fi

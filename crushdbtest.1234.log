@@ -1,0 +1,38 @@
+2020-07-25 11:28:03,374 - root - INFO - Test Initiated for sample 1234
+2020-07-25 11:28:03,390 - root - INFO - Repository Instantiated
+2020-07-25 11:28:03,391 - root - ERROR - Failed to create schema, ERROR:function "f_count_measures" already exists with same argument types
+
+2020-07-25 11:28:03,392 - root - ERROR - Test failed ERROR:function "f_count_measures" already exists with same argument types
+
+2020-07-25 11:28:03,392 - root - INFO - Repository Uninstantiated
+2020-07-25 11:28:18,740 - root - INFO - Test Initiated for sample 1234
+2020-07-25 11:28:18,753 - root - INFO - Repository Instantiated
+2020-07-25 11:28:18,754 - root - ERROR - Failed to create schema, ERROR:function "f_count_measures" already exists with same argument types
+
+2020-07-25 11:28:18,755 - root - ERROR - Test failed ERROR:function "f_count_measures" already exists with same argument types
+
+2020-07-25 11:28:18,755 - root - INFO - Repository Uninstantiated
+2020-07-25 11:28:18,755 - root - INFO - Test Completed for sample 1234
+2020-07-25 11:28:44,791 - root - INFO - Test Initiated for sample 1234
+2020-07-25 11:28:44,804 - root - INFO - Repository Instantiated
+2020-07-25 11:28:44,806 - root - INFO - Repository Instantiated
+2020-07-25 11:28:44,849 - root - INFO - Transaction failed ERROR:name 'roi_start' is not defined
+2020-07-25 11:28:44,850 - root - INFO - Test Completed for sample 1234
+2020-07-25 11:28:44,860 - root - INFO - Repository Uninstantiated
+2020-07-25 11:29:11,426 - root - INFO - Test Initiated for sample 1234
+2020-07-25 11:29:11,440 - root - INFO - Repository Instantiated
+2020-07-25 11:29:11,444 - root - INFO - Repository Instantiated
+2020-07-25 11:29:11,474 - root - INFO - Transaction failed ERROR:name 'roi_start' is not defined
+2020-07-25 11:29:11,477 - root - INFO - Test Completed for sample 1234
+2020-07-25 11:29:11,482 - root - INFO - Repository Uninstantiated
+2020-07-25 11:29:25,141 - root - INFO - Test Initiated for sample 1234
+2020-07-25 11:29:25,155 - root - INFO - Repository Instantiated
+2020-07-25 11:29:25,156 - root - INFO - Repository Instantiated
+2020-07-25 11:29:25,187 - root - INFO - Transaction failed ERROR:name 'roi_start' is not defined
+2020-07-25 11:29:25,187 - root - INFO - Test Completed for sample 1234
+2020-07-25 11:29:25,192 - root - INFO - Repository Uninstantiated
+2020-07-25 11:31:12,206 - root - INFO - Test Initiated for sample 1234
+2020-07-25 11:31:12,220 - root - INFO - Repository Instantiated
+2020-07-25 11:31:12,221 - root - INFO - Repository Instantiated
+2020-07-25 11:31:12,250 - root - INFO - Test Completed for sample 1234
+2020-07-25 11:31:12,255 - root - INFO - Repository Uninstantiated
