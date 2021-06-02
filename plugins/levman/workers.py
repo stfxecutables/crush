@@ -52,7 +52,7 @@ class workerTrackvis(object):
                     #if self.visit.disable_log:
                     #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method),"-disable_log"]
                     trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method),"-disable_log"]
-                    print(trackvis)
+                    #print(trackvis)
                     #else:
                     #trackvis = ["track_vis","%s/crush.trk" %(tractographypath),"-%s"%(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,segment),"-%s2" %(method),"%s/parcellations/wmparc%s.nii" %(tractographypath,counterpart),"-nr", "-ov","%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)]
                     
@@ -67,7 +67,6 @@ class workerTrackvis(object):
                                 proc.communicate() 
                                 #track_vis_out.write(proc.stdout)
                                 #data=proc.stdout
-                            print("Trackvis completed")
                    #         if proc.returncode <> 0:
                    #             print("TRACKVIS Command returned non-zero exit code")
 
@@ -81,7 +80,6 @@ class workerTrackvis(object):
                     data=""
 
                 #data = self.trackvis_create_nii(segment,counterpart,method)
-                print("process results")
                
                 m = re.search(r'Number of tracks: (\d+)', data)
                 if m:
@@ -162,41 +160,36 @@ class workerTrackvis(object):
                     print("%s is missing for %s-%s operation" %(wmparcStart,segment,counterpart))
             
    
-            print("dump results")
             try:
                 # Cache CALCS to temp file because it's not written to tracts.txt until the join (after all ROIs finish)    
                # if self.persistencemode =='db':
                #     print("dump to db")
                #     return calcs                       
                # else:
-                print("dump to file")
                 if not os.path.isdir("%s/crush/%s" % (tractographypath,segment)):
                     os.mkdir("%s/crush/%s" % (tractographypath,segment))
 
                 calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (tractographypath,segment,segment,counterpart,method)
                 with open(calcsJson, "w") as calcs_file:
                     json.dump(calcs,calcs_file)
-                print(f"dump complete {calcsJson}")
                 #         ############# CLEANUP #################
                 #        ### self.trackvis_cleanup_nii(segment,counterpart,method)
             except Exception as e:
-                print(f"dump failed::{e}")  
+                raise Exception(f"dump failed::{e}")  
 
-            print("cleanup")
             nii = "%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method)
             datafile = "%s/crush/%s/%s-%s-%s.nii.txt" %(tractographypath,segment,segment,counterpart,method)
             oldcalcsfile = "%s/crush/calcs-%s-%s-%s.json" %(tractographypath,segment,counterpart,method)
                     
-            # if os.path.isfile(nii):
-            #    os.unlink(nii) 
+            if os.path.isfile(nii):
+               os.unlink(nii) 
             
-            # if os.path.isfile(datafile):
-            #    os.unlink(datafile)
+            if os.path.isfile(datafile):
+               os.unlink(datafile)
                     
             # if os.path.isfile(oldcalcsfile):
             #    print("Cleanup %s" %(oldcalcsfile))
             #    os.unlink(oldcalcsfile)             
-            print("exiting worker")
             return json.dumps(calcs)   # dict doesn't appear to be threadsafe, need to stringify
 
     def nonZeroMean(self,faFile,roiFile):

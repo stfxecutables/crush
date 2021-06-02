@@ -358,8 +358,8 @@ class Pipeline:
         self.dti_recon()
         print("%s:%s" %("dti_tracker started:",datetime.datetime.now()))
         self.dti_tracker()
-        #print("%s:%s" %("parcellation started:",datetime.datetime.now()))
-        #self.parcellate()
+        print("%s:%s" %("parcellation started:",datetime.datetime.now()))
+        self.parcellate()
 
         print("%s:%s" %("flirt started:",datetime.datetime.now()))
         self.flirt()
@@ -505,7 +505,6 @@ class Pipeline:
 
         calcs=self.GetIntermediateData(segment,counterpart,method)
 
-        print(f"measurementAudit_worker:{calcs}")
         l_NumTracts = False
         l_TractsToRender = False
         l_LinesToRender = False
@@ -519,76 +518,76 @@ class Pipeline:
         l_meanADC = False
         l_stddevADC = False
 
-        p = "%s-%s-%s-NumTracts" %(segment,counterpart,method)                          
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-NumTracts" %(self.PipelineId,segment,counterpart,method)                          
+        if(p in calcs):#self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_NumTracts=True            
-            calcs[p]= self.visit.GetValue(self.PipelineId,p)
+            #calcs[p]= self.visit.GetValue(self.PipelineId,p)
             #self.visit.data[self.visit.PatientId][self.visit.VisitId][p]
 
-        p = "%s-%s-%s-TractsToRender" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-TractsToRender" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs):# self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_TractsToRender=True     
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             #self.visit.data[self.visit.PatientId][self.visit.VisitId][p]          
 
-        p = "%s-%s-%s-LinesToRender" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-LinesToRender" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs): # self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_LinesToRender=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             #self.visit.data[self.visit.PatientId][self.visit.VisitId][p]          
             
-        p = "%s-%s-%s-MeanTractLen" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-MeanTractLen" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs):#self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_MeanTractLen=True     
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             # self.visit.data[self.visit.PatientId][self.visit.VisitId][p]          
 
-        p = r"%s-%s-%s-MeanTractLen_StdDev" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = r"%s/%s-%s-%s-MeanTractLen_StdDev" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs): #self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_MeanTractLen_StdDev=True                                                
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             #self.visit.data[self.visit.PatientId][self.visit.VisitId][p]          
 
-        p = "%s-%s-%s-VoxelSizeX" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-VoxelSizeX" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs):#self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_VoxelSizeX=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             #self.data[self.PatientId][self.VisitId][p]          
 
-        p = "%s-%s-%s-VoxelSizeY" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-VoxelSizeY" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs):#self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_VoxelSizeY=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             #self.data[self.PatientId][self.VisitId][p]          
 
-        p = "%s-%s-%s-VoxelSizeZ" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-VoxelSizeZ" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs): # self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_VoxelSizeZ=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             #self.data[self.PatientId][self.VisitId][p]          
 
-        p = "%s-%s-%s-meanFA" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-meanFA" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs):#self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_meanFA=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             #self.data[self.PatientId][self.VisitId][p]          
 
-        p = "%s-%s-%s-stddevFA" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-stddevFA" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs): #self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_stddevFA=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             #self.data[self.PatientId][self.VisitId][p]          
 
-        p = "%s-%s-%s-meanADC" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-meanADC" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs): #self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_meanADC=True                        
-            calcs[p] = self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] = self.visit.GetValue(self.PipelineId,p)
             #self.data[self.PatientId][self.VisitId][p]          
 
-        p = "%s-%s-%s-stddevADC" %(segment,counterpart,method)                    
-        if(p in self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+        p = "%s/%s-%s-%s-stddevADC" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs): #self.visit.data[self.visit.PatientId][self.visit.VisitId]):
             l_stddevADC=True     
-            calcs[p] =self.visit.GetValue(self.PipelineId,p)
+            #calcs[p] =self.visit.GetValue(self.PipelineId,p)
             #self.data[self.PatientId][self.VisitId][p]          
 
         if(l_NumTracts and l_TractsToRender and l_LinesToRender and l_MeanTractLen
@@ -600,7 +599,7 @@ class Pipeline:
         else:
             #We don't have everything we need from the tract file
             #Lets see if we cached it the last time we processed this sample
-            print(f"We don't have everything::{calcs}")
+            #print(f"We don't have everything::{calcs}")
             
             #else:
                 #Can't find any residue - looks like this is a new calc
@@ -929,7 +928,7 @@ class Pipeline:
 
     
     def getTrackVisResults(self,result):    
-        print("Callback invoked::getTrackVisResults")    
+        #print("Callback invoked::getTrackVisResults")    
         calcs=json.loads(result)  # dict doesn't appear to be threadsafe, need to stringify
         
         if self.persistencemode=="db":    
@@ -965,8 +964,6 @@ class Pipeline:
             calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
             with open(calcsJson, "w") as calcs_file:
                 json.dump(calcs,calcs_file)            
-
-        print("Callback completed.  json created")
 
     def track_vis(self):
         MsgUser.bold("track_vis")
@@ -1075,7 +1072,6 @@ class Pipeline:
 
         self.MeasurementAudit()
         self.AddDerivedMeasures(self.visit)
-        print(self.Segments)
         
         print("Patient measure count: %s" %(len(self.visit.data[self.visit.PatientId][self.visit.VisitId])))
         
@@ -1191,7 +1187,7 @@ class Pipeline:
             #print()
             segment= f"{s['roi']}"
             if (os.path.isfile(f"{self.visit.tractographypath}/parcellations/wmparc{segment}.nii")):
-                #print(f"FOUND: {self.visit.tractographypath}/wmparc{segment}.nii")
+                print(f"FOUND: {self.visit.tractographypath}/parcellations/wmparc{segment}.nii")
                 continue
             else:
             
