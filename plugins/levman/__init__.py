@@ -34,7 +34,7 @@ import math
 import psycopg2 as pg
 import logging
 from decimal import Decimal
-from bids.layout import BIDSLayout
+#from bids.layout import BIDSLayout
 import pandas as pd
 
 
@@ -289,7 +289,7 @@ class Pipeline:
    
     def __init__(self,object): 
         self.PipelineId = "levman"
-        self.bidslayout = BIDSLayout( os.getenv("SUBJECTS_DIR"), validate=False)
+        #self.bidslayout = BIDSLayout( os.getenv("SUBJECTS_DIR"), validate=False)
         config = configparser.ConfigParser() 
         config.read(os.path.join(os.path.dirname(__file__), 'levman.ini'))             
         #config.read('~/projects/crush/plugins/levman/levman.ini')
@@ -718,7 +718,15 @@ class Pipeline:
         #a = zip(*csvModule.reader(open("%s/bvecs" %(self.visit.diffusionpath), "rt")))
 
         #csvModule.writer(open("%s/bvecs2gradientMatrix.txt" %(self.visit.tractographypath), "wt")).writerows(a)
-        bvec_fname= self.bidslayout.get(subject=self.visit.PatientId.replace('sub-',''),  extension='bvec', return_type='file')[0]
+        #bvec_fname= self.bidslayout.get(subject=self.visit.PatientId.replace('sub-',''),  extension='bvec', return_type='file')[0]
+        bvec_fname=""
+        dwifiles=os.listdir(self.visit.diffusionpath)
+        for f in dwifiles:
+            if f.endswith('bvec'):
+                bvec_fname=f"{self.visit.diffusionpath}/{f}"
+                break  #Get the first one I can find, we are only processing the first scan of this session
+        if bvec_fname=="":
+            raise Exception(f'No bvec file found in [{self.visit.diffusionpath}].  Cannot establish gradient table.')
         #csv = pd.read_csv("%s/bvecs" %(self.visit.diffusionpath), skiprows=0,sep=' ')
         csv = pd.read_csv(bvec_fname, skiprows=0,sep=' ')
         df_csv = pd.DataFrame(data=csv)

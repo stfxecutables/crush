@@ -56,7 +56,10 @@ class Visit:
             self.ReconComplete=True   
             self.freesurferpath = "%s/Freesurfer" % (path)   
             self.tractographypath = "%s/Tractography" % (path) 
-            self.diffusionpath = "%s/Tractography" %(path)    
+            if os.path.isdir("%s/dwi" % (path)):
+                self.diffusionpath = "%s/dwi" %(path) 
+            else:
+                self.diffusionpath = "%s/Tractography" %(path)    
         else:
             
             if os.path.isfile("%s/%s/mri/wmparc.mgz" % (path,self.PatientId)):
@@ -67,7 +70,10 @@ class Visit:
 
              
                 self.tractographypath = "%s/Tractography" % (path)
-                self.diffusionpath = "%s/Diffusion" %(path) 
+                if os.path.isdir("%s/dwi" % (path)):
+                    self.diffusionpath = "%s/dwi" %(path) 
+                else:
+                    self.diffusionpath = "%s/Diffusion" %(path) ## HCP Formatted this way
             else:
                 self.ReconComplete=False
         self.pipeline=pipeline

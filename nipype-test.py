@@ -6,6 +6,7 @@ import nipype.pipeline.engine as pe  # pypeline engine
 import os  # system functions
 #from niflow.nipype1.workflows.dmri.fsl.dti import create_eddy_correct_pipeline
 from nipype.workflows.dmri.preprocess.epi import ecc_pipeline as create_eddy_correct_pipeline
+from niflow.nipype1.workflows.dmri.fsl.epi import create_eddy_correct_pipeline
 
 from nipype.utils.misc import package_check
 
