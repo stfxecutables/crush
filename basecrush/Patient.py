@@ -7,7 +7,7 @@ from basecrush.visit import Visit
     
 class Patient:
     
-    def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log,pipeline):        
+    def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log,pipeline,gradienttable,b0):        
         self.PatientId=os.path.basename(path)
         self.rebuild=rebuild
         self.voi=voi
@@ -16,6 +16,8 @@ class Patient:
         self.maxcores=maxcores
         self.disable_log=disable_log
         self.pipeline=pipeline
+        self.gradienttable=gradienttable
+        self.b0=b0
         
         self.Visits=[]
         
@@ -27,14 +29,14 @@ class Patient:
             if os.path.exists(visitPathTest) and v!="fsaverage":
                 
                 visitPath="%s/%s" %(path,v)
-                thisVisit = Visit(visitPath,self.rebuild,voi,recrush,fixmissing,maxcores,self.disable_log,self.pipeline)
+                thisVisit = Visit(visitPath,self.rebuild,voi,recrush,fixmissing,maxcores,self.disable_log,self.pipeline,self.gradienttable,self.b0)
                 self.Visits.append(thisVisit)
             else: #cases where there is only one visit, like HCP
                 visitPathTest="%s/%s/%s/mri" % (path,v,self.PatientId)
             
                 if os.path.exists(visitPathTest) and v!="fsaverage":
                     visitPath="%s/%s" %(path,v)
-                    thisVisit = Visit(visitPath,self.rebuild,voi,recrush,fixmissing,maxcores,self.disable_log,self.pipeline)
+                    thisVisit = Visit(visitPath,self.rebuild,voi,recrush,fixmissing,maxcores,self.disable_log,self.pipeline,self.gradienttable,self.b0)
                     self.Visits.append(thisVisit)
 
     

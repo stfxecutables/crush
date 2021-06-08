@@ -772,12 +772,18 @@ class Pipeline:
             #     self.createGradientMatrix()
 
             #defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"bvecs2gradientMatrix.txt")
-            if(not os.path.isfile("%s/bvecs2gradientMatrix.txt"%(self.visit.tractographypath))):
-                self.createGradientMatrix()
+            if self.visit.gradienttable!="":
+                print(f"Using gradient table override:{self.visit.gradienttable}")
+                defaultGradientMatrix=self.visit.gradienttable
+            else:
+                defaultGradientMatrix="%s/bvecs2gradientMatrix.txt"%(self.visit.tractographypath)
+                if(not os.path.isfile(defaultGradientMatrix)):
+                    self.createGradientMatrix()
+
 
             #cmdArray=["hardi_mat","%s/hcp_gradient_table_from_data_dictionary_3T.csv" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))),"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref",self.eddyCorrectedData,"-oc"]
             #cmdArray=["hardi_mat","%s/bvecs2gradientMatrix.txt" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))),"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref",self.eddyCorrectedData,"-oc"]
-            cmdArray=["hardi_mat","%s/bvecs2gradientMatrix.txt" %(self.visit.tractographypath),"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref",self.eddyCorrectedData,"-oc"]
+            cmdArray=["hardi_mat",defaultGradientMatrix,"%s/temp_mat.dat" % (self.visit.tractographypath), "-ref",self.eddyCorrectedData,"-oc"]
             
             print(cmdArray)
             ret = subprocess.call(cmdArray)
@@ -879,7 +885,9 @@ class Pipeline:
             
             #cmdArray=["dti_recon","%s/DTI_eddy.nii.gz" %(self.visit.tractographypath),"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "1000","-b0","5","-p","3","-sn","1","-ot","nii"]
             #cmdArray=["dti_recon",self.eddyCorrectedData,"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "3010","-b0","1","-p","3","-sn","1","-ot","nii"]
-            cmdArray=["dti_recon",self.eddyCorrectedData,"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "1000","-b0","auto","-p","3","-sn","1","-ot","nii"]
+            if self.visit.b0==None:
+                self.visit.b0="auto"
+            cmdArray=["dti_recon",self.eddyCorrectedData,"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "1000","-b0",self.visit.b0,"-p","3","-sn","1","-ot","nii"]
             print(cmdArray)
             ret = subprocess.call(cmdArray)
             if ret !=0:

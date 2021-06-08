@@ -120,12 +120,12 @@ def main():
     parser.add_argument('-status', action="store_true", help="Report back what is out there and what needs to be done")
     parser.add_argument('-voi', action='store',
                         help='Values of Interest - Path to text file that lists values of interest to extract.  One column per line.  Look at any patient sample tractography\\crush\\tracts.txt file for measures.')
-    
-                                                
+    parser.add_argument('-gradienttable',action='store',help='Gradient table file to use with dti_recon instead of default bvecs file')
+    parser.add_argument('-b0',action='store',help='Number of b0 to use for dti_recon if undetectable')                                            
 
     args = parser.parse_args()
 
-    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.disable_log,args.pipeline,args.csv,args.patient)
+    S = Samples(args.samples, args.rebuild, args.voi, args.recrush,args.metadata,args.fixmissing,args.maxcores,args.disable_log,args.pipeline,args.csv,args.patient,args.gradienttable,args.b0)
 
     if(args.csv):
         S.csv()

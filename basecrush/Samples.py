@@ -9,7 +9,7 @@ class Samples:
     Count=0
     
     
-    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing,maxcores,disable_log,pipeline,csv,patient):
+    def __init__(self,rootDir,force,voi,recrush,metadata,fixmissing,maxcores,disable_log,pipeline,csv,patient,gradienttable,b0):
         self.Patients=[]
         self.force=force
         self.voi=voi
@@ -22,6 +22,8 @@ class Samples:
         self.pipeline=pipeline
         self.csv_flag=csv
         self.patient=patient
+        self.gradienttable=gradienttable
+        self.b0=b0
 
         dirs = os.listdir( rootDir )
         
@@ -39,8 +41,8 @@ class Samples:
                             #print "%s/%s/mri" %(patient_dir,v)
                             #visit_dir = "%s/%s/01" % (rootDir,file)
                             #if os.path.exists(visit_dir): #assume if at least one visit then patient
-                            self.Count+=1
-                            patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log,self.pipeline)
+                            self.Count+=1                            
+                            patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log,self.pipeline,self.gradienttable,self.b0)
                             self.Patients.append(patient)
                         else:  #e.g. humanConnectome project doesn't have visits 100307/T1w/100307/mri
                             mri_dir = "%s/%s/%s/mri" % (patient_dir,v,file)
@@ -49,7 +51,8 @@ class Samples:
                                 #visit_dir = "%s/%s/01" % (rootDir,file)
                                 #if os.path.exists(visit_dir): #assume if at least one visit then patient
                                 self.Count+=1
-                                patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log,self.pipeline)
+                                print(self.gradienttable)
+                                patient=basecrush.Patient(patient_dir,self.force,self.voi,self.recrush,self.fixmissing,self.maxcores,self.disable_log,self.pipeline,self.gradienttable,self.b0)
                                 self.Patients.append(patient)
 
                                    

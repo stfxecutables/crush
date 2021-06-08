@@ -23,7 +23,7 @@ class Visit:
    
     
                     
-    def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log,pipeline):        
+    def __init__(self,path,rebuild,voi,recrush,fixmissing,maxcores,disable_log,pipeline,gradienttable,b0):        
         self.SourceTaxonomy="undefined"
         self.VisitId=os.path.basename(path)
         self.path=path
@@ -33,7 +33,9 @@ class Visit:
         self.rebuild=rebuild
         self.voi=voi        
         self.recrush=recrush
-        self.fixmissing=fixmissing                
+        self.fixmissing=fixmissing   
+        self.gradienttable=gradienttable     
+        self.b0=b0        
         if maxcores:
             self.maxcores=maxcores 
         else:
