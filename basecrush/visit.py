@@ -59,7 +59,7 @@ class Visit:
             if os.path.isdir("%s/dwi" % (path)):
                 self.diffusionpath = "%s/dwi" %(path) 
             else:
-                self.diffusionpath = "%s/Tractography" %(path)    
+                self.diffusionpath = "%s/Diffusion" %(path)    
         else:
             
             if os.path.isfile("%s/%s/mri/wmparc.mgz" % (path,self.PatientId)):
