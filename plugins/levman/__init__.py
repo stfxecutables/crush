@@ -354,7 +354,7 @@ class Pipeline:
         #print("%s:%s" %("odf tracker started:",datetime.datetime.now()))
         #self.odf_tracker()
 
-        print("%s:%s" %("dti_recon started:",datetime.datetime.now()))
+        print("%s:%s" %("dti_rec    on started:",datetime.datetime.now()))
         self.dti_recon()
         print("%s:%s" %("dti_tracker started:",datetime.datetime.now()))
         self.dti_tracker()
@@ -484,9 +484,12 @@ class Pipeline:
         else:
             calcsJson = "%s/crush/%s/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,segment,counterpart,method)
             if os.path.isfile(calcsJson):
-                with open(calcsJson, 'r') as f:
-                    calcs = json.loads(f.read())                    
-                    return calcs
+                try:
+                    with open(calcsJson, 'r') as f:
+                        calcs = json.loads(f.read())                    
+                        return calcs
+                except:
+                    return calcs #f there was a failure loading json, eg 0-byte file, just return nothing
             else:
                 #Check for and Fix legacy structure and put JSON in segment folders
                 calcsOldJson = "%s/crush/calcs-%s-%s-%s.json" % (self.visit.tractographypath,segment,counterpart,method)
