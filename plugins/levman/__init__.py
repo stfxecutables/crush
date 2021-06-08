@@ -728,10 +728,13 @@ class Pipeline:
             if f.endswith('bvec'):
                 bvec_fname=f"{self.visit.diffusionpath}/{f}"
                 break  #Get the first one I can find, we are only processing the first scan of this session
+            if f=='bvecs':
+                bvec_fname=f"{self.visit.diffusionpath}/{f}"
+                break
         if bvec_fname=="":
             raise Exception(f'No bvec file found in [{self.visit.diffusionpath}].  Cannot establish gradient table.')
         #csv = pd.read_csv("%s/bvecs" %(self.visit.diffusionpath), skiprows=0,sep=' ')
-        csv = pd.read_csv(bvec_fname, skiprows=0,sep=' ')
+        csv = pd.read_csv(bvec_fname, skiprows=0,sep='\s+')
         df_csv = pd.DataFrame(data=csv)
         transposed_csv = df_csv.T        
         transposed_csv.to_csv("%s/bvecs2gradientMatrix.txt" %(self.visit.tractographypath),header=False,index=True)
