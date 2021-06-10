@@ -772,6 +772,7 @@ class Pipeline:
             #     self.createGradientMatrix()
 
             #defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"bvecs2gradientMatrix.txt")
+            
             if self.visit.gradienttable!="":
                 print(f"Using gradient table override:{self.visit.gradienttable}")
                 defaultGradientMatrix=self.visit.gradienttable
@@ -880,8 +881,17 @@ class Pipeline:
             #odf_, max_, dwi_, b0 files should exist
             MsgUser.skipped("dti_recon output exists")
         else:
+              
+            if self.visit.gradienttable!="":
+                print(f"Using gradient table override:{self.visit.gradienttable}")
+                defaultGradientMatrix=self.visit.gradienttable
+            else:
+                defaultGradientMatrix="%s/bvecs2gradientMatrix.txt"%(self.visit.tractographypath)
+                if(not os.path.isfile(defaultGradientMatrix)):
+                    self.createGradientMatrix()
+
             #defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"hcp_gradient_table_from_data_dictionary_3T.csv")
-            defaultGradientMatrix ="%s/%s" %(self.visit.tractographypath,"bvecs2gradientMatrix.txt")
+            #defaultGradientMatrix ="%s/%s" %(self.visit.tractographypath,"bvecs2gradientMatrix.txt")
             
             #cmdArray=["dti_recon","%s/DTI_eddy.nii.gz" %(self.visit.tractographypath),"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "1000","-b0","5","-p","3","-sn","1","-ot","nii"]
             #cmdArray=["dti_recon",self.eddyCorrectedData,"%s/DTI_Reg2Brain" %(self.visit.tractographypath),"-gm",defaultGradientMatrix,"-b", "3010","-b0","1","-p","3","-sn","1","-ot","nii"]
