@@ -164,7 +164,7 @@ def csv(Patients,**kwargs):
             asymMeasuresToAdd = {}
             for m in measurements:
                 if len(m)>8 and m[-8] != "-asymidx":
-                    m0 = re.match("^"+PipelineId+"\/(\w+)-(\w+)-(\w+)-(\w+)",m)
+                    m0 = re.match("^"+PipelineId+".*\/(\w+)-(\w+)-(\w+)-(\w+)",m)
                     
                     if m0:
                         l_roi = m0.group(1)
@@ -187,6 +187,8 @@ def csv(Patients,**kwargs):
                             if v.is_number(measurements[m]) and v.is_number(measurements[asymCounterpart]) and float(measurements[asymCounterpart]) != 0:
                                 asymIdx=float(measurements[m]) / float(measurements[asymCounterpart])                            
                                 asymMeasuresToAdd["%s-asymidx" %(m)] = asymIdx
+                    else:
+                        print("no match")
 
             #print(asymMeasuresToAdd)
             #return

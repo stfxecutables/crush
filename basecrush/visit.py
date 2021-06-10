@@ -127,20 +127,21 @@ class Visit:
 
 
     def GetMeasurements(self):
-
+        print("Fetching known measurements")
         Measurements={}
         
         self.data[self.PatientId]={}
         self.data[self.PatientId][self.VisitId]={} 
 
-        if self.persistencemode=="file":
-        
-
+        if self.persistencemode=="file":            
+            print(f"Persistence mode is file based.  Recalling {self.tractographypath}/crush/tracts.txt")
             if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
+                
                 with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
                     for line in fMeasure:
                         if line.strip() != "":
-                            nvp=line.split("=")                          
+                            nvp=line.split("=")     
+                            print(nvp)                     
                             self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
                             if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
                                 Measurements[nvp[0]]=nvp[1].strip()
@@ -155,7 +156,7 @@ class Visit:
             print(f"{len(Measurements)} measurements retrieved from database")                            
             for n in Measurements:
                 self.data[self.PatientId][self.VisitId][n]=Measurements[n]                
-        return #Measurements
+        return Measurements
     def is_number(self,s):
         try:
             float(s)
