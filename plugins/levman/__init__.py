@@ -773,7 +773,7 @@ class Pipeline:
 
             #defaultGradientMatrix ="%s/%s" %(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),"bvecs2gradientMatrix.txt")
             
-            if self.visit.gradienttable!="":
+            if self.visit.gradienttable!=None:
                 print(f"Using gradient table override:{self.visit.gradienttable}")
                 defaultGradientMatrix=self.visit.gradienttable
             else:
@@ -882,7 +882,7 @@ class Pipeline:
             MsgUser.skipped("dti_recon output exists")
         else:
               
-            if self.visit.gradienttable!="":
+            if self.visit.gradienttable!=None:
                 print(f"Using gradient table override:{self.visit.gradienttable}")
                 defaultGradientMatrix=self.visit.gradienttable
             else:
