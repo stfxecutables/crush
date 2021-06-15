@@ -53,7 +53,7 @@ class Visit:
 
 
         if os.path.isfile(reconTest):
-            print("%s Looks like BCH formatted directory structure" %(self.PatientId))
+            #print("%s Looks like BCH formatted directory structure" %(self.PatientId))
             self.SourceTaxonomy="BCH"
             self.ReconComplete=True   
             self.freesurferpath = "%s/Freesurfer" % (path)   
@@ -129,21 +129,21 @@ class Visit:
 
 
     def GetMeasurements(self):
-        print("Fetching known measurements")
+        #print("Fetching known measurements")
         Measurements={}
         
         self.data[self.PatientId]={}
         self.data[self.PatientId][self.VisitId]={} 
 
         if self.persistencemode=="file":            
-            print(f"Persistence mode is file based.  Recalling {self.tractographypath}/crush/tracts.txt")
+            #print(f"Persistence mode is file based.  Recalling {self.tractographypath}/crush/tracts.txt")
             if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
                 
                 with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
                     for line in fMeasure:
                         if line.strip() != "":
                             nvp=line.split("=")     
-                            print(nvp)                     
+                            #print(nvp)                     
                             self.data[self.PatientId][self.VisitId][nvp[0]]=nvp[1].strip()
                             if self.is_number(nvp[1].strip()) and nvp[1].strip()!="nan":
                                 Measurements[nvp[0]]=nvp[1].strip()
