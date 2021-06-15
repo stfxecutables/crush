@@ -206,7 +206,7 @@ class Samples:
                 #print(measurements)
                 measurementRoots = []
                 for m in measurements:
-                    m0 = re.match("^(\w+)-(\w+)-(\w+)-(\w+)",m)
+                    m0 = re.match("^.*"+PipelineId+"\/(\w+)-(\w+)-(\w+)-(\w+)",m)
                     if m0:
                         r=m0.group(1)+"-"+m0.group(2)+"-"+m0.group(3)
                         if r.strip() not in measurementRoots:                              
@@ -396,7 +396,7 @@ class Samples:
                 for m in measurements:
                     if len(m)>8 and m[-8] != "-asymidx":
                         #print(m)
-                        m0 = re.match("^"+PipelineId+"\/(\w+)-(\w+)-(\w+)-(\w+)",m)
+                        m0 = re.match("^.*"+PipelineId+"\/(\w+)-(\w+)-(\w+)-(\w+)",m)
                         
                         if m0:
                             l_roi = m0.group(1)
