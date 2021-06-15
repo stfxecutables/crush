@@ -12,7 +12,8 @@ fsplice() {
 }
 
 PATIENT_QUEUE=~/projects/def-dmattie/data/crush-queue
-ROOT_DIR=~/scratch/HCP
+#ROOT_DIR=~/scratch/HCP
+ROOT_DIR=~/projects/rrg-jlevman/shared/HCP
 SUBJECTS_DIR=$ROOT_DIR/stage_0
 util=$(pwd)
 

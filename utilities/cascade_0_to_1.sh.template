@@ -14,7 +14,8 @@
 util=~/projects/def-dmattie/crush/utilities
 patientID=PATIENT_0_1
 
-SUBJECTS_DIR=~/scratch/HCP/stage_0
+#SUBJECTS_DIR=~/scratch/HCP/stage_0
+SUBJECTS_DIR=~/projects/rrg-jlevman/shared/HCP/stage_0
 DATADIR=~/projects/def-dmattie/crush/data
 
 #############

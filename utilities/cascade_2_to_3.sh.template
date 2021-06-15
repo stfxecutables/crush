@@ -14,7 +14,8 @@
 #SBATCH -o PATIENT_2_3_2-3_%x-%j.out
 
 patientID=PATIENT_2_3
-SUBJECTS_DIR=~/scratch/HCP/stage_2
+#SUBJECTS_DIR=~/scratch/HCP/stage_2
+SUBJECTS_DIR=~/projects/rrg-jlevman/shared/HCP/stage_2
 util=~/projects/def-dmattie/crush/utilities
 module load postgresql
 ##mkdir -p /tmp/crush/
@@ -24,7 +25,7 @@ module load postgresql
 ##python ~/projects/def-dmattie/crush/crush.py -samples /tmp/crush -patient $patientID 
 
 ##rsync -a /tmp/crush/$patientID/T1w/Tractography/ $SUBJECTS_DIR/$patientID/T1w/Tractography
-python ~/projects/def-dmattie/crush/crush.py -samples $SUBJECTS_DIR -patient $patientID -recrush -fixmissing
+python ~/projects/def-dmattie/crush/crush.py -samples $SUBJECTS_DIR -patient $patientID -recrush -fixmissing -gradienttable ~/projects/def-dmattie/crush/plugins/levman/hcp_gradient_table_from_data_dictionary_3T.csv
 pwd
 
 if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/crush/tracts.txt" ]; then

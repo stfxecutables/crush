@@ -16,7 +16,8 @@
 util=~/projects/def-dmattie/crush/utilities
 patientID=PATIENT_1_2
 
-SUBJECTS_DIR=~/scratch/HCP/stage_1
+#SUBJECTS_DIR=~/scratch/HCP/stage_1
+SUBJECTS_DIR=~/projects/rrg-jlevman/shared/HCP/stage_1
 
 cd $SUBJECTS_DIR/$patientID/T1w/
 mkdir -p Tractography

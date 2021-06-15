@@ -16,7 +16,8 @@
 util=~/projects/def-dmattie/crush/utilities
 patientID=PATIENT_3_4
 
-SUBJECTS_DIR=~/scratch/HCP/stage_3
+#SUBJECTS_DIR=~/scratch/HCP/stage_3
+SUBJECTS_DIR=~/projects/rrg-jlevman/shared/HCP/stage_3
 
 fshift() { local v n=$'\n';read -r v < <(
 	    sed -e $'1{w/dev/stdout\n;d}' -i~ "$1")

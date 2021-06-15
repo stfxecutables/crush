@@ -8,7 +8,8 @@
 
 patientID=PATIENT
 
-SUBJECTS_DIR=~/scratch/HCP/stage_0
+#SUBJECTS_DIR=~/scratch/HCP/stage_0
+SUBJECTS_DIR=i~/projects/rrg-jlevman/shared/HCP/stage_0
 
-aws s3 sync s3://hcp-openaccess/HCP_1200/$patientID/T1w ~/scratch/HCP/stage_0/$patientID/T1w
+aws s3 sync s3://hcp-openaccess/HCP_1200/$patientID/T1w ~/projects/rrg-jlevman/shared/HCP/stage_0/$patientID/T1w
 
