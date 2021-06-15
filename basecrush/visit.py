@@ -149,13 +149,13 @@ class Visit:
                                 Measurements[nvp[0]]=nvp[1].strip()
                             else:
                                 Measurements[nvp[0]]="" #convert nan to missing value
-                print(f"{len(Measurements)} measurements retrieved from tracts.txt file")   
+                #print(f"{len(Measurements)} measurements retrieved from tracts.txt file")   
             ## Add derived measures here
             #print("Deriving Asymmetry Indexes")
         else:
             self.repo=repository.repository()               
             Measurements=self.repo.getall(sample=self.PatientId,visit=self.VisitId)     
-            print(f"{len(Measurements)} measurements retrieved from database")                            
+            #print(f"{len(Measurements)} measurements retrieved from database")                            
             for n in Measurements:
                 self.data[self.PatientId][self.VisitId][n]=Measurements[n]                
         return Measurements
