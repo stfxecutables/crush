@@ -115,7 +115,11 @@ class Visit:
                 plugin = pluginloader.loadPlugin(i)                
                 plugin.run(self)
 
-    def SetValue(self,pipelineId,name,value):            
+    def SetValue(self,pipelineId,name,value): 
+        splits=len(name.split('/'))
+        if(splits>0):
+            name=name.split('/')[splits-1]
+
         self.data[self.PatientId][self.VisitId]["%s/%s" %(pipelineId,name)]=value        
 
     def GetValue(self,pipelineId,name):

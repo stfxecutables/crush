@@ -203,7 +203,6 @@ class Samples:
         for p in self.Patients:
             for v in p.Visits:
                 measurements = v.GetMeasurements()   
-                #print(measurements)
                 measurementRoots = []
                 for m in measurements:
                     m0 = re.match("^.*"+PipelineId+"\/(\w+)-(\w+)-(\w+)-(\w+)",m)
