@@ -1,6 +1,17 @@
+#!/usr/bin/env Rscript
+
 library(dplyr)
 
-my_data <- read.csv('/media/dmattie/GENERAL/MSc-Analysis/2019-06-07.small.csv', header=TRUE)
+args = commandArgs(trailingOnly=TRUE)
+# test if there is at least one argument: if not, return an error
+if (length(args)==0) {
+  stop("At least one argument must be supplied (input file).n", call.=FALSE)
+} else if (length(args)==1) {
+  # default output file
+  args[2] = "effects.csv"
+}
+
+my_data <- read.csv(args[1], header=TRUE)
 
 
 effect <- data.frame(roistart=character(),
@@ -198,4 +209,4 @@ for (startlabel in ROIStart) {
     }
   }
 }
-write.csv(effect,"effect-size.csv",na="")
+write.csv(effect,args[2],na="")
