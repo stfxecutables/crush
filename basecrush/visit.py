@@ -139,10 +139,9 @@ class Visit:
         self.data[self.PatientId]={}
         self.data[self.PatientId][self.VisitId]={} 
 
-        if self.persistencemode=="file":            
+        if self.persistencemode=="file":
             #print(f"Persistence mode is file based.  Recalling {self.tractographypath}/crush/tracts.txt")
             if os.path.isfile("%s/crush/tracts.txt" %(self.tractographypath)):
-                
                 with open("%s/crush/tracts.txt" %(self.tractographypath)) as fMeasure:
                     for line in fMeasure:
                         if line.strip() != "":

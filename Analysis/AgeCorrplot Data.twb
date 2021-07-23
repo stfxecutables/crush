@@ -1,0 +1,1716 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 10500.18.1211.0947                               -->
+<workbook original-version='10.5' source-build='10.5.11 (10500.18.1211.0947)' source-platform='win' version='10.5' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='Sheet1 (AgeCorrplot data)' inline='true' name='federated.0y4tf2t1u1prla1ellcio1d781p8' version='10.5'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='AgeCorrplot data' name='excel-direct.0fb8tz11pb5zzh1epychz0476mc5'>
+            <connection class='excel-direct' cleaning='yes' compat='no' dataRefreshTime='' filename='C:/atlas/Analysis/AgeCorrplot data.xlsx' interpretationMode='1' password='' server='' validate='no' />
+          </named-connection>
+        </named-connections>
+        <relation connection='excel-direct.0fb8tz11pb5zzh1epychz0476mc5' name='Sheet1' table='[Sheet1$]' type='table'>
+          <columns gridOrigin='A1:CV649:no:A1:CV649:1' header='yes' lost='0' outcome='1' processed='60216'>
+            <column datatype='real' name='levman/0004-5001-roi-stddevFA' ordinal='0' />
+            <column datatype='real' name='levman/0010-0016-roi-meanFA' ordinal='1' />
+            <column datatype='real' name='levman/0010-0028-roi-meanFA' ordinal='2' />
+            <column datatype='real' name='levman/0010-3024-roi-meanFA' ordinal='3' />
+            <column datatype='real' name='levman/0010-3035-roi-meanFA' ordinal='4' />
+            <column datatype='real' name='levman/0010-5001-roi-meanFA' ordinal='5' />
+            <column datatype='real' name='levman/0010-5001-roi_end-meanFA' ordinal='6' />
+            <column datatype='real' name='levman/0012-3035-roi-meanFA' ordinal='7' />
+            <column datatype='real' name='levman/0013-0016-roi-meanFA' ordinal='8' />
+            <column datatype='real' name='levman/0013-3035-roi-meanFA' ordinal='9' />
+            <column datatype='real' name='levman/0016-0028-roi-meanFA' ordinal='10' />
+            <column datatype='real' name='levman/0016-0049-roi-meanFA' ordinal='11' />
+            <column datatype='real' name='levman/0016-0051-roi-meanFA' ordinal='12' />
+            <column datatype='real' name='levman/0016-0052-roi-meanFA' ordinal='13' />
+            <column datatype='real' name='levman/0016-0060-roi-meanFA' ordinal='14' />
+            <column datatype='real' name='levman/0016-1024-roi-meanFA' ordinal='15' />
+            <column datatype='real' name='levman/0016-1028-roi-meanFA' ordinal='16' />
+            <column datatype='real' name='levman/0016-2028-roi-meanFA' ordinal='17' />
+            <column datatype='real' name='levman/0016-3003-roi-meanFA' ordinal='18' />
+            <column datatype='real' name='levman/0016-3020-roi-meanFA' ordinal='19' />
+            <column datatype='real' name='levman/0016-3024-roi-meanFA' ordinal='20' />
+            <column datatype='real' name='levman/0016-3027-roi-meanFA' ordinal='21' />
+            <column datatype='real' name='levman/0016-3028-roi-meanFA' ordinal='22' />
+            <column datatype='real' name='levman/0016-3035-roi-meanFA' ordinal='23' />
+            <column datatype='real' name='levman/0016-4020-roi-meanFA' ordinal='24' />
+            <column datatype='real' name='levman/0016-4024-roi-meanFA' ordinal='25' />
+            <column datatype='real' name='levman/0016-4028-roi-meanFA' ordinal='26' />
+            <column datatype='real' name='levman/0016-4035-roi-meanFA' ordinal='27' />
+            <column datatype='real' name='levman/0016-5001-roi-meanFA' ordinal='28' />
+            <column datatype='real' name='levman/0016-5002-roi-meanFA' ordinal='29' />
+            <column datatype='real' name='levman/0017-0028-roi-stddevFA' ordinal='30' />
+            <column datatype='real' name='levman/0028-1024-roi-meanFA' ordinal='31' />
+            <column datatype='real' name='levman/0028-1028-roi-meanFA' ordinal='32' />
+            <column datatype='real' name='levman/0028-3024-roi-meanFA' ordinal='33' />
+            <column datatype='real' name='levman/0028-3028-roi-meanFA' ordinal='34' />
+            <column datatype='real' name='levman/0028-3035-roi-meanFA' ordinal='35' />
+            <column datatype='real' name='levman/0028-5001-roi-meanFA' ordinal='36' />
+            <column datatype='real' name='levman/0028-5001-roi-stddevFA' ordinal='37' />
+            <column datatype='real' name='levman/0049-0060-roi-meanFA' ordinal='38' />
+            <column datatype='real' name='levman/0049-4024-roi-meanFA' ordinal='39' />
+            <column datatype='real' name='levman/0049-5002-roi-meanFA' ordinal='40' />
+            <column datatype='real' name='levman/0051-0052-roi-meanFA' ordinal='41' />
+            <column datatype='real' name='levman/0051-0060-roi-meanFA' ordinal='42' />
+            <column datatype='real' name='levman/0051-4012-roi-meanFA' ordinal='43' />
+            <column datatype='real' name='levman/0051-4035-roi-meanFA' ordinal='44' />
+            <column datatype='real' name='levman/0051-5002-roi-meanFA' ordinal='45' />
+            <column datatype='real' name='levman/0052-0060-roi-meanFA' ordinal='46' />
+            <column datatype='real' name='levman/0052-4035-roi-meanFA' ordinal='47' />
+            <column datatype='real' name='levman/0052-5002-roi-meanFA' ordinal='48' />
+            <column datatype='real' name='levman/0060-1028-roi-meanFA' ordinal='49' />
+            <column datatype='real' name='levman/0060-2024-roi-meanFA' ordinal='50' />
+            <column datatype='real' name='levman/0060-3028-roi-meanFA' ordinal='51' />
+            <column datatype='real' name='levman/0060-4024-roi-meanFA' ordinal='52' />
+            <column datatype='real' name='levman/0060-4035-roi-meanFA' ordinal='53' />
+            <column datatype='real' name='levman/0060-5002-roi-meanFA' ordinal='54' />
+            <column datatype='real' name='levman/1003-1024-roi-stddevFA' ordinal='55' />
+            <column datatype='real' name='levman/1003-3003-roi-stddevFA' ordinal='56' />
+            <column datatype='real' name='levman/1003-3003-roi_end-stddevFA' ordinal='57' />
+            <column datatype='real' name='levman/1003-3024-roi-stddevFA' ordinal='58' />
+            <column datatype='real' name='levman/1015-3015-roi-stddevFA' ordinal='59' />
+            <column datatype='real' name='levman/1018-1024-roi-stddevFA' ordinal='60' />
+            <column datatype='real' name='levman/1018-3003-roi-stddevFA' ordinal='61' />
+            <column datatype='real' name='levman/1018-3018-roi-stddevFA' ordinal='62' />
+            <column datatype='real' name='levman/1018-3024-roi-stddevFA' ordinal='63' />
+            <column datatype='real' name='levman/1018-3027-roi-stddevFA' ordinal='64' />
+            <column datatype='real' name='levman/1022-3022-roi-stddevFA' ordinal='65' />
+            <column datatype='real' name='levman/1024-3024-roi-stddevFA' ordinal='66' />
+            <column datatype='real' name='levman/1024-3024-roi_end-stddevFA' ordinal='67' />
+            <column datatype='real' name='levman/1027-3027-roi_end-stddevFA' ordinal='68' />
+            <column datatype='real' name='levman/1028-3028-roi-stddevFA' ordinal='69' />
+            <column datatype='real' name='levman/1030-3031-roi-stddevFA' ordinal='70' />
+            <column datatype='real' name='levman/1030-3035-roi-stddevFA' ordinal='71' />
+            <column datatype='real' name='levman/1031-3022-roi-stddevFA' ordinal='72' />
+            <column datatype='real' name='levman/1031-3031-roi-stddevFA' ordinal='73' />
+            <column datatype='real' name='levman/1035-3035-roi-stddevFA' ordinal='74' />
+            <column datatype='real' name='levman/2008-4008-roi-stddevFA' ordinal='75' />
+            <column datatype='real' name='levman/2008-4031-roi-stddevFA' ordinal='76' />
+            <column datatype='real' name='levman/2022-4022-roi-stddevFA' ordinal='77' />
+            <column datatype='real' name='levman/2024-4024-roi-stddevFA' ordinal='78' />
+            <column datatype='real' name='levman/2027-4027-roi_end-stddevFA' ordinal='79' />
+            <column datatype='real' name='levman/2028-4028-roi-stddevFA' ordinal='80' />
+            <column datatype='real' name='levman/2029-4029-roi_end-stddevADC' ordinal='81' />
+            <column datatype='real' name='levman/2030-2031-roi-stddevFA' ordinal='82' />
+            <column datatype='real' name='levman/2031-4022-roi-stddevFA' ordinal='83' />
+            <column datatype='real' name='levman/2031-4031-roi-stddevFA' ordinal='84' />
+            <column datatype='real' name='levman/2035-4035-roi-stddevFA' ordinal='85' />
+            <column datatype='real' name='levman/3012-3035-roi-meanFA' ordinal='86' />
+            <column datatype='real' name='levman/3020-3035-roi-meanFA' ordinal='87' />
+            <column datatype='real' name='levman/3020-3035-roi-stddevFA' ordinal='88' />
+            <column datatype='real' name='levman/3022-3024-roi-stddevFA' ordinal='89' />
+            <column datatype='real' name='levman/3024-5001-roi-meanFA' ordinal='90' />
+            <column datatype='real' name='levman/3027-3035-roi-meanFA' ordinal='91' />
+            <column datatype='real' name='levman/3035-5001-roi-meanFA' ordinal='92' />
+            <column datatype='real' name='levman/4008-4031-roi-stddevFA' ordinal='93' />
+            <column datatype='real' name='levman/4012-4035-roi-meanFA' ordinal='94' />
+            <column datatype='real' name='levman/4017-4024-roi-meanFA' ordinal='95' />
+            <column datatype='real' name='levman/4022-4024-roi-stddevFA' ordinal='96' />
+            <column datatype='real' name='levman/4022-4031-roi-stddevFA' ordinal='97' />
+            <column datatype='real' name='levman/4024-5002-roi-meanFA' ordinal='98' />
+            <column datatype='real' name='levman/4027-4035-roi-meanFA' ordinal='99' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>levman/0004-5001-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0004-5001-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0004-5001-roi-stddevFA</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0010-0016-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0010-0016-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0010-0016-roi-meanFA</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0010-0028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0010-0028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0010-0028-roi-meanFA</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0010-3024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0010-3024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0010-3024-roi-meanFA</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0010-3035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0010-3035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0010-3035-roi-meanFA</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0010-5001-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0010-5001-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0010-5001-roi-meanFA</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0010-5001-roi_end-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0010-5001-roi_end-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0010-5001-roi_end-meanFA</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0012-3035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0012-3035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0012-3035-roi-meanFA</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0013-0016-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0013-0016-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0013-0016-roi-meanFA</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0013-3035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0013-3035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0013-3035-roi-meanFA</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-0028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-0028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-0028-roi-meanFA</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-0049-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-0049-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-0049-roi-meanFA</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-0051-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-0051-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-0051-roi-meanFA</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-0052-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-0052-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-0052-roi-meanFA</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-0060-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-0060-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-0060-roi-meanFA</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-1024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-1024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-1024-roi-meanFA</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-1028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-1028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-1028-roi-meanFA</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-2028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-2028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-2028-roi-meanFA</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-3003-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-3003-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-3003-roi-meanFA</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-3020-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-3020-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-3020-roi-meanFA</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-3024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-3024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-3024-roi-meanFA</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-3027-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-3027-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-3027-roi-meanFA</remote-alias>
+            <ordinal>21</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-3028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-3028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-3028-roi-meanFA</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-3035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-3035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-3035-roi-meanFA</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-4020-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-4020-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-4020-roi-meanFA</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-4024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-4024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-4024-roi-meanFA</remote-alias>
+            <ordinal>25</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-4028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-4028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-4028-roi-meanFA</remote-alias>
+            <ordinal>26</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-4035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-4035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-4035-roi-meanFA</remote-alias>
+            <ordinal>27</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-5001-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-5001-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-5001-roi-meanFA</remote-alias>
+            <ordinal>28</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0016-5002-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0016-5002-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0016-5002-roi-meanFA</remote-alias>
+            <ordinal>29</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0017-0028-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0017-0028-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0017-0028-roi-stddevFA</remote-alias>
+            <ordinal>30</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0028-1024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0028-1024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0028-1024-roi-meanFA</remote-alias>
+            <ordinal>31</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0028-1028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0028-1028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0028-1028-roi-meanFA</remote-alias>
+            <ordinal>32</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0028-3024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0028-3024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0028-3024-roi-meanFA</remote-alias>
+            <ordinal>33</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0028-3028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0028-3028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0028-3028-roi-meanFA</remote-alias>
+            <ordinal>34</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0028-3035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0028-3035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0028-3035-roi-meanFA</remote-alias>
+            <ordinal>35</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0028-5001-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0028-5001-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0028-5001-roi-meanFA</remote-alias>
+            <ordinal>36</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0028-5001-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0028-5001-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0028-5001-roi-stddevFA</remote-alias>
+            <ordinal>37</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0049-0060-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0049-0060-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0049-0060-roi-meanFA</remote-alias>
+            <ordinal>38</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0049-4024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0049-4024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0049-4024-roi-meanFA</remote-alias>
+            <ordinal>39</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0049-5002-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0049-5002-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0049-5002-roi-meanFA</remote-alias>
+            <ordinal>40</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0051-0052-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0051-0052-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0051-0052-roi-meanFA</remote-alias>
+            <ordinal>41</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0051-0060-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0051-0060-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0051-0060-roi-meanFA</remote-alias>
+            <ordinal>42</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0051-4012-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0051-4012-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0051-4012-roi-meanFA</remote-alias>
+            <ordinal>43</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0051-4035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0051-4035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0051-4035-roi-meanFA</remote-alias>
+            <ordinal>44</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0051-5002-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0051-5002-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0051-5002-roi-meanFA</remote-alias>
+            <ordinal>45</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0052-0060-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0052-0060-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0052-0060-roi-meanFA</remote-alias>
+            <ordinal>46</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0052-4035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0052-4035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0052-4035-roi-meanFA</remote-alias>
+            <ordinal>47</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0052-5002-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0052-5002-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0052-5002-roi-meanFA</remote-alias>
+            <ordinal>48</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0060-1028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0060-1028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0060-1028-roi-meanFA</remote-alias>
+            <ordinal>49</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0060-2024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0060-2024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0060-2024-roi-meanFA</remote-alias>
+            <ordinal>50</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0060-3028-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0060-3028-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0060-3028-roi-meanFA</remote-alias>
+            <ordinal>51</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0060-4024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0060-4024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0060-4024-roi-meanFA</remote-alias>
+            <ordinal>52</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0060-4035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0060-4035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0060-4035-roi-meanFA</remote-alias>
+            <ordinal>53</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/0060-5002-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/0060-5002-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/0060-5002-roi-meanFA</remote-alias>
+            <ordinal>54</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1003-1024-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1003-1024-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1003-1024-roi-stddevFA</remote-alias>
+            <ordinal>55</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1003-3003-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1003-3003-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1003-3003-roi-stddevFA</remote-alias>
+            <ordinal>56</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1003-3003-roi_end-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1003-3003-roi_end-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1003-3003-roi_end-stddevFA</remote-alias>
+            <ordinal>57</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1003-3024-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1003-3024-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1003-3024-roi-stddevFA</remote-alias>
+            <ordinal>58</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1015-3015-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1015-3015-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1015-3015-roi-stddevFA</remote-alias>
+            <ordinal>59</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1018-1024-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1018-1024-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1018-1024-roi-stddevFA</remote-alias>
+            <ordinal>60</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1018-3003-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1018-3003-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1018-3003-roi-stddevFA</remote-alias>
+            <ordinal>61</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1018-3018-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1018-3018-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1018-3018-roi-stddevFA</remote-alias>
+            <ordinal>62</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1018-3024-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1018-3024-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1018-3024-roi-stddevFA</remote-alias>
+            <ordinal>63</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1018-3027-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1018-3027-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1018-3027-roi-stddevFA</remote-alias>
+            <ordinal>64</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1022-3022-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1022-3022-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1022-3022-roi-stddevFA</remote-alias>
+            <ordinal>65</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1024-3024-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1024-3024-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1024-3024-roi-stddevFA</remote-alias>
+            <ordinal>66</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1024-3024-roi_end-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1024-3024-roi_end-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1024-3024-roi_end-stddevFA</remote-alias>
+            <ordinal>67</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1027-3027-roi_end-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1027-3027-roi_end-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1027-3027-roi_end-stddevFA</remote-alias>
+            <ordinal>68</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1028-3028-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1028-3028-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1028-3028-roi-stddevFA</remote-alias>
+            <ordinal>69</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1030-3031-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1030-3031-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1030-3031-roi-stddevFA</remote-alias>
+            <ordinal>70</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1030-3035-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1030-3035-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1030-3035-roi-stddevFA</remote-alias>
+            <ordinal>71</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1031-3022-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1031-3022-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1031-3022-roi-stddevFA</remote-alias>
+            <ordinal>72</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1031-3031-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1031-3031-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1031-3031-roi-stddevFA</remote-alias>
+            <ordinal>73</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/1035-3035-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/1035-3035-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/1035-3035-roi-stddevFA</remote-alias>
+            <ordinal>74</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2008-4008-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2008-4008-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2008-4008-roi-stddevFA</remote-alias>
+            <ordinal>75</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2008-4031-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2008-4031-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2008-4031-roi-stddevFA</remote-alias>
+            <ordinal>76</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2022-4022-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2022-4022-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2022-4022-roi-stddevFA</remote-alias>
+            <ordinal>77</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2024-4024-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2024-4024-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2024-4024-roi-stddevFA</remote-alias>
+            <ordinal>78</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2027-4027-roi_end-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2027-4027-roi_end-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2027-4027-roi_end-stddevFA</remote-alias>
+            <ordinal>79</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2028-4028-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2028-4028-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2028-4028-roi-stddevFA</remote-alias>
+            <ordinal>80</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2029-4029-roi_end-stddevADC</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2029-4029-roi_end-stddevADC]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2029-4029-roi_end-stddevADC</remote-alias>
+            <ordinal>81</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2030-2031-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2030-2031-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2030-2031-roi-stddevFA</remote-alias>
+            <ordinal>82</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2031-4022-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2031-4022-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2031-4022-roi-stddevFA</remote-alias>
+            <ordinal>83</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2031-4031-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2031-4031-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2031-4031-roi-stddevFA</remote-alias>
+            <ordinal>84</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/2035-4035-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/2035-4035-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/2035-4035-roi-stddevFA</remote-alias>
+            <ordinal>85</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/3012-3035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/3012-3035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/3012-3035-roi-meanFA</remote-alias>
+            <ordinal>86</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/3020-3035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/3020-3035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/3020-3035-roi-meanFA</remote-alias>
+            <ordinal>87</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/3020-3035-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/3020-3035-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/3020-3035-roi-stddevFA</remote-alias>
+            <ordinal>88</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/3022-3024-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/3022-3024-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/3022-3024-roi-stddevFA</remote-alias>
+            <ordinal>89</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/3024-5001-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/3024-5001-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/3024-5001-roi-meanFA</remote-alias>
+            <ordinal>90</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/3027-3035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/3027-3035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/3027-3035-roi-meanFA</remote-alias>
+            <ordinal>91</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/3035-5001-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/3035-5001-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/3035-5001-roi-meanFA</remote-alias>
+            <ordinal>92</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/4008-4031-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/4008-4031-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/4008-4031-roi-stddevFA</remote-alias>
+            <ordinal>93</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/4012-4035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/4012-4035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/4012-4035-roi-meanFA</remote-alias>
+            <ordinal>94</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/4017-4024-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/4017-4024-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/4017-4024-roi-meanFA</remote-alias>
+            <ordinal>95</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/4022-4024-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/4022-4024-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/4022-4024-roi-stddevFA</remote-alias>
+            <ordinal>96</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/4022-4031-roi-stddevFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/4022-4031-roi-stddevFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/4022-4031-roi-stddevFA</remote-alias>
+            <ordinal>97</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/4024-5002-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/4024-5002-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/4024-5002-roi-meanFA</remote-alias>
+            <ordinal>98</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>levman/4027-4035-roi-meanFA</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[levman/4027-4035-roi-meanFA]</local-name>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias>levman/4027-4035-roi-meanFA</remote-alias>
+            <ordinal>99</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <precision>15</precision>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;R8&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[Sheet1]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='context'>0</attribute>
+              <attribute datatype='string' name='gridOrigin'>&quot;A1:CV649:no:A1:CV649:1&quot;</attribute>
+              <attribute datatype='integer' name='lost'>0</attribute>
+              <attribute datatype='integer' name='outcome'>1</attribute>
+              <attribute datatype='integer' name='processed'>60216</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='levman/0010-5001-roi end-meanFA' datatype='real' name='[levman/0010-5001-roi_end-meanFA]' role='measure' type='quantitative' />
+      <column caption='levman/1003-3003-roi end-stddevFA' datatype='real' name='[levman/1003-3003-roi_end-stddevFA]' role='measure' type='quantitative' />
+      <column caption='levman/1024-3024-roi end-stddevFA' datatype='real' name='[levman/1024-3024-roi_end-stddevFA]' role='measure' type='quantitative' />
+      <column caption='levman/1027-3027-roi end-stddevFA' datatype='real' name='[levman/1027-3027-roi_end-stddevFA]' role='measure' type='quantitative' />
+      <column caption='levman/2027-4027-roi end-stddevFA' datatype='real' name='[levman/2027-4027-roi_end-stddevFA]' role='measure' type='quantitative' />
+      <column caption='levman/2029-4029-roi end-stddevADC' datatype='real' name='[levman/2029-4029-roi_end-stddevADC]' role='measure' type='quantitative' />
+      <layout dim-ordering='alphabetic' dim-percentage='0.0379404' measure-ordering='alphabetic' measure-percentage='0.96206' show-structure='true' />
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Sheet 1'>
+      <table>
+        <view>
+          <datasources />
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+          </pane>
+        </panes>
+        <rows />
+        <cols />
+      </table>
+    </worksheet>
+  </worksheets>
+  <windows saved-dpi-scale-factor='1.25' source-height='37'>
+    <window class='worksheet' maximized='true' name='Sheet 1'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='title' />
+          </strip>
+        </edge>
+      </cards>
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='192' name='Sheet 1' width='192'>
+      iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAABJ0AAASdAHeZh94
+      AAACFUlEQVR4nO3TMQEAIAzAMMC/5yFjRxMFfXpnZg5Eve0A2GQA0gxAmgFIMwBpBiDNAKQZ
+      gDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFI
+      MwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQD
+      kGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBp
+      BiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA
+      0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDN
+      AKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxA
+      mgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZ
+      gDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFI
+      MwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKQZgDQDkGYA0gxAmgFIMwBpBiDNAKR9Y+0F
+      fBUOM1sAAAAASUVORK5CYII=
+    </thumbnail>
+  </thumbnails>
+</workbook>

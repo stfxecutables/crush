@@ -7,6 +7,7 @@ then
     do
         dir=${dir%*/}       
         mkdir -p $dir/T1w/Freesurfer/mri
+        touch $dir/T1w/Freesurfer/mri/wmparc.mgz
     done
     echo "Done"
 else

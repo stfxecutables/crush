@@ -159,7 +159,7 @@ def csv(Patients,**kwargs):
         for v in p.Visits:
             
             measurements = v.GetMeasurements()  
-                        
+   
             #=====================================================
             asymMeasuresToAdd = {}
             for m in measurements:
