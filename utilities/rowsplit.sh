@@ -37,6 +37,6 @@ while read p; do
     if [[ $SLURMARRAYID -eq "" || $SLURMARRAYID -eq $COUNTER ]];then
       echo "Searching for $roi"
     fi
-    #csvgrep.py -c $COL -m $roi $BIGFILE > "$TARGET/$roi.csv" & 
+    csvgrep.py -c $COL -m $roi $BIGFILE > "$TARGET/$roi.csv" & 
 
 done <$ITERATOR
