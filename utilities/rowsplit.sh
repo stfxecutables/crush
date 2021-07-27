@@ -30,6 +30,6 @@ while read p; do
     roi=$(echo $p |cut -d"," -f1)
     [[ $roi =~ ^#.* ]] && continue    #Skip comments
     echo "Searching for $roi"
-    csvgrep.py -c $COL -m $roi $BIGFILE > "$TARGET/$roi.csv"   
+    csvgrep.py -c $COL -m $roi $BIGFILE > "$TARGET/$roi.csv" & 
 
 done <$ITERATOR
