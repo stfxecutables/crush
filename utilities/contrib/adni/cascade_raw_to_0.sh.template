@@ -15,7 +15,7 @@ SUBJECTS_DIR=~/projects/rrg-jlevman/shared/adni/stage_0
 
 ############
 
-rsync ~/projects/rrg-jlevman/shared/adni/UNPROCESSED/$patientID/ ~/projects/rrg-jlevman/shared/adni/stage_0
+rsync -r ~/projects/rrg-jlevman/shared/adni/UNPROCESSED/$patientID ~/projects/rrg-jlevman/shared/adni/stage_0/
 
 ############
 
