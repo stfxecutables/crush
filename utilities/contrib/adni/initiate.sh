@@ -61,7 +61,7 @@ if [ ! -d "$ROOT_DIR/stage_0/$patientID" ] &&
 [ ! -d "$ROOT_DIR/stage_3/$patientID" ] &&
 [ ! -d "$ROOT_DIR/stage_4/$patientID" ] ; then
   # Looks like we haven't seen this patient yet    
-    cat $util/cascade_raw_to_0.sh.template | sed -e "s/PATIENT_AWS_0/$patientID/" > ~/jobs/generated/$patientID-raw_0.sh    
+    cat $util/cascade_raw_to_0.sh.template | sed -e "s/PATIENT_RAW_0/$patientID/" > ~/jobs/generated/$patientID-raw_0.sh    
     chmod u+x ~/jobs/generated/$patientID-raw_0.sh
     cd ~/jobs/generated/logs    
     ##########################

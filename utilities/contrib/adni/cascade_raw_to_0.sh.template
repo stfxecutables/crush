@@ -15,7 +15,7 @@ SUBJECTS_DIR=~/projects/rrg-jlevman/shared/adni/stage_0
 
 ############
 
-rsync ~/projects/rrg-jlevman/shared/adni/UNPROCESSED/$patientID/ ~/projects/rrg-jlevman/shared/adni/stage_0
+rsync -r ~/projects/rrg-jlevman/shared/adni/UNPROCESSED/$patientID ~/projects/rrg-jlevman/shared/adni/stage_0/
 
 ############
 
@@ -29,7 +29,7 @@ mkdir -p ~/jobs/generated/logs
 cd ~/jobs/generated/logs
 ############
 mkdir -p ../completed
-mv ../$patient-raw_0.sh ../completed   #Move the currently running script to archive
+mv ../$patientID-raw_0.sh ../completed   #Move the currently running script to archive
 #sbatch ~/jobs/generated/$patientID-0_1.sh
 
 ############
