@@ -1,0 +1,58 @@
+#!/bin/bash
+######################################
+##### REGISTRATION
+######################################
+
+#SBATCH --time=5:00:00
+#SBATCH --account=def-dmattie
+#SBATCH --cpus-per-task=1
+#SBATCH --mail-user=dmattie@stfx.ca
+#SBATCH --mail-type=ALL
+#SBATCH --mem-per-cpu=32000M
+#SBATCH -e PATIENT_1_2_1-2_%x-%j.err
+#SBATCH -o PATIENT_1_2_1-2_%x-%j.out
+
+
+util=~/projects/def-dmattie/crush/utilities
+patientID=PATIENT_1_2
+
+#SUBJECTS_DIR=~/scratch/HCP/stage_1
+SUBJECTS_DIR=~/projects/rrg-jlevman/shared/HCP/stage_1
+
+cd $SUBJECTS_DIR/$patientID/T1w/
+mkdir -p Tractography
+cp Diffusion/data.nii.gz Tractography
+cd Tractography
+$util/reg2brain.sh data.nii.gz ../$patientID/mri/brainmask.mgz
+
+
+if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; then
+    mkdir -p $SUBJECTS_DIR/../stage_2
+    
+    if mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2   #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
+    then
+        #rm -r $SUBJECTS_DIR/$patientID
+
+        echo "STAGE 1 to STAGE 2 COMPLETE.  ADVANCING FORWARD"
+        #MOVE FORWARD
+        cd $util
+
+        cat cascade_2_to_3.sh.template | sed -e "s/PATIENT_2_3/$patientID/" > ~/jobs/generated/$patientID-2_3.sh
+        chmod u+x ~/jobs/generated/$patientID-2_3.sh
+        mkdir -p ~/jobs/generated/logs
+        cd ~/jobs/generated/logs
+        ############
+        mkdir -p ../completed
+        mv ../$patientID-1_2.sh ../completed   #Move the currently running script to archive
+        sbatch ~/jobs/generated/$patientID-2_3.sh
+        ############
+        cd $util
+    else 
+        echo "XXXXXXXXXXXXXXXXXXX failed to copy files to next stage"
+    fi
+
+   
+else
+    echo "XXXXXXXXXXXXXXXXXXX  Registration incomplete for patient $patientID"
+fi
+
