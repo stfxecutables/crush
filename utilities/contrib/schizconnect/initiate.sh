@@ -14,7 +14,7 @@ fsplice() {
 PATIENT_QUEUE=~/projects/def-dmattie/data/schiz-queue
 #ROOT_DIR=~/scratch/HCP
 SOURCE_DIR=~/projects/def-jlevman/shared/schizconnect
-ROOT_DIR=~/scratch/schizconnect/dataset/derivatives
+ROOT_DIR=~/scratch/schizconnect/dataset/rawdata
 SUBJECTS_DIR=$ROOT_DIR/stage_0
 util=$(pwd)
 
@@ -59,45 +59,45 @@ p=$( echo "$patientID"| cut -d\. -f1 )
 s=$( echo "$patientID"| cut -d\. -f2 )
 
 patientID=$p
-subjectID=$s
-echo "Initiating patient: $patientID"
+sessionID=$s
+echo "Initiating patient: $patientID/$sessionID"
 
 echo "****START************"
-if [ ! -d "$ROOT_DIR/stage_0/$patientID" ] &&
-[ ! -d "$ROOT_DIR/stage_1/$patientID" ] &&
-[ ! -d "$ROOT_DIR/stage_2/$patientID" ] &&
-[ ! -d "$ROOT_DIR/stage_3/$patientID" ] &&
-[ ! -d "$ROOT_DIR/stage_4/$patientID" ] ; then
+if [ ! -d "$ROOT_DIR/stage_0/$patientID/$sessionID" ] &&
+[ ! -d "$ROOT_DIR/stage_1/$patientID/$sessionID" ] &&
+[ ! -d "$ROOT_DIR/stage_2/$patientID/$sessionID" ] &&
+[ ! -d "$ROOT_DIR/stage_3/$patientID/$sessionID" ] &&
+[ ! -d "$ROOT_DIR/stage_4/$patientID/$sessionID" ] ; then
   # Looks like we haven't seen this patient yet    
-    cat cascade_source_to_0.sh.template | sed -e "s/PATIENT_SOURCE_0/$sourcefile/" > ~/jobs/generated/$patientID-source_0.sh    
-    chmod u+x ~/jobs/generated/$patientID-source_0.sh
+    cat cascade_source_to_0.sh.template | sed -e "s/PATIENT_SOURCE_0/$sourcefile/" > ~/jobs/generated/$patientID-$sessionID-source_0.sh    
+    chmod u+x ~/jobs/generated/$patientID-$sessionID-source_0.sh
     cd ~/jobs/generated/logs    
     ##########################
     echo "*****RUN source-0***********"
-    ls -l ~/jobs/generated/$patientID-source_0.sh     
-    echo "sbatch ~/jobs/generated/$patientID-source_0.sh "
+    ls -l ~/jobs/generated/$patientID-$sessionID-source_0.sh     
+    echo "sbatch ~/jobs/generated/$patientID-$sessionID-source_0.sh "
     echo "*****END RUN source-0********"
 else
-    if [ -d "$ROOT_DIR/stage_0/$patientID" ]; then
+    if [ -d "$ROOT_DIR/stage_0/$patientID/$sessionID" ]; then
         echo "THIS SAMPLE ALREADY EXISTS IN THE PIPELINE, STAGE 0"
-        echo "Recommended next step: ~/jobs/generated/$patientID-0_1.sh"
+        echo "Recommended next step: ~/jobs/generated/$patientID-$sessionID-0_1.sh"
     fi
 
-    if [ -d "$ROOT_DIR/stage_1/$patientID" ]; then
+    if [ -d "$ROOT_DIR/stage_1/$patientID/$sessionID" ]; then
         echo "THIS SAMPLE ALREADY EXISTS IN THE PIPELINE, STAGE 1"
-        echo "Recommended next step: ~/jobs/generated/$patientID-1_2.sh"
+        echo "Recommended next step: ~/jobs/generated/$patientID-$sessionID-1_2.sh"
     fi
 
-    if [ -d "$ROOT_DIR/stage_2/$patientID" ]; then
+    if [ -d "$ROOT_DIR/stage_2/$patientID/$sessionID" ]; then
         echo "THIS SAMPLE ALREADY EXISTS IN THE PIPELINE, STAGE 2"
-        echo "Recommended next step: ~/jobs/generated/$patientID-2_3.sh"
+        echo "Recommended next step: ~/jobs/generated/$patientID-$sessionID-2_3.sh"
     fi
 
-    if [ -d "$ROOT_DIR/stage_3/$patientID" ]; then
+    if [ -d "$ROOT_DIR/stage_3/$patientID/$sessionID" ]; then
         echo "THIS SAMPLE ALREADY EXISTS IN THE PIPELINE, STAGE 3"
     fi
     
-    if [ -d "$ROOT_DIR/stage_4/$patientID" ]; then
+    if [ -d "$ROOT_DIR/stage_4/$patientID/$sessionID" ]; then
         echo "THIS SAMPLE ALREADY EXISTS IN THE PIPELINE, STAGE 4"
     fi
 fi

@@ -10,29 +10,43 @@
 
 util=~/projects/def-dmattie/crush/utilities/contrib/schizconnect
 sourcedata=~/projects/def-jlevman/shared/schizconnect
-patientID=PATIENT_SOURCE_0
+sourcetar=PATIENT_SOURCE_0
+
+patientID=$( echo "$sourcetar"| cut -d\. -f1 )
+sessionID=$( echo "$sourcetar"| cut -d\. -f2 )
+
 
 #SUBJECTS_DIR=~/scratch/HCP/stage_0
 SUBJECTS_DIR=~/scratch/schizconnect/dataset/rawdata/stage_0
 
 ############
-tar -xzf $sourcedata/$patientID ~/scratch/schizconnect
-rsync -r ~/scratch/schizconnect/dataset/source/$patientID $SUBJECTS_DIR/
+cd ~/scratch/schizconnect
+if [ tar -xzf $sourcedata/$sourcetar ];then
 
-############
 
-echo "SOURCE to STAGE 0 COMPLETE.  ADVANCING FORWARD"
-#MOVE FORWARD
-cd $util
+    if [ rsync -r ~/scratch/schizconnect/dataset/source/$patientID $SUBJECTS_DIR/ ]; then
 
-cat cascade_0_to_1.sh.template | sed -e "s/PATIENT_0_1/$patientID/" > ~/jobs/generated/$patientID-0_1.sh
-chmod u+x ~/jobs/generated/$patientID-0_1.sh
-mkdir -p ~/jobs/generated/logs
-cd ~/jobs/generated/logs
-############
-mkdir -p ../completed
-mv ../$patient-aws_0.sh ../completed   #Move the currently running script to archive
-echo "sbatch ~/jobs/generated/$patientID-0_1.sh"
+    ############
 
-############
+    echo "SOURCE to STAGE 0 COMPLETE.  ADVANCING FORWARD"
+    #MOVE FORWARD
+    cd $util
+
+    cat cascade_0_to_1.sh.template | sed -e "s/PATIENT_0_1/$patientID/" | sed -e "s/SESSION_0_1/$sessionID/" > ~/jobs/generated/$patientID-$sessionID-0_1.sh
+    chmod u+x ~/jobs/generated/$patientID-$session-0_1.sh
+    mkdir -p ~/jobs/generated/logs
+    cd ~/jobs/generated/logs
+    ############
+    mkdir -p ../completed
+    mv ../$patientID-$sessionID-source_0.sh ../completed   #Move the currently running script to archive
+    echo "sbatch ~/jobs/generated/$patientID-$sessionID-0_1.sh"
+
+    rm -r ~/scratch/schizconnect/dataset/source/$patientID/$sessionID
+    ############
+    else
+       echo "rsync failed; not advancing"
+    fi
+else 
+    echo "tar extract failed; not advancing"
+fi
 cd $util

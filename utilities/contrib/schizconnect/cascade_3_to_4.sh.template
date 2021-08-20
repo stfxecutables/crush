@@ -13,11 +13,12 @@
 #SBATCH -o PATIENT_3_4_3-4_%x-%j.out
 
 
-util=~/projects/def-dmattie/crush/utilities
+util=~/projects/def-dmattie/crush/utilities/contrib/schizconnect
 patientID=PATIENT_3_4
+sessionID=SESSION_3_4
 
 #SUBJECTS_DIR=~/scratch/HCP/stage_3
-SUBJECTS_DIR=~/projects/rrg-jlevman/shared/HCP/stage_3
+SUBJECTS_DIR=~/scratch/schizconnect/dataset/rawdata/stage_3
 
 fshift() { local v n=$'\n';read -r v < <(
 	    sed -e $'1{w/dev/stdout\n;d}' -i~ "$1")
@@ -26,7 +27,7 @@ fshift() { local v n=$'\n';read -r v < <(
     
 
 cd $SUBJECTS_DIR
-if tar -czf ~/projects/def-dmattie/HCP/$patientID.tar.gz $patientID ; then
+if tar -czf ~/projects/def-dmattie/schizconnect/derivatives/$patientID-$session.tar.gz $patientID/$sessionID ; then
    
     echo "STAGE 3 to STAGE 4 COMPLETE." 
             
@@ -34,13 +35,13 @@ if tar -czf ~/projects/def-dmattie/HCP/$patientID.tar.gz $patientID ; then
     cd ~/jobs/generated/logs
     ############
     mkdir -p ../completed
-    mv ../$patientID-3_4.sh ../completed   #Move the currently running script to archive        
-    rm -r $SUBJECTS_DIR/$patientID
+    mv ../$patientID-$sessionID-3_4.sh ../completed   #Move the currently running script to archive        
+    rm -r $SUBJECTS_DIR/$patientID/$sessionID
     ############
     cd $util
 
     #Start the next patient in the queue
-    initiate.sh
+    echo "initiate.sh"
 
 else
     echo "XXXXXXXXXXXXXXXXXXX  Failed to archive $patientID"
