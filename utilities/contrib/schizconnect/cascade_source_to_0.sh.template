@@ -21,10 +21,11 @@ SUBJECTS_DIR=~/scratch/schizconnect/dataset/rawdata/stage_0
 
 ############
 cd ~/scratch/schizconnect
-if [ tar -xzf $sourcedata/$sourcetar ];then
+tar -xzf $sourcedata/$sourcetar 
+if [ $? -eq 0 ];then
 
-
-    if [ rsync -r ~/scratch/schizconnect/dataset/source/$patientID $SUBJECTS_DIR/ ]; then
+    rsync -r ~/scratch/schizconnect/dataset/source/$patientID $SUBJECTS_DIR/
+    if [ $? -eq 0 ]; then
 
     ############
 
@@ -39,7 +40,7 @@ if [ tar -xzf $sourcedata/$sourcetar ];then
     ############
     mkdir -p ../completed
     mv ../$patientID-$sessionID-source_0.sh ../completed   #Move the currently running script to archive
-    echo "sbatch ~/jobs/generated/$patientID-$sessionID-0_1.sh"
+    sbatch ~/jobs/generated/$patientID-$sessionID-0_1.sh
 
     rm -r ~/scratch/schizconnect/dataset/source/$patientID/$sessionID
     ############
