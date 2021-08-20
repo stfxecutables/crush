@@ -13,7 +13,8 @@ fsplice() {
 
 PATIENT_QUEUE=~/projects/def-dmattie/data/schiz-queue
 #ROOT_DIR=~/scratch/HCP
-ROOT_DIR=~/projects/def-jlevman/shared/schizconnect
+SOURCE_DIR=~/projects/def-jlevman/shared/schizconnect
+ROOT_DIR=~/scratch/schizconnect/dataset/derivatives
 SUBJECTS_DIR=$ROOT_DIR/stage_0
 util=$(pwd)
 
@@ -52,7 +53,13 @@ else
         patientID=$1
     fi        
 fi
+#sub-A00036388.ses-20050101.tar.gz
+sourcefile=$patientID
+p = $( echo "$patientID"| cut -d\. -f1 )
+s = $( echo "$patientID"| cut -d\. -f2 )
 
+patientID=$p
+subjectID=$s
 echo "Initiating patient: $patientID"
 
 echo "****START************"
@@ -62,14 +69,14 @@ if [ ! -d "$ROOT_DIR/stage_0/$patientID" ] &&
 [ ! -d "$ROOT_DIR/stage_3/$patientID" ] &&
 [ ! -d "$ROOT_DIR/stage_4/$patientID" ] ; then
   # Looks like we haven't seen this patient yet    
-    cat cascade_aws_to_0.sh.template | sed -e "s/PATIENT_AWS_0/$patientID/" > ~/jobs/generated/$patientID-aws_0.sh    
-    chmod u+x ~/jobs/generated/$patientID-aws_0.sh
+    cat cascade_source_to_0.sh.template | sed -e "s/PATIENT_SOURCE_0/$sourcefile/" > ~/jobs/generated/$patientID-source_0.sh    
+    chmod u+x ~/jobs/generated/$patientID-source_0.sh
     cd ~/jobs/generated/logs    
     ##########################
-    echo "*****RUN aws-0***********"
-    ls -l ~/jobs/generated/$patientID-aws_0.sh     
-    sbatch ~/jobs/generated/$patientID-aws_0.sh 
-    echo "*****END RUN aws-0********"
+    echo "*****RUN source-0***********"
+    ls -l ~/jobs/generated/$patientID-source_0.sh     
+    echo "sbatch ~/jobs/generated/$patientID-source_0.sh "
+    echo "*****END RUN source-0********"
 else
     if [ -d "$ROOT_DIR/stage_0/$patientID" ]; then
         echo "THIS SAMPLE ALREADY EXISTS IN THE PIPELINE, STAGE 0"

@@ -8,19 +8,20 @@
 #SBATCH -e PATIENT_AWS_0_aws-0_%x-%j.err
 #SBATCH -o PATIENT_AWS_0_aws-0_%x-%j.out
 
-util=~/projects/def-dmattie/crush/utilities
-patientID=PATIENT_AWS_0
+util=~/projects/def-dmattie/crush/utilities/contrib/schizconnect
+sourcedata=~/projects/def-jlevman/shared/schizconnect
+patientID=PATIENT_SOURCE_0
 
 #SUBJECTS_DIR=~/scratch/HCP/stage_0
-SUBJECTS_DIR=~/projects/rrg-jlevman/shared/HCP/stage_0
+SUBJECTS_DIR=~/scratch/schizconnect/dataset/rawdata/stage_0
 
 ############
-aws s3 sync s3://hcp-openaccess/HCP_1200/$patientID/T1w ~/projects/rrg-jlevman/shared/HCP/stage_0/$patientID/T1w
-#mkdir -p ~/scratch/HCP/stage_0/$patientID/T1w
-#touch ~/scratch/HCP/stage_0/$patientID/T1w/stage0
+tar -xzf $sourcedata/$patientID ~/scratch/schizconnect
+rsync -r ~/scratch/schizconnect/dataset/source $SUBJECTS_DIR/
+
 ############
 
-echo "AWS to STAGE 0 COMPLETE.  ADVANCING FORWARD"
+echo "SOURCE to STAGE 0 COMPLETE.  ADVANCING FORWARD"
 #MOVE FORWARD
 cd $util
 
@@ -31,7 +32,7 @@ cd ~/jobs/generated/logs
 ############
 mkdir -p ../completed
 mv ../$patient-aws_0.sh ../completed   #Move the currently running script to archive
-sbatch ~/jobs/generated/$patientID-0_1.sh
+echo "sbatch ~/jobs/generated/$patientID-0_1.sh"
 
 ############
 cd $util
