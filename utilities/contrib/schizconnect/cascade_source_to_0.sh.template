@@ -17,7 +17,7 @@ SUBJECTS_DIR=~/scratch/schizconnect/dataset/rawdata/stage_0
 
 ############
 tar -xzf $sourcedata/$patientID ~/scratch/schizconnect
-rsync -r ~/scratch/schizconnect/dataset/source $SUBJECTS_DIR/
+rsync -r ~/scratch/schizconnect/dataset/source/$patientID $SUBJECTS_DIR/
 
 ############
 
