@@ -55,8 +55,8 @@ else
 fi
 #sub-A00036388.ses-20050101.tar.gz
 sourcefile=$patientID
-p = $( echo "$patientID"| cut -d\. -f1 )
-s = $( echo "$patientID"| cut -d\. -f2 )
+p=$( echo "$patientID"| cut -d\. -f1 )
+s=$( echo "$patientID"| cut -d\. -f2 )
 
 patientID=$p
 subjectID=$s
