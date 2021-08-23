@@ -15,7 +15,7 @@
 
 util=~/projects/def-dmattie/crush/utilities/contrib/schizconnect
 patientID=PATIENT_1_2
-sessionID=PATIENT_1_2
+sessionID=SESSION_1_2
 
 
 #SUBJECTS_DIR=~/scratch/HCP/stage_1
