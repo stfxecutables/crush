@@ -27,7 +27,8 @@ fshift() { local v n=$'\n';read -r v < <(
     
 
 cd $SUBJECTS_DIR
-if tar -czf ~/projects/def-dmattie/schizconnect/derivatives/$patientID-$session.tar.gz $patientID/$sessionID ; then
+tar -czf ~/projects/def-dmattie/schizconnect/derivatives/crush/levman/$patientID-$session.tar.gz $patientID/$sessionID
+if [$? -eq 0 ] ; then
    
     echo "STAGE 3 to STAGE 4 COMPLETE." 
             
