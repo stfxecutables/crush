@@ -595,9 +595,15 @@ class Pipeline:
             #calcs[p] =self.visit.GetValue(self.PipelineId,p)
             #self.data[self.PatientId][self.VisitId][p]          
 
+        p = "%s/%s-%s-%s-voxelvolume" %(self.PipelineId,segment,counterpart,method)                    
+        if(p in calcs): #self.visit.data[self.visit.PatientId][self.visit.VisitId]):
+            l_voxelvolume=True     
+            #calcs[p] =self.visit.GetValue(self.PipelineId,p)
+            #self.data[self.PatientId][self.VisitId][p]          
+
         if(l_NumTracts and l_TractsToRender and l_LinesToRender and l_MeanTractLen
             and l_MeanTractLen_StdDev and l_VoxelSizeX and l_VoxelSizeY and l_VoxelSizeZ
-            and l_meanFA and l_stddevFA and l_meanADC and l_stddevADC):
+            and l_meanFA and l_stddevFA and l_meanADC and l_stddevADC and l_voxelvolume):
 
             #We have everything in the tract file
             return calcs
