@@ -23,9 +23,9 @@ subject=$patientID
 subjectescaped="${subject//_}"
 
 cd $SUBJECTS_DIR
-
-find $subject/Accelerated_Sagittal_MPRAGE/ -name *.nii |while read ses;do
-   #echo $ses
+echo "Searching for structural image"
+find $subject/Accelerated_Sagittal_MPRAGE/ -name *.nii |while read ses;do   
+   echo $ses
    basename=${ses::-4}
    #subjectescaped=$( echo "$subject"|tr _ _ )
    session=$( echo "$ses"| cut -d\/ -f4 )
@@ -49,7 +49,9 @@ find $subject/Accelerated_Sagittal_MPRAGE/ -name *.nii |while read ses;do
    cp $basename.json sub-$subjectescaped/ses-$suffixbsession/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.json
    
 done
+echo "Searching for diffusion image"
 find $subject/Axial_DTI/ -name *.nii |while read ses;do
+   echo $ses
    basename=${ses::-4}
    session=$( echo "$ses"| cut -d\/ -f4 )
    suffix=$( echo "$ses"| cut -d\/ -f5 )
@@ -78,14 +80,14 @@ echo "RAW to STAGE 0 COMPLETE.  ADVANCING FORWARD"
 #MOVE FORWARD
 cd $util
 
-cat $util/cascade_recon_0.sh.template | sed -e "s/PATIENT_RECON_0/$patientID/" |sed -e "s/SESSION_RECON_0/$suffixbsession/" > ~/jobs/generated/$patientID-$suffixbsession-0_1.sh
-chmod u+x ~/jobs/generated/$patientID-$suffixbsession-recon_0.sh
+cat $util/cascade_recon_0.sh.template | sed -e "s/PATIENT_RECON_0/$subjectescaped/" |sed -e "s/SESSION_RECON_0/$suffixbsession/" > ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
+chmod u+x ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
 mkdir -p ~/jobs/generated/logs
 cd ~/jobs/generated/logs
 ############
 mkdir -p ../completed
 mv ../$patientID-raw_0.sh ../completed   #Move the currently running script to archive
-echo "sbatch ~/jobs/generated/$patientID-$suffixbsession-recon_0.sh"
+echo "sbatch ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh"
 
 ############
 cd $util

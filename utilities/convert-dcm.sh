@@ -6,10 +6,11 @@ do
    dcms=`find $d -name *.dcm -maxdepth 1 -print|wc -l`
    if [[ "$dcms" -gt "0" ]];then
    #remove any previous conversions
-    rm $d/*.json
-    rm $d/*.nii
-    rm $d/*.bvec
-    rm $d/*.bval
+    [ -f $d/*.json ] && rm $d/*.json
+    [ -f $d/*.nii ] && rm $d/*.nii
+    [ -f $d/*.bvec ] && rm $d/*.bvec
+    [ -f $d/*.bval ] && rm $d/*.bval
+   #perform conversion
     ~/bin/MRIcroGL/Resources/dcm2niix $d
    fi
 done
