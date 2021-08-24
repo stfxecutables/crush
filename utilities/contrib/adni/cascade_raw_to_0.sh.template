@@ -71,25 +71,28 @@ find $subject/Accelerated_Sagittal_MPRAGE/ -name *.nii |while read ses;do
    echo "run=${run}"
    echo "extension=${extension}"
    
-   mkdir -p sub-$subjectescaped/ses-$suffixbsession/original/anat
-   cp $basename.nii sub-$subjectescaped/ses-$suffixbsession/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.nii
-   cp $basename.json sub-$subjectescaped/ses-$suffixbsession/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.json
+   mkdir -p sub-${subjectescaped}/ses-${suffixbsession}/original/anat
+   if [[ -d "sub-${subjectescaped}/ses-${suffixbsession}/original/anat" ]]; then
+      cp $basename.nii sub-${subjectescaped}/ses-${suffixbsession}/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.nii
+      cp $basename.json sub-${subjectescaped}/ses-${suffixbsession}/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.json
 
-   ############
+      ############
 
-   echo "RAW to STAGE 0 COMPLETE.  ADVANCING FORWARD"
-   #MOVE FORWARD
-   cd $util
+      echo "RAW to STAGE 0 COMPLETE.  ADVANCING FORWARD"
+      #MOVE FORWARD
+      cd $util
 
-   cat $util/cascade_recon_0.sh.template | sed -e "s/PATIENT_RECON_0/$subjectescaped/" |sed -e "s/SESSION_RECON_0/$suffixbsession/" > ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
-   chmod u+x ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
-   mkdir -p ~/jobs/generated/logs
-   cd ~/jobs/generated/logs
-   ############
-   mkdir -p ../completed
-   mv ../$patientID-raw_0.sh ../completed   #Move the currently running script to archive
-   echo "sbatch ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh"
-
+      cat $util/cascade_recon_0.sh.template | sed -e "s/PATIENT_RECON_0/$subjectescaped/" |sed -e "s/SESSION_RECON_0/$suffixbsession/" > ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
+      chmod u+x ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
+      mkdir -p ~/jobs/generated/logs
+      cd ~/jobs/generated/logs
+      ############
+      mkdir -p ../completed
+      mv ../$patientID-raw_0.sh ../completed   #Move the currently running script to archive
+      echo "sbatch ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh"
+   else 
+      echo "Failed to create original/anat directory. Unable to continue"
+   fi
    ############   
 done
 
