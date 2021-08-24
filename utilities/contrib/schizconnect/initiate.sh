@@ -75,7 +75,7 @@ if [ ! -d "$ROOT_DIR/stage_0/$patientID/$sessionID" ] &&
     ##########################
     echo "*****RUN source-0***********"
     ls -l ~/jobs/generated/$patientID-$sessionID-source_0.sh     
-    echo "sbatch ~/jobs/generated/$patientID-$sessionID-source_0.sh "
+    sbatch ~/jobs/generated/$patientID-$sessionID-source_0.sh
     echo "*****END RUN source-0********"
 else
     if [ -d "$ROOT_DIR/stage_0/$patientID/$sessionID" ]; then
