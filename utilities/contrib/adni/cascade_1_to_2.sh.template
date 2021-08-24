@@ -13,23 +13,25 @@
 #SBATCH -o PATIENT_1_2_1-2_%x-%j.out
 
 
-util=~/projects/def-dmattie/crush/utilities
+util=~/projects/def-dmattie/crush/utilities/contrib/schizconnect
 patientID=PATIENT_1_2
+sessionID=SESSION_1_2
+
 
 #SUBJECTS_DIR=~/scratch/HCP/stage_1
-SUBJECTS_DIR=~/projects/rrg-jlevman/shared/HCP/stage_1
+SUBJECTS_DIR=~/scratch/schizconnect/dataset/rawdata/stage_1
 
-cd $SUBJECTS_DIR/$patientID/T1w/
+cd $SUBJECTS_DIR/$patientID/$sessionID/
 mkdir -p Tractography
 cp Diffusion/data.nii.gz Tractography
 cd Tractography
-$util/reg2brain.sh data.nii.gz ../$patientID/mri/brainmask.mgz
+$util/reg2brain.sh data.nii.gz ../$patientID/$sessionID/mri/brainmask.mgz
 
 
-if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; then
-    mkdir -p $SUBJECTS_DIR/../stage_2
+if [ -f "$SUBJECTS_DIR/$patientID/$sessionID/Tractography/reg2brain.data.nii.gz" ]; then
+    mkdir -p $SUBJECTS_DIR/../stage_2/$patientID
     
-    if mv $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2   #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
+    if mv $SUBJECTS_DIR/$patientID/$sessionID $SUBJECTS_DIR/../stage_2/$patientID   #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
     then
         #rm -r $SUBJECTS_DIR/$patientID
 
@@ -37,14 +39,14 @@ if [ -f "$SUBJECTS_DIR/$patientID/T1w/Tractography/reg2brain.data.nii.gz" ]; the
         #MOVE FORWARD
         cd $util
 
-        cat cascade_2_to_3.sh.template | sed -e "s/PATIENT_2_3/$patientID/" > ~/jobs/generated/$patientID-2_3.sh
-        chmod u+x ~/jobs/generated/$patientID-2_3.sh
+        cat cascade_2_to_3.sh.template | sed -e "s/PATIENT_2_3/$patientID/" |sed -e "s/SESSION_2_3/$sessionID/" > ~/jobs/generated/$patientID-$sessionID-2_3.sh
+        chmod u+x ~/jobs/generated/$patientID-$sessionID-2_3.sh
         mkdir -p ~/jobs/generated/logs
         cd ~/jobs/generated/logs
         ############
         mkdir -p ../completed
-        mv ../$patientID-1_2.sh ../completed   #Move the currently running script to archive
-        sbatch ~/jobs/generated/$patientID-2_3.sh
+        mv ../$patientID-$sessionID-1_2.sh ../completed   #Move the currently running script to archive
+        sbatch ~/jobs/generated/$patientID-$sessionID-2_3.sh
         ############
         cd $util
     else 

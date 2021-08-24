@@ -11,27 +11,25 @@
 util=~/projects/def-dmattie/crush/utilities/contrib/adni
 patientID=PATIENT_RAW_0
 
-SUBJECTS_DIR=~/projects/rrg-jlevman/shared/adni/stage_0
+SUBJECTS_DIR=~/projects/rrg-jlevman/shared/adni/dataset/rawdata/stage_0
 
 ############
 
-rsync -r ~/projects/rrg-jlevman/shared/adni/UNPROCESSED/$patientID $SUBJECTS_DIR
-cd ~/projects/rrg-jlevman/shared/adni/stage_0/
+rsync -r ~/projects/rrg-jlevman/shared/adni/dataset/source/$patientID $SUBJECTS_DIR
+cd $SUBJECTS_DIR
 $util/../../convert-dcm.sh $patientID
 
 subject=$patientID
 subjectescaped="${subject//_}"
-mkdir -p $SUBJECTS_DIR/dataset/sourcedata
-echo "mv $SUBJECTS_DIR/$subject $SUBJECTS_DIR/dataset/sourcedata"
 
 cd $SUBJECTS_DIR
 
-find dataset/sourcedata/$subject/Accelerated_Sagittal_MPRAGE/ -name *.nii |while read ses;do
+find $subject/Accelerated_Sagittal_MPRAGE/ -name *.nii |while read ses;do
    #echo $ses
    basename=${ses::-4}
    #subjectescaped=$( echo "$subject"|tr _ _ )
-   session=$( echo "$ses"| cut -d\/ -f6 )
-   suffix=$( echo "$ses"| cut -d\/ -f7 )
+   session=$( echo "$ses"| cut -d\/ -f4 )
+   suffix=$( echo "$ses"| cut -d\/ -f5 )
    suffixamodality=$( echo "$suffix"| cut -d\_ -f4 )
    suffixbsession=$( echo "$suffix"| cut -d\_ -f5 )
    run=$( echo "$suffix"| cut -d\_ -f6|cut -d\. -f1 )
@@ -46,15 +44,15 @@ find dataset/sourcedata/$subject/Accelerated_Sagittal_MPRAGE/ -name *.nii |while
    echo "run=${run}"
    echo "extension=${extension}"
    
-   mkdir -p dataset/rawdata/sub-$subjectescaped/ses-$suffixbsession/original/anat
-   cp $basename.nii dataset/rawdata/sub-$subjectescaped/ses-$suffixbsession/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.nii
-   cp $basename.json dataset/rawdata/sub-$subjectescaped/ses-$suffixbsession/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.json
+   mkdir -p sub-$subjectescaped/ses-$suffixbsession/original/anat
+   cp $basename.nii sub-$subjectescaped/ses-$suffixbsession/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.nii
+   cp $basename.json sub-$subjectescaped/ses-$suffixbsession/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.json
    
 done
-find dataset/sourcedata/$subject/Axial_DTI/ -name *.nii |while read ses;do
+find $subject/Axial_DTI/ -name *.nii |while read ses;do
    basename=${ses::-4}
-   session=$( echo "$ses"| cut -d\/ -f6 )
-   suffix=$( echo "$ses"| cut -d\/ -f7 )
+   session=$( echo "$ses"| cut -d\/ -f4 )
+   suffix=$( echo "$ses"| cut -d\/ -f5 )
    suffixamodality=$( echo "$suffix"| cut -d\_ -f3 )
    suffixbsession=$( echo "$suffix"| cut -d\_ -f4 )
    run=$( echo "$suffix"| cut -d\_ -f5 |cut -d\. -f1)
@@ -67,11 +65,11 @@ find dataset/sourcedata/$subject/Axial_DTI/ -name *.nii |while read ses;do
    echo "suffixbsession=${suffixbsession}"
    echo "run=${run}"
    
-   mkdir -p dataset/rawdata/sub-$subjectescaped/ses-$suffixbsession/original/dwi
-   cp $basename.nii dataset/rawdata/sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.nii
-   cp $basename.bvec dataset/rawdata/sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.bvec
-   cp $basename.bval dataset/rawdata/sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.bval
-   cp $basename.json dataset/rawdata/sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.json
+   mkdir -p sub-$subjectescaped/ses-$suffixbsession/original/dwi
+   cp $basename.nii sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.nii
+   cp $basename.bvec sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.bvec
+   cp $basename.bval sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.bval
+   cp $basename.json sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.json
 
 done
 ############
@@ -80,8 +78,8 @@ echo "RAW to STAGE 0 COMPLETE.  ADVANCING FORWARD"
 #MOVE FORWARD
 cd $util
 
-cat $util/cascade_0_to_1.sh.template | sed -e "s/PATIENT_0_1/$patientID/" > ~/jobs/generated/$patientID-0_1.sh
-chmod u+x ~/jobs/generated/$patientID-0_1.sh
+cat $util/cascade_0_to_1.sh.template | sed -e "s/PATIENT_0_1/$patientID/" |sed -e "s/SESSION_0_1/$suffixbsession/" > ~/jobs/generated/$patientID-$suffixbsession-0_1.sh
+chmod u+x ~/jobs/generated/$patientID-$suffixbsession-0_1.sh
 mkdir -p ~/jobs/generated/logs
 cd ~/jobs/generated/logs
 ############
