@@ -150,6 +150,10 @@ class workerTrackvis(object):
                 stddevADC=self.nonZeroStdDev("%s/DTI_Reg2Brain_adc.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))       
                 calcs["%s/%s-%s-%s-stddevADC" %(pipelineId,segment,counterpart,method)]=stddevADC
                 
+                #Volume
+                volume=self.volume_in_voxels("%s/DTI_Reg2Brain_adc.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))       
+                calcs["%s/%s-%s-%s-voxelvolume" %(pipelineId,segment,counterpart,method)]=volume
+                
                 
 
             else:
@@ -191,6 +195,29 @@ class workerTrackvis(object):
             #    print("Cleanup %s" %(oldcalcsfile))
             #    os.unlink(oldcalcsfile)             
             return json.dumps(calcs)   # dict doesn't appear to be threadsafe, need to stringify
+
+    def volume_in_voxels(self,adcFile,roiFile):
+        
+        if os.path.isfile(adcFile) == False:        
+            print("%s is MISSING" %(adcFile))
+            return
+        if os.path.isfile(roiFile) == False:        
+            print("%s is MISSING" %(roiFile))
+            return
+
+        imgADC = nib.load(adcFile) #Untouched
+        dataADC = imgADC.get_data()
+        
+        img = nib.load(roiFile)
+        roiData = img.get_data()
+
+        indecesOfInterest = np.nonzero(roiData)        
+
+        #I expect to see runtime warnings in this block, e.g. divide by zero
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", category=RuntimeWarning)                 
+            volume =np.count_nonzero(dataADC[indecesOfInterest])            
+        return volume
 
     def nonZeroMean(self,faFile,roiFile):
         
