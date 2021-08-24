@@ -78,14 +78,14 @@ echo "RAW to STAGE 0 COMPLETE.  ADVANCING FORWARD"
 #MOVE FORWARD
 cd $util
 
-cat $util/cascade_0_to_1.sh.template | sed -e "s/PATIENT_0_1/$patientID/" |sed -e "s/SESSION_0_1/$suffixbsession/" > ~/jobs/generated/$patientID-$suffixbsession-0_1.sh
-chmod u+x ~/jobs/generated/$patientID-$suffixbsession-0_1.sh
+cat $util/cascade_recon_0.sh.template | sed -e "s/PATIENT_RECON_0/$patientID/" |sed -e "s/SESSION_RECON_0/$suffixbsession/" > ~/jobs/generated/$patientID-$suffixbsession-0_1.sh
+chmod u+x ~/jobs/generated/$patientID-$suffixbsession-recon_0.sh
 mkdir -p ~/jobs/generated/logs
 cd ~/jobs/generated/logs
 ############
 mkdir -p ../completed
 mv ../$patientID-raw_0.sh ../completed   #Move the currently running script to archive
-#sbatch ~/jobs/generated/$patientID-0_1.sh
+echo "sbatch ~/jobs/generated/$patientID-$suffixbsession-recon_0.sh"
 
 ############
 cd $util

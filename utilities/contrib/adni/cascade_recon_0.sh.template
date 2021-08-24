@@ -1,0 +1,42 @@
+#!/bin/bash
+#SBATCH --time=1:00:00
+#SBATCH --account=def-dmattie
+#SBATCH --cpus-per-task=1
+#SBATCH --mail-user=dmattie@stfx.ca
+#SBATCH --mail-type=ALL
+#SBATCH --mem-per-cpu=1000M
+#SBATCH -e PATIENT_AWS_0_aws-0_%x-%j.err
+#SBATCH -o PATIENT_AWS_0_aws-0_%x-%j.out
+
+util=~/projects/def-dmattie/crush/utilities/contrib/adni
+patientID=PATIENT_RECON_0
+sessionID=SESSION_RECON_0
+WORKING_DIR=~/projects/rrg-jlevman/shared/adni/dataset/rawdata/stage_0
+SUBJECTS_DIR=~$WORKING_DIR$patientID/$sessionID/Freesurfer
+
+############
+mkdir -p $SUBJECTS_DIR
+cd $WORKING_DIR/$patientID/$sessionID/Freesurfer
+infile=$( ls sub-${patientID}_ses-${sessionID}*.nii )
+recon-all -s $patientID -i $WORKING_DIR/$patientID/$sessinID/original/anat/$infile -all
+
+if [[ $? -eq 0 ]];then
+   ############
+
+   echo "RECON to STAGE 0 COMPLETE.  ADVANCING FORWARD"
+   #MOVE FORWARD
+   cd $util
+
+   cat $util/cascade_0_to_1.sh.template | sed -e "s/PATIENT_0_1/$patientID/" |sed -e "s/SESSION_0_1/$sessionID/" > ~/jobs/generated/$patientID-$sessionID-0_1.sh
+   chmod u+x ~/jobs/generated/$patientID-$sessionID-0_1.sh
+   mkdir -p ~/jobs/generated/logs
+   cd ~/jobs/generated/logs
+   ############
+   mkdir -p ../completed
+   mv ../$patientID-$sessionID-recon_0.sh ../completed   #Move the currently running script to archive
+   #sbatch ~/jobs/generated/$patientID-0_1.sh
+else 
+   echo "XXXXXXXXXXXXXXX  Recon all failed for $patientID/$sessinID on file $infile"
+fi
+############
+cd $util
