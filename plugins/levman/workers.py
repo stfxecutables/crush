@@ -150,10 +150,8 @@ class workerTrackvis(object):
                 stddevADC=self.nonZeroStdDev("%s/DTI_Reg2Brain_adc.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))       
                 calcs["%s/%s-%s-%s-stddevADC" %(pipelineId,segment,counterpart,method)]=stddevADC
                 
-                #Volume
-                print("Volume calc")
-                volume=self.volume_in_voxels("%s/DTI_Reg2Brain_adc.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))       
-                print(f"Volume calc {volume}")                                
+                #Volume                
+                volume=self.volume_in_voxels("%s/DTI_Reg2Brain_adc.nii" %(tractographypath),"%s/crush/%s-%s-%s.nii" %(tractographypath,segment,counterpart,method))                                                      
                 calcs["%s/%s-%s-%s-voxelvolume" %(pipelineId,segment,counterpart,method)]=volume
                 
                 
