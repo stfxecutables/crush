@@ -522,6 +522,7 @@ class Pipeline:
         l_stddevFA = False
         l_meanADC = False
         l_stddevADC = False
+        l_voxelvolume = False
 
         p = "%s/%s-%s-%s-NumTracts" %(self.PipelineId,segment,counterpart,method)                          
         if(p in calcs):#self.visit.data[self.visit.PatientId][self.visit.VisitId]):
