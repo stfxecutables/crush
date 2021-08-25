@@ -89,7 +89,7 @@ find $subject/Accelerated_Sagittal_MPRAGE/ -name *.nii |while read ses;do
       ############
       mkdir -p ../completed
       mv ../$patientID-raw_0.sh ../completed   #Move the currently running script to archive
-      echo "sbatch ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh"
+      sbatch ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
    else 
       echo "Failed to create original/anat directory. Unable to continue"
    fi

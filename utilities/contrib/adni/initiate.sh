@@ -68,7 +68,7 @@ if [ ! -d "$ROOT_DIR/rawdata/stage_0/$patientID" ] &&
     ##########################
     echo "*****RUN raw-0***********"
     ls -l ~/jobs/generated/$patientID-raw_0.sh     
-   # sbatch ~/jobs/generated/$patientID-raw_0.sh 
+    sbatch ~/jobs/generated/$patientID-raw_0.sh
     echo "*****END RUN raw-0********"
 else
     if [ -d "$ROOT_DIR/rawdata/stage_0/$patientID" ]; then

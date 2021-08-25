@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --time=1:00:00
+#SBATCH --time=16:00:00
 #SBATCH --account=def-dmattie
 #SBATCH --cpus-per-task=1
 #SBATCH --mail-user=dmattie@stfx.ca
@@ -12,7 +12,7 @@ util=~/projects/def-dmattie/crush/utilities/contrib/adni
 patientID=PATIENT_RECON_0
 sessionID=SESSION_RECON_0
 WORKING_DIR=~/projects/rrg-jlevman/shared/adni/dataset/rawdata/stage_0
-SUBJECTS_DIR=~$WORKING_DIR$patientID/$sessionID/Freesurfer
+SUBJECTS_DIR=~$WORKING_DIR/$patientID/$sessionID/Freesurfer
 
 ############
 mkdir -p $SUBJECTS_DIR
@@ -34,7 +34,7 @@ if [[ $? -eq 0 ]];then
    ############
    mkdir -p ../completed
    mv ../$patientID-$sessionID-recon_0.sh ../completed   #Move the currently running script to archive
-   #sbatch ~/jobs/generated/$patientID-0_1.sh
+   sbatch ~/jobs/generated/$patientID-$sessionID-0_1.sh
 else 
    echo "XXXXXXXXXXXXXXX  Recon all failed for $patientID/$sessinID on file $infile"
 fi

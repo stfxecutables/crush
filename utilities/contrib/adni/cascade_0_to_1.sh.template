@@ -52,7 +52,7 @@ if [ "$rendered" -ge "$parcels" ]; then
         ############
         mkdir -p ../completed
         mv ../$patientID-$sessionID-0_1.sh ../completed   #Move the currently running script to archive
-        sbatch ~/jobs/generated/$patientID-$sessionID-1_2.sh
+        sbatch ~/jobs/generated/$patientID-$sessionID-1_2.sh 
 
         ############
         cd $util
