@@ -5,8 +5,8 @@
 #SBATCH --mail-user=dmattie@stfx.ca
 #SBATCH --mail-type=ALL
 #SBATCH --mem-per-cpu=1000M
-#SBATCH -e PATIENT_AWS_0_aws-0_%x-%j.err
-#SBATCH -o PATIENT_AWS_0_aws-0_%x-%j.out
+#SBATCH -e PATIENT_RAW_0_%x-%j.err
+#SBATCH -o PATIENT_RAW_0_%x-%j.out
 
 util=~/projects/def-dmattie/crush/utilities/contrib/adni
 patientID=PATIENT_RAW_0
