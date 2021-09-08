@@ -4,9 +4,9 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mail-user=dmattie@stfx.ca
 #SBATCH --mail-type=ALL
-#SBATCH --mem-per-cpu=1000M
-#SBATCH -e PATIENT_AWS_0_aws-0_%x-%j.err
-#SBATCH -o PATIENT_AWS_0_aws-0_%x-%j.out
+#SBATCH --mem-per-cpu=2000M
+#SBATCH -e PATIENT_SOURCE_0_source_to-0_%x-%j.err
+#SBATCH -o PATIENT_SOURCE_0_source_to-0_%x-%j.out
 
 util=~/projects/def-dmattie/crush/utilities/contrib/schizconnect
 sourcedata=~/projects/def-jlevman/shared/schizconnect
