@@ -11,6 +11,14 @@ fsplice() {
     printf ${3+-v} $3 "%s${n[${3+3}]}" "$v"
 }
 
+if [ -z ${CRUSH_PATH+x} ];then
+ echo "CRUSH_PATH variable not set.  Set to location of crush code"
+fi
+
+if [ -z ${CRUSH_DATASET_ROOT+x} ];then
+ echo "CRUSH_DATASET_ROOT variable not set.  Set to directory above project/dataset/.  For example if project is ~/projects/rrg-jlevman/shared/adni/dataset, set to ~/projects/rrg-jlevman/shared "
+fi
+
 PATIENT_QUEUE=$CRUSH_PATH/../data/adni-queue
 ROOT_DIR=$CRUSH_DATASET_ROOT/shared/adni/dataset
 SUBJECTS_DIR=$ROOT_DIR/rawdata/stage_0
