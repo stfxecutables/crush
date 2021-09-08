@@ -16,6 +16,7 @@ SUBJECTS_DIR=~$WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 
 ############
 mkdir -p $SUBJECTS_DIR
+mkdir -p $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 infile=$( ls sub-${patientID}_ses-${sessionID}*.nii )
 recon-all -s $patientID -i $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat/$infile -all
