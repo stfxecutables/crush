@@ -21,13 +21,13 @@ module load python/3.8.2
 
 . ${FSLDIR}/etc/fslconf/fsl.sh
 
-util=~/projects/def-dmattie/crush/utilities/contrib/schizconnect
+util=$CRUSH_PATH/utilities/contrib/adni
 patientID=PATIENT_0_1
 sessionID=SESSION_0_1
 
 #SUBJECTS_DIR=~/scratch/HCP/stage_0
-SUBJECTS_DIR=~/scratch/schizconnect/dataset/rawdata/stage_0
-DATADIR=~/projects/def-dmattie/crush/data
+SUBJECTS_DIR=$CRUSH_DATASET_ROOT/adni/dataset/rawdata/stage_0
+DATADIR=$CRUSH_ROOT/../data
 
 #############
 while read p; do

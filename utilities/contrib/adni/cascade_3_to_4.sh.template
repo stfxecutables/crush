@@ -22,12 +22,11 @@ module load python/3.8.2
 
 . ${FSLDIR}/etc/fslconf/fsl.sh
 
-util=~/projects/def-dmattie/crush/utilities/contrib/schizconnect
+util=$CRUSH_PATH/utilities/contrib/adni
 patientID=PATIENT_3_4
 sessionID=SESSION_3_4
 
-#SUBJECTS_DIR=~/scratch/HCP/stage_3
-SUBJECTS_DIR=~/scratch/schizconnect/dataset/rawdata/stage_3
+SUBJECTS_DIR=$CRUSH_DATASET_ROOT/adni/dataset/rawdata/stage_3
 
 fshift() { local v n=$'\n';read -r v < <(
 	    sed -e $'1{w/dev/stdout\n;d}' -i~ "$1")
@@ -36,7 +35,8 @@ fshift() { local v n=$'\n';read -r v < <(
     
 
 cd $SUBJECTS_DIR
-tar -czf ~/projects/def-dmattie/schizconnect/derivatives/crush/levman/$patientID-$sessionID.tar.gz $patientID/$sessionID
+mkdir -p $CRUSH_DATASET_ROOT/adni/derivatives/crush/levman
+tar -czf $CRUSH_DATASET_ROOT/adni/derivatives/crush/levman/$patientID-$sessionID.tar.gz $patientID/$sessionID
 if [[ $? -eq 0 ]] ; then
    
     echo "STAGE 3 to STAGE 4 COMPLETE." 

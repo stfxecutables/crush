@@ -22,13 +22,13 @@ module load python/3.8.2
 
 . ${FSLDIR}/etc/fslconf/fsl.sh
 
-util=~/projects/def-dmattie/crush/utilities/contrib/schizconnect
+util=$CRUSH_PATH/utilities/contrib/adni
 patientID=PATIENT_1_2
 sessionID=SESSION_1_2
 
 
 #SUBJECTS_DIR=~/scratch/HCP/stage_1
-SUBJECTS_DIR=~/scratch/schizconnect/dataset/rawdata/stage_1
+SUBJECTS_DIR=$CRUSH_DATASET_ROOT/adni/dataset/rawdata/stage_1
 
 cd $SUBJECTS_DIR/$patientID/$sessionID/
 mkdir -p Tractography

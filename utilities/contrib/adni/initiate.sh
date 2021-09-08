@@ -11,8 +11,8 @@ fsplice() {
     printf ${3+-v} $3 "%s${n[${3+3}]}" "$v"
 }
 
-PATIENT_QUEUE=~/projects/def-dmattie/data/adni-queue
-ROOT_DIR=~/projects/rrg-jlevman/shared/adni/dataset
+PATIENT_QUEUE=$CRUSH_PATH/../data/adni-queue
+ROOT_DIR=$CRUSH_DATASET_ROOT/shared/adni/dataset
 SUBJECTS_DIR=$ROOT_DIR/rawdata/stage_0
 SOURCE_DIR=$ROOT_DIR/source
 util=$(pwd)
