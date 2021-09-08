@@ -30,9 +30,9 @@ python ~/projects/def-dmattie/crush/crush.py -samples $SUBJECTS_DIR -patient $pa
 pwd
 
 if [ -f "$SUBJECTS_DIR/$patientID/$sessionID/Tractography/crush/tracts.txt" ]; then
-    mkdir -p $SUBJECTS_DIR/../stage_3/$patientID
+    mkdir -p $SUBJECTS_DIR/../stage_3/$patientID/$sessionID
     
-    if mv $SUBJECTS_DIR/$patientID/$sessionID $SUBJECTS_DIR/../stage_3/$patientID #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3 
+    if mv $SUBJECTS_DIR/$patientID/$sessionID $SUBJECTS_DIR/../stage_3/$patientID/$sessionID #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3 
     then
         #rm -r $SUBJECTS_DIR/$patientID
 
