@@ -8,6 +8,16 @@
 #SBATCH -e PATIENT_RECON_0_recon_%x-%j.err
 #SBATCH -o PATIENT_RECON_0_recon_%x-%j.out
 
+module load StdEnv/2020
+module load gcc/9.3.0
+module load cuda/11.0
+module load fsl/6.0.3
+module load freesurfer
+module load gsl/2.6
+module load python/3.8.2
+
+. ${FSLDIR}/etc/fslconf/fsl.sh
+
 util=~/projects/def-dmattie/crush/utilities/contrib/adni
 patientID=PATIENT_RECON_0
 sessionID=SESSION_RECON_0
@@ -19,7 +29,7 @@ mkdir -p $SUBJECTS_DIR
 mkdir -p $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 infile=$( ls sub-${patientID}_ses-${sessionID}*.nii )
-recon-all -s $patientID -i $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat/$infile -all
+recon-all -s $patientID -i $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat/$infile -all | tee $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/tee_recon.log
 
 if [[ $? -eq 0 ]];then
    ############
