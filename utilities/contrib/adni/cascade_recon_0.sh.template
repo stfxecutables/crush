@@ -18,7 +18,7 @@ SUBJECTS_DIR=~$WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 mkdir -p $SUBJECTS_DIR
 cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 infile=$( ls sub-${patientID}_ses-${sessionID}*.nii )
-recon-all -s $patientID -i $WORKING_DIR/sub-${patientID}/ses-${sessinID}/original/anat/$infile -all
+recon-all -s $patientID -i $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat/$infile -all
 
 if [[ $? -eq 0 ]];then
    ############
