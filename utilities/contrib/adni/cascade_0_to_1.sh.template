@@ -31,10 +31,10 @@ DATADIR=$CRUSH_ROOT/../data
 
 #############
 while read p; do
-    echo "Extracting Region $p ($SUBJECTS_DIR/$patientID/$sessionID/Tractography/parcellations)"
-    mkdir -p $SUBJECTS_DIR/$patientID/$sessionID/Tractography/parcellations
-    cp $SUBJECTS_DIR/$patientID/$sessionID/$patientID/mri/wmparc.mgz $SUBJECTS_DIR/$patientID/T1w/Tractography/parcellations
-    cd $SUBJECTS_DIR/$patientID/$sessionID/Tractography/parcellations
+    echo "Extracting Region $p ($SUBJECTS_DIR/sub-$patientID/ses=-$sessionID/Tractography/parcellations)"
+    mkdir -p $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
+    cp $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Freesurfer/mri/wmparc.mgz $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
+    cd $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
     mri_convert -rt nearest -nc -ns 1 wmparc.mgz wmparc.nii
     mri_extract_label wmparc.nii $p wmparc$p.nii
 done <$DATADIR/rois.dat
