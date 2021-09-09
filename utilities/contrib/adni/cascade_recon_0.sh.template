@@ -27,8 +27,9 @@ SUBJECTS_DIR=~$WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 ############
 mkdir -p $SUBJECTS_DIR
 mkdir -p $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
-cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
+cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat
 infile=$( ls sub-${patientID}_ses-${sessionID}*.nii )
+cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 recon-all -s $patientID -i $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat/$infile -all | tee $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/tee_recon.log
 
 if [[ $? -eq 0 ]];then
