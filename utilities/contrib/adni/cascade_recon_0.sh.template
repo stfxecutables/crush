@@ -22,35 +22,39 @@ util=$CRUSH_PATH/utilities/contrib/adni
 patientID=PATIENT_RECON_0
 sessionID=SESSION_RECON_0
 WORKING_DIR=$CRUSH_DATASET_ROOT/adni/dataset/rawdata/stage_0
-SUBJECTS_DIR=~$WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
+SUBJECTS_DIR=$WORKING_DIR/sub-${patientID}/ses-${sessionID}
 
 ############
 mkdir -p $SUBJECTS_DIR
-mkdir -p $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
-cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat
-infile=$( ls sub-${patientID}_ses-${sessionID}*.nii )
-cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
-recon-all -s $patientID -i $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat/$infile -all | tee $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/tee_recon.log
+if [ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" ];then
+   cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat
+   infile=$( ls sub-${patientID}_ses-${sessionID}*.nii )
+   cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}
+   mkdir Freesurfer
+   recon-all -s Freesurfer -i $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat/$infile -all | tee $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/tee_recon.log
 
-if [[ $? -eq 0 ]];then
-   ############
-   mv $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID/* $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
-   rmdir $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID
+   if [[ $? -eq 0 ]];then
+      ############
+      mv $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID/* $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
+      rmdir $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID
 
-   echo "RECON to STAGE 0 COMPLETE.  ADVANCING FORWARD"
-   #MOVE FORWARD
-   cd $util
+      echo "RECON to STAGE 0 COMPLETE.  ADVANCING FORWARD"
+      #MOVE FORWARD
+      cd $util
 
-   cat $util/cascade_0_to_1.sh.template | sed -e "s/PATIENT_0_1/$patientID/" |sed -e "s/SESSION_0_1/$sessionID/" > ~/jobs/generated/$patientID-$sessionID-0_1.sh
-   chmod u+x ~/jobs/generated/$patientID-$sessionID-0_1.sh
-   mkdir -p ~/jobs/generated/logs
-   cd ~/jobs/generated/logs
-   ############
-   mkdir -p ../completed
-   mv ../$patientID-$sessionID-recon_0.sh ../completed   #Move the currently running script to archive
-   sbatch ~/jobs/generated/$patientID-$sessionID-0_1.sh
-else 
-   echo "XXXXXXXXXXXXXXX  Recon all failed for $patientID/$sessinID on file $infile"
+      cat $util/cascade_0_to_1.sh.template | sed -e "s/PATIENT_0_1/$patientID/" |sed -e "s/SESSION_0_1/$sessionID/" > ~/jobs/generated/$patientID-$sessionID-0_1.sh
+      chmod u+x ~/jobs/generated/$patientID-$sessionID-0_1.sh
+      mkdir -p ~/jobs/generated/logs
+      cd ~/jobs/generated/logs
+      ############
+      mkdir -p ../completed
+      mv ../$patientID-$sessionID-recon_0.sh ../completed   #Move the currently running script to archive
+      sbatch ~/jobs/generated/$patientID-$sessionID-0_1.sh
+   else 
+      echo "XXXXXXXXXXXXXXX  Recon all failed for $patientID/$sessinID on file $infile"
+   fi
+else
+   echo "No T1 structural scan found; sought .nii in $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat"
 fi
 ############
 cd $util
