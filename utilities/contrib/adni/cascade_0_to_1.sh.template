@@ -27,11 +27,11 @@ sessionID=SESSION_0_1
 
 #SUBJECTS_DIR=~/scratch/HCP/stage_0
 SUBJECTS_DIR=$CRUSH_DATASET_ROOT/adni/dataset/rawdata/stage_0
-DATADIR=$CRUSH_ROOT/../data
+DATADIR=$CRUSH_PATH/../data
 
 #############
 while read p; do
-    echo "Extracting Region $p ($SUBJECTS_DIR/sub-$patientID/ses=-$sessionID/Tractography/parcellations)"
+    echo "Extracting Region $p ($SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations)"
     mkdir -p $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
     cp $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Freesurfer/mri/wmparc.mgz $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
     cd $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
