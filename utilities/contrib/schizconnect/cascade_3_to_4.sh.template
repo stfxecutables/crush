@@ -51,7 +51,7 @@ if [[ $? -eq 0 ]] ; then
     cd $util
 
     #Start the next patient in the queue
-    echo "initiate.sh"
+    initiate.sh
 
 else
     echo "XXXXXXXXXXXXXXXXXXX  Failed to archive $patientID"
