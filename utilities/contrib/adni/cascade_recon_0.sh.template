@@ -26,7 +26,7 @@ SUBJECTS_DIR=$WORKING_DIR/sub-${patientID}/ses-${sessionID}
 
 ############
 mkdir -p $SUBJECTS_DIR
-if [ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" ];then
+if [[ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" && -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/dwi"]];then
    cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat
    infile=$( ls sub-${patientID}_ses-${sessionID}*.nii )
    cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}
@@ -55,7 +55,13 @@ if [ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" ];then
       echo "XXXXXXXXXXXXXXX  Recon all failed for $patientID/$sessinID on file $infile"
    fi
 else
-   echo "No T1 structural scan found; sought .nii in $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat"
+   echo "A T1 structural scan and a diffusion weighted image must both exist to condinue; sought .nii in $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat and /dwi paths"
+   touch ""$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original-incomplete.txt"
+   ############
+   cd $util
+
+   #Start the next patient in the queue
+   initiate.sh
 fi
 ############
 cd $util

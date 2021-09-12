@@ -37,7 +37,7 @@ while read p; do
     cd $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
     mri_convert -rt nearest -nc -ns 1 wmparc.mgz wmparc.nii
     mri_extract_label wmparc.nii $p wmparc$p.nii
-done <$DATADIR/rois.dat
+done <$DATADIR/rois.txt
 
 parcels=$(cat $DATADIR/rois.dat|wc -l)
 echo "$parcels rois"
