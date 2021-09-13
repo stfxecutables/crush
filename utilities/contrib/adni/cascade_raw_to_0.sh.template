@@ -44,6 +44,7 @@ find $subject/Axial_DTI/ -name *.nii |while read ses;do
    suffix=$( echo "$ses"| cut -d\/ -f5 )
    suffixamodality=$( echo "$suffix"| cut -d\_ -f3 )
    suffixbsession=$( echo "$suffix"| cut -d\_ -f4 )
+   suffixbsession=${suffixbsession:0:8}
    run=$( echo "$suffix"| cut -d\_ -f5 |cut -d\. -f1)
    
    echo "basename=${basename}"
@@ -71,6 +72,7 @@ find $subject/Accelerated_Sagittal_MPRAGE/ -name *.nii |while read ses;do
    suffix=$( echo "$ses"| cut -d\/ -f5 )
    suffixamodality=$( echo "$suffix"| cut -d\_ -f4 )
    suffixbsession=$( echo "$suffix"| cut -d\_ -f5 )
+   suffixbsession=${suffixbsession:0:8}
    run=$( echo "$suffix"| cut -d\_ -f6|cut -d\. -f1 )
    extension=$( echo "$suffix"| cut -d\. -f2 )
    
