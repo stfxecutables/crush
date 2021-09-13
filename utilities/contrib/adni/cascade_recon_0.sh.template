@@ -56,7 +56,7 @@ if [[ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" && -d "$
    fi
 else
    echo "A T1 structural scan and a diffusion weighted image must both exist to condinue; sought .nii in $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat and /dwi paths"
-   touch ""$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original-incomplete.txt"
+   touch "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original-incomplete.txt"
    ############
    cd $util
 
