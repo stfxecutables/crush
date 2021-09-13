@@ -33,7 +33,7 @@ if [[ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" && -d "$
    
    recon-all -s Freesurfer -i $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat/$infile -all | tee $WORKING_DIR/sub-${patientID}/ses-${sessionID}/tee_recon.log
 
-   if [[ $? -eq 0 ]];then
+   if [[ $? -eq 0 && -f $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID/mri/wmparc.mgz ]];then
       ############
       mv $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID/* $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
       rmdir $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID
@@ -52,10 +52,11 @@ if [[ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" && -d "$
       mv ../$patientID-$sessionID-recon_0.sh ../completed   #Move the currently running script to archive
       sbatch ~/jobs/generated/$patientID-$sessionID-0_1.sh
    else 
-      echo "XXXXXXXXXXXXXXX  Recon all failed for $patientID/$sessinID on file $infile"
+      echo "XXXXXXXXXXXXXXX  Recon all failed for $patientID/$sessinID on file $infile.  Expected to find Freesurfer/mri/wmparc.mgz but didn't."
    fi
 else
    echo "A T1 structural scan and a diffusion weighted image must both exist to condinue; sought .nii in $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat and /dwi paths"
+
    touch "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original-incomplete.txt"
    ############
    cd $util
