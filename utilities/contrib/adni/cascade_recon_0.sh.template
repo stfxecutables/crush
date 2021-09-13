@@ -61,7 +61,7 @@ else
    cd $util
 
    #Start the next patient in the queue
-   initiate.sh
+   $util/initiate.sh
 fi
 ############
 cd $util
