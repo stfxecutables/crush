@@ -23,7 +23,8 @@ PATIENT_QUEUE=$CRUSH_PATH/../data/adni-queue
 ROOT_DIR=$CRUSH_DATASET_ROOT/shared/adni/dataset
 SUBJECTS_DIR=$ROOT_DIR/rawdata/stage_0
 SOURCE_DIR=$ROOT_DIR/source
-util=$(pwd)
+#util=$(pwd)
+util=$CRUSH_PATH/utilities/contrib/adni
 
 
 if [ $# -eq 0 ]

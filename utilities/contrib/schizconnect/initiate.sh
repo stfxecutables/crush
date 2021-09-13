@@ -25,7 +25,8 @@ PATIENT_QUEUE=~/projects/def-dmattie/data/schiz-queue
 SOURCE_DIR=~/projects/def-jlevman/shared/schizconnect
 ROOT_DIR=~/scratch/schizconnect/dataset/rawdata
 SUBJECTS_DIR=$ROOT_DIR/stage_0
-util=$(pwd)
+#util=$(pwd)
+$CRUSH_PATH/utilities/contrib/schizconnect
 
 
 if [ $# -eq 0 ]

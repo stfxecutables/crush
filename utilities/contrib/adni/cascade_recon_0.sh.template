@@ -26,7 +26,7 @@ SUBJECTS_DIR=$WORKING_DIR/sub-${patientID}/ses-${sessionID}
 
 ############
 mkdir -p $SUBJECTS_DIR
-if [[ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" && -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/dwi"]];then
+if [[ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" && -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/dwi" ]];then
    cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat
    infile=$( ls sub-${patientID}_ses-${sessionID}*.nii )
    cd $WORKING_DIR/sub-${patientID}/ses-${sessionID}
