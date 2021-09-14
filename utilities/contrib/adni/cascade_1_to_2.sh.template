@@ -37,10 +37,10 @@ cd Tractography
 $util/reg2brain.sh data.nii.gz ../$patientID/$sessionID/mri/brainmask.mgz
 
 
-if [ -f "$SUBJECTS_DIR/$patientID/$sessionID/Tractography/reg2brain.data.nii.gz" ]; then
-    mkdir -p $SUBJECTS_DIR/../stage_2/$patientID/$sessionID
+if [ -f "$SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/reg2brain.data.nii.gz" ]; then
+    mkdir -p $SUBJECTS_DIR/../stage_2/$sub-patientID/ses-$sessionID
     
-    if mv $SUBJECTS_DIR/$patientID/$sessionID $SUBJECTS_DIR/../stage_2/$patientID/$sessionID   #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
+    if mv $SUBJECTS_DIR/sub-$patientID/ses-$sessionID $SUBJECTS_DIR/../stage_2/sub-$patientID/ses-$sessionID   #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
     then
         #rm -r $SUBJECTS_DIR/$patientID
 
