@@ -42,7 +42,7 @@ done <$DATADIR/rois.txt
 parcels=$(cat $DATADIR/rois.txt|wc -l)
 echo "$parcels rois"
 
-rendered=$(ls $SUBJECTS_DIR/$patientID/$sessionID/Tractography/parcellations|wc -l) 
+rendered=$(ls $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations|wc -l) 
 echo "$rendered rendered"
 
 #MOVE FORWARD
