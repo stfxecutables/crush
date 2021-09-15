@@ -32,9 +32,11 @@ SUBJECTS_DIR=$CRUSH_DATASET_ROOT/adni/dataset/rawdata/stage_1
 
 cd $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/
 mkdir -p Tractography
-cp Diffusion/data.nii.gz Tractography
-cd Tractography
-$util/../../reg2brain.sh data.nii.gz ../sub-$patientID/ses-$sessionID/mri/brainmask.mgz
+cd original/dwi
+infile=$( ls *.nii )
+cp $infile ../../Tractography/data.nii
+cd ../../Tractography
+$util/../../reg2brain.sh data.nii ../Freesurfer/mri/brainmask.mgz
 
 
 if [ -f "$SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/reg2brain.data.nii.gz" ]; then
