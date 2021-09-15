@@ -34,7 +34,7 @@ cd $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/
 mkdir -p Tractography
 cp Diffusion/data.nii.gz Tractography
 cd Tractography
-$util/reg2brain.sh data.nii.gz ../sub-$patientID/ses-$sessionID/mri/brainmask.mgz
+$util/../../reg2brain.sh data.nii.gz ../sub-$patientID/ses-$sessionID/mri/brainmask.mgz
 
 
 if [ -f "$SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/reg2brain.data.nii.gz" ]; then
