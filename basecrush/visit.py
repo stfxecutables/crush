@@ -60,6 +60,8 @@ class Visit:
             self.tractographypath = "%s/Tractography" % (path) 
             if os.path.isdir("%s/dwi" % (path)):
                 self.diffusionpath = "%s/dwi" %(path) 
+            elif os.path.isdir("%s/original/dwi" % (path)):
+                self.diffusionpath = "%s/original/dwi" %(path) 
             else:
                 self.diffusionpath = "%s/Diffusion" %(path)    
         else:
@@ -74,6 +76,8 @@ class Visit:
                 self.tractographypath = "%s/Tractography" % (path)
                 if os.path.isdir("%s/dwi" % (path)):
                     self.diffusionpath = "%s/dwi" %(path) 
+                elif os.path.isdir("%s/original/dwi" % (path)):
+                    self.diffusionpath = "%s/original/dwi" %(path)                     
                 else:
                     self.diffusionpath = "%s/Diffusion" %(path) ## HCP Formatted this way
             else:
