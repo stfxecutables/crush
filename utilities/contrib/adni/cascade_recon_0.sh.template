@@ -33,11 +33,11 @@ if [[ -d "$WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat" && -d "$
    
    recon-all -s Freesurfer -i $WORKING_DIR/sub-${patientID}/ses-${sessionID}/original/anat/$infile -all | tee $WORKING_DIR/sub-${patientID}/ses-${sessionID}/tee_recon.log
 
-   if [[ $? -eq 0 && -f $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID/mri/wmparc.mgz ]];then
+   if [[ $? -eq 0 && -f $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/mri/wmparc.mgz ]];then
       ############
-      mv $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID/* $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
-      rmdir $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID
-      mv $WORKING_DIR/sub-${patientID}/ses-${sessionID}/tee_recon.log $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
+      #mv $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID/* $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
+      #rmdir $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer/$patientID
+      #mv $WORKING_DIR/sub-${patientID}/ses-${sessionID}/tee_recon.log $WORKING_DIR/sub-${patientID}/ses-${sessionID}/Freesurfer
 
       echo "RECON to STAGE 0 COMPLETE.  ADVANCING FORWARD"
       #MOVE FORWARD

@@ -40,11 +40,11 @@ $util/../../reg2brain.sh data.nii ../Freesurfer/mri/brainmask.mgz
 
 
 if [ -f "$SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/reg2brain.data.nii.gz" ]; then
-    mkdir -p $SUBJECTS_DIR/../stage_2/$sub-patientID/ses-$sessionID
+    mkdir -p $SUBJECTS_DIR/../stage_2/sub-$patientID/ses-$sessionID
     
-    if mv $SUBJECTS_DIR/sub-$patientID/ses-$sessionID $SUBJECTS_DIR/../stage_2/sub-$patientID/ses-$sessionID   #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
+    if mv $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/* $SUBJECTS_DIR/../stage_2/sub-$patientID/ses-$sessionID   #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
     then
-        #rm -r $SUBJECTS_DIR/$patientID
+        rm -r $SUBJECTS_DIR/$patientID/ses-$sessionID
 
         echo "STAGE 1 to STAGE 2 COMPLETE.  ADVANCING FORWARD"
         #MOVE FORWARD
