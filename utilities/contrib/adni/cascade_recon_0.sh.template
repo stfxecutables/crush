@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --time=16:00:00
-#SBATCH --account=def-dmattie
+#SBATCH --account=def-jlevman
 #SBATCH --cpus-per-task=1
-##SBATCH --mail-user=dmattie@stfx.ca
+
 ##SBATCH --mail-type=ALL
 #SBATCH --mem-per-cpu=4000M
 #SBATCH -e PATIENT_RECON_0_recon_%x-%j.err

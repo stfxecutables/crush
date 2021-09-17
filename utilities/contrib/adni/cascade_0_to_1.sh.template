@@ -3,9 +3,9 @@
 ##### PARCELLATE
 ######################################
 #SBATCH --time=0:40:00
-#SBATCH --account=def-dmattie
+#SBATCH --account=def-jlevman
 #SBATCH --cpus-per-task=1
-#SBATCH --mail-user=dmattie@stfx.ca
+
 #SBATCH --mail-type=ALL
 #SBATCH --mem-per-cpu=1000M
 #SBATCH -e PATIENT_0_1_0-1_%x-%j.err

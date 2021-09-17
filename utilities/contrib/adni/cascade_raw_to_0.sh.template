@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --time=1:00:00
-#SBATCH --account=def-dmattie
+#SBATCH --account=def-jlevman
 # Account can be overridden with env variable SBATCH_ACCOUNT
 
 #SBATCH --cpus-per-task=1
-##SBATCH --mail-user=dmattie@stfx.ca
+
 ##SBATCH --mail-type=ALL
 #SBATCH --mem-per-cpu=1000M
 #SBATCH -e PATIENT_RAW_0_%x-%j.err

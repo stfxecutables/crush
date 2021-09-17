@@ -4,9 +4,9 @@
 ######################################
 
 #SBATCH --time=2:00:00
-#SBATCH --account=def-dmattie
+#SBATCH --account=def-jlevman
 #SBATCH --cpus-per-task=1
-#SBATCH --mail-user=dmattie@stfx.ca
+
 #SBATCH --mail-type=ALL
 #SBATCH --mem-per-cpu=512M
 #SBATCH -e PATIENT_3_4_3-4_%x-%j.err
