@@ -46,7 +46,7 @@ if [[ $? -eq 0 ]] ; then
     ############
     mkdir -p ../completed
     mv ../$patientID-$sessionID-3_4.sh ../completed   #Move the currently running script to archive        
-    rm -r $SUBJECTS_DIR/$patientID/$sessionID
+    rm -r $SUBJECTS_DIR/sub-$patientID/ses-$sessionID
     ############
     cd $util
 
@@ -54,7 +54,7 @@ if [[ $? -eq 0 ]] ; then
     $util/initiate.sh
 
 else
-    echo "XXXXXXXXXXXXXXXXXXX  Failed to archive $patientID"
+    echo "XXXXXXXXXXXXXXXXXXX  Failed to archive $patientID $sessionID"
     
 fi
 

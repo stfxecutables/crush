@@ -43,7 +43,7 @@ pwd
 if [ -f "$SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/crush/tracts.txt" ]; then
     mkdir -p $SUBJECTS_DIR/../stage_3/sub-$patientID/ses-$sessionID
     
-    if mv $SUBJECTS_DIR/sub-$patientID/ses-$sessionID $SUBJECTS_DIR/../stage_3/sub-$patientID/ses-$sessionID #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3 
+    if mv $SUBJECTS_DIR/sub-$patientID/ses-$sessionID $SUBJECTS_DIR/../stage_3/sub-$patientID/ #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_3 
     then
         #rm -r $SUBJECTS_DIR/$patientID
 
