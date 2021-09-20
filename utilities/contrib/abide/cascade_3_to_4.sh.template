@@ -35,8 +35,8 @@ fshift() { local v n=$'\n';read -r v < <(
     
 
 cd $SUBJECTS_DIR
-mkdir -p $CRUSH_DATASET_ROOT/abide/derivatives/crush/levman
-tar -czf $CRUSH_DATASET_ROOT/abide/derivatives/crush/levman/$patientID-$sessionID.tar.gz sub-$patientID/ses-$sessionID
+mkdir -p $CRUSH_DATASET_ROOT/abide/dataset/derivatives/crush/levman
+tar -czf $CRUSH_DATASET_ROOT/abide/dataset/derivatives/crush/levman/$patientID-$sessionID.tar.gz sub-$patientID/ses-$sessionID
 if [[ $? -eq 0 ]] ; then
    
     echo "STAGE 3 to STAGE 4 COMPLETE." 
