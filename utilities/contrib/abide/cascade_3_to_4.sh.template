@@ -1,0 +1,61 @@
+#!/bin/bash
+######################################
+##### ARCHIVE
+######################################
+
+#SBATCH --time=2:00:00
+#SBATCH --account=def-jlevman
+#SBATCH --cpus-per-task=1
+
+#SBATCH --mail-type=ALL
+#SBATCH --mem-per-cpu=512M
+#SBATCH -e PATIENT_3_4_3-4_%x-%j.err
+#SBATCH -o PATIENT_3_4_3-4_%x-%j.out
+
+module load StdEnv/2020
+module load gcc/9.3.0
+module load cuda/11.0
+module load fsl/6.0.3
+module load freesurfer
+module load gsl/2.6
+module load python/3.8.2
+
+. ${FSLDIR}/etc/fslconf/fsl.sh
+
+util=$CRUSH_PATH/utilities/contrib/abide
+patientID=PATIENT_3_4
+sessionID=SESSION_3_4
+
+SUBJECTS_DIR=$CRUSH_DATASET_ROOT/abide/dataset/rawdata/stage_3
+
+fshift() { local v n=$'\n';read -r v < <(
+	    sed -e $'1{w/dev/stdout\n;d}' -i~ "$1")
+	        printf ${2+-v} $2 "%s${n[${2+2}]}" "$v"
+	}
+    
+
+cd $SUBJECTS_DIR
+mkdir -p $CRUSH_DATASET_ROOT/abide/derivatives/crush/levman
+tar -czf $CRUSH_DATASET_ROOT/abide/derivatives/crush/levman/$patientID-$sessionID.tar.gz sub-$patientID/ses-$sessionID
+if [[ $? -eq 0 ]] ; then
+   
+    echo "STAGE 3 to STAGE 4 COMPLETE." 
+            
+    mkdir -p ~/jobs/generated/logs
+    cd ~/jobs/generated/logs
+    ############
+    mkdir -p ../completed
+    mv ../$patientID-$sessionID-3_4.sh ../completed   #Move the currently running script to archive        
+    rm -r $SUBJECTS_DIR/sub-$patientID/ses-$sessionID
+    ############
+    cd $util
+
+    #Start the next patient in the queue
+    $util/initiate.sh
+
+else
+    echo "XXXXXXXXXXXXXXXXXXX  Failed to archive $patientID $sessionID"
+    
+fi
+
+

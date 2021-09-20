@@ -1,0 +1,74 @@
+#!/bin/bash
+######################################
+##### PARCELLATE
+######################################
+#SBATCH --time=0:40:00
+#SBATCH --account=def-jlevman
+#SBATCH --cpus-per-task=1
+
+#SBATCH --mail-type=ALL
+#SBATCH --mem-per-cpu=1000M
+#SBATCH -e PATIENT_0_1_0-1_%x-%j.err
+#SBATCH -o PATIENT_0_1_0-1_%x-%j.out
+
+module load StdEnv/2020
+module load gcc/9.3.0
+module load cuda/11.0
+module load fsl/6.0.3
+module load freesurfer
+module load gsl/2.6
+module load python/3.8.2
+
+. ${FSLDIR}/etc/fslconf/fsl.sh
+
+util=$CRUSH_PATH/utilities/contrib/abide
+patientID=PATIENT_0_1
+sessionID=SESSION_0_1
+
+#SUBJECTS_DIR=~/scratch/HCP/stage_0
+SUBJECTS_DIR=$CRUSH_DATASET_ROOT/abide/dataset/rawdata/stage_0
+DATADIR=$CRUSH_PATH/../data
+
+#############
+while read p; do
+    echo "Extracting Region $p ($SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations)"
+    mkdir -p $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
+    cp $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Freesurfer/mri/wmparc.mgz $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
+    cd $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations
+    mri_convert -rt nearest -nc -ns 1 wmparc.mgz wmparc.nii
+    mri_extract_label wmparc.nii $p wmparc$p.nii
+done <$DATADIR/rois.txt
+
+parcels=$(cat $DATADIR/rois.txt|wc -l)
+echo "$parcels rois"
+
+rendered=$(ls $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/parcellations|wc -l) 
+echo "$rendered rendered"
+
+#MOVE FORWARD
+
+if [ "$rendered" -ge "$parcels" ]; then
+    echo "STAGE 0 to STAGE 1 COMPLETE.  ADVANCING FORWARD"
+    mkdir -p $SUBJECTS_DIR/../stage_1/sub-$patientID/ses-$sessionID    
+    if mv $SUBJECTS_DIR/sub-$patientID/ses-$sessionID $SUBJECTS_DIR/../stage_1/sub-$patientID/ses-$sessionID
+    then
+        
+        cd $util
+
+        cat cascade_1_to_2.sh.template | sed -e "s/PATIENT_1_2/$patientID/" | sed -e "s/SESSION_1_2/$sessionID/" > ~/jobs/generated/$patientID-$sessionID-1_2.sh
+        chmod u+x ~/jobs/generated/$patientID-$sessionID-1_2.sh
+        mkdir -p ~/jobs/generated/logs
+        cd ~/jobs/generated/logs
+        ############
+        mkdir -p ../completed
+        mv ../$patientID-$sessionID-0_1.sh ../completed   #Move the currently running script to archive
+        sbatch ~/jobs/generated/$patientID-$sessionID-1_2.sh 
+
+        ############
+        cd $util
+    else
+        echo "FAILED TO MOVE FILES FROM STAGE 0 to STAGE 1"
+    fi
+else
+    echo "STAGE 0 INCOMPLETE.  Parcellations rendered does not match expected."    
+fi

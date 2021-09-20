@@ -1,0 +1,71 @@
+#!/bin/bash
+######################################
+##### REGISTRATION
+######################################
+
+#SBATCH --time=5:00:00
+#SBATCH --account=def-jlevman
+#SBATCH --cpus-per-task=1
+
+#SBATCH --mail-type=ALL
+#SBATCH --mem-per-cpu=32000M
+#SBATCH -e PATIENT_1_2_1-2_%x-%j.err
+#SBATCH -o PATIENT_1_2_1-2_%x-%j.out
+
+module load StdEnv/2020
+module load gcc/9.3.0
+module load cuda/11.0
+module load fsl/6.0.3
+module load freesurfer
+module load gsl/2.6
+module load python/3.8.2
+
+. ${FSLDIR}/etc/fslconf/fsl.sh
+
+util=$CRUSH_PATH/utilities/contrib/abide
+patientID=PATIENT_1_2
+sessionID=SESSION_1_2
+
+
+#SUBJECTS_DIR=~/scratch/HCP/stage_1
+SUBJECTS_DIR=$CRUSH_DATASET_ROOT/abide/dataset/rawdata/stage_1
+
+cd $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/
+mkdir -p Tractography
+cd original/dwi
+infile=$( ls *.nii )
+cp $infile ../../Tractography/data.nii
+cd ../../Tractography
+$util/../../reg2brain.sh data.nii ../Freesurfer/mri/brainmask.mgz
+
+
+if [ -f "$SUBJECTS_DIR/sub-$patientID/ses-$sessionID/Tractography/reg2brain.data.nii.gz" ]; then
+    mkdir -p $SUBJECTS_DIR/../stage_2/sub-$patientID/ses-$sessionID
+    
+    if mv $SUBJECTS_DIR/sub-$patientID/ses-$sessionID/* $SUBJECTS_DIR/../stage_2/sub-$patientID/ses-$sessionID   #cp -a $SUBJECTS_DIR/$patientID $SUBJECTS_DIR/../stage_2 
+    then
+        rm -r $SUBJECTS_DIR/$patientID/ses-$sessionID
+
+        echo "STAGE 1 to STAGE 2 COMPLETE.  ADVANCING FORWARD"
+        #MOVE FORWARD
+        cd $util
+
+        cat cascade_2_to_3.sh.template | sed -e "s/PATIENT_2_3/$patientID/" |sed -e "s/SESSION_2_3/$sessionID/" > ~/jobs/generated/$patientID-$sessionID-2_3.sh
+        chmod u+x ~/jobs/generated/$patientID-$sessionID-2_3.sh
+        mkdir -p ~/jobs/generated/logs
+        cd ~/jobs/generated/logs
+        ############
+        mkdir -p ../completed
+        mv ../$patientID-$sessionID-1_2.sh ../completed   #Move the currently running script to archive
+        sbatch ~/jobs/generated/$patientID-$sessionID-2_3.sh
+        ############
+        cd $util
+    else 
+        echo "XXXXXXXXXXXXXXXXXXX failed to copy files to next stage"
+    fi
+
+   
+else
+    echo "XXXXXXXXXXXXXXXXXXX  Registration incomplete for patient $patientID"
+fi
+
