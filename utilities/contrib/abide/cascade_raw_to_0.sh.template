@@ -74,7 +74,7 @@ echo "RAW to STAGE 0 COMPLETE.  ADVANCING FORWARD"
 #MOVE FORWARD
 cd $util
 
-cat $util/cascade_recon_0.sh.template | sed -e "s/PATIENT_RECON_0/$subjecte/" |sed -e "s/SESSION_RECON_0/$session/" > ~/jobs/generated/$subject-$session-recon_0.sh
+cat $util/cascade_recon_0.sh.template | sed -e "s/PATIENT_RECON_0/$subject/" |sed -e "s/SESSION_RECON_0/$session/" > ~/jobs/generated/$subject-$session-recon_0.sh
 chmod u+x ~/jobs/generated/$subject-$session-recon_0.sh
 mkdir -p ~/jobs/generated/logs
 cd ~/jobs/generated/logs
