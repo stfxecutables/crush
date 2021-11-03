@@ -1,0 +1,114 @@
+#!/bin/bash
+#SBATCH --time=1:00:00
+#SBATCH --account=def-jlevman
+# Account can be overridden with env variable SBATCH_ACCOUNT
+
+#SBATCH --cpus-per-task=1
+
+##SBATCH --mail-type=ALL
+#SBATCH --mem-per-cpu=1000M
+#SBATCH -e PATIENT_RAW_0_%x-%j.err
+#SBATCH -o PATIENT_RAW_0_%x-%j.out
+
+module load StdEnv/2020
+module load gcc/9.3.0
+module load cuda/11.0
+module load fsl/6.0.3
+module load freesurfer
+module load gsl/2.6
+module load python/3.8.2
+
+. ${FSLDIR}/etc/fslconf/fsl.sh
+
+util=$CRUSH_PATH/utilities/contrib/adni-ii
+patientID=PATIENT_RAW_0
+
+SUBJECTS_DIR=$CRUSH_DATASET_ROOT/adni-ii/dataset/rawdata/stage_0
+
+############
+
+rsync -r $CRUSH_DATASET_ROOT/adni-ii/dataset/source/$patientID $SUBJECTS_DIR
+cd $SUBJECTS_DIR
+$util/../../convert-dcm.sh $patientID
+
+subject=$patientID
+subjectescaped="${subject//_}"
+
+cd $SUBJECTS_DIR
+
+# echo "Searching for diffusion image"
+# find $subject/Axial_DTI/ -name *.nii |while read ses;do
+#    echo $ses
+#    basename=${ses::-4}
+#    session=$( echo "$ses"| cut -d\/ -f4 )
+#    suffix=$( echo "$ses"| cut -d\/ -f5 )
+#    suffixamodality=$( echo "$suffix"| cut -d\_ -f3 )
+#    suffixbsession=$( echo "$suffix"| cut -d\_ -f4 )
+#    suffixbsession=${suffixbsession:0:8}
+#    run=$( echo "$suffix"| cut -d\_ -f5 |cut -d\. -f1)
+   
+#    echo "basename=${basename}"
+#    echo "subjectescaped=${subjectescaped}"
+#    echo "session=${session}"
+#    echo "suffix=${suffix}"
+#    echo "suffixamodality=${suffixamodality}"
+#    echo "suffixbsession=${suffixbsession}"
+#    echo "run=${run}"
+   
+#    mkdir -p sub-$subjectescaped/ses-$suffixbsession/original/dwi
+#    cp $basename.nii sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.nii
+#    cp $basename.bvec sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.bvec
+#    cp $basename.bval sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.bval
+#    cp $basename.json sub-$subjectescaped/ses-$suffixbsession/original/dwi/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_dwi.json
+
+# done
+
+echo "Searching for structural image"
+find $subject/MPRAGE/ -name *.nii |while read ses;do   
+   echo $ses
+   basename=${ses::-4}
+   #subjectescaped=$( echo "$subject"|tr _ _ )
+   session=$( echo "$ses"| cut -d\/ -f4 )
+   suffix=$( echo "$ses"| cut -d\/ -f5 )
+   suffixamodality=$( echo "$suffix"| cut -d\_ -f4 )
+   suffixbsession=$( echo "$suffix"| cut -d\_ -f5 )
+   suffixbsession=${suffixbsession:0:8}
+   run=$( echo "$suffix"| cut -d\_ -f6|cut -d\. -f1 )
+   extension=$( echo "$suffix"| cut -d\. -f2 )
+   
+   echo "basename=${basename}"
+   echo "subjectescaped=${subjectescaped}"
+   echo "session=${session}"
+   echo "suffix=${suffix}"
+   echo "suffixamodality=${suffixamodality}"
+   echo "suffixbsession=${suffixbsession}"
+   echo "run=${run}"
+   echo "extension=${extension}"
+   
+   mkdir -p sub-${subjectescaped}/ses-${suffixbsession}/original/anat
+   if [[ -d "sub-${subjectescaped}/ses-${suffixbsession}/original/anat" ]]; then
+      cp $basename.nii sub-${subjectescaped}/ses-${suffixbsession}/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.nii
+      cp $basename.json sub-${subjectescaped}/ses-${suffixbsession}/original/anat/sub-${subjectescaped}_ses-${suffixbsession}_${suffixamodality}_${session}_${run}_T1w.json
+
+      ############
+
+      echo "RAW to STAGE 0 COMPLETE.  ADVANCING FORWARD"
+      #MOVE FORWARD
+      cd $util
+
+      cat $util/cascade_recon_0.sh.template | sed -e "s/PATIENT_RECON_0/$subjectescaped/" |sed -e "s/SESSION_RECON_0/$suffixbsession/" > ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
+      chmod u+x ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
+      mkdir -p ~/jobs/generated/logs
+      cd ~/jobs/generated/logs
+      ############
+      mkdir -p ../completed
+      mv ../$patientID-raw_0.sh ../completed   #Move the currently running script to archive
+      sbatch ~/jobs/generated/$subjectescaped-$suffixbsession-recon_0.sh
+   else 
+      echo "Failed to create original/anat directory. Unable to continue"
+   fi
+   ############   
+done
+
+
+cd $util
