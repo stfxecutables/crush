@@ -20,6 +20,12 @@ if [ -z ${CRUSH_DATASET_ROOT+x} ];then
 fi
 
 PATIENT_QUEUE=$CRUSH_PATH/../data/adni-ii-queue
+
+if [ ! -f $PATIENT_QUEUE ];then
+    echo "Creating $PATIENT_QUEUE from directory $CRUSH_DATASET_ROOT/shared/adni-ii/dataset/source"
+    ls -c1 $CRUSH_DATASET_ROOT/shared/adni-ii/dataset/source |grep -v xml > $PATIENT_QUEUE
+fi
+
 ROOT_DIR=$CRUSH_DATASET_ROOT/shared/adni-ii/dataset
 SUBJECTS_DIR=$ROOT_DIR/rawdata/stage_0
 SOURCE_DIR=$ROOT_DIR/source
